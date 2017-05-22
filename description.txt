@@ -1,0 +1,4 @@
+﻿Recipe Browser:
+Click on any Recipe to see details. Use categories and search filter to find the recipe you want.
+
+Use the hotkey to show/hide the recipe browser.

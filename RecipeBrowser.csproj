@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1F5FE0F8-A1CD-471D-9719-553E8DB18E4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RecipeBrowser</RootNamespace>
+    <AssemblyName>RecipeBrowser</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Game\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Game.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Graphics\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Xact, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Xact\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Xact.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tModLoader v0.9.2.3 4200 fix">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Terraria\tModLoader v0.9.2.3 4200 fix.exe</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomUI\UISlideWindow.cs" />
+    <Compile Include="Menus\GenericItemSlot.cs" />
+    <Compile Include="Menus\RecipeBrowser.cs" />
+    <Compile Include="Menus\RecipeQuerySlot.cs" />
+    <Compile Include="Menus\RecipeSlot.cs" />
+    <Compile Include="Menus\RecipeView.cs" />
+    <Compile Include="Menus\Slot.cs" />
+    <Compile Include="RecipeBrowserMod.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\AnchorPosition.cs" />
+    <Compile Include="UI\UICheckbox.cs" />
+    <Compile Include="UI\UIImage.cs" />
+    <Compile Include="UI\UILabel.cs" />
+    <Compile Include="UI\UIScrollBar.cs" />
+    <Compile Include="UI\UIScrollView.cs" />
+    <Compile Include="UI\UITextbox.cs" />
+    <Compile Include="UI\UIView.cs" />
+    <Compile Include="UI\UIWindow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="build.txt" />
+    <Content Include="CustomUI\Horizontal.png" />
+    <Content Include="CustomUI\Vertical.png" />
+    <Content Include="description.txt" />
+    <Content Include="UI\checkBox.png" />
+    <Content Include="UI\checkMark.png" />
+    <Content Include="UI\closeButton.png" />
+    <Content Include="UI\Images.bVacuum.png" />
+    <Content Include="UI\Images.canIcon.png" />
+    <Content Include="UI\Images.CollapseBar.CollapseArrowHorizontal.png" />
+    <Content Include="UI\Images.CollapseBar.CollapseButtonHorizontal.png" />
+    <Content Include="UI\Images.connectedPlayers.png" />
+    <Content Include="UI\Images.CTF.blueFlag.png" />
+    <Content Include="UI\Images.CTF.redFlag.png" />
+    <Content Include="UI\Images.login.png" />
+    <Content Include="UI\Images.logout.png" />
+    <Content Include="UI\Images.manageGroups.png" />
+    <Content Include="UI\Images.moonIcon.png" />
+    <Content Include="UI\Images.npcIcon.png" />
+    <Content Include="UI\Images.rainIcon.png" />
+    <Content Include="UI\Images.speed0.png" />
+    <Content Include="UI\Images.speed1.png" />
+    <Content Include="UI\Images.speed2.png" />
+    <Content Include="UI\Images.speed3.png" />
+    <Content Include="UI\Images.speed4.png" />
+    <Content Include="UI\Images.sunIcon.png" />
+    <Content Include="UI\Images.UIKit.barEdge.png" />
+    <Content Include="UI\Images.UIKit.buttonEdge.png" />
+    <Content Include="UI\Images.UIKit.checkBox.png" />
+    <Content Include="UI\Images.UIKit.checkMark.png" />
+    <Content Include="UI\Images.UIKit.clearIcon.png" />
+    <Content Include="UI\Images.UIKit.dropdownCapDown.png" />
+    <Content Include="UI\Images.UIKit.dropdownCapUp.png" />
+    <Content Include="UI\Images.UIKit.openIcon.png" />
+    <Content Include="UI\Images.UIKit.saveIcon.png" />
+    <Content Include="UI\Images.UIKit.scrollbarEdge.png" />
+    <Content Include="UI\Images.UIKit.scrollbgEdge.png" />
+    <Content Include="UI\Images.UIKit.textboxEdge.png" />
+    <Content Include="UI\Images.waypointIcon.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Steam\steamapps\common\terraria\tModLoaderServer.exe" -build "$(ProjectDir)\" -eac "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
