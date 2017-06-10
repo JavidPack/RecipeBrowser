@@ -18,8 +18,15 @@ namespace RecipeBrowser
 		int lastSeenScreenHeight;
 		internal static bool[] chestContentsAvailable = new bool[1000];
 
+		// TODO, Chinese IME support
 		public override void Load()
 		{
+			// Too many people are downloading 0.10 versions on 0.9....
+			if (ModLoader.version < new Version(0, 10))
+			{
+				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
+			}
+
 			instance = this;
 
 			Mod cheatSheet = ModLoader.GetMod("CheatSheet");
