@@ -51,7 +51,7 @@ namespace RecipeBrowser
 
 		public override void OnInitialize()
 		{
-			mainPanel = new UIDragablePanel();
+			mainPanel = new UIDragablePanel(true);
 			mainPanel.SetPadding(6);
 			mainPanel.Left.Set(400f, 0f);
 			mainPanel.Top.Set(400f, 0f);
@@ -143,7 +143,9 @@ namespace RecipeBrowser
 			inlaidPanel.Top.Pixels = 60;
 			//inlaidPanel.Width.Set(-25f, 1f);
 			inlaidPanel.Width.Set(0, 1f);
-			inlaidPanel.Height.Set(155, 0f);
+			//inlaidPanel.Height.Set(155, 0f);
+			// Use to be 155, now is 100% minus top minus what is below.
+			inlaidPanel.Height.Set(-60 - 121, 1f);
 			inlaidPanel.BackgroundColor = Color.DarkBlue;
 			mainPanel.Append(inlaidPanel);
 
@@ -165,7 +167,7 @@ namespace RecipeBrowser
 			recipeGrid.SetScrollbar(lootItemsScrollbar);
 
 			recipeInfo = new UIRecipeInfo();
-			recipeInfo.Top.Pixels = 217;
+			recipeInfo.Top.Set(-118, 1f);
 			recipeInfo.Width.Set(0, 1f);
 			recipeInfo.Height.Set(120, 0f);
 			mainPanel.Append(recipeInfo);
