@@ -16,7 +16,7 @@ namespace RecipeBrowser.UIElements
 		public int index;
 		public bool recentlyDiscovered;
 
-		public UIRecipeSlot(int index) : base(Main.recipe[index].createItem)
+		public UIRecipeSlot(int index, float scale = 0.75f) : base(Main.recipe[index].createItem, scale)
 		{
 			this.index = index;
 		}

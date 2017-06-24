@@ -49,11 +49,9 @@ namespace RecipeBrowser
 			}
 		}
 
-		int cols = 1;
-
-		public UIGrid(int columns = 1)
+		// todo, vertical/horizontal orientation, left to right, etc?
+		public UIGrid()
 		{
-			cols = columns;
 			this._innerList.OverflowHidden = false;
 			this._innerList.Width.Set(0f, 1f);
 			this._innerList.Height.Set(0f, 1f);
@@ -75,7 +73,7 @@ namespace RecipeBrowser
 					this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
 					if (center)
 					{
-						this._scrollbar.ViewPosition = this._items[i].Top.Pixels - GetInnerDimensions().Height/2 + _items[i].GetOuterDimensions().Height/2;
+						this._scrollbar.ViewPosition = this._items[i].Top.Pixels - GetInnerDimensions().Height / 2 + _items[i].GetOuterDimensions().Height / 2;
 					}
 					return;
 				}
@@ -86,6 +84,15 @@ namespace RecipeBrowser
 		{
 			this._items.Add(item);
 			this._innerList.Append(item);
+			this.UpdateOrder();
+			this._innerList.Recalculate();
+		}
+
+		public virtual void AddRange(IEnumerable<UIElement> items)
+		{
+			this._items.AddRange(items);
+			foreach (var item in items)
+				this._innerList.Append(item);
 			this.UpdateOrder();
 			this._innerList.Recalculate();
 		}
@@ -120,30 +127,28 @@ namespace RecipeBrowser
 
 		public override void RecalculateChildren()
 		{
+			float availableWidth = GetInnerDimensions().Width;
 			base.RecalculateChildren();
 			float top = 0f;
 			float left = 0f;
+			float maxRowHeight = 0f;
 			for (int i = 0; i < this._items.Count; i++)
 			{
-				this._items[i].Top.Set(top, 0f);
-				this._items[i].Left.Set(left, 0f);
-				this._items[i].Recalculate();
-				if (i % cols == cols - 1)
+				var item = this._items[i];
+				var outerDimensions = item.GetOuterDimensions();
+				if (left + outerDimensions.Width > availableWidth && left > 0)
 				{
-					top += this._items[i].GetOuterDimensions().Height + this.ListPadding;
+					top += maxRowHeight + this.ListPadding;
 					left = 0;
+					maxRowHeight = 0;
 				}
-				else
-				{
-					left += this._items[i].GetOuterDimensions().Width + this.ListPadding;
-				}
-				//num += this._items[i].GetOuterDimensions().Height + this.ListPadding;
+				maxRowHeight = Math.Max(maxRowHeight, outerDimensions.Height);
+				item.Left.Set(left, 0f);
+				left += outerDimensions.Width + this.ListPadding;
+				item.Top.Set(top, 0f);
+				item.Recalculate();
 			}
-			if (_items.Count > 0)
-			{
-				//top += ListPadding + _items[0].GetOuterDimensions().Height;
-			}
-			this._innerListHeight = top;
+			this._innerListHeight = top + maxRowHeight;
 		}
 
 		private void UpdateScrollbar()

@@ -20,8 +20,9 @@ namespace RecipeBrowser
 		public int itemType;
 		public Item item;
 
-		public UIItemSlot(Item item)
+		public UIItemSlot(Item item, float scale = .75f)
 		{
+			this.scale = scale;
 			this.item = item;
 			this.itemType = item.type;
 			this.Width.Set(defaultBackgroundTexture.Width * scale, 0f);
@@ -55,7 +56,7 @@ namespace RecipeBrowser
 				int height = rectangle2.Height;
 				int width = rectangle2.Width;
 				float drawScale = 1f;
-				float availableWidth = 32; // (float)defaultBackgroundTexture.Width * scale;
+				float availableWidth = (float)defaultBackgroundTexture.Width * scale;
 				if (width > availableWidth || height > availableWidth)
 				{
 					if (width > height)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
@@ -11,49 +12,68 @@ namespace RecipeBrowser
 	{
 		private static Texture2D dragTexture;
 		private Vector2 offset;
+		private bool dragable;
 		private bool dragging;
+		private bool resizeableX;
+		private bool resizeableY;
+		private bool resizeable => resizeableX || resizeableY;
 		private bool resizeing;
-		private bool resizeable;
+		//private int minX, minY, maxX, maxY;
+		private List<UIElement> additionalDragTargets;
 
-		public UIDragablePanel(bool resizeable = false)
+		// TODO, move panel back in if offscreen? prevent drag off screen?
+		public UIDragablePanel(bool dragable = true, bool resizeableX = false, bool resizeableY = false)
 		{
-			OnMouseDown += DragStart;
-			OnMouseUp += DragEnd;
-			this.resizeable = resizeable;
+			this.dragable = dragable;
+			this.resizeableX = resizeableX;
+			this.resizeableY = resizeableY;
 			if (dragTexture == null)
 			{
 				dragTexture = TextureManager.Load("Images/UI/PanelBorder");
 			}
+			additionalDragTargets = new List<UIElement>();
 		}
 
-		//public override void MouseDown(UIMouseEvent evt)
+		public void AddDragTarget(UIElement element)
+		{
+			additionalDragTargets.Add(element);
+		}
+
+		//public void SetMinMaxWidth(int min, int max)
 		//{
-		//	offset = new Vector2(evt.MousePosition.X - Left.Pixels, evt.MousePosition.Y - Top.Pixels);
-		//	dragging = true;
+		//	this.minX = min;
+		//	this.maxX = max;
 		//}
 
-		//public override void MouseUp(UIMouseEvent evt)
+		//public void SetMinMaxHeight(int min, int max)
 		//{
-		//	Vector2 end = evt.MousePosition;
-		//	dragging = false;
-
-		//	Left.Set(end.X - offset.X, 0f);
-		//	Top.Set(end.Y - offset.Y, 0f);
-
-		//	Recalculate();
+		//	this.minY = min;
+		//	this.maxY = max;
 		//}
 
-		private void DragStart(UIMouseEvent evt, UIElement listeningElement)
+		public override void MouseDown(UIMouseEvent evt)
+		{
+			DragStart(evt);
+			base.MouseDown(evt);
+		}
+
+		public override void MouseUp(UIMouseEvent evt)
+		{
+			DragEnd(evt);
+			base.MouseUp(evt);
+		}
+
+		private void DragStart(UIMouseEvent evt)
 		{
 			CalculatedStyle innerDimensions = GetInnerDimensions();
-			if (evt.Target == this || evt.Target == RecipeBrowserUI.instance.recipeInfo || evt.Target == RecipeBrowserUI.instance.RadioButtonGroup)
+			if (evt.Target == this || additionalDragTargets.Contains(evt.Target))
 			{
-				if (new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 12), (int)(innerDimensions.Y + innerDimensions.Height - 12), 12 + 6, 12 + 6).Contains(evt.MousePosition.ToPoint()))
+				if (resizeable && new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 12), (int)(innerDimensions.Y + innerDimensions.Height - 12), 12 + 6, 12 + 6).Contains(evt.MousePosition.ToPoint()))
 				{
 					offset = new Vector2(evt.MousePosition.X - innerDimensions.X - innerDimensions.Width - 6, evt.MousePosition.Y - innerDimensions.Y - innerDimensions.Height - 6);
 					resizeing = true;
 				}
-				else
+				else if (dragable)
 				{
 					offset = new Vector2(evt.MousePosition.X - Left.Pixels, evt.MousePosition.Y - Top.Pixels);
 					dragging = true;
@@ -61,17 +81,12 @@ namespace RecipeBrowser
 			}
 		}
 
-		private void DragEnd(UIMouseEvent evt, UIElement listeningElement)
+		private void DragEnd(UIMouseEvent evt)
 		{
-			if (evt.Target == this || evt.Target == RecipeBrowserUI.instance.recipeInfo || evt.Target == RecipeBrowserUI.instance.RadioButtonGroup)
+			if (evt.Target == this || additionalDragTargets.Contains(evt.Target))
 			{
-				//Vector2 end = evt.MousePosition;
 				dragging = false;
 				resizeing = false;
-
-				//Left.Set(end.X - offset.X, 0f);
-				//Top.Set(end.Y - offset.Y, 0f);
-				//Recalculate();
 			}
 		}
 
@@ -91,8 +106,16 @@ namespace RecipeBrowser
 			}
 			if (resizeing)
 			{
-				Height.Pixels = Utils.Clamp(Main.MouseScreen.Y - dimensions.Y - offset.Y, 243, 1000);
-				//Width.Pixels = Utils.Clamp(Main.MouseScreen.X - dimensions.X - offset.X, 415, 1000);
+				if (resizeableX)
+				{
+					//Width.Pixels = Utils.Clamp(Main.MouseScreen.X - dimensions.X - offset.X, minX, maxX);
+					Width.Pixels = Main.MouseScreen.X - dimensions.X - offset.X;
+				}
+				if (resizeableY)
+				{
+					//Height.Pixels = Utils.Clamp(Main.MouseScreen.Y - dimensions.Y - offset.Y, minY, maxY);
+					Height.Pixels = Main.MouseScreen.Y - dimensions.Y - offset.Y;
+				}
 				Recalculate();
 			}
 			base.DrawSelf(spriteBatch);
@@ -105,19 +128,14 @@ namespace RecipeBrowser
 		private void DrawDragAnchor(SpriteBatch spriteBatch, Texture2D texture, Color color)
 		{
 			CalculatedStyle dimensions = GetDimensions();
-			//CalculatedStyle innerDimensions = GetInnerDimensions();
 
 			//Rectangle hitbox = new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 12), (int)(innerDimensions.Y + innerDimensions.Height - 12), 12 + 6, 12 + 6);
 			//Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightBlue * 0.6f);
 
-			Point point = new Point((int)dimensions.X, (int)dimensions.Y);
-			Point point2 = new Point(point.X + (int)dimensions.Width - 12, point.Y + (int)dimensions.Height - 12);
-			int width = point2.X - point.X - 12;
-			int height = point2.Y - point.Y - 12;
-			//spriteBatch.Draw(texture, new Rectangle(point2.X, point2.Y, 12, 12), new Rectangle?(new Rectangle(12 + 4, 12 + 4, 12, 12)), color);
-			spriteBatch.Draw(texture, new Rectangle(point2.X - 2, point2.Y - 2, 12 - 2, 12 - 2), new Rectangle?(new Rectangle(12 + 4, 12 + 4, 12, 12)), color);
-			spriteBatch.Draw(texture, new Rectangle(point2.X - 4, point2.Y - 4, 12 - 4, 12 - 4), new Rectangle?(new Rectangle(12 + 4, 12 + 4, 12, 12)), color);
-			spriteBatch.Draw(texture, new Rectangle(point2.X - 6, point2.Y - 6, 12 - 6, 12 - 6), new Rectangle?(new Rectangle(12 + 4, 12 + 4, 12, 12)), color);
+			Point point = new Point((int)(dimensions.X + dimensions.Width - 12), (int)(dimensions.Y + dimensions.Height - 12));
+			spriteBatch.Draw(texture, new Rectangle(point.X - 2, point.Y - 2, 12 - 2, 12 - 2), new Rectangle(12 + 4, 12 + 4, 12, 12), color);
+			spriteBatch.Draw(texture, new Rectangle(point.X - 4, point.Y - 4, 12 - 4, 12 - 4), new Rectangle(12 + 4, 12 + 4, 12, 12), color);
+			spriteBatch.Draw(texture, new Rectangle(point.X - 6, point.Y - 6, 12 - 6, 12 - 6), new Rectangle(12 + 4, 12 + 4, 12, 12), color);
 		}
 	}
 }

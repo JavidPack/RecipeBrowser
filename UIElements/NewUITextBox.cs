@@ -212,6 +212,7 @@ namespace RecipeBrowser
 				}
 				if (JustPressed(Keys.Enter))
 				{
+					Main.drawingPlayerChat = false;
 					if (unfocusOnEnter) Unfocus();
 					OnEnterPressed?.Invoke();
 				}

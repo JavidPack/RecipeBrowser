@@ -51,12 +51,16 @@ namespace RecipeBrowser
 
 		public override void OnInitialize()
 		{
-			mainPanel = new UIDragablePanel(true);
+			mainPanel = new UIDragablePanel(true, true, true);
 			mainPanel.SetPadding(6);
 			mainPanel.Left.Set(400f, 0f);
 			mainPanel.Top.Set(400f, 0f);
 			mainPanel.Width.Set(415f, 0f);
+			mainPanel.MinWidth.Set(415f, 0f);
+			mainPanel.MaxWidth.Set(784f, 0f);
 			mainPanel.Height.Set(350, 0f);
+			mainPanel.MinHeight.Set(243, 0f);
+			mainPanel.MaxHeight.Set(1000, 0f);
 			mainPanel.BackgroundColor = new Color(73, 94, 171);
 			Append(mainPanel);
 
@@ -66,11 +70,7 @@ namespace RecipeBrowser
 			mainPanel.Append(queryItem);
 
 			var modFilterButton = new UIHoverImageButton(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
-			//modFilterButton.Top.Set(37, 0f);
-			//modFilterButton.Left.Set(10, 0f);
-			//modFilterButton.Left.Set(379, 0f);
-			//modFilterButton.Top.Set(30, 0f);
-			modFilterButton.Left.Set(194, 0f);
+			modFilterButton.Left.Set(-208, 1f);
 			modFilterButton.Top.Set(-4, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
 			modFilterButton.OnRightClick += ModFilterButton_OnRightClick;
@@ -109,15 +109,12 @@ namespace RecipeBrowser
 			//mainPanel.Append(inventoryFilter);
 
 			itemNameFilter = new NewUITextBox("Filter by Name");
-			//itemNameFilter.TextColor = Color.Black;
-			//itemNameFilter.SetPadding(0);
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
+			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
-			itemNameFilter.Left.Pixels = 225f;
-			//itemNameFilter.Left.Set(text2.GetInnerDimensions().Width, 0f);
+			itemNameFilter.Left.Set(-178, 1f);
 			itemNameFilter.Width.Set(150, 0f);
 			itemNameFilter.Height.Set(25, 0f);
-			//searchFilter.VAlign = 0.5f;
 			mainPanel.Append(itemNameFilter);
 
 			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
@@ -128,39 +125,30 @@ namespace RecipeBrowser
 			mainPanel.Append(closeButton);
 
 			itemDescriptionFilter = new NewUITextBox("Filter by tooltip");
-			//itemNameFilter.SetPadding(0);
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
+			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
-			itemDescriptionFilter.Left.Pixels = 225f;
-			//itemNameFilter.Left.Set(text2.GetInnerDimensions().Width, 0f);
+			itemDescriptionFilter.Left.Set(-178, 1f);
 			itemDescriptionFilter.Width.Set(150, 0f);
 			itemDescriptionFilter.Height.Set(25, 0f);
-			//searchFilter.VAlign = 0.5f;
 			mainPanel.Append(itemDescriptionFilter);
 
 			inlaidPanel = new UIPanel();
 			inlaidPanel.SetPadding(6);
 			inlaidPanel.Top.Pixels = 60;
-			//inlaidPanel.Width.Set(-25f, 1f);
 			inlaidPanel.Width.Set(0, 1f);
-			//inlaidPanel.Height.Set(155, 0f);
-			// Use to be 155, now is 100% minus top minus what is below.
 			inlaidPanel.Height.Set(-60 - 121, 1f);
 			inlaidPanel.BackgroundColor = Color.DarkBlue;
 			mainPanel.Append(inlaidPanel);
 
-			recipeGrid = new UIGrid(9);
-			//recipeGrid.Top.Pixels = 60;
-			recipeGrid.Width.Set(-25f, 1f);
-			//recipeGrid.Height.Set(130, 0f);
+			recipeGrid = new UIGrid();
+			recipeGrid.Width.Set(-20f, 1f);
 			recipeGrid.Height.Set(0, 1f);
 			recipeGrid.ListPadding = 2f;
 			inlaidPanel.Append(recipeGrid);
 
 			var lootItemsScrollbar = new FixedUIScrollbar(userInterface);
 			lootItemsScrollbar.SetView(100f, 1000f);
-			//lootItemsScrollbar.Top.Pixels = 60;
-			//lootItemsScrollbar.Height.Set(130, 0f);
 			lootItemsScrollbar.Height.Set(0, 1f);
 			lootItemsScrollbar.Left.Set(-20, 1f);
 			inlaidPanel.Append(lootItemsScrollbar);
@@ -171,6 +159,9 @@ namespace RecipeBrowser
 			recipeInfo.Width.Set(0, 1f);
 			recipeInfo.Height.Set(120, 0f);
 			mainPanel.Append(recipeInfo);
+
+			mainPanel.AddDragTarget(recipeInfo);
+			mainPanel.AddDragTarget(RadioButtonGroup);
 
 			updateNeeded = true;
 			modIndex = mods.Length - 1;
