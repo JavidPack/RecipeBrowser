@@ -97,6 +97,7 @@ namespace RecipeBrowser
 			{
 				Main.LocalPlayer.mouseInterface = true;
 				Main.LocalPlayer.showItemIcon = false;
+				Main.ItemIconCacheUpdate(0);
 			}
 			if (dragging)
 			{

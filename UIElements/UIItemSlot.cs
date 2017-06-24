@@ -34,88 +34,92 @@ namespace RecipeBrowser
 		const int frameDelay = 7;
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			if (item != null /*&& !item.IsAir*/)
+			if (item != null)
 			{
 				CalculatedStyle dimensions = base.GetInnerDimensions();
 				Rectangle rectangle = dimensions.ToRectangle();
 				spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-				Texture2D itemTexture = Main.itemTexture[this.item.type];
-				Rectangle rectangle2;
-				if (Main.itemAnimations[item.type] != null)
+				if (!item.IsAir)
 				{
-					rectangle2 = Main.itemAnimations[item.type].GetFrame(itemTexture);
-				}
-				else
-				{
-					rectangle2 = itemTexture.Frame(1, 1, 0, 0);
-				}
-				Color newColor = Color.White;
-				float pulseScale = 1f;
-				ItemSlot.GetItemLight(ref newColor, ref pulseScale, item, false);
-				int height = rectangle2.Height;
-				int width = rectangle2.Width;
-				float drawScale = 1f;
-				float availableWidth = (float)defaultBackgroundTexture.Width * scale;
-				if (width > availableWidth || height > availableWidth)
-				{
-					if (width > height)
+
+					Texture2D itemTexture = Main.itemTexture[this.item.type];
+					Rectangle rectangle2;
+					if (Main.itemAnimations[item.type] != null)
 					{
-						drawScale = availableWidth / width;
+						rectangle2 = Main.itemAnimations[item.type].GetFrame(itemTexture);
 					}
 					else
 					{
-						drawScale = availableWidth / height;
+						rectangle2 = itemTexture.Frame(1, 1, 0, 0);
 					}
-				}
-				drawScale *= scale;
-				Vector2 vector = backgroundTexture.Size() * scale;
-				Vector2 position2 = dimensions.Position() + vector / 2f - rectangle2.Size() * drawScale / 2f;
-				Vector2 origin = rectangle2.Size() * (pulseScale / 2f - 0.5f);
-				//Vector2 drawPosition = dimensions.Position();
-				//drawPosition.X += defaultBackgroundTexture.Width * scale / 2f - (float)width * drawScale / 2f;
-				//drawPosition.Y += defaultBackgroundTexture.Height * scale / 2f - (float)height * drawScale / 2f;
-
-				if (ItemLoader.PreDrawInInventory(item, spriteBatch, position2, rectangle2, item.GetAlpha(newColor),
-					item.GetColor(Color.White), origin, drawScale * pulseScale))
-				{
-					spriteBatch.Draw(itemTexture, position2, new Rectangle?(rectangle2), item.GetAlpha(newColor), 0f, origin, drawScale * pulseScale, SpriteEffects.None, 0f);
-					if (item.color != Color.Transparent)
+					Color newColor = Color.White;
+					float pulseScale = 1f;
+					ItemSlot.GetItemLight(ref newColor, ref pulseScale, item, false);
+					int height = rectangle2.Height;
+					int width = rectangle2.Width;
+					float drawScale = 1f;
+					float availableWidth = (float)defaultBackgroundTexture.Width * scale;
+					if (width > availableWidth || height > availableWidth)
 					{
-						spriteBatch.Draw(itemTexture, position2, new Rectangle?(rectangle2), item.GetColor(Color.White), 0f, origin, drawScale * pulseScale, SpriteEffects.None, 0f);
+						if (width > height)
+						{
+							drawScale = availableWidth / width;
+						}
+						else
+						{
+							drawScale = availableWidth / height;
+						}
 					}
-				}
-				ItemLoader.PostDrawInInventory(item, spriteBatch, position2, rectangle2, item.GetAlpha(newColor),
-					item.GetColor(Color.White), origin, drawScale * pulseScale);
-				if (ItemID.Sets.TrapSigned[item.type])
-				{
-					spriteBatch.Draw(Main.wireTexture, dimensions.Position() + new Vector2(40f, 40f) * scale, new Rectangle?(new Rectangle(4, 58, 8, 8)), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
-				}
-				if (item.stack > 1)
-				{
-					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, item.stack.ToString(), dimensions.Position() + new Vector2(10f, 26f) * scale, Color.White, 0f, Vector2.Zero, new Vector2(scale), -1f, scale);
-				}
+					drawScale *= scale;
+					Vector2 vector = backgroundTexture.Size() * scale;
+					Vector2 position2 = dimensions.Position() + vector / 2f - rectangle2.Size() * drawScale / 2f;
+					Vector2 origin = rectangle2.Size() * (pulseScale / 2f - 0.5f);
+					//Vector2 drawPosition = dimensions.Position();
+					//drawPosition.X += defaultBackgroundTexture.Width * scale / 2f - (float)width * drawScale / 2f;
+					//drawPosition.Y += defaultBackgroundTexture.Height * scale / 2f - (float)height * drawScale / 2f;
 
-				//this.item.GetColor(Color.White);
-				//spriteBatch.Draw(itemTexture, drawPosition, rectangle2, this.item.GetAlpha(Color.White), 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);
-				//if (this.item.color != default(Color))
-				//{
-				//	spriteBatch.Draw(itemTexture, drawPosition, new Rectangle?(rectangle2), this.item.GetColor(Color.White), 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);
-				//}
-				//if (this.item.stack > 1)
-				//{
-				//	spriteBatch.DrawString(Main.fontItemStack, this.item.stack.ToString(), new Vector2(drawPosition.X + 10f * scale, drawPosition.Y + 26f * scale), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-				//}
+					if (ItemLoader.PreDrawInInventory(item, spriteBatch, position2, rectangle2, item.GetAlpha(newColor),
+						item.GetColor(Color.White), origin, drawScale * pulseScale))
+					{
+						spriteBatch.Draw(itemTexture, position2, new Rectangle?(rectangle2), item.GetAlpha(newColor), 0f, origin, drawScale * pulseScale, SpriteEffects.None, 0f);
+						if (item.color != Color.Transparent)
+						{
+							spriteBatch.Draw(itemTexture, position2, new Rectangle?(rectangle2), item.GetColor(Color.White), 0f, origin, drawScale * pulseScale, SpriteEffects.None, 0f);
+						}
+					}
+					ItemLoader.PostDrawInInventory(item, spriteBatch, position2, rectangle2, item.GetAlpha(newColor),
+						item.GetColor(Color.White), origin, drawScale * pulseScale);
+					if (ItemID.Sets.TrapSigned[item.type])
+					{
+						spriteBatch.Draw(Main.wireTexture, dimensions.Position() + new Vector2(40f, 40f) * scale, new Rectangle?(new Rectangle(4, 58, 8, 8)), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+					}
+					if (item.stack > 1)
+					{
+						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, item.stack.ToString(), dimensions.Position() + new Vector2(10f, 26f) * scale, Color.White, 0f, Vector2.Zero, new Vector2(scale), -1f, scale);
+					}
 
-				if (IsMouseHovering)
-				{
-					// TODO, should only need 2 of these 3 I think
-					Main.HoverItem = item.Clone();
-					Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.modItem != null ? " [" + Main.HoverItem.modItem.mod.Name + "]" : "");
+					//this.item.GetColor(Color.White);
+					//spriteBatch.Draw(itemTexture, drawPosition, rectangle2, this.item.GetAlpha(Color.White), 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);
+					//if (this.item.color != default(Color))
+					//{
+					//	spriteBatch.Draw(itemTexture, drawPosition, new Rectangle?(rectangle2), this.item.GetColor(Color.White), 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);
+					//}
+					//if (this.item.stack > 1)
+					//{
+					//	spriteBatch.DrawString(Main.fontItemStack, this.item.stack.ToString(), new Vector2(drawPosition.X + 10f * scale, drawPosition.Y + 26f * scale), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+					//}
 
-					//	Main.hoverItemName = this.item.name;
-					//	Main.toolTip = item.Clone();
-					Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.modItem != null ? " [" + Main.HoverItem.modItem.mod.Name + "]" : ""));
+					if (IsMouseHovering)
+					{
+						// TODO, should only need 2 of these 3 I think
+						Main.HoverItem = item.Clone();
+						Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.modItem != null ? " [" + Main.HoverItem.modItem.mod.Name + "]" : "");
+
+						//	Main.hoverItemName = this.item.name;
+						//	Main.toolTip = item.Clone();
+						Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.modItem != null ? " [" + Main.HoverItem.modItem.mod.Name + "]" : ""));
+					}
 				}
 			}
 		}
