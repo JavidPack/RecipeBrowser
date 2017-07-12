@@ -12,7 +12,7 @@ namespace RecipeBrowser.UIElements
 	class UIQueryItemSlot : UIItemSlot
 	{
 		public static Texture2D backgroundTextureFake = Main.inventoryBack8Texture;
-		internal bool real;
+		internal bool real = true;
 
 		public UIQueryItemSlot(Item item) : base(item)
 		{
@@ -20,21 +20,25 @@ namespace RecipeBrowser.UIElements
 
 		public override void Click(UIMouseEvent evt)
 		{
-			if (real)
+			Player player = Main.LocalPlayer;
+			if (player.itemAnimation == 0 && player.itemTime == 0)
 			{
-				Item item = Main.mouseItem.Clone();
-				Main.mouseItem = this.item.Clone();
-				if (Main.mouseItem.type > 0)
+				if (real)
 				{
-					Main.playerInventory = true;
+					Item item = Main.mouseItem.Clone();
+					Main.mouseItem = this.item.Clone();
+					if (Main.mouseItem.type > 0)
+					{
+						Main.playerInventory = true;
+					}
+					this.item = item.Clone();
 				}
-				this.item = item.Clone();
-			}
-			else
-			{
-				item = Main.mouseItem.Clone();
-				Main.mouseItem.SetDefaults(0);
-				real = true;
+				else
+				{
+					item = Main.mouseItem.Clone();
+					Main.mouseItem.SetDefaults(0);
+					real = true;
+				}
 			}
 			backgroundTexture = real ? defaultBackgroundTexture : backgroundTextureFake;
 
@@ -45,7 +49,7 @@ namespace RecipeBrowser.UIElements
 		{
 			if (real && item.stack > 0)
 			{
-			//	Main.player[Main.myPlayer].QuickSpawnItem(RecipeBrowserWindow.lookupItemSlot.item.type, RecipeBrowserWindow.lookupItemSlot.item.stack);
+				//	Main.player[Main.myPlayer].QuickSpawnItem(RecipeBrowserWindow.lookupItemSlot.item.type, RecipeBrowserWindow.lookupItemSlot.item.stack);
 
 				Player player = Main.player[Main.myPlayer];
 				item.position = player.Center;
