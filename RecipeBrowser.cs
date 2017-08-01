@@ -33,7 +33,9 @@ namespace RecipeBrowser
 			Mod cheatSheet = ModLoader.GetMod("CheatSheet");
 			if (cheatSheet == null)
 			{
-				ToggleRecipeBrowserHotKey = RegisterHotKey("Toggle Recipe Browser", "OemCloseBrackets");
+			*/
+			ToggleRecipeBrowserHotKey = RegisterHotKey("Toggle Recipe Browser", "OemCloseBrackets");
+			/*
 				CheatSheetLoaded = false;
 			}
 			else
@@ -41,12 +43,11 @@ namespace RecipeBrowser
 				ToggleRecipeBrowserHotKey = null;
 				CheatSheetLoaded = true;
 			}
-
-			if (!Main.dedServ && !CheatSheetLoaded)
+			*/
+			if (!Main.dedServ /*&& !CheatSheetLoaded*/)
 			{
 				recipeBrowserTool = new RecipeBrowserTool();
 			}
-			*/
 		}
 
 		public override void PostSetupContent()
