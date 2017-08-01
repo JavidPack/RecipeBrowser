@@ -6,6 +6,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.Map;
 using Terraria.UI;
 using ReLogic.Graphics;
+using Terraria.ID;
 
 namespace RecipeBrowser
 {
@@ -45,10 +46,13 @@ namespace RecipeBrowser
 			float positionY = pos.Y;
 			if (selectedRecipe != null)
 			{
+				if(!Main.playerInventory) Main.LocalPlayer.AdjTiles(); // force adj tiles to be correct
 				Color textColor = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
+				Color noColor = Color.OrangeRed;
+				Color yesColor = Color.Green;
 
-				spriteBatch.DrawString(Main.fontMouseText, Lang.inter[22].Value, new Vector2((float)positionX, (float)(positionY)), textColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
-				int num61 = 0;
+				Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[22].Value, new Vector2((float)positionX, (float)(positionY)), textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+				int row = 0;
 				int tileIndex = 0;
 				while (tileIndex < Recipe.maxRequirements)
 				{
@@ -57,38 +61,43 @@ namespace RecipeBrowser
 					{
 						if (tileIndex == 0 && !selectedRecipe.needWater && !selectedRecipe.needHoney && !selectedRecipe.needLava)
 						{
-							spriteBatch.DrawString(Main.fontMouseText, Lang.inter[23].Value, new Vector2((float)positionX, (float)(positionY + num63)), textColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+							// "None"
+							Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[23].Value, new Vector2(positionX, positionY + num63), textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 							break;
 						}
 						break;
 					}
 					else
 					{
-						num61++;
-
-						//if (tileToItemCache[selectedRecipe.requiredTile[tileIndex]] == -1)
-						//{
-
-						//}
-
-						spriteBatch.DrawString(Main.fontMouseText, Lang.GetMapObjectName(MapHelper.TileToLookup(selectedRecipe.requiredTile[tileIndex], 0)), new Vector2((float)positionX, (float)(positionY + num63)), textColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+						row++;
+						int tileID = selectedRecipe.requiredTile[tileIndex];
+						string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tileID, 0));
+						if(tileName == "")
+						{
+							if(tileID < TileID.Count)
+								tileName = $"Tile {tileID}";
+							else 
+								tileName = Terraria.ModLoader.TileLoader.GetTile(tileID).Name + " (err no entry)";
+						}
+						Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, tileName, new Vector2(positionX, positionY + num63), Main.LocalPlayer.adjTile[tileID] ?  yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 						tileIndex++;
 					}
 				}
+				// white if window not open?
+				int yAdjust = (row + 1) * 26;
 				if (selectedRecipe.needWater)
 				{
-					int num64 = (num61 + 1) * 26;
-					spriteBatch.DrawString(Main.fontMouseText, Lang.inter[53].Value, new Vector2((float)positionX, (float)(positionY + num64)), textColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[53].Value, new Vector2((float)positionX, (float)(positionY + yAdjust)), Main.LocalPlayer.adjWater ? yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+					yAdjust += 26;
 				}
 				if (selectedRecipe.needHoney)
 				{
-					int num65 = (num61 + 1) * 26;
-					spriteBatch.DrawString(Main.fontMouseText, Lang.inter[58].Value, new Vector2((float)positionX, (float)(positionY + num65)), textColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[58].Value, new Vector2((float)positionX, (float)(positionY + yAdjust)), Main.LocalPlayer.adjHoney ? yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+					yAdjust += 26;
 				}
 				if (selectedRecipe.needLava)
 				{
-					int num66 = (num61 + 1) * 26;
-					spriteBatch.DrawString(Main.fontMouseText, Lang.inter[56].Value, new Vector2((float)positionX, (float)(positionY + num66)), textColor, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[56].Value, new Vector2((float)positionX, (float)(positionY + yAdjust)), Main.LocalPlayer.adjLava ? yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 ﻿author = jopojelly
-version = 0.2.0.6
+version = 0.2.1
 displayName = Recipe Browser
 homepage = http://forums.terraria.org/index.php?threads/cheat-sheet.41407/
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, unused\*
