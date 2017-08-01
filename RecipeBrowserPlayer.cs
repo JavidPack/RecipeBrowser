@@ -8,7 +8,7 @@ namespace RecipeBrowser
 	{
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
-			if (!RecipeBrowser.instance.CheatSheetLoaded)
+			//if (!RecipeBrowser.instance.CheatSheetLoaded)
 			{
 				if (RecipeBrowser.instance.ToggleRecipeBrowserHotKey.JustPressed)
 				{

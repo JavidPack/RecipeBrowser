@@ -12,7 +12,7 @@ namespace RecipeBrowser
 	{
 		internal static RecipeBrowser instance;
 		internal ModHotKey ToggleRecipeBrowserHotKey;
-		internal bool CheatSheetLoaded = false;
+		//internal bool CheatSheetLoaded = false;
 		internal RecipeBrowserTool recipeBrowserTool;
 		int lastSeenScreenWidth;
 		int lastSeenScreenHeight;
@@ -29,6 +29,7 @@ namespace RecipeBrowser
 
 			instance = this;
 
+			/*
 			Mod cheatSheet = ModLoader.GetMod("CheatSheet");
 			if (cheatSheet == null)
 			{
@@ -45,6 +46,7 @@ namespace RecipeBrowser
 			{
 				recipeBrowserTool = new RecipeBrowserTool();
 			}
+			*/
 		}
 
 		public override void PostSetupContent()
@@ -70,7 +72,7 @@ namespace RecipeBrowser
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
-			if (CheatSheetLoaded) return;
+			//if (CheatSheetLoaded) return;
 
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 			if (inventoryLayerIndex != -1)
