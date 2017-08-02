@@ -67,6 +67,11 @@ namespace RecipeBrowser
 			TextColor = disabled ? Color.Gray : Color.White;
 		}
 
+		public void SetHoverText(string hoverText)
+		{
+			this.hoverText = hoverText;
+		}
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			base.DrawSelf(spriteBatch);

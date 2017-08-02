@@ -11,6 +11,7 @@ namespace RecipeBrowser
 	class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
+		internal static Mod itemChecklistInstance;
 		internal ModHotKey ToggleRecipeBrowserHotKey;
 		//internal bool CheatSheetLoaded = false;
 		internal RecipeBrowserTool recipeBrowserTool;
@@ -28,6 +29,9 @@ namespace RecipeBrowser
 			}
 
 			instance = this;
+			itemChecklistInstance = ModLoader.GetMod("ItemChecklist");
+			if (itemChecklistInstance != null && itemChecklistInstance.Version < new Version(0, 2, 1))
+				itemChecklistInstance = null;
 
 			/*
 			Mod cheatSheet = ModLoader.GetMod("CheatSheet");
@@ -54,14 +58,13 @@ namespace RecipeBrowser
 		{
 			if (!Main.dedServ)
 			{
-				//var itemChecklist = ModLoader.GetMod("ItemChecklist");
-				//if (itemChecklist != null)
-				//{
-				//	itemChecklist.Call(
-				//		"RegisterForNewItem",
-				//		(Action<int>)ItemChecklistItemFound
-				//	);
-				//}
+				if (itemChecklistInstance != null)
+				{
+					itemChecklistInstance.Call(
+						"RegisterForNewItem",
+						(Action<int>)ItemChecklistItemFound
+					);
+				}
 			}
 		}
 

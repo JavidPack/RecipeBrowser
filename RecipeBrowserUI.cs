@@ -36,6 +36,7 @@ namespace RecipeBrowser
 		internal UIGrid recipeGrid;
 		internal UIRecipeInfo recipeInfo;
 		internal UIRadioButton NearbyIngredientsRadioBitton;
+		internal UIRadioButton ItemChecklistRadioButton;
 		internal UIRadioButtonGroup RadioButtonGroup;
 
 		internal bool updateNeeded;
@@ -81,7 +82,7 @@ namespace RecipeBrowser
 			RadioButtonGroup.Width.Set(180, 0f);
 			UIRadioButton AllRecipesRadioButton = new UIRadioButton("All Recipes", "");
 			NearbyIngredientsRadioBitton = new UIRadioButton("Nearby Chests", "Click to Refresh");
-			UIRadioButton ItemChecklistRadioButton = new UIRadioButton("Item Checklist Only", "");
+			ItemChecklistRadioButton = new UIRadioButton("Item Checklist Only", "???");
 			RadioButtonGroup.Add(AllRecipesRadioButton);
 			RadioButtonGroup.Add(NearbyIngredientsRadioBitton);
 			RadioButtonGroup.Add(ItemChecklistRadioButton);
@@ -90,23 +91,18 @@ namespace RecipeBrowser
 
 			NearbyIngredientsRadioBitton.OnSelectedChanged += NearbyIngredientsRadioBitton_OnSelectedChanged;
 
-			// TODO, make sure Oninitialize is called after reload. -- It is
-			//var itemChecklist = ModLoader.GetMod("ItemChecklist");
-			//if (itemChecklist != null)
-			//{
-			//	UICheckbox itemChecklistFilter = new UICheckbox("Item Checklist Filter");
-			//	itemChecklistFilter.Left.Pixels = 50;
-			//	itemChecklistFilter.SelectedChanged += ItemChecklistFilter_SelectedChanged;
-			//	mainPanel.Append(itemChecklistFilter);
-			//}
-			//else
-			//{
-			//}
-			ItemChecklistRadioButton.SetDisabled();
+			if (RecipeBrowser.itemChecklistInstance != null)
+			{
+				ItemChecklistRadioButton.OnSelectedChanged += ItemChecklistFilter_SelectedChanged;
+				ItemChecklistRadioButton.SetHoverText("Only new Items made from Seen Items");
+				//ItemChecklistRadioButton.OnRightClick += ItemChecklistRadioButton_OnRightClick;
+			}
+			else
+			{
+				ItemChecklistRadioButton.SetDisabled();
+				ItemChecklistRadioButton.SetHoverText("Install Item Checklist to use");
+			}
 
-			//inventoryFilter = new UICheckbox("Use Inventory");
-			//.Left.Pixels = 50;
-			//mainPanel.Append(inventoryFilter);
 
 			itemNameFilter = new NewUITextBox("Filter by Name");
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
@@ -167,6 +163,12 @@ namespace RecipeBrowser
 			modIndex = mods.Length - 1;
 		}
 
+		//private void ItemChecklistRadioButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
+		//{
+		//	// Switch modes.
+		//	ItemChecklistRadioButton.SetHoverText("Mode: Only All Results");
+		//}
+
 		// problem, how to detect that we need to request again?
 		const int itemSearchRange = 60 * 16; // this is in pixels : 400 too low
 		private void NearbyIngredientsRadioBitton_OnSelectedChanged(object sender, EventArgs e)
@@ -224,9 +226,9 @@ namespace RecipeBrowser
 
 		private void ItemChecklistFilter_SelectedChanged(object sender, EventArgs e)
 		{
-			if ((sender as UICheckbox).Selected)
+			if ((sender as UIRadioButton).Selected)
 			{
-				object result = ModLoader.GetMod("ItemChecklist").Call("RequestFoundItems");
+				object result = RecipeBrowser.itemChecklistInstance.Call("RequestFoundItems");
 				if (result is string)
 				{
 					Main.NewText("Error, ItemChecklist said: " + result);
