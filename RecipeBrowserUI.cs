@@ -27,6 +27,7 @@ namespace RecipeBrowser
 
 		internal UIDragablePanel mainPanel;
 		internal UIQueryItemSlot queryItem;
+		internal UIRadioButton TileLookupRadioButton;
 		//	internal UICheckbox inventoryFilter;
 		internal UIHoverImageButton closeButton;
 		internal NewUITextBox itemNameFilter;
@@ -66,9 +67,18 @@ namespace RecipeBrowser
 			Append(mainPanel);
 
 			queryItem = new UIQueryItemSlot(new Item());
-			queryItem.Top.Set(8, 0f);
+			queryItem.Top.Set(2, 0f);
 			queryItem.Left.Set(2, 0f);
+			queryItem.OnItemChanged += () => { TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
+
+			TileLookupRadioButton = new UIRadioButton("Tile", "");
+			TileLookupRadioButton.Top.Set(42, 0f);
+			TileLookupRadioButton.Left.Set(0, 0f);
+			TileLookupRadioButton.SetText("  Tile");
+			TileLookupRadioButton.OnSelectedChanged += (s, e) => { updateNeeded = true; };
+			TileLookupRadioButton.SetDisabled(true);
+			mainPanel.Append(TileLookupRadioButton);
 
 			var modFilterButton = new UIHoverImageButton(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
 			modFilterButton.Left.Set(-208, 1f);
@@ -264,19 +274,20 @@ namespace RecipeBrowser
 				//Main.player[Main.myPlayer].QuickSpawnItem(lookupItemSlot.item.type, lookupItemSlot.item.stack);
 				//lookupItemSlot.item.SetDefaults(0);
 
-				Player player = Main.player[Main.myPlayer];
-				queryItem.item.position = player.Center;
-				Item item = player.GetItem(player.whoAmI, queryItem.item, false, true);
-				if (item.stack > 0)
-				{
-					int num = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, item.type, item.stack, false, (int)queryItem.item.prefix, true, false);
-					Main.item[num].newAndShiny = false;
-					if (Main.netMode == 1)
-					{
-						NetMessage.SendData(21, -1, -1, null, num, 1f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				queryItem.item = new Item();
+				//Player player = Main.player[Main.myPlayer];
+				//queryItem.item.position = player.Center;
+				//Item item = player.GetItem(player.whoAmI, queryItem.item, false, true);
+				//if (item.stack > 0)
+				//{
+				//	int num = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, item.type, item.stack, false, (int)queryItem.item.prefix, true, false);
+				//	Main.item[num].newAndShiny = false;
+				//	if (Main.netMode == 1)
+				//	{
+				//		NetMessage.SendData(21, -1, -1, null, num, 1f, 0f, 0f, 0, 0, 0);
+				//	}
+				//}
+				//queryItem.item = new Item();
+				queryItem.ReplaceWithFake(0);
 			}
 
 			updateNeeded = true;
@@ -395,7 +406,7 @@ namespace RecipeBrowser
 			updateNeeded = false;
 
 			List<int> groups = new List<int>();
-			if (queryItem.item.stack > 0)
+			if (queryItem.item.stack > 0 && !TileLookupRadioButton.Selected)
 			{
 				int type = queryItem.item.type;
 
@@ -483,15 +494,26 @@ namespace RecipeBrowser
 			//}
 			if (!queryItem.item.IsAir)
 			{
-				int type = queryItem.item.type;
-				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any();
-
-				inGroup |= recipe.useWood(type, type) || recipe.useSand(type, type) || recipe.useFragment(type, type) || recipe.useIronBar(type, type) || recipe.usePressurePlate(type, type);
-				if (!inGroup)
+				if (TileLookupRadioButton.Selected)
 				{
-					if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
+					int type = queryItem.item.createTile;
+					if (!recipe.requiredTile.Any(ing => ing == type))
 					{
-						return false; ;
+						return false;
+					}
+				}
+				else
+				{
+					int type = queryItem.item.type;
+					bool inGroup = recipe.acceptedGroups.Intersect(groups).Any();
+
+					inGroup |= recipe.useWood(type, type) || recipe.useSand(type, type) || recipe.useFragment(type, type) || recipe.useIronBar(type, type) || recipe.usePressurePlate(type, type);
+					if (!inGroup)
+					{
+						if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
+						{
+							return false; ;
+						}
 					}
 				}
 			}
@@ -519,14 +541,14 @@ namespace RecipeBrowser
 		{
 			// Return true only if all ingredients in recipe are found
 			//List<int> needed = new List<int>();
-			HashSet<int> needed = new HashSet<int>(); 
+			HashSet<int> needed = new HashSet<int>();
 			foreach (var item in recipe.requiredItem)
 			{
 				needed.Add(item.type);
 			}
 
 			//List<Item[]> sources = new List<Item[]>(); 
-			HashSet<int> foundItems = new HashSet<int>(); 
+			HashSet<int> foundItems = new HashSet<int>();
 
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 			{

@@ -13,6 +13,7 @@ namespace RecipeBrowser.UIElements
 	{
 		public static Texture2D backgroundTextureFake = Main.inventoryBack8Texture;
 		internal bool real = true;
+		public event Action OnItemChanged;
 
 		public UIQueryItemSlot(Item item) : base(item)
 		{
@@ -39,6 +40,7 @@ namespace RecipeBrowser.UIElements
 					Main.mouseItem.SetDefaults(0);
 					real = true;
 				}
+				OnItemChanged?.Invoke();
 			}
 			backgroundTexture = real ? defaultBackgroundTexture : backgroundTextureFake;
 
@@ -67,8 +69,9 @@ namespace RecipeBrowser.UIElements
 			}
 
 			item.SetDefaults(type);
-			real = false;
+			real = type == 0;
 			backgroundTexture = real ? defaultBackgroundTexture : backgroundTextureFake;
+			OnItemChanged?.Invoke();
 
 			RecipeBrowserUI.instance.updateNeeded = true;
 		}
