@@ -54,6 +54,13 @@ namespace RecipeBrowser
 			}
 		}
 
+		public override void Unload()
+		{
+			instance = null;
+			itemChecklistInstance = null;
+			ToggleRecipeBrowserHotKey = null;
+		}
+
 		public override void PostSetupContent()
 		{
 			if (!Main.dedServ)
