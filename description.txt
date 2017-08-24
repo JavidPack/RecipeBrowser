@@ -1,4 +1,5 @@
-﻿Recipe Browser:
+﻿Use the hotkey to show/hide the recipe browser.
+
 Click on any Recipe to see details. Use categories and search filter to find the recipe you want.
 
-Use the hotkey to show/hide the recipe browser.
+Alt click on a recipe to pin a recipe.
