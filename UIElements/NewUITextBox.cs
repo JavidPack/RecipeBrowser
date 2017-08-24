@@ -221,6 +221,7 @@ namespace RecipeBrowser
 					textBlinkerState = (textBlinkerState + 1) % 2;
 					textBlinkerCount = 0;
 				}
+				Main.instance.DrawWindowsIMEPanel(new Vector2(98f, (float)(Main.screenHeight - 36)), 0f);
 			}
 			string displayString = currentString;
 			if (this.textBlinkerState == 1 && focused)
