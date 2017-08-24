@@ -106,7 +106,7 @@ namespace RecipeBrowser
 			mainPanel.MinHeight.Set(243, 0f);
 			mainPanel.MaxHeight.Set(1000, 0f);
 			mainPanel.BackgroundColor = new Color(73, 94, 171);
-			Append(mainPanel);
+			//Append(mainPanel);
 
 			queryItem = new UIQueryItemSlot(new Item());
 			queryItem.Top.Set(2, 0f);
@@ -213,10 +213,7 @@ namespace RecipeBrowser
 
 			favoritedRecipes = new List<UIRecipeSlot>();
 			recipeSlots = new List<UIRecipeSlot>();
-			for (int i = 0; i < Recipe.numRecipes; i++)
-			{
-				recipeSlots.Add(new UIRecipeSlot(i));
-			}
+
 			favoritePanel = new UIDragablePanel();
 			favoritePanel.SetPadding(6);
 			favoritePanel.Left.Set(-310f, 0f);
@@ -521,6 +518,15 @@ namespace RecipeBrowser
 
 		internal void UpdateGrid()
 		{
+			if (Recipe.numRecipes != recipeSlots.Count)
+			{
+				recipeSlots.Clear();
+				for (int i = 0; i < Recipe.numRecipes; i++)
+				{
+					recipeSlots.Add(new UIRecipeSlot(i));
+				}
+			}
+
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
 
