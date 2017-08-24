@@ -2,6 +2,6 @@
 version = 0.3
 displayName = Recipe Browser
 homepage = http://forums.terraria.org/index.php?threads/cheat-sheet.41407/
-buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, unused\*
+buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, unused\*, .git\*,
 includePDB = false
 languageVersion = 6

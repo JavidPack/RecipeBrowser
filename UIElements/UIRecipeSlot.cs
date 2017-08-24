@@ -3,14 +3,16 @@ using System.Linq;
 using Terraria;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace RecipeBrowser.UIElements
 {
 	class UIRecipeSlot : UIItemSlot
 	{
-		public static Texture2D selectedBackgroundTexture;// = Main.inventoryBack15Texture;
+		public static Texture2D selectedBackgroundTexture;
 		public static Texture2D recentlyDiscoveredBackgroundTexture = Main.inventoryBack8Texture;
-		public static Texture2D favoritedBackgroundTexture;/* = Main.inventoryBack14Texture;*/
+		public static Texture2D favoritedBackgroundTexture;
+		public static Texture2D ableToCraftBackgroundTexture;
 		public int index;
 		public bool recentlyDiscovered;
 		public bool favorited;
@@ -33,6 +35,17 @@ namespace RecipeBrowser.UIElements
 			else
 			{
 				RecipeBrowserUI.instance.SetRecipe(index);
+			}
+
+			for (int n = 0; n < Main.numAvailableRecipes; n++)
+			{
+				if (index == Main.availableRecipe[n])
+				{
+					Main.playerInventory = true;
+					Main.focusRecipe = n;
+					Main.recFastScroll = true;
+					break;
+				}
 			}
 		}
 
@@ -78,6 +91,16 @@ namespace RecipeBrowser.UIElements
 					Main.cursorOverride = 3;
 
 			backgroundTexture = defaultBackgroundTexture;
+
+			for (int n = 0; n < Main.numAvailableRecipes; n++)
+			{
+				if (index == Main.availableRecipe[n])
+				{
+					backgroundTexture = ableToCraftBackgroundTexture;
+					break;
+				}
+			}
+
 			if (recentlyDiscovered)
 				backgroundTexture = recentlyDiscoveredBackgroundTexture;
 
@@ -89,7 +112,7 @@ namespace RecipeBrowser.UIElements
 			if (favorited)
 				spriteBatch.Draw(favoritedBackgroundTexture, vector2, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			if (selected)
-				spriteBatch.Draw(selectedBackgroundTexture, vector2, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(selectedBackgroundTexture, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 		}
 	}
 }

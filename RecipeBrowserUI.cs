@@ -76,6 +76,7 @@ namespace RecipeBrowser
 			{
 				if (value)
 				{
+					Recipe.FindRecipes();
 					Append(mainPanel);
 				}
 				else
@@ -514,6 +515,8 @@ namespace RecipeBrowser
 			scrollbar.Left.Set(-20, 1f);
 			favoritePanel.Append(scrollbar);
 			list.SetScrollbar(scrollbar);
+
+			Recipe.FindRecipes();
 		}
 
 		internal void UpdateGrid()
@@ -732,6 +735,17 @@ namespace RecipeBrowser
 			base.Update(gameTime);
 			// additional updates.
 			UpdateGrid();
+		}
+
+		internal void ItemReceived(Item item)
+		{
+			var removes = favoritedRecipes.Where(x => x.item.type == item.type && x.item.maxStack == 1).ToList();
+
+			foreach (var recipe in removes)
+			{
+				recipe.favorited = false;
+				FavoriteChange(recipe);
+			}
 		}
 	}
 }

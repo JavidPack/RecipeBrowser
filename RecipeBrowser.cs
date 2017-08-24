@@ -56,8 +56,8 @@ namespace RecipeBrowser
 				recipeBrowserTool = new RecipeBrowserTool();
 				UIElements.UIRecipeSlot.favoritedBackgroundTexture = GetTexture("Images/FavoritedOverlay");
 				UIElements.UIRecipeSlot.selectedBackgroundTexture = GetTexture("Images/SelectedOverlay");
+				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
 				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
-				//UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture.MultiplyColorsByAlpha();
 			}
 		}
 
@@ -68,6 +68,7 @@ namespace RecipeBrowser
 			ToggleRecipeBrowserHotKey = null;
 			UIElements.UIRecipeSlot.favoritedBackgroundTexture = null;
 			UIElements.UIRecipeSlot.selectedBackgroundTexture = null;
+			UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = null;
 			UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = null;
 		}
 
@@ -152,20 +153,20 @@ namespace RecipeBrowser
 		}
 	}
 
-	static class Extensions
-	{
-		public static void MultiplyColorsByAlpha(this Texture2D texture)
-		{
-			Color[] data = new Color[texture.Width * texture.Height];
-			texture.GetData(data);
-			for (int i = 0; i < data.Length; i++)
-			{
-				Vector4 we = data[i].ToVector4();
-				data[i] = new Color(we.X * we.W, we.Y * we.W, we.Z * we.W, we.W);
-			}
-			texture.SetData(data);
-		}
-	}
+	//static class Extensions
+	//{
+	//	public static void MultiplyColorsByAlpha(this Texture2D texture)
+	//	{
+	//		Color[] data = new Color[texture.Width * texture.Height];
+	//		texture.GetData(data);
+	//		for (int i = 0; i < data.Length; i++)
+	//		{
+	//			Vector4 we = data[i].ToVector4();
+	//			data[i] = new Color(we.X * we.W, we.Y * we.W, we.Z * we.W, we.W);
+	//		}
+	//		texture.SetData(data);
+	//	}
+	//}
 
 	enum MessageType : byte
 	{

@@ -10,7 +10,7 @@ namespace RecipeBrowser.UIElements
 	// Todo, temporary?
 	class UIMockRecipeSlot : UIItemSlot
 	{
-		public static Texture2D ableToCraftBackgroundTexture; //= Main.inventoryBack6Texture;
+		public static Texture2D ableToCraftBackgroundTexture;
 		public static Texture2D unableToCraftBackgroundTexture = Main.inventoryBack11Texture;
 		UIRecipeSlot slot;
 		public UIMockRecipeSlot(UIRecipeSlot slot, float scale = 0.75f) : base(slot.item, scale)
@@ -44,9 +44,14 @@ namespace RecipeBrowser.UIElements
 
 			backgroundTexture = unableToCraftBackgroundTexture;
 
-			if (Main.availableRecipe.Contains(slot.index))
-				//if (ableToCraft)
-				backgroundTexture = ableToCraftBackgroundTexture;
+			for (int n = 0; n < Main.numAvailableRecipes; n++)
+			{
+				if (slot.index == Main.availableRecipe[n])
+				{
+					backgroundTexture = ableToCraftBackgroundTexture;
+					break;
+				}
+			}
 
 			base.DrawSelf(spriteBatch);
 		}
