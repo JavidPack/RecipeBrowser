@@ -26,6 +26,7 @@ namespace RecipeBrowser
 		static internal RecipeBrowserUI instance;
 
 		internal UIDragablePanel mainPanel;
+		internal UIDragablePanel favoritePanel;
 		internal UIQueryItemSlot queryItem;
 		internal UIRadioButton TileLookupRadioButton;
 		//	internal UICheckbox inventoryFilter;
@@ -40,10 +41,50 @@ namespace RecipeBrowser
 		internal UIRadioButton ItemChecklistRadioButton;
 		internal UIRadioButtonGroup RadioButtonGroup;
 
+		internal List<UIRecipeSlot> recipeSlots;
+		internal List<UIRecipeSlot> favoritedRecipes;
+		// TODO: Idea: automatically remove a Favorited recipe OnCraft?
+
 		internal bool updateNeeded;
 		internal int selectedIndex = -1;
 		internal bool[] foundItems;
 		internal string[] mods;
+
+		private bool showFavoritePanel;
+		public bool ShowFavoritePanel
+		{
+			get { return showFavoritePanel; }
+			set
+			{
+				if (value)
+				{
+					Append(favoritePanel);
+				}
+				else
+				{
+					RemoveChild(favoritePanel);
+				}
+				showFavoritePanel = value;
+			}
+		}
+
+		private bool showRecipeBrowser;
+		public bool ShowRecipeBrowser
+		{
+			get { return showRecipeBrowser; }
+			set
+			{
+				if (value)
+				{
+					Append(mainPanel);
+				}
+				else
+				{
+					RemoveChild(mainPanel);
+				}
+				showRecipeBrowser = value;
+			}
+		}
 
 		public RecipeBrowserUI(UserInterface ui) : base(ui)
 		{
@@ -169,6 +210,27 @@ namespace RecipeBrowser
 			mainPanel.AddDragTarget(recipeInfo);
 			mainPanel.AddDragTarget(RadioButtonGroup);
 
+			favoritedRecipes = new List<UIRecipeSlot>();
+			recipeSlots = new List<UIRecipeSlot>();
+			for (int i = 0; i < Recipe.numRecipes; i++)
+			{
+				recipeSlots.Add(new UIRecipeSlot(i));
+			}
+			favoritePanel = new UIDragablePanel();
+			favoritePanel.SetPadding(6);
+			favoritePanel.Left.Set(-310f, 0f);
+			favoritePanel.HAlign = 1f;
+			favoritePanel.Top.Set(90f, 0f);
+			favoritePanel.Width.Set(415f, 0f);
+			favoritePanel.MinWidth.Set(50f, 0f);
+			favoritePanel.MaxWidth.Set(500f, 0f);
+			favoritePanel.Height.Set(350, 0f);
+			favoritePanel.MinHeight.Set(50, 0f);
+			favoritePanel.MaxHeight.Set(300, 0f);
+			//favoritePanel.BackgroundColor = new Color(73, 94, 171);
+			favoritePanel.BackgroundColor = Color.Transparent;
+			//Append(favoritePanel);
+
 			updateNeeded = true;
 			modIndex = mods.Length - 1;
 		}
@@ -266,7 +328,7 @@ namespace RecipeBrowser
 		{
 			// we should have a way for the button itself to be unclicked and notify parent.
 			RadioButtonGroup.ButtonClicked(0);
-			RecipeBrowser.instance.recipeBrowserTool.visible = !RecipeBrowser.instance.recipeBrowserTool.visible;
+			RecipeBrowserUI.instance.ShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
 
 			if (queryItem.real && queryItem.item.stack > 0)
 			{
@@ -297,58 +359,59 @@ namespace RecipeBrowser
 		{
 			selectedIndex = -1;
 			recipeInfo.RemoveAllChildren();
-			foreach (var item in recipeGrid._items)
+
+			foreach (var item in recipeSlots)
 			{
-				var recipeslot = (item as UIRecipeSlot);
-				recipeslot.backgroundTexture = recipeslot.recentlyDiscovered ? UIRecipeSlot.recentlyDiscoveredBackgroundTexture : UIRecipeSlot.defaultBackgroundTexture;
-				if (recipeslot.index == index)
+				item.selected = false;
+			}
+
+			var recipeslot = recipeSlots[index];
+
+			recipeslot.selected = false;
+			recipeslot.selected = true;
+			selectedIndex = index;
+
+			Recipe recipe = Main.recipe[index];
+			for (int i = 0; i < Recipe.maxRequirements; i++)
+			{
+				if (recipe.requiredItem[i].type > 0)
 				{
-					recipeslot.backgroundTexture = UIRecipeSlot.selectedBackgroundTexture;
-					selectedIndex = index;
+					UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone());
+					ingredient.Left.Pixels = 200 + (i % 5 * 40);
+					ingredient.Top.Pixels = (i / 5 * 40);
 
-					Recipe recipe = Main.recipe[index];
-					for (int i = 0; i < Recipe.maxRequirements; i++)
+					string nameOverride;
+					if (recipe.ProcessGroupsForText(recipe.requiredItem[i].type, out nameOverride))
 					{
-						if (recipe.requiredItem[i].type > 0)
-						{
-							UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone());
-							ingredient.Left.Pixels = 200 + (i % 5 * 40);
-							ingredient.Top.Pixels = (i / 5 * 40);
-
-							string nameOverride;
-							if (recipe.ProcessGroupsForText(recipe.requiredItem[i].type, out nameOverride))
-							{
-								//Main.toolTip.name = name;
-							}
-							if (recipe.anyIronBar && recipe.requiredItem[i].type == 22)
-							{
-								nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(22);
-							}
-							else if (recipe.anyWood && recipe.requiredItem[i].type == 9)
-							{
-								nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(9);
-							}
-							else if (recipe.anySand && recipe.requiredItem[i].type == 169)
-							{
-								nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(169);
-							}
-							else if (recipe.anyFragment && recipe.requiredItem[i].type == 3458)
-							{
-								nameOverride = Lang.misc[37].Value + " " + Lang.misc[51].Value;
-							}
-							else if (recipe.anyPressurePlate && recipe.requiredItem[i].type == 542)
-							{
-								nameOverride = Lang.misc[37].Value + " " + Lang.misc[38].Value;
-							}
-							if (nameOverride != "")
-							{
-								ingredient.item.SetNameOverride(nameOverride);
-							}
-							// TODO, stack?
-
-							recipeInfo.Append(ingredient);
-						}
+						//Main.toolTip.name = name;
 					}
+					if (recipe.anyIronBar && recipe.requiredItem[i].type == 22)
+					{
+						nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(22);
+					}
+					else if (recipe.anyWood && recipe.requiredItem[i].type == 9)
+					{
+						nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(9);
+					}
+					else if (recipe.anySand && recipe.requiredItem[i].type == 169)
+					{
+						nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(169);
+					}
+					else if (recipe.anyFragment && recipe.requiredItem[i].type == 3458)
+					{
+						nameOverride = Lang.misc[37].Value + " " + Lang.misc[51].Value;
+					}
+					else if (recipe.anyPressurePlate && recipe.requiredItem[i].type == 542)
+					{
+						nameOverride = Lang.misc[37].Value + " " + Lang.misc[38].Value;
+					}
+					if (nameOverride != "")
+					{
+						ingredient.item.SetNameOverride(nameOverride);
+					}
+					// TODO, stack?
+
+					recipeInfo.Append(ingredient);
 				}
 			}
 		}
@@ -400,6 +463,59 @@ namespace RecipeBrowser
 			updateNeeded = true;
 		}
 
+		internal void FavoriteChange(UIRecipeSlot slot)
+		{
+			if (favoritedRecipes.Contains(slot))
+			{
+				favoritedRecipes.Remove(slot);
+			}
+			if (slot.favorited)
+			{
+				favoritedRecipes.Add(slot);
+			}
+			UpdateFavoritedPanel();
+		}
+
+		internal void UpdateFavoritedPanel()
+		{
+			ShowFavoritePanel = favoritedRecipes.Count > 0;
+			favoritePanel.RemoveAllChildren();
+
+			UIGrid list = new UIGrid();
+			list.Width.Set(0, 1f);
+			list.Height.Set(0, 1f);
+			list.ListPadding = 5f;
+			favoritePanel.Append(list);
+			favoritePanel.AddDragTarget(list);
+			favoritePanel.AddDragTarget(list._innerList);
+			int width = 1;
+			int height = 0;
+			int order = 1;
+			foreach (var item in favoritedRecipes)
+			{
+				Recipe r = Main.recipe[item.index];
+				UIRecipeProgress s = new UIRecipeProgress(item.index, r, order);
+				order++;
+				s.Recalculate();
+				var a = s.GetInnerDimensions();
+				s.Width.Precent = 1;
+				list.Add(s);
+				height += (int)(a.Height + list.ListPadding);
+				width = Math.Max(width, (int)a.Width);
+				favoritePanel.AddDragTarget(s);
+			}
+			favoritePanel.Height.Pixels = height + favoritePanel.PaddingBottom + favoritePanel.PaddingTop - list.ListPadding;
+			favoritePanel.Width.Pixels = width;
+			favoritePanel.Recalculate();
+
+			var scrollbar = new InvisibleFixedUIScrollbar(userInterface);
+			scrollbar.SetView(100f, 1000f);
+			scrollbar.Height.Set(0, 1f);
+			scrollbar.Left.Set(-20, 1f);
+			favoritePanel.Append(scrollbar);
+			list.SetScrollbar(scrollbar);
+		}
+
 		internal void UpdateGrid()
 		{
 			if (!updateNeeded) { return; }
@@ -426,15 +542,15 @@ namespace RecipeBrowser
 				// all the filters
 				//if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 				{
-					var box = new UIRecipeSlot(i);
+					var box = recipeSlots[i];
 					// 
 					if (newestItem > 0)
 					{
 						Recipe recipe = Main.recipe[i];
+						box.recentlyDiscovered = false;
 						if (recipe.requiredItem.Any(x => x.type == newestItem))
 						{
 							box.recentlyDiscovered = true;
-							box.backgroundTexture = UIRecipeSlot.recentlyDiscoveredBackgroundTexture;
 						}
 					}
 

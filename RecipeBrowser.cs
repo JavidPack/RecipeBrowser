@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -51,6 +54,10 @@ namespace RecipeBrowser
 			if (!Main.dedServ /*&& !CheatSheetLoaded*/)
 			{
 				recipeBrowserTool = new RecipeBrowserTool();
+				UIElements.UIRecipeSlot.favoritedBackgroundTexture = GetTexture("Images/FavoritedOverlay");
+				UIElements.UIRecipeSlot.selectedBackgroundTexture = GetTexture("Images/SelectedOverlay");
+				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
+				//UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture.MultiplyColorsByAlpha();
 			}
 		}
 
@@ -59,6 +66,9 @@ namespace RecipeBrowser
 			instance = null;
 			itemChecklistInstance = null;
 			ToggleRecipeBrowserHotKey = null;
+			UIElements.UIRecipeSlot.favoritedBackgroundTexture = null;
+			UIElements.UIRecipeSlot.selectedBackgroundTexture = null;
+			UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = null;
 		}
 
 		public override void PostSetupContent()
@@ -139,6 +149,21 @@ namespace RecipeBrowser
 					//DebugText("Unknown Message type: " + msgType);
 					break;
 			}
+		}
+	}
+
+	static class Extensions
+	{
+		public static void MultiplyColorsByAlpha(this Texture2D texture)
+		{
+			Color[] data = new Color[texture.Width * texture.Height];
+			texture.GetData(data);
+			for (int i = 0; i < data.Length; i++)
+			{
+				Vector4 we = data[i].ToVector4();
+				data[i] = new Color(we.X * we.W, we.Y * we.W, we.Z * we.W, we.W);
+			}
+			texture.SetData(data);
 		}
 	}
 

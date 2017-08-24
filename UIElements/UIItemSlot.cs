@@ -16,7 +16,7 @@ namespace RecipeBrowser
 	{
 		public static Texture2D defaultBackgroundTexture = Main.inventoryBack9Texture;
 		public Texture2D backgroundTexture = defaultBackgroundTexture;
-		private float scale = .75f;
+		internal float scale = .75f;
 		public int itemType;
 		public Item item;
 
@@ -39,7 +39,7 @@ namespace RecipeBrowser
 				CalculatedStyle dimensions = base.GetInnerDimensions();
 				Rectangle rectangle = dimensions.ToRectangle();
 				spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-
+				DrawAdditionalOverlays(spriteBatch, dimensions.Position(), scale);
 				if (!item.IsAir)
 				{
 
@@ -122,6 +122,10 @@ namespace RecipeBrowser
 					}
 				}
 			}
+		}
+
+		internal virtual void DrawAdditionalOverlays(SpriteBatch spriteBatch, Vector2 vector2, float scale)
+		{
 		}
 	}
 }

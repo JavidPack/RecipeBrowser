@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.Map;
 using Terraria.UI;
-using ReLogic.Graphics;
 using Terraria.ID;
 
 namespace RecipeBrowser

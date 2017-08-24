@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.UI;
 
@@ -19,6 +14,7 @@ namespace RecipeBrowser.UIElements
 
 		public override void Click(UIMouseEvent evt)
 		{
+			base.Click(evt);
 			//RecipeBrowserUI.instance.SetRecipe(index);
 		}
 

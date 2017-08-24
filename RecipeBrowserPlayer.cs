@@ -12,7 +12,7 @@ namespace RecipeBrowser
 			{
 				if (RecipeBrowser.instance.ToggleRecipeBrowserHotKey.JustPressed)
 				{
-					RecipeBrowser.instance.recipeBrowserTool.visible = !RecipeBrowser.instance.recipeBrowserTool.visible;
+					RecipeBrowserUI.instance.ShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
 					// Debug assistance, allows for reinitializing RecipeBrowserUI
 					//if (!RecipeBrowser.instance.recipeBrowserTool.visible)
 					//{

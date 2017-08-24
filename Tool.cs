@@ -8,7 +8,7 @@ namespace RecipeBrowser
 	// Tool should store data? does it even matter?
 	abstract class Tool
 	{
-		internal bool visible;
+		//internal bool visible;
 		//internal string toggleTooltip;
 		internal UserInterface userInterface;
 		internal UIModState uistate;
@@ -48,7 +48,7 @@ namespace RecipeBrowser
 
 		internal virtual void UIUpdate()
 		{
-			if (visible)
+			//if (visible)
 			{
 				userInterface?.Update(Main._drawInterfaceGameTime);
 			}
@@ -56,9 +56,11 @@ namespace RecipeBrowser
 
 		internal virtual void UIDraw()
 		{
-			if (visible)
+			//if (visible)
 			{
+				uistate.ReverseChildren();
 				uistate.Draw(Main.spriteBatch);
+				uistate.ReverseChildren();
 			}
 		}
 

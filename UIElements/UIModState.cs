@@ -10,5 +10,10 @@ namespace RecipeBrowser
 		{
 			this.userInterface = userInterface;
 		}
+
+		public void ReverseChildren()
+		{
+			Elements.Reverse();
+		}
 	}
 }
