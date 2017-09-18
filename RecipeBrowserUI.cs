@@ -122,7 +122,7 @@ namespace RecipeBrowser
 			TileLookupRadioButton.SetDisabled(true);
 			mainPanel.Append(TileLookupRadioButton);
 
-			var modFilterButton = new UIHoverImageButton(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
+			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
 			modFilterButton.Left.Set(-208, 1f);
 			modFilterButton.Top.Set(-4, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
@@ -276,16 +276,28 @@ namespace RecipeBrowser
 		private static int modIndex;
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButton button = (evt.Target as UIHoverImageButton);
+			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			button.hoverText = "Mod Filter: " + GetModFilterTooltip(true);
+			UpdateModHoverImage(button);
 			updateNeeded = true;
 		}
 
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButton button = (evt.Target as UIHoverImageButton);
+			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			button.hoverText = "Mod Filter: " + GetModFilterTooltip(false);
+			UpdateModHoverImage(button);
 			updateNeeded = true;
+		}
+
+		private void UpdateModHoverImage(UIHoverImageButtonMod button)
+		{
+			button.texture = null;
+			Mod otherMod = ModLoader.GetMod(mods[modIndex]);
+			if(otherMod != null && otherMod.TextureExists("icon"))
+			{
+				button.texture = otherMod.GetTexture("icon");
+			}
 		}
 
 		private string GetModFilterTooltip(bool increment)
