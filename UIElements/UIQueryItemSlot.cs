@@ -40,10 +40,12 @@ namespace RecipeBrowser.UIElements
 					Main.mouseItem.SetDefaults(0);
 					real = true;
 				}
+				if (item.type == 0) real = true;
 				OnItemChanged?.Invoke();
 			}
 			backgroundTexture = real ? defaultBackgroundTexture : backgroundTextureFake;
 
+			RecipeBrowserUI.instance.queryLootItem = (item.type == 0) ? null : item;
 			RecipeBrowserUI.instance.updateNeeded = true;
 		}
 

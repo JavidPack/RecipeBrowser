@@ -35,6 +35,8 @@ namespace RecipeBrowser.UIElements
 			else
 			{
 				RecipeBrowserUI.instance.SetRecipe(index);
+				RecipeBrowserUI.instance.queryLootItem = Main.recipe[index].createItem;
+				RecipeBrowserUI.instance.updateNeeded = true;
 			}
 
 			for (int n = 0; n < Main.numAvailableRecipes; n++)

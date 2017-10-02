@@ -1,11 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -83,6 +79,15 @@ namespace RecipeBrowser
 						(Action<int>)ItemChecklistItemFound
 					);
 				}
+			}
+		}
+
+		public override void PostAddRecipes()
+		{
+			if (!Main.dedServ)
+			{
+				LootCacheManager.Setup(this);
+				RecipeBrowserUI.instance.PostSetupContent();
 			}
 		}
 

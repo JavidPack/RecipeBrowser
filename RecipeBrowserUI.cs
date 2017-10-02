@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Terraria.ModLoader;
 using System.Text;
+using System.Reflection;
 
 namespace RecipeBrowser
 {
@@ -29,6 +30,7 @@ namespace RecipeBrowser
 		internal UIDragablePanel favoritePanel;
 		internal UIQueryItemSlot queryItem;
 		internal UIRadioButton TileLookupRadioButton;
+		internal Item queryLootItem;
 		//	internal UICheckbox inventoryFilter;
 		internal UIHoverImageButton closeButton;
 		internal NewUITextBox itemNameFilter;
@@ -36,6 +38,7 @@ namespace RecipeBrowser
 		internal NewUITextBox itemDescriptionFilter;
 		internal UIPanel inlaidPanel;
 		internal UIGrid recipeGrid;
+		internal UIGrid lootSourceGrid;
 		internal UIRecipeInfo recipeInfo;
 		internal UIRadioButton NearbyIngredientsRadioBitton;
 		internal UIRadioButton ItemChecklistRadioButton;
@@ -43,7 +46,6 @@ namespace RecipeBrowser
 
 		internal List<UIRecipeSlot> recipeSlots;
 		internal List<UIRecipeSlot> favoritedRecipes;
-		// TODO: Idea: automatically remove a Favorited recipe OnCraft?
 
 		internal bool updateNeeded;
 		internal int selectedIndex = -1;
@@ -90,7 +92,17 @@ namespace RecipeBrowser
 		public RecipeBrowserUI(UserInterface ui) : base(ui)
 		{
 			instance = this;
-			mods = ModLoader.GetLoadedMods();
+			mods = new string[] { "ModLoader" };
+		}
+
+		// Technically since RecipeBrowserUI ctor happens in Mod.Load, we could miss mods that add during Load that happen after me.
+		public void PostSetupContent()
+		{
+			var type = Assembly.GetAssembly(typeof(Mod)).GetType("Terraria.ModLoader.Mod");
+			FieldInfo loadModsField = type.GetField("items", BindingFlags.Instance | BindingFlags.NonPublic);
+
+			mods = ModLoader.GetLoadedMods().Where(x => ((Dictionary<string, ModItem>)loadModsField.GetValue(ModLoader.GetMod(x))).Count > 0).ToArray();
+			modIndex = mods.Length - 1;
 		}
 
 		public override void OnInitialize()
@@ -99,7 +111,7 @@ namespace RecipeBrowser
 			mainPanel.SetPadding(6);
 			mainPanel.Left.Set(400f, 0f);
 			mainPanel.Top.Set(400f, 0f);
-			mainPanel.Width.Set(415f, 0f);
+			mainPanel.Width.Set(475f, 0f); // + 30
 			mainPanel.MinWidth.Set(415f, 0f);
 			mainPanel.MaxWidth.Set(784f, 0f);
 			mainPanel.Height.Set(350, 0f);
@@ -123,7 +135,7 @@ namespace RecipeBrowser
 			mainPanel.Append(TileLookupRadioButton);
 
 			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
-			modFilterButton.Left.Set(-208, 1f);
+			modFilterButton.Left.Set(-268, 1f);
 			modFilterButton.Top.Set(-4, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
 			modFilterButton.OnRightClick += ModFilterButton_OnRightClick;
@@ -160,7 +172,7 @@ namespace RecipeBrowser
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
-			itemNameFilter.Left.Set(-178, 1f);
+			itemNameFilter.Left.Set(-238, 1f);
 			itemNameFilter.Width.Set(150, 0f);
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
@@ -168,7 +180,7 @@ namespace RecipeBrowser
 			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
 			closeButton = new UIHoverImageButton(texture, "Close");
 			closeButton.OnClick += CloseButtonClicked;
-			closeButton.Left.Set(-20f, 1f);
+			closeButton.Left.Set(-80f, 1f);
 			closeButton.Top.Set(6f, 0f);
 			mainPanel.Append(closeButton);
 
@@ -176,7 +188,7 @@ namespace RecipeBrowser
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
-			itemDescriptionFilter.Left.Set(-178, 1f);
+			itemDescriptionFilter.Left.Set(-238, 1f);
 			itemDescriptionFilter.Width.Set(150, 0f);
 			itemDescriptionFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemDescriptionFilter);
@@ -184,7 +196,7 @@ namespace RecipeBrowser
 			inlaidPanel = new UIPanel();
 			inlaidPanel.SetPadding(6);
 			inlaidPanel.Top.Pixels = 60;
-			inlaidPanel.Width.Set(0, 1f);
+			inlaidPanel.Width.Set(-60, 1f);
 			inlaidPanel.Height.Set(-60 - 121, 1f);
 			inlaidPanel.BackgroundColor = Color.DarkBlue;
 			mainPanel.Append(inlaidPanel);
@@ -204,12 +216,31 @@ namespace RecipeBrowser
 
 			recipeInfo = new UIRecipeInfo();
 			recipeInfo.Top.Set(-118, 1f);
-			recipeInfo.Width.Set(0, 1f);
+			recipeInfo.Width.Set(-50, 1f);
 			recipeInfo.Height.Set(120, 0f);
 			mainPanel.Append(recipeInfo);
 
-			mainPanel.AddDragTarget(recipeInfo);
-			mainPanel.AddDragTarget(RadioButtonGroup);
+			UIPanel lootSourcePanel = new UIPanel();
+			lootSourcePanel.SetPadding(6);
+			lootSourcePanel.Top.Pixels = 0;
+			lootSourcePanel.Width.Set(50, 0f);
+			lootSourcePanel.Left.Set(-50, 1f);
+			lootSourcePanel.Height.Set(-16, 1f);
+			lootSourcePanel.BackgroundColor = Color.CornflowerBlue;
+			mainPanel.Append(lootSourcePanel);
+
+			lootSourceGrid = new UIGrid();
+			lootSourceGrid.Width.Set(0, 1f);
+			lootSourceGrid.Height.Set(0, 1f);
+			lootSourceGrid.ListPadding = 2f;
+			lootSourcePanel.Append(lootSourceGrid);
+
+			var lootSourceScrollbar = new InvisibleFixedUIScrollbar(userInterface);
+			lootSourceScrollbar.SetView(100f, 1000f);
+			lootSourceScrollbar.Height.Set(0, 1f);
+			lootSourceScrollbar.Left.Set(-20, 1f);
+			lootSourcePanel.Append(lootSourceScrollbar);
+			lootSourceGrid.SetScrollbar(lootSourceScrollbar);
 
 			favoritedRecipes = new List<UIRecipeSlot>();
 			recipeSlots = new List<UIRecipeSlot>();
@@ -229,8 +260,10 @@ namespace RecipeBrowser
 			favoritePanel.BackgroundColor = Color.Transparent;
 			//Append(favoritePanel);
 
+			mainPanel.AddDragTarget(recipeInfo);
+			mainPanel.AddDragTarget(RadioButtonGroup);
+
 			updateNeeded = true;
-			modIndex = mods.Length - 1;
 		}
 
 		//private void ItemChecklistRadioButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
@@ -294,7 +327,7 @@ namespace RecipeBrowser
 		{
 			button.texture = null;
 			Mod otherMod = ModLoader.GetMod(mods[modIndex]);
-			if(otherMod != null && otherMod.TextureExists("icon"))
+			if (otherMod != null && otherMod.TextureExists("icon"))
 			{
 				button.texture = otherMod.GetTexture("icon");
 			}
@@ -362,6 +395,7 @@ namespace RecipeBrowser
 				queryItem.ReplaceWithFake(0);
 			}
 
+			RecipeBrowserUI.instance.queryLootItem = null;
 			updateNeeded = true;
 		}
 
@@ -555,6 +589,36 @@ namespace RecipeBrowser
 					}
 				}
 			}
+
+			lootSourceGrid.Clear();
+			if (queryLootItem != null)
+			{
+				//var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
+				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
+				List<JSONNPC> npcsthatdropme;
+				if (LootCache.instance.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
+				{
+					foreach (var dropper in npcsthatdropme)
+					{
+						int id = dropper.id;
+						if (id == 0)
+						{
+							//it's a
+							Mod m = ModLoader.GetMod(dropper.mod);
+							if (m == null) continue;
+							id = m.NPCType(dropper.name);
+						}
+						NPC npc = new NPC();
+						npc.SetDefaults(id);
+						var slot = new UINPCSlot(npc);
+						//lootSourceGrid.Add(slot);
+						lootSourceGrid._items.Add(slot);
+						lootSourceGrid._innerList.Append(slot);
+					}
+				}
+			}
+			lootSourceGrid.UpdateOrder();
+			lootSourceGrid._innerList.Recalculate();
 
 			recipeGrid.Clear();
 			for (int i = 0; i < Recipe.numRecipes; i++)
