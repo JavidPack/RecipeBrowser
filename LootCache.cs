@@ -171,6 +171,7 @@ namespace RecipeBrowser
 
 	internal static class LootCacheManager
 	{
+		internal static bool LootCacheManagerActive;
 		internal static void Setup(Mod recipeBrowserMod)
 		{
 			// Save format:
@@ -206,6 +207,7 @@ namespace RecipeBrowser
 			string path = Path.Combine(folder, filename);
 			LootCache li = new LootCache();
 			bool needsRecalculate = true;
+			LootCacheManagerActive = true;
 			List<string> modsThatNeedRecalculate = new List<string>();
 			if (File.Exists(path))
 			{
@@ -333,6 +335,7 @@ namespace RecipeBrowser
 						npcsthatdropme.Add(jsonNPC);
 					}
 				}
+				loots.Clear();
 				// Reset temp values
 				Main.rand = null; // value 8 seconds.  // don't value to 0 and ignore.contains: 5 seconds.
 								  // value to 0, contains, 4 seconds.   .6 seconds without contains.
@@ -354,6 +357,7 @@ namespace RecipeBrowser
 				setLoadProgressText?.Invoke("Adding Recipes");
 				setLoadProgressProgress?.Invoke(0f);
 			}
+			LootCacheManagerActive = false;
 			LootCache.instance = li;
 		}
 
@@ -437,7 +441,8 @@ namespace RecipeBrowser
 	{
 		public override bool PreNPCLoot(NPC npc)
 		{
-			((List<int>)(NPCLoader.blockLoot)).AddRange(LootCacheManager.loots);
+			if(LootCacheManager.LootCacheManagerActive)
+				((List<int>)(NPCLoader.blockLoot)).AddRange(LootCacheManager.loots);
 			return true;
 		}
 	}
