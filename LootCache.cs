@@ -377,11 +377,15 @@ namespace RecipeBrowser
 
 			MethodInfo setTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadProgress").GetMethod("SetText", BindingFlags.Instance | BindingFlags.NonPublic);
 			MethodInfo setProgressMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadProgress").GetMethod("SetProgress", BindingFlags.Instance | BindingFlags.NonPublic);
-			MethodInfo setSubTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetMethod("SetSubProgressInit", BindingFlags.Instance | BindingFlags.NonPublic);
 
 			setLoadProgressText = (string s) => setTextMethod.Invoke(loadProgressObject, new object[] { s });
 			setLoadProgressProgress = (float f) => setProgressMethod.Invoke(loadProgressObject, new object[] { f });
-			setLoadSubProgressText = (string s) => setSubTextMethod.Invoke(loadModsObject, new object[] { s });
+
+			if (ModLoader.version >= new Version(0, 10, 1))
+			{
+				MethodInfo setSubTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetMethod("SetSubProgressInit", BindingFlags.Instance | BindingFlags.NonPublic);
+				setLoadSubProgressText = (string s) => setSubTextMethod.Invoke(loadModsObject, new object[] { s });
+			}
 		}
 
 		static int[] ignoreItemIDS = { ItemID.Heart, 1734, 1867, 184, 1735, 1868, ItemID.CopperCoin, ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin };
@@ -441,7 +445,7 @@ namespace RecipeBrowser
 	{
 		public override bool PreNPCLoot(NPC npc)
 		{
-			if(LootCacheManager.LootCacheManagerActive)
+			if (LootCacheManager.LootCacheManagerActive)
 				((List<int>)(NPCLoader.blockLoot)).AddRange(LootCacheManager.loots);
 			return true;
 		}
