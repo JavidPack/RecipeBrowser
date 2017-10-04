@@ -14,7 +14,7 @@ namespace RecipeBrowser
 				{
 					RecipeBrowserUI.instance.ShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
 					// Debug assistance, allows for reinitializing RecipeBrowserUI
-					//if (!RecipeBrowser.instance.recipeBrowserTool.visible)
+					//if (!RecipeBrowserUI.instance.ShowRecipeBrowser)
 					//{
 					//	RecipeBrowserUI.instance.RemoveAllChildren();
 					//	var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);

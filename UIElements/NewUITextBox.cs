@@ -35,16 +35,31 @@ namespace RecipeBrowser
 		{
 			this.hintText = hintText;
 			currentString = text;
-			//SetPadding(0);
+			SetPadding(0);
 			BackgroundColor = Color.White;
 			BorderColor = Color.White;
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
+
+			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
+			var closeButton = new UIHoverImageButton(texture, "");
+			closeButton.OnClick += (a, b) => SetText("");
+			closeButton.Left.Set(-20f, 1f);
+			//closeButton.Top.Set(0f, .5f);
+			closeButton.VAlign = 0.5f;
+			//closeButton.HAlign = 0.5f;
+			Append(closeButton);
 		}
 
 		public override void Click(UIMouseEvent evt)
 		{
 			Focus();
 			base.Click(evt);
+		}
+
+		public override void RightClick(UIMouseEvent evt)
+		{
+			base.RightClick(evt);
+			SetText("");
 		}
 
 		public void SetUnfocusKeys(bool unfocusOnEnter, bool unfocusOnTab)
@@ -138,7 +153,7 @@ namespace RecipeBrowser
 			{
 				text = text.ToString().Substring(0, this._maxLength);
 			}
-			if(currentString != text)
+			if (currentString != text)
 			{
 				currentString = text;
 				OnTextChanged?.Invoke();
