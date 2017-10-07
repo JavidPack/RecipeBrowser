@@ -272,9 +272,10 @@ namespace RecipeBrowser
 				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache");
 				setLoadProgressProgress?.Invoke(0f);
 
-				// expert drops?
-				Main.rand = new Terraria.Utilities.UnifiedRandom();
-				for (int playernum = 0; playernum < 256; playernum++)
+                // expert drops?
+                //Main.rand = new Terraria.Utilities.UnifiedRandom();
+                Main.rand = new LootUnifiedRandom();
+                for (int playernum = 0; playernum < 256; playernum++)
 				{
 					Main.player[playernum] = new Player();
 				}
@@ -402,7 +403,8 @@ namespace RecipeBrowser
 			{
 				try
 				{
-					npc.NPCLoot();
+                    LootUnifiedRandom.NextLoop(i);
+                    npc.NPCLoot();
 				}
 				catch
 				{
