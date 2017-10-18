@@ -61,7 +61,6 @@
 
 //		public UISlideWindow()
 //		{
-
 //		}
 
 //		protected override bool IsMouseInside()

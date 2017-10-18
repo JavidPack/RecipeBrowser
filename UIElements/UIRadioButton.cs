@@ -10,9 +10,10 @@ using Terraria.Graphics;
 
 namespace RecipeBrowser
 {
-	class UIRadioButton : UIText
+	internal class UIRadioButton : UIText
 	{
 		private Texture2D _toggleTexture;
+
 		public event EventHandler OnSelectedChanged;
 
 		private bool selected = false;
@@ -79,8 +80,6 @@ namespace RecipeBrowser
 			Vector2 pos = new Vector2(innerDimensions.X, innerDimensions.Y);
 
 			//spriteBatch.Draw(checkboxTexture, pos, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-
-
 
 			Rectangle value = new Rectangle(Selected ? ((_toggleTexture.Width - 2) / 2 + 2) : 0, 0, (_toggleTexture.Width - 2) / 2, this._toggleTexture.Height);
 			//Vector2 vector2 = new Vector2((float)value.Width, 0f);

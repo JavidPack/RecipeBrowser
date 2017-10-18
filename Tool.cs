@@ -6,18 +6,19 @@ namespace RecipeBrowser
 {
 	// UIState needs UserInterface for Scrollbar fixes
 	// Tool should store data? does it even matter?
-	abstract class Tool
+	internal abstract class Tool
 	{
 		//internal bool visible;
 		//internal string toggleTooltip;
 		internal UserInterface userInterface;
+
 		internal UIModState uistate;
-	//	Type uistateType;
+		//	Type uistateType;
 
 		public Tool(Type uistateType)
 		{
 			userInterface = new UserInterface();
-		//	this.uistateType = uistateType;
+			//	this.uistateType = uistateType;
 			uistate = (UIModState)Activator.CreateInstance(uistateType, new object[] { userInterface });
 			//uistate = (UIModState)Activator.CreateInstance(uistateType);
 
@@ -64,15 +65,18 @@ namespace RecipeBrowser
 			}
 		}
 
-		internal virtual void DrawUpdateToggle() { }
+		internal virtual void DrawUpdateToggle()
+		{
+		}
 
-		internal virtual void Toggled() { }
+		internal virtual void Toggled()
+		{
+		}
 
 		internal virtual void PostSetupContent()
 		{
 			if (!Main.dedServ)
 			{
-
 			}
 		}
 	}

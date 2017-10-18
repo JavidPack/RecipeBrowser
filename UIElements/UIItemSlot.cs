@@ -1,18 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using System;
 using Terraria.ID;
-using System.Linq;
-using System.Text;
+using Terraria.ModLoader;
+using Terraria.UI;
 using Terraria.UI.Chat;
 
-namespace RecipeBrowser
+namespace RecipeBrowser.UIElements
 {
-	class UIItemSlot : UIElement
+	internal class UIItemSlot : UIElement
 	{
 		public static Texture2D defaultBackgroundTexture = Main.inventoryBack9Texture;
 		public Texture2D backgroundTexture = defaultBackgroundTexture;
@@ -31,7 +27,8 @@ namespace RecipeBrowser
 
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
-		const int frameDelay = 7;
+		private const int frameDelay = 7;
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (item != null)
@@ -42,7 +39,6 @@ namespace RecipeBrowser
 				DrawAdditionalOverlays(spriteBatch, dimensions.Position(), scale);
 				if (!item.IsAir)
 				{
-
 					Texture2D itemTexture = Main.itemTexture[this.item.type];
 					Rectangle rectangle2;
 					if (Main.itemAnimations[item.type] != null)
@@ -94,6 +90,7 @@ namespace RecipeBrowser
 					{
 						spriteBatch.Draw(Main.wireTexture, dimensions.Position() + new Vector2(40f, 40f) * scale, new Rectangle?(new Rectangle(4, 58, 8, 8)), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 					}
+					DrawAdditionalBadges(spriteBatch, dimensions.Position(), scale);
 					if (item.stack > 1)
 					{
 						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, item.stack.ToString(), dimensions.Position() + new Vector2(10f, 26f) * scale, Color.White, 0f, Vector2.Zero, new Vector2(scale), -1f, scale);
@@ -126,6 +123,77 @@ namespace RecipeBrowser
 
 		internal virtual void DrawAdditionalOverlays(SpriteBatch spriteBatch, Vector2 vector2, float scale)
 		{
+		}
+
+		internal virtual void DrawAdditionalBadges(SpriteBatch spriteBatch, Vector2 vector2, float scale)
+		{
+		}
+	}
+
+	internal class UIItemCatalogueItemSlot : UIItemSlot
+	{
+		internal bool selected;
+
+		public UIItemCatalogueItemSlot(Item item, float scale = 0.75F) : base(item, scale)
+		{
+		}
+
+		public override void Click(UIMouseEvent evt)
+		{
+			ItemCatalogueUI.instance.SetItem(this);
+		}
+
+		public override void DoubleClick(UIMouseEvent evt)
+		{
+			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
+			RecipeCatalogueUI.instance.itemNameFilter.SetText("");
+			RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);
+			RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.RecipeCatalogue);
+		}
+
+		public override void RightDoubleClick(UIMouseEvent evt)
+		{
+			BestiaryUI.instance.npcNameFilter.SetText("");
+			BestiaryUI.instance.queryItem.ReplaceWithFake(item.type);
+			RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.Bestiary);
+		}
+
+		internal override void DrawAdditionalOverlays(SpriteBatch spriteBatch, Vector2 vector2, float scale)
+		{
+			base.DrawAdditionalOverlays(spriteBatch, vector2, scale);
+			if (selected)
+				spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+		}
+
+		internal override void DrawAdditionalBadges(SpriteBatch spriteBatch, Vector2 vector2, float scale)
+		{
+			base.DrawAdditionalBadges(spriteBatch, vector2, scale);
+			if (ItemCatalogueUI.instance.isLoot[item.type])
+				spriteBatch.Draw(Main.wire2Texture, vector2 + new Vector2(40f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+			if (ItemCatalogueUI.instance.craftResults[item.type])
+				spriteBatch.Draw(Main.wire3Texture, vector2 + new Vector2(10f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+			if (RecipeBrowserUI.instance.foundItems != null && !RecipeBrowserUI.instance.foundItems[item.type])
+				spriteBatch.Draw(Main.wire4Texture, vector2 + new Vector2(10f, 40f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+		}
+	}
+
+	internal class UIBestiaryItemSlot : UIItemSlot
+	{
+		public UIBestiaryItemSlot(Item item, float scale = 0.75F) : base(item, scale)
+		{
+		}
+
+		public override void DoubleClick(UIMouseEvent evt)
+		{
+			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
+			RecipeCatalogueUI.instance.itemNameFilter.SetText("");
+			RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);
+			RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.RecipeCatalogue);
+		}
+
+		public override void RightClick(UIMouseEvent evt)
+		{
+			BestiaryUI.instance.queryItem.ReplaceWithFake(item.type);
 		}
 	}
 }

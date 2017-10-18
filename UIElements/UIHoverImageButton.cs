@@ -19,8 +19,8 @@ namespace RecipeBrowser
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverText;
-			//	Main.toolTip = new Item();
-			//	Main.toolTip.name = hoverText;
+				//	Main.toolTip = new Item();
+				//	Main.toolTip.name = hoverText;
 			}
 		}
 	}

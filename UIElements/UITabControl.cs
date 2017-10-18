@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace RecipeBrowser
 {
-	class UITabControl : UIElement
+	internal class UITabControl : UIElement
 	{
 		internal UIPanel mainPanel;
 		private List<UIPanel> panels;

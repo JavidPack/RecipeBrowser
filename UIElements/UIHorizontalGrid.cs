@@ -1,14 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
 namespace RecipeBrowser
 {
-	public class UIGrid : UIElement
+	public class UIHorizontalGrid : UIElement
 	{
 		public delegate bool ElementSearchMethod(UIElement element);
 
@@ -36,9 +36,9 @@ namespace RecipeBrowser
 		}
 
 		public List<UIElement> _items = new List<UIElement>();
-		protected UIScrollbar _scrollbar;
-		internal UIElement _innerList = new UIGrid.UIInnerList();
-		private float _innerListHeight;
+		protected UIHorizontalScrollbar _scrollbar;
+		internal UIElement _innerList = new UIHorizontalGrid.UIInnerList();
+		private float _innerListWidth;
 		public float ListPadding = 5f;
 
 		public int Count
@@ -50,7 +50,7 @@ namespace RecipeBrowser
 		}
 
 		// todo, vertical/horizontal orientation, left to right, etc?
-		public UIGrid()
+		public UIHorizontalGrid()
 		{
 			this._innerList.OverflowHidden = false;
 			this._innerList.Width.Set(0f, 1f);
@@ -59,21 +59,21 @@ namespace RecipeBrowser
 			base.Append(this._innerList);
 		}
 
-		public float GetTotalHeight()
+		public float GetTotalWidth()
 		{
-			return this._innerListHeight;
+			return this._innerListWidth;
 		}
 
-		public void Goto(UIGrid.ElementSearchMethod searchMethod, bool center = false)
+		public void Goto(UIHorizontalGrid.ElementSearchMethod searchMethod, bool center = false)
 		{
 			for (int i = 0; i < this._items.Count; i++)
 			{
 				if (searchMethod(this._items[i]))
 				{
-					this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
+					this._scrollbar.ViewPosition = this._items[i].Left.Pixels;
 					if (center)
 					{
-						this._scrollbar.ViewPosition = this._items[i].Top.Pixels - GetInnerDimensions().Height / 2 + _items[i].GetOuterDimensions().Height / 2;
+						this._scrollbar.ViewPosition = this._items[i].Left.Pixels - GetInnerDimensions().Width / 2 + _items[i].GetOuterDimensions().Width / 2;
 					}
 					return;
 				}
@@ -127,28 +127,28 @@ namespace RecipeBrowser
 
 		public override void RecalculateChildren()
 		{
-			float availableWidth = GetInnerDimensions().Width;
+			float availableHeight = GetInnerDimensions().Height;
 			base.RecalculateChildren();
-			float top = 0f;
 			float left = 0f;
-			float maxRowHeight = 0f;
+			float top = 0f;
+			float maxRowWidth = 0f;
 			for (int i = 0; i < this._items.Count; i++)
 			{
 				var item = this._items[i];
 				var outerDimensions = item.GetOuterDimensions();
-				if (left + outerDimensions.Width > availableWidth && left > 0)
+				if (top + outerDimensions.Height > availableHeight && top > 0)
 				{
-					top += maxRowHeight + this.ListPadding;
-					left = 0;
-					maxRowHeight = 0;
+					left += maxRowWidth + this.ListPadding;
+					top = 0;
+					maxRowWidth = 0;
 				}
-				maxRowHeight = Math.Max(maxRowHeight, outerDimensions.Height);
-				item.Left.Set(left, 0f);
-				left += outerDimensions.Width + this.ListPadding;
+				maxRowWidth = Math.Max(maxRowWidth, outerDimensions.Width);
 				item.Top.Set(top, 0f);
+				top += outerDimensions.Height + this.ListPadding;
+				item.Left.Set(left, 0f);
 				item.Recalculate();
 			}
-			this._innerListHeight = top + maxRowHeight;
+			this._innerListWidth = left + maxRowWidth;
 		}
 
 		private void UpdateScrollbar()
@@ -157,10 +157,10 @@ namespace RecipeBrowser
 			{
 				return;
 			}
-			this._scrollbar.SetView(base.GetInnerDimensions().Height, this._innerListHeight);
+			this._scrollbar.SetView(base.GetInnerDimensions().Width, this._innerListWidth);
 		}
 
-		public void SetScrollbar(UIScrollbar scrollbar)
+		public void SetScrollbar(UIHorizontalScrollbar scrollbar)
 		{
 			this._scrollbar = scrollbar;
 			this.UpdateScrollbar();
@@ -196,7 +196,7 @@ namespace RecipeBrowser
 		{
 			if (this._scrollbar != null)
 			{
-				this._innerList.Top.Set(-this._scrollbar.GetValue(), 0f);
+				this._innerList.Left.Set(-this._scrollbar.GetValue(), 0f);
 			}
 			this.Recalculate();
 		}

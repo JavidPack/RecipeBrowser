@@ -9,9 +9,10 @@ using Microsoft.Xna.Framework;
 
 namespace RecipeBrowser
 {
-	class UIRadioButtonGroup : UIElement
+	internal class UIRadioButtonGroup : UIElement
 	{
-		int idCount = 0;
+		private int idCount = 0;
+
 		public UIRadioButtonGroup()
 		{
 			this.Height.Set(20f, 0f);
@@ -27,7 +28,6 @@ namespace RecipeBrowser
 			Append(radioButton);
 			Height.Set(20f * idCount, 0f);
 			Recalculate();
-
 		}
 
 		internal void ButtonClicked(int id)

@@ -12,13 +12,14 @@ using System.Collections.Generic;
 
 namespace RecipeBrowser.UIElements
 {
-	class UINPCSlot : UIElement
+	internal class UINPCSlot : UIElement
 	{
 		public static Texture2D selectedBackgroundTexture = Main.inventoryBack15Texture;
 		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
 		private float scale = .75f;
 		public int npcType;
 		public NPC npc;
+		public bool selected;
 
 		private int clickIndicatorTime = 0;
 		private const int ClickTime = 30;
@@ -40,7 +41,8 @@ namespace RecipeBrowser.UIElements
 
 		internal int frameCounter = 0;
 		internal int frameTimer = 0;
-		const int frameDelay = 7;
+		private const int frameDelay = 7;
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			Main.instance.LoadNPC(npcType);
@@ -67,7 +69,7 @@ namespace RecipeBrowser.UIElements
 			int width = npcTexture.Width;
 
 			float drawScale = 2f;
-			float availableWidth = (float)backgroundTexture.Width * scale;
+			float availableWidth = (float)backgroundTexture.Width * scale - 6;
 			if (width * drawScale > availableWidth || height * drawScale > availableWidth)
 			{
 				if (width > height)
@@ -99,10 +101,8 @@ namespace RecipeBrowser.UIElements
 			return /*-1 * */npcType.CompareTo(other.npcType);
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public SortedSet<int> GetDrops()
 		{
-			clickIndicatorTime = ClickTime;
-			// Calculate
 			SortedSet<int> drops = new SortedSet<int>();
 			foreach (var kvp in LootCache.instance.lootInfos)
 			{
@@ -115,32 +115,83 @@ namespace RecipeBrowser.UIElements
 				}
 			}
 			drops.Remove(0);
-			StringBuilder sb = new StringBuilder();
+			return drops;
+		}
 
-			sb.Append($"{Lang.GetNPCNameValue(npc.type)} drops: ");
-			foreach (var item in drops)
+		public override void Click(UIMouseEvent evt)
+		{
+			clickIndicatorTime = ClickTime;
+			// Calculate
+			var drops = GetDrops();
+
+			if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.RecipeCatalogue)
 			{
-				sb.Append($"[i:{item}]");
-			}
+				StringBuilder sb = new StringBuilder();
 
-			Main.NewText(sb.ToString());
+				sb.Append($"{Lang.GetNPCNameValue(npc.type)} drops: ");
+				foreach (var item in drops)
+				{
+					sb.Append($"[i:{item}]");
+				}
+
+				Main.NewText(sb.ToString());
+			}
+			else if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.Bestiary)
+			{
+				// Ug. double click calls click again after double click, leading to this being called on the wrong set.
+				if (BestiaryUI.instance.npcSlots.Contains(this))
+				{
+					BestiaryUI.instance.queryLootNPC = this;
+					BestiaryUI.instance.updateNeeded = true;
+					BestiaryUI.instance.SetNPC(this);
+				}
+			}
 		}
 
 		public override void DoubleClick(UIMouseEvent evt)
 		{
 			// Open up bestiary tab
 			// Large grid for npc
-			// 
+			//
 			// Small drops grid
 
 			// Catalogue double click? recipe ingredient?
 			// quickly visiting catalogue not really needed...just share type so scroll to it/select it when switch tabs
 
-			// Make 
+			// Make
+			if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.RecipeCatalogue)
+			{
+				RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.Bestiary);
+				BestiaryUI.instance.npcNameFilter.SetText("");
+				BestiaryUI.instance.queryItem.ReplaceWithFake(0);
+				// Need update before Goto
+				BestiaryUI.instance.updateNeeded = true;
+				BestiaryUI.instance.Update();
+				BestiaryUI.instance.npcGrid.Recalculate();
+				BestiaryUI.instance.npcGrid.Goto((element) =>
+				{
+					UINPCSlot slot = element as UINPCSlot;
+					if (slot != null)
+					{
+						if (slot.npcType == this.npcType)
+						{
+							BestiaryUI.instance.queryLootNPC = slot;
+							BestiaryUI.instance.updateNeeded = true;
+							BestiaryUI.instance.SetNPC(slot);
+							return true;
+						}
+						return false;
+					}
+					return false;
+				}, true);
+			}
 		}
 
 		internal void DrawAdditionalOverlays(SpriteBatch spriteBatch, Vector2 vector2, float scale)
 		{
+			if (selected)
+				spriteBatch.Draw(selectedBackgroundTexture, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
 			if (clickIndicatorTime > 0)
 			{
 				clickIndicatorTime--;

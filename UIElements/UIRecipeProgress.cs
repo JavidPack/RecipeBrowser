@@ -4,13 +4,14 @@ using Terraria.UI;
 
 namespace RecipeBrowser.UIElements
 {
-	class UIRecipeProgress : UIElement
+	internal class UIRecipeProgress : UIElement
 	{
-		int order;
+		private int order;
+
 		public UIRecipeProgress(int index, Recipe recipe, int order)
 		{
 			this.order = order;
-			UIMockRecipeSlot create = new UIMockRecipeSlot(RecipeBrowserUI.instance.recipeSlots[index]);
+			UIMockRecipeSlot create = new UIMockRecipeSlot(RecipeCatalogueUI.instance.recipeSlots[index]);
 			create.Recalculate();
 			create.Left.Set(-create.Width.Pixels, 1f);
 			var b = create.GetOuterDimensions();
@@ -33,12 +34,12 @@ namespace RecipeBrowser.UIElements
 			Width.Pixels = x + 12;
 		}
 
-		bool updateNeeded;
+		private bool updateNeeded;
+
 		public override void Update(GameTime gameTime)
 		{
 			if (!updateNeeded) return;
 			updateNeeded = false;
-
 		}
 
 		public override int CompareTo(object obj)

@@ -32,7 +32,6 @@ namespace RecipeBrowser
 
 	public class InvisibleFixedUIScrollbar : FixedUIScrollbar
 	{
-
 		public InvisibleFixedUIScrollbar(UserInterface userInterface) : base(userInterface)
 		{
 		}

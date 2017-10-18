@@ -2,7 +2,7 @@
 
 namespace RecipeBrowser
 {
-	class UIModState : UIState
+	internal class UIModState : UIState
 	{
 		internal UserInterface userInterface;
 

@@ -9,10 +9,11 @@ using Terraria.UI;
 
 namespace RecipeBrowser.UIElements
 {
-	class UIQueryItemSlot : UIItemSlot
+	internal class UIQueryItemSlot : UIItemSlot
 	{
 		public static Texture2D backgroundTextureFake = Main.inventoryBack8Texture;
 		internal bool real = true;
+
 		public event Action OnItemChanged;
 
 		public UIQueryItemSlot(Item item) : base(item)
@@ -44,12 +45,9 @@ namespace RecipeBrowser.UIElements
 				OnItemChanged?.Invoke();
 			}
 			backgroundTexture = real ? defaultBackgroundTexture : backgroundTextureFake;
-
-			RecipeBrowserUI.instance.queryLootItem = (item.type == 0) ? null : item;
-			RecipeBrowserUI.instance.updateNeeded = true;
 		}
 
-		internal void ReplaceWithFake(int type)
+		internal virtual void ReplaceWithFake(int type)
 		{
 			if (real && item.stack > 0)
 			{
@@ -74,8 +72,6 @@ namespace RecipeBrowser.UIElements
 			real = type == 0;
 			backgroundTexture = real ? defaultBackgroundTexture : backgroundTextureFake;
 			OnItemChanged?.Invoke();
-
-			RecipeBrowserUI.instance.updateNeeded = true;
 		}
 	}
 }

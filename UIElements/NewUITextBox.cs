@@ -1,34 +1,41 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using ReLogic.Graphics;
+using System;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using Terraria;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 
 namespace RecipeBrowser
 {
-	class NewUITextBox : UIPanel//UITextPanel<string>
+	internal class NewUITextBox : UIPanel//UITextPanel<string>
 	{
 		internal bool focused = false;
+
 		//private int _cursor;
 		//private int _frameCount;
 		private int _maxLength = 60;
+
 		private string hintText;
 		internal string currentString = "";
 		private int textBlinkerCount;
 		private int textBlinkerState;
 
 		public event Action OnFocus;
+
 		public event Action OnUnfocus;
+
 		public event Action OnTextChanged;
+
 		public event Action OnTabPressed;
+
 		public event Action OnEnterPressed;
+
 		//public event Action OnUpPressed;
 		internal bool unfocusOnEnter = true;
-		internal bool unfocusOnTab = true;
 
+		internal bool unfocusOnTab = true;
 
 		//public NewUITextBox(string text, float textScale = 1, bool large = false) : base("", textScale, large)
 		public NewUITextBox(string hintText, string text = "")
@@ -192,7 +199,7 @@ namespace RecipeBrowser
 			}
 		}*/
 
-		static bool JustPressed(Keys key)
+		private static bool JustPressed(Keys key)
 		{
 			return Main.inputText.IsKeyDown(key) && !Main.oldInputText.IsKeyDown(key);
 		}

@@ -6,9 +6,10 @@ using Terraria.UI.Chat;
 
 namespace RecipeBrowser.UIElements
 {
-	class UITrackIngredientSlot : UIIngredientSlot
+	internal class UITrackIngredientSlot : UIIngredientSlot
 	{
-		int targetStack;
+		private int targetStack;
+
 		public UITrackIngredientSlot(Item item, int targetStack) : base(item)
 		{
 			this.targetStack = targetStack;

@@ -8,11 +8,12 @@ namespace RecipeBrowser.UIElements
 {
 	// used as a duplicate
 	// Todo, temporary?
-	class UIMockRecipeSlot : UIItemSlot
+	internal class UIMockRecipeSlot : UIItemSlot
 	{
 		public static Texture2D ableToCraftBackgroundTexture;
 		public static Texture2D unableToCraftBackgroundTexture = Main.inventoryBack11Texture;
-		UIRecipeSlot slot;
+		private UIRecipeSlot slot;
+
 		public UIMockRecipeSlot(UIRecipeSlot slot, float scale = 0.75f) : base(slot.item, scale)
 		{
 			this.slot = slot;

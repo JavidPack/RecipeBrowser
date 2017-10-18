@@ -20,21 +20,21 @@ namespace RecipeBrowser
 		//{
 		//	for (int i = 0; i < Recipe.maxRequirements; i++)
 		//	{
-		//		var ingredient = new 
+		//		var ingredient = new
 		//		Append()
 		//	}
 		//}
 
-			const int cols = 5;
+		private const int cols = 5;
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			//Rectangle hitbox = GetInnerDimensions().ToRectangle();
 			//Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightBlue * 0.6f);
 
-			if (RecipeBrowserUI.instance.selectedIndex < 0) return;
+			if (RecipeCatalogueUI.instance.selectedIndex < 0) return;
 
-			Recipe selectedRecipe = Main.recipe[RecipeBrowserUI.instance.selectedIndex];
+			Recipe selectedRecipe = Main.recipe[RecipeCatalogueUI.instance.selectedIndex];
 
 			CalculatedStyle innerDimensions = GetInnerDimensions();
 			Vector2 pos = innerDimensions.Position();
@@ -73,7 +73,7 @@ namespace RecipeBrowser
 						{
 							if(tileID < TileID.Count)
 								tileName = $"Tile {tileID}";
-							else 
+							else
 								tileName = Terraria.ModLoader.TileLoader.GetTile(tileID).Name + " (err no entry)";
 						}
 						Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, tileName, new Vector2(positionX, positionY + num63), Main.LocalPlayer.adjTile[tileID] ?  yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);

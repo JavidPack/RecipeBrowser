@@ -19,10 +19,13 @@ namespace RecipeBrowser
 		public static LootCache instance;
 
 		public Version recipeBrowserVersion;
+
 		//public int iterations;
 		public long lastUpdateTime;
+
 		//public List<Tuple<string, Version>> cachedMods; // Dictionary better?
 		public Dictionary<string, Version> cachedMods;
+
 		public Dictionary<JSONItem, List<JSONNPC>> lootInfos;
 
 		public LootCache()
@@ -125,18 +128,18 @@ namespace RecipeBrowser
 	{
 		// Overrides the CanConvertFrom method of TypeConverter.
 		// The ITypeDescriptorContext interface provides the context for the
-		// conversion. Typically, this interface is used at design time to 
+		// conversion. Typically, this interface is used at design time to
 		// provide information about the design-time container.
 		public override bool CanConvertFrom(ITypeDescriptorContext context,
 		   Type sourceType)
 		{
-
 			if (sourceType == typeof(string))
 			{
 				return true;
 			}
 			return base.CanConvertFrom(context, sourceType);
 		}
+
 		// Overrides the ConvertFrom method of TypeConverter.
 		public override object ConvertFrom(ITypeDescriptorContext context,
 		   CultureInfo culture, object value)
@@ -152,6 +155,7 @@ namespace RecipeBrowser
 			}
 			return base.ConvertFrom(context, culture, value);
 		}
+
 		// Overrides the ConvertTo method of TypeConverter.
 		public override object ConvertTo(ITypeDescriptorContext context,
 		   CultureInfo culture, object value, Type destinationType)
@@ -172,12 +176,13 @@ namespace RecipeBrowser
 	internal static class LootCacheManager
 	{
 		internal static bool LootCacheManagerActive;
+
 		internal static void Setup(Mod recipeBrowserMod)
 		{
 			// Save format:
 			/*
 			 * .. hmm, vanilla item drops...do I have to recalculate each time? New Set of mods => complete refresh?
-			 * 
+			 *
 			 * RecipeBrowserVersion // So if we add more features we can ignore this file
 			 * [ of Mod Info
 			 * -> ModName
@@ -189,16 +194,16 @@ namespace RecipeBrowser
 			 * ---> OR
 			 * --> Item Info
 			 * ---> ["NPCInfo" with droprate]
-			 * --> 
+			 * -->
 			 * -> ]
 			 * ]
-			 * 
+			 *
 			 * hmm, instead of mod info, just a list of npc? just a list of Item?
-			 * 
+			 *
 			 * <Mod, Version>[] --> For knowing which have updated....for now, any update or unaccounted mod, recalculate allll
 			 * ItemInfo[] JSONNPC and array of JSONNPC that drop it. (forget droprates for now?)
-			 * 
-			 * 
+			 *
+			 *
 			 * item to npc or npc to item....
 			 */
 			string json;
@@ -236,7 +241,7 @@ namespace RecipeBrowser
 				Mod m = ModLoader.GetMod(mod);
 				string modName = m.Name == "ModLoader" ? "Terraria" : m.Name;
 				if (!li.cachedMods.Any(x => x.Key == modName && x.Value == m.Version)) // if this mod is either updated or doesn't exist yet
-																					   //if (li.cachedMods.ContainsKey(modName) && li.cachedMods[modName] == m.Version) 
+																					   //if (li.cachedMods.ContainsKey(modName) && li.cachedMods[modName] == m.Version)
 				{
 					needsRecalculate = true;
 					// Remove mod from list
@@ -273,7 +278,6 @@ namespace RecipeBrowser
 				setLoadProgressProgress?.Invoke(0f);
 
 				// expert drops?
-				Main.rand = new Terraria.Utilities.UnifiedRandom();
 				for (int playernum = 0; playernum < 256; playernum++)
 				{
 					Main.player[playernum] = new Player();
@@ -299,8 +303,10 @@ namespace RecipeBrowser
 				Item item = new Item();
 				loots = new HashSet<int>();
 				string lastMod = "";
-				var watch = System.Diagnostics.Stopwatch.StartNew();
-
+				var watch = Stopwatch.StartNew();
+				var oldRand = Main.rand;
+				if (Main.rand == null)
+					Main.rand = new Terraria.Utilities.UnifiedRandom();
 
 				for (int i = 1; i < NPCLoader.NPCCount; i++) // for every npc...
 				{
@@ -337,7 +343,7 @@ namespace RecipeBrowser
 				}
 				loots.Clear();
 				// Reset temp values
-				Main.rand = null; // value 8 seconds.  // don't value to 0 and ignore.contains: 5 seconds.
+				Main.rand = oldRand; // value 8 seconds.  // don't value to 0 and ignore.contains: 5 seconds.
 								  // value to 0, contains, 4 seconds.   .6 seconds without contains.
 				Main.maxTilesX = oldMx;
 				Main.maxTilesY = oldMy;
@@ -364,6 +370,7 @@ namespace RecipeBrowser
 		private static Action<string> setLoadProgressText;
 		private static Action<float> setLoadProgressProgress;
 		private static Action<string> setLoadSubProgressText;
+
 		private static void Reflect()
 		{
 			Assembly assembly = Assembly.GetAssembly(typeof(Mod));
@@ -388,20 +395,30 @@ namespace RecipeBrowser
 			}
 		}
 
-		static int[] ignoreItemIDS = { ItemID.Heart, 1734, 1867, 184, 1735, 1868, ItemID.CopperCoin, ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin };
+		private static int[] ignoreItemIDS = { ItemID.Heart, 1734, 1867, 184, 1735, 1868, ItemID.CopperCoin, ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin };
 
 		public const int MaxNumberLootExperiments = 5000;
 		internal static HashSet<int> loots;
+
 		internal static void CalculateLoot(NPC npc)
 		{
 			if (npc.type == NPCID.WallofFlesh) Main.hardMode = true;//return;
 																	// Hmmmmmm, start hardmode code might overwrite world....
 			npc.Center = new Microsoft.Xna.Framework.Vector2(1000, 1000);
 			int iterationsWithNoChange = 0;
+
+			var realRandom = Main.rand;
+			var fakeRandom = new LootUnifiedRandom();
+
 			for (int i = 0; i < MaxNumberLootExperiments; i++)
 			{
+				if (i == 0)
+					Main.rand = fakeRandom;
+				if (i == 50)
+					Main.rand = realRandom;
 				try
 				{
+					LootUnifiedRandom.loop = i;
 					npc.NPCLoot();
 				}
 				catch
@@ -422,6 +439,8 @@ namespace RecipeBrowser
 						loots.Add(item.type); // hmm, Item.NewItem reverseLookup?
 						item.active = false;
 						anyNew = true;
+						//if (iterationsWithNoChange > 150)
+						//	Debug.WriteLine($"{i}: {iterationsWithNoChange} {item.Name}");
 					}
 					else
 					{

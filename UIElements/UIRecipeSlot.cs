@@ -7,7 +7,7 @@ using System;
 
 namespace RecipeBrowser.UIElements
 {
-	class UIRecipeSlot : UIItemSlot
+	internal class UIRecipeSlot : UIItemSlot
 	{
 		public static Texture2D selectedBackgroundTexture;
 		public static Texture2D recentlyDiscoveredBackgroundTexture = Main.inventoryBack8Texture;
@@ -30,13 +30,13 @@ namespace RecipeBrowser.UIElements
 				favorited = !favorited;
 				// trigger update since this reorders things
 				RecipeBrowserUI.instance.FavoriteChange(this);
-				RecipeBrowserUI.instance.updateNeeded = true;
+				RecipeCatalogueUI.instance.updateNeeded = true;
 			}
 			else
 			{
-				RecipeBrowserUI.instance.SetRecipe(index);
-				RecipeBrowserUI.instance.queryLootItem = Main.recipe[index].createItem;
-				RecipeBrowserUI.instance.updateNeeded = true;
+				RecipeCatalogueUI.instance.SetRecipe(index);
+				RecipeCatalogueUI.instance.queryLootItem = Main.recipe[index].createItem;
+				RecipeCatalogueUI.instance.updateNeeded = true;
 			}
 
 			for (int n = 0; n < Main.numAvailableRecipes; n++)
@@ -55,9 +55,9 @@ namespace RecipeBrowser.UIElements
 		{
 			if (Main.keyState.IsKeyDown(Main.FavoriteKey))
 				return;
-			RecipeBrowserUI.instance.itemDescriptionFilter.SetText("");
-			RecipeBrowserUI.instance.itemNameFilter.SetText("");
-			RecipeBrowserUI.instance.queryItem.ReplaceWithFake(item.type);
+			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
+			RecipeCatalogueUI.instance.itemNameFilter.SetText("");
+			RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);
 		}
 
 		public override int CompareTo(object obj)

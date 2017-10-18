@@ -5,3 +5,5 @@ Click on any Recipe to see details. Use categories and search filter to find the
 Alt click on a recipe to pin a recipe.
 
 Place an item in the slot to find related recipes.
+
+Also try out the Item Catalogue and Bestiary.

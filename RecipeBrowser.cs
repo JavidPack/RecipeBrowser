@@ -7,15 +7,17 @@ using Terraria.UI;
 
 namespace RecipeBrowser
 {
-	class RecipeBrowser : Mod
+	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
 		internal static Mod itemChecklistInstance;
 		internal ModHotKey ToggleRecipeBrowserHotKey;
+
 		//internal bool CheatSheetLoaded = false;
 		internal RecipeBrowserTool recipeBrowserTool;
-		int lastSeenScreenWidth;
-		int lastSeenScreenHeight;
+
+		private int lastSeenScreenWidth;
+		private int lastSeenScreenHeight;
 		internal static bool[] chestContentsAvailable = new bool[1000];
 
 		// TODO, Chinese IME support
@@ -54,6 +56,8 @@ namespace RecipeBrowser
 				UIElements.UIRecipeSlot.selectedBackgroundTexture = GetTexture("Images/SelectedOverlay");
 				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
 				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
+				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
+				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
 			}
 		}
 
@@ -61,11 +65,19 @@ namespace RecipeBrowser
 		{
 			instance = null;
 			itemChecklistInstance = null;
+			LootCache.instance = null;
 			ToggleRecipeBrowserHotKey = null;
+			RecipeBrowserUI.instance = null;
+			RecipeCatalogueUI.instance = null;
+			ItemCatalogueUI.instance = null;
+			BestiaryUI.instance = null;
+
 			UIElements.UIRecipeSlot.favoritedBackgroundTexture = null;
 			UIElements.UIRecipeSlot.selectedBackgroundTexture = null;
 			UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = null;
 			UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = null;
+			UIElements.UICheckbox.checkboxTexture = null;
+			UIElements.UICheckbox.checkmarkTexture = null;
 		}
 
 		public override void PostSetupContent()
@@ -145,12 +157,14 @@ namespace RecipeBrowser
 						message.Send(whoAmI);
 					}
 					break;
+
 				case MessageType.SilentSendChestContentsComplete:
 					int completedChestindex = reader.ReadInt32();
 					chestContentsAvailable[completedChestindex] = true;
-					RecipeBrowserUI.instance.updateNeeded = true;
+					RecipeCatalogueUI.instance.updateNeeded = true;
 					//Main.NewText($"Complete on {completedChestindex}");
 					break;
+
 				default:
 					//DebugText("Unknown Message type: " + msgType);
 					break;
@@ -173,16 +187,17 @@ namespace RecipeBrowser
 	//	}
 	//}
 
-	enum MessageType : byte
+	internal enum MessageType : byte
 	{
 		/// <summary>
-		/// Vanilla client sends 31 to server, getting 32s, 33, and 80 in response, also claiming the chest open. 
-		/// We don't want that, so we'll do an alternate version of that 
+		/// Vanilla client sends 31 to server, getting 32s, 33, and 80 in response, also claiming the chest open.
+		/// We don't want that, so we'll do an alternate version of that
 		/// 32 for each item -- Want
 		/// We don't want 33 -- Syncs name, make noise.
 		/// We don't want 80 -- informs others that the chest is open
 		/// </summary>
 		SilentRequestChestContents,
+
 		/// <summary>
 		/// Once the 40 items are sent, send this packet so we don't have to wait anymore
 		/// </summary>

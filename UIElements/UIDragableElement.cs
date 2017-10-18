@@ -2,13 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
 using Terraria.UI;
 
 namespace RecipeBrowser
 {
-	internal class UIDragablePanel : UIPanel
+	internal class UIDragableElement : UIElement
 	{
 		private static Texture2D dragTexture;
 		private Vector2 offset;
@@ -23,7 +22,7 @@ namespace RecipeBrowser
 		private List<UIElement> additionalDragTargets;
 
 		// TODO, move panel back in if offscreen? prevent drag off screen?
-		public UIDragablePanel(bool dragable = true, bool resizeableX = false, bool resizeableY = false)
+		public UIDragableElement(bool dragable = true, bool resizeableX = false, bool resizeableY = false)
 		{
 			this.dragable = dragable;
 			this.resizeableX = resizeableX;
@@ -69,9 +68,11 @@ namespace RecipeBrowser
 			CalculatedStyle innerDimensions = GetInnerDimensions();
 			if (evt.Target == this || additionalDragTargets.Contains(evt.Target))
 			{
-				if (resizeable && new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 12), (int)(innerDimensions.Y + innerDimensions.Height - 12), 12 + 6, 12 + 6).Contains(evt.MousePosition.ToPoint()))
+				if (resizeable && new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 18), (int)(innerDimensions.Y + innerDimensions.Height - 18), 18, 18).Contains(evt.MousePosition.ToPoint()))
+				//if (resizeable && new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 12), (int)(innerDimensions.Y + innerDimensions.Height - 12), 12 + 6, 12 + 6).Contains(evt.MousePosition.ToPoint()))
 				{
-					offset = new Vector2(evt.MousePosition.X - innerDimensions.X - innerDimensions.Width - 6, evt.MousePosition.Y - innerDimensions.Y - innerDimensions.Height - 6);
+					offset = new Vector2(evt.MousePosition.X - innerDimensions.X - innerDimensions.Width, evt.MousePosition.Y - innerDimensions.Y - innerDimensions.Height);
+					//offset = new Vector2(evt.MousePosition.X - innerDimensions.X - innerDimensions.Width - 6, evt.MousePosition.Y - innerDimensions.Y - innerDimensions.Height - 6);
 					resizeing = true;
 				}
 				else if (dragable)
@@ -93,6 +94,9 @@ namespace RecipeBrowser
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			//Rectangle hitbox = GetInnerDimensions().ToRectangle();
+			//Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
+
 			CalculatedStyle dimensions = base.GetOuterDimensions();
 			if (ContainsPoint(Main.MouseScreen))
 			{
@@ -121,18 +125,24 @@ namespace RecipeBrowser
 				Recalculate();
 			}
 			base.DrawSelf(spriteBatch);
+		}
+
+		protected override void DrawChildren(SpriteBatch spriteBatch)
+		{
+			base.DrawChildren(spriteBatch);
 			if (resizeable)
 			{
-				DrawDragAnchor(spriteBatch, dragTexture, this.BorderColor);
+				DrawDragAnchor(spriteBatch, dragTexture, Color.Black/*this.BorderColor*/);
 			}
 		}
 
 		private void DrawDragAnchor(SpriteBatch spriteBatch, Texture2D texture, Color color)
 		{
-			CalculatedStyle dimensions = GetDimensions();
+			CalculatedStyle dimensions = GetOuterDimensions();
 
-			//	Rectangle hitbox = GetInnerDimensions().ToRectangle();
-			//	Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightBlue * 0.6f);
+			//Rectangle hitbox = GetInnerDimensions().ToRectangle();
+			//hitbox = new Rectangle((int)(innerDimensions.X + innerDimensions.Width - 18), (int)(innerDimensions.Y + innerDimensions.Height - 18), 18, 18);
+			//Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.LightBlue * 0.6f);
 
 			Point point = new Point((int)(dimensions.X + dimensions.Width - 12), (int)(dimensions.Y + dimensions.Height - 12));
 			spriteBatch.Draw(texture, new Rectangle(point.X - 2, point.Y - 2, 12 - 2, 12 - 2), new Rectangle(12 + 4, 12 + 4, 12, 12), color);

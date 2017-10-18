@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace RecipeBrowser
 {
-	class RecipeBrowserGlobalItem : GlobalItem
+	internal class RecipeBrowserGlobalItem : GlobalItem
 	{
 		// OnPIckup only called on LocalPlayer: I think
 		public override void OnCraft(Item item, Recipe recipe)

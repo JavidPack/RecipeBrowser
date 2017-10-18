@@ -1,10 +1,10 @@
-﻿using Terraria.ModLoader;
+﻿using System.Reflection;
 using Terraria.GameInput;
-using System.Reflection;
+using Terraria.ModLoader;
 
 namespace RecipeBrowser
 {
-	class RecipeBrowserPlayer : ModPlayer
+	internal class RecipeBrowserPlayer : ModPlayer
 	{
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
