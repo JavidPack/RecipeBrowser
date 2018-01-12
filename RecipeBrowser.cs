@@ -7,6 +7,13 @@ using Terraria.UI;
 
 namespace RecipeBrowser
 {
+	// Magic storage: item checklist support?
+	// Any iron bar not working for starred
+	// TODO: Autostar items needed for starred recipes.
+	// TODO: Save starred recipes. Also, crafting check off starred last time, look into it.
+	// TODO: Hide Items, items not interested in crafting. Only show if query item is that item (so you can still know how to craft if needed in craft chain.)
+	// TODO: Star Loot
+	// TODO: Invesitgate Update placement. (Tiles purple flash)
 	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;

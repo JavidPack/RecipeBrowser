@@ -21,6 +21,8 @@ namespace RecipeBrowser.UIElements
 			base.ReplaceWithFake(type);
 			RecipeCatalogueUI.instance.queryLootItem = item;
 			RecipeCatalogueUI.instance.updateNeeded = true;
+			RecipeCatalogueUI.instance.Tile = -1;
+			RecipeCatalogueUI.instance.TileLookupRadioButton.Selected = false;
 		}
 	}
 }

@@ -200,6 +200,7 @@ namespace RecipeBrowser
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
 			modFilterButton.OnRightClick += ModFilterButton_OnRightClick;
+			modFilterButton.OnMiddleClick += ModFilterButton_OnMiddleClick;
 			button.Append(modFilterButton);
 
 			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
@@ -250,6 +251,15 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			button.hoverText = "Mod Filter: " + GetModFilterTooltip(false);
+			UpdateModHoverImage(button);
+			AllUpdateNeeded();
+		}
+
+		private void ModFilterButton_OnMiddleClick(UIMouseEvent evt, UIElement listeningElement)
+		{
+			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
+			modIndex = mods.Length - 1;
+			button.hoverText = "Mod Filter: All";
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}

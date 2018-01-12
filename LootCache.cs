@@ -311,7 +311,7 @@ namespace RecipeBrowser
 				for (int i = 1; i < NPCLoader.NPCCount; i++) // for every npc...
 				{
 					npc.SetDefaults(i);
-					npc.value = 0;
+					npc.value = 0; // Causes some drops to be missed, why is this here?
 					string currentMod = npc.modNPC?.mod.Name ?? "Terraria";
 					if (!modsThatNeedRecalculate.Contains(currentMod))
 						continue;

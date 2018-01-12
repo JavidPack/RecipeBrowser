@@ -19,6 +19,25 @@ namespace RecipeBrowser
 		internal UICheckbox TileLookupRadioButton;
 
 		internal Item queryLootItem;
+
+		private int tile = -1;
+		internal int Tile
+		{
+			get { return tile; }
+			set
+			{
+				if (tile != value)
+					updateNeeded = true;
+				tile = value;
+				foreach (var tileSlot in tileSlots)
+				{
+					tileSlot.selected = false;
+					if (tileSlot.tile == value)
+						tileSlot.selected = true;
+				}
+			}
+		}
+
 		//	internal UICheckbox inventoryFilter;
 
 		internal NewUITextBox itemNameFilter;
@@ -26,9 +45,13 @@ namespace RecipeBrowser
 		//	internal UIHoverImageButton clearNameFilterButton;
 		internal NewUITextBox itemDescriptionFilter;
 
+		internal UIPanel mainPanel;
 		internal UIPanel recipeGridPanel;
 		internal UIGrid recipeGrid;
 		internal UIGrid lootSourceGrid;
+		internal UIPanel tileChooserPanel;
+		internal UICycleImage uniqueCheckbox;
+		internal UIGrid tileChooserGrid;
 
 		internal UIRecipeInfo recipeInfo;
 		internal UIRadioButton NearbyIngredientsRadioBitton;
@@ -38,6 +61,7 @@ namespace RecipeBrowser
 		internal int selectedIndex = -1;
 		internal int newestItem = 0;
 		internal List<UIRecipeSlot> recipeSlots;
+		internal List<UITileSlot> tileSlots;
 
 		internal bool updateNeeded;
 
@@ -48,7 +72,7 @@ namespace RecipeBrowser
 
 		internal UIElement CreateRecipeCataloguePanel()
 		{
-			UIPanel mainPanel = new UIPanel();
+			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
 			//			mainPanel.Left.Set(400f, 0f);
 			//			mainPanel.Top.Set(400f, 0f);
@@ -68,15 +92,14 @@ namespace RecipeBrowser
 			queryItem = new UIRecipeCatalogueQueryItemSlot(new Item());
 			queryItem.Top.Set(2, 0f);
 			queryItem.Left.Set(2, 0f);
-			queryItem.OnItemChanged += () => { TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
+			//queryItem.OnItemChanged += () => { Main.NewText("Item changed?"); TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
 
 			TileLookupRadioButton = new UICheckbox("Tile", "");
 			TileLookupRadioButton.Top.Set(42, 0f);
 			TileLookupRadioButton.Left.Set(0, 0f);
 			TileLookupRadioButton.SetText("  Tile");
-			TileLookupRadioButton.OnSelectedChanged += (s, e) => { updateNeeded = true; };
-			TileLookupRadioButton.SetDisabled(true);
+			TileLookupRadioButton.OnSelectedChanged += (s, e) => { ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); updateNeeded = true; };
 			mainPanel.Append(TileLookupRadioButton);
 
 			RadioButtonGroup = new UIRadioButtonGroup();
@@ -172,11 +195,77 @@ namespace RecipeBrowser
 			lootSourcePanel.Append(lootSourceScrollbar);
 			lootSourceGrid.SetScrollbar(lootSourceScrollbar);
 
+			// Tile Chooser
+			tileChooserPanel = new UIPanel();
+			tileChooserPanel.SetPadding(6);
+			tileChooserPanel.Top.Pixels = 60;
+			tileChooserPanel.Width.Set(50, 0f);
+			tileChooserPanel.Height.Set(-60 - 121, 1f);
+			tileChooserPanel.BackgroundColor = Color.CornflowerBlue;
+
+			uniqueCheckbox = new UICycleImage(RecipeBrowser.instance.GetTexture("Images/uniqueTile") /* Thanks MiningdiamondsVIII */, 2, new string[] { "Show inherited recipes", "Show unique recipes" }, 36, 20);
+			uniqueCheckbox.Top.Set(0, 0f);
+			uniqueCheckbox.Left.Set(1, 0f);
+			uniqueCheckbox.CurrentState = 1;
+			uniqueCheckbox.OnStateChanged += (s, e) => { updateNeeded = true; };
+			tileChooserPanel.Append(uniqueCheckbox);
+
+			tileChooserGrid = new UIGrid();
+			tileChooserGrid.Width.Set(0, 1f);
+			tileChooserGrid.Height.Set(-24, 1f);
+			tileChooserGrid.Top.Set(24, 0f);
+			tileChooserGrid.ListPadding = 2f;
+			tileChooserPanel.Append(tileChooserGrid);
+
+			var tileChooserScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
+			tileChooserScrollbar.SetView(100f, 1000f);
+			tileChooserScrollbar.Height.Set(0, 1f);
+			tileChooserScrollbar.Left.Set(-20, 1f);
+			tileChooserPanel.Append(tileChooserScrollbar);
+			tileChooserGrid.SetScrollbar(tileChooserScrollbar);
+
 			recipeSlots = new List<UIRecipeSlot>();
+			tileSlots = new List<UITileSlot>();
 
 			updateNeeded = true;
 
 			return mainPanel;
+		}
+
+		internal void ToggleTileChooser(bool show = true)
+		{
+			if (show)
+			{
+				recipeGridPanel.Width.Set(-113, 1f);
+				recipeGridPanel.Left.Set(53, 0f);
+				mainPanel.Append(tileChooserPanel);
+			}
+			else
+			{
+				recipeGridPanel.Width.Set(-60, 1f);
+				recipeGridPanel.Left.Set(0, 0f);
+				mainPanel.RemoveChild(tileChooserPanel);
+				Tile = -1;
+			}
+			recipeGridPanel.Recalculate();
+		}
+
+		internal void ShowCraftInterface()
+		{
+			// make smaller? bigger?
+			//throw new NotImplementedException();
+			Main.NewText("ShowCraftInterface");
+			if (Main.rand.NextBool(2))
+			{
+				recipeGridPanel.Width.Set(-120, 1f);
+				recipeGridPanel.Left.Set(60, 0f);
+			}
+			else
+			{
+				recipeGridPanel.Width.Set(-60, 1f);
+				recipeGridPanel.Left.Set(0, 0f);
+			}
+			recipeGridPanel.Recalculate();
 		}
 
 		internal void CloseButtonClicked()
@@ -231,13 +320,35 @@ namespace RecipeBrowser
 				{
 					recipeSlots.Add(new UIRecipeSlot(i));
 				}
+
+				tileChooserGrid.Clear();
+				var tileUsageCounts = new Dictionary<int, int>();
+				int currentCount;
+				for (int i = 0; i < Recipe.numRecipes; i++)
+				{
+					for (int j = 0; j < 15; j++)
+					{
+						if (Main.recipe[i].requiredTile[j] == -1)
+							break;
+						tileUsageCounts.TryGetValue(Main.recipe[i].requiredTile[j], out currentCount);
+						tileUsageCounts[Main.recipe[i].requiredTile[j]] = currentCount + 1;
+					}
+				}
+				// sort
+				var sorted = tileUsageCounts.OrderBy(kvp => kvp.Value);
+				foreach (var tileUsage in sorted)
+				{
+					var tileSlot = new UITileSlot(tileUsage.Key, tileUsage.Value);
+					tileChooserGrid.Add(tileSlot);
+					tileSlots.Add(tileSlot);
+				}
 			}
 
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
 
 			List<int> groups = new List<int>();
-			if (queryItem.item.stack > 0 && !TileLookupRadioButton.Selected)
+			if (queryItem.item.stack > 0)
 			{
 				int type = queryItem.item.type;
 
@@ -358,31 +469,58 @@ namespace RecipeBrowser
 					Main.NewText("How is this happening??");
 				}
 			}
-			//if (inventoryFilter.Selected)
-			//{
-			//}
+
+			// Filter out recipes that don't use selected Tile
+			if (Tile > -1)
+			{
+				List<int> adjTiles = new List<int>();
+				adjTiles.Add(Tile);
+				if (uniqueCheckbox.CurrentState == 0)
+				{
+					Terraria.ModLoader.ModTile modTile = Terraria.ModLoader.TileLoader.GetTile(Tile);
+					if (modTile != null)
+					{
+						adjTiles.AddRange(modTile.adjTiles);
+					}
+					if (Tile == 302)
+						adjTiles.Add(17);
+					if (Tile == 77)
+						adjTiles.Add(17);
+					if (Tile == 133)
+					{
+						adjTiles.Add(17);
+						adjTiles.Add(77);
+					}
+					if (Tile == 134)
+						adjTiles.Add(16);
+					if (Tile == 354)
+						adjTiles.Add(14);
+					if (Tile == 469)
+						adjTiles.Add(14);
+					if (Tile == 355)
+					{
+						adjTiles.Add(13);
+						adjTiles.Add(14);
+					}
+					// TODO: GlobalTile.AdjTiles support (no player object, reflection needed since private)
+				}
+				if (!recipe.requiredTile.Any(t => adjTiles.Contains(t)))
+				{
+					return false;
+				}
+			}
+
 			if (!queryItem.item.IsAir)
 			{
-				if (TileLookupRadioButton.Selected)
-				{
-					int type = queryItem.item.createTile;
-					if (!recipe.requiredTile.Any(ing => ing == type))
-					{
-						return false;
-					}
-				}
-				else
-				{
-					int type = queryItem.item.type;
-					bool inGroup = recipe.acceptedGroups.Intersect(groups).Any();
+				int type = queryItem.item.type;
+				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any();
 
-					inGroup |= recipe.useWood(type, type) || recipe.useSand(type, type) || recipe.useFragment(type, type) || recipe.useIronBar(type, type) || recipe.usePressurePlate(type, type);
-					if (!inGroup)
+				inGroup |= recipe.useWood(type, type) || recipe.useSand(type, type) || recipe.useFragment(type, type) || recipe.useIronBar(type, type) || recipe.usePressurePlate(type, type);
+				if (!inGroup)
+				{
+					if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
 					{
-						if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
-						{
-							return false; ;
-						}
+						return false; ;
 					}
 				}
 			}
