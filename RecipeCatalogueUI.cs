@@ -308,6 +308,14 @@ namespace RecipeBrowser
 			if (PlayerInput.Triggers.Current.Hotbar3 && !Main.LocalPlayer.inventory[2].IsAir)
 				RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.LocalPlayer.inventory[2].type);
 			*/
+			// Automatically populate query slot option:
+			//if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.RecipeCatalogue)
+			//{
+			//	if ((!queryItem.real || queryItem.item.IsAir) && !Main.mouseItem.IsAir)
+			//	{
+			//		queryItem.ReplaceWithFake(Main.mouseItem.type);
+			//	}
+			//}
 			UpdateGrid();
 		}
 
@@ -520,7 +528,7 @@ namespace RecipeBrowser
 				{
 					if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
 					{
-						return false; ;
+						return false;
 					}
 				}
 			}
@@ -643,39 +651,44 @@ namespace RecipeBrowser
 					ingredient.Left.Pixels = 200 + (i % 5 * 40);
 					ingredient.Top.Pixels = (i / 5 * 40);
 
-					string nameOverride;
-					if (recipe.ProcessGroupsForText(recipe.requiredItem[i].type, out nameOverride))
-					{
-						//Main.toolTip.name = name;
-					}
-					if (recipe.anyIronBar && recipe.requiredItem[i].type == 22)
-					{
-						nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(22);
-					}
-					else if (recipe.anyWood && recipe.requiredItem[i].type == 9)
-					{
-						nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(9);
-					}
-					else if (recipe.anySand && recipe.requiredItem[i].type == 169)
-					{
-						nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(169);
-					}
-					else if (recipe.anyFragment && recipe.requiredItem[i].type == 3458)
-					{
-						nameOverride = Lang.misc[37].Value + " " + Lang.misc[51].Value;
-					}
-					else if (recipe.anyPressurePlate && recipe.requiredItem[i].type == 542)
-					{
-						nameOverride = Lang.misc[37].Value + " " + Lang.misc[38].Value;
-					}
-					if (nameOverride != "")
-					{
-						ingredient.item.SetNameOverride(nameOverride);
-					}
+					OverrideForGroups(recipe, ingredient.item);
 					// TODO, stack?
 
 					recipeInfo.Append(ingredient);
 				}
+			}
+		}
+
+		public static void OverrideForGroups(Recipe recipe, Item item)
+		{
+			string nameOverride;
+			if (recipe.ProcessGroupsForText(item.type, out nameOverride))
+			{
+				//Main.toolTip.name = name;
+			}
+			if (recipe.anyIronBar && item.type == 22)
+			{
+				nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(22);
+			}
+			else if (recipe.anyWood && item.type == 9)
+			{
+				nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(9);
+			}
+			else if (recipe.anySand && item.type == 169)
+			{
+				nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(169);
+			}
+			else if (recipe.anyFragment && item.type == 3458)
+			{
+				nameOverride = Lang.misc[37].Value + " " + Lang.misc[51].Value;
+			}
+			else if (recipe.anyPressurePlate && item.type == 542)
+			{
+				nameOverride = Lang.misc[37].Value + " " + Lang.misc[38].Value;
+			}
+			if (nameOverride != "")
+			{
+				item.SetNameOverride(nameOverride);
 			}
 		}
 

@@ -19,6 +19,7 @@ namespace RecipeBrowser
 		internal static RecipeBrowser instance;
 		internal static Mod itemChecklistInstance;
 		internal ModHotKey ToggleRecipeBrowserHotKey;
+		internal ModHotKey QueryHoveredItemHotKey;
 
 		//internal bool CheatSheetLoaded = false;
 		internal RecipeBrowserTool recipeBrowserTool;
@@ -31,7 +32,7 @@ namespace RecipeBrowser
 		public override void Load()
 		{
 			// Too many people are downloading 0.10 versions on 0.9....
-			if (ModLoader.version < new Version(0, 10))
+			if (ModLoader.version < new Version(0, 10, 1, 1))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
 			}
@@ -47,6 +48,7 @@ namespace RecipeBrowser
 			{
 			*/
 			ToggleRecipeBrowserHotKey = RegisterHotKey("Toggle Recipe Browser", "OemCloseBrackets");
+			QueryHoveredItemHotKey = RegisterHotKey("Query Hovered Item", "Mouse3");
 			/*
 				CheatSheetLoaded = false;
 			}
@@ -74,6 +76,7 @@ namespace RecipeBrowser
 			itemChecklistInstance = null;
 			LootCache.instance = null;
 			ToggleRecipeBrowserHotKey = null;
+			QueryHoveredItemHotKey = null;
 			RecipeBrowserUI.instance = null;
 			RecipeCatalogueUI.instance = null;
 			ItemCatalogueUI.instance = null;

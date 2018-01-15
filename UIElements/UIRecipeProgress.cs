@@ -24,9 +24,12 @@ namespace RecipeBrowser.UIElements
 				{
 					Item item = new Item();
 					item.SetDefaults(recipe.requiredItem[j].type);
-					UITrackIngredientSlot ingredient = new UITrackIngredientSlot(item, recipe.requiredItem[j].stack);
+					UITrackIngredientSlot ingredient = new UITrackIngredientSlot(item, recipe.requiredItem[j].stack, recipe);
 					x += (int)b.Width + 2;
 					ingredient.Left.Set(-x, 1f);
+
+					RecipeCatalogueUI.OverrideForGroups(recipe, ingredient.item);
+
 					Append(ingredient);
 				}
 			}
