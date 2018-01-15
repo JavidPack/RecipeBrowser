@@ -1,4 +1,6 @@
-﻿Use the hotkey to show/hide the recipe browser. (Assign it in the keybindings menu)
+﻿Use the "Toggle Recipe Browser" hotkey to show/hide the recipe browser. (Assign it in the keybindings menu)
+
+Use the "Query Hovered Item" hotkey to quicky bring up the recipe browser with the hovered item. (Assign it in the keybindings menu, I suggest middle click)
 
 Click on any Recipe to see details. Use categories and search filter to find the recipe you want.
 
