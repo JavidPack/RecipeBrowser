@@ -12,6 +12,8 @@ namespace RecipeBrowser
 {
 	internal class ItemCatalogueUI
 	{
+		internal static string RBText(string key) => RecipeBrowser.RBText("ItemCatalogueUI", key);
+
 		internal static ItemCatalogueUI instance;
 		internal static Color color = Color.DarkGreen;
 
@@ -59,7 +61,7 @@ namespace RecipeBrowser
 			text.VAlign = 0.5f;
 			inlaidPanel.Append(text);*/
 
-			itemNameFilter = new NewUITextBox("Filter by Name");
+			itemNameFilter = new NewUITextBox(RBText("Filter by Name"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
@@ -68,7 +70,7 @@ namespace RecipeBrowser
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
 
-			itemDescriptionFilter = new NewUITextBox("Filter by tooltip");
+			itemDescriptionFilter = new NewUITextBox(RBText("Filter by tooltip"));
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
@@ -84,19 +86,19 @@ namespace RecipeBrowser
 			// show hidden toggle
 			// Favorite: Only affects sort order?
 
-			CraftedRadioButton = new UICheckbox("Crafted", "Only show crafted items");
+			CraftedRadioButton = new UICheckbox(RBText("Crafted"), RBText("Only show crafted items"));
 			CraftedRadioButton.Top.Set(0, 0f);
 			CraftedRadioButton.Left.Set(-270, 1f);
 			CraftedRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(CraftedRadioButton);
 
-			LootRadioButton = new UICheckbox("Loot", "Show only loot items");
+			LootRadioButton = new UICheckbox(RBText("Loot"), RBText("Show only loot items"));
 			LootRadioButton.Top.Set(20, 0f);
 			LootRadioButton.Left.Set(-270, 1f);
 			LootRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(LootRadioButton);
 
-			UnobtainedRadioButton = new UICheckbox("Unobtained", "???");
+			UnobtainedRadioButton = new UICheckbox(RBText("Unobtained"), "???");
 			UnobtainedRadioButton.Top.Set(40, 0f);
 			UnobtainedRadioButton.Left.Set(-270, 1f);
 			UnobtainedRadioButton.OnSelectedChanged += (a, b) => { updateNeeded = true; /*HasLootRadioButton.Selected = true;*/ };
@@ -105,12 +107,12 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				UnobtainedRadioButton.OnSelectedChanged += UnobtainedRadioButton_OnSelectedChanged;
-				UnobtainedRadioButton.SetHoverText("Only unobtained items");
+				UnobtainedRadioButton.SetHoverText(RBText("Only unobtained items"));
 			}
 			else
 			{
 				UnobtainedRadioButton.SetDisabled();
-				UnobtainedRadioButton.SetHoverText("Install Item Checklist to use");
+				UnobtainedRadioButton.SetHoverText(RBText("Install Item Checklist to use"));
 			}
 
 			//updateNeeded = true;
@@ -137,7 +139,8 @@ namespace RecipeBrowser
 			itemGridPanel.Append(itemGridScrollbar);
 			itemGrid.SetScrollbar(itemGridScrollbar);
 
-			UIText text = new UIText("2x LMB: View Recipes  ---  2x RMB: See dropping NPCs", 0.85f);
+			//"2x LMB: View Recipes  ---  2x RMB: See dropping NPCs"
+			UIText text = new UIText(RBText("BottomInstructions"), 0.85f);
 			text.Top.Set(-14, 1f);
 			text.HAlign = 0.5f;
 			mainPanel.Append(text);

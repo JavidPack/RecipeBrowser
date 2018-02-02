@@ -12,6 +12,8 @@ namespace RecipeBrowser
 {
 	internal class RecipeCatalogueUI
 	{
+		internal static string RBText(string key) => RecipeBrowser.RBText("RecipeCatalogueUI", key);
+
 		internal static RecipeCatalogueUI instance;
 		internal static Color color = new Color(73, 94, 171);
 
@@ -105,9 +107,9 @@ namespace RecipeBrowser
 			RadioButtonGroup = new UIRadioButtonGroup();
 			RadioButtonGroup.Left.Pixels = 45;
 			RadioButtonGroup.Width.Set(180, 0f);
-			UIRadioButton AllRecipesRadioButton = new UIRadioButton("All Recipes", "");
-			NearbyIngredientsRadioBitton = new UIRadioButton("Nearby Chests", "Click to Refresh");
-			ItemChecklistRadioButton = new UIRadioButton("Item Checklist Only", "???");
+			UIRadioButton AllRecipesRadioButton = new UIRadioButton(RBText("All Recipes"), "");
+			NearbyIngredientsRadioBitton = new UIRadioButton(RBText("Nearby Chests"), RBText("Click to Refresh"));
+			ItemChecklistRadioButton = new UIRadioButton(RBText("Item Checklist Only"), "???");
 			RadioButtonGroup.Add(AllRecipesRadioButton);
 			RadioButtonGroup.Add(NearbyIngredientsRadioBitton);
 			RadioButtonGroup.Add(ItemChecklistRadioButton);
@@ -119,16 +121,16 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				ItemChecklistRadioButton.OnSelectedChanged += ItemChecklistFilter_SelectedChanged;
-				ItemChecklistRadioButton.SetHoverText("Only new Items made from Seen Items");
+				ItemChecklistRadioButton.SetHoverText(RBText("Only new Items made from Seen Items"));
 				//ItemChecklistRadioButton.OnRightClick += ItemChecklistRadioButton_OnRightClick;
 			}
 			else
 			{
 				ItemChecklistRadioButton.SetDisabled();
-				ItemChecklistRadioButton.SetHoverText("Install Item Checklist to use");
+				ItemChecklistRadioButton.SetHoverText(RBText("Install Item Checklist to use"));
 			}
 
-			itemNameFilter = new NewUITextBox("Filter by Name");
+			itemNameFilter = new NewUITextBox(RBText("Filter by Name"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;

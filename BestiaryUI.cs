@@ -11,6 +11,8 @@ namespace RecipeBrowser
 {
 	internal class BestiaryUI
 	{
+		internal static string RBText(string key) => RecipeBrowser.RBText("BestiaryUI", key);
+
 		// Idea: Auto select/show loot from last npc hit.
 		internal static BestiaryUI instance;
 
@@ -93,7 +95,7 @@ namespace RecipeBrowser
 			queryItem.Left.Set(2, 0f);
 			mainPanel.Append(queryItem);
 
-			npcNameFilter = new NewUITextBox("Filter by Name");
+			npcNameFilter = new NewUITextBox(RBText("Filter by Name"));
 			npcNameFilter.OnTextChanged += () => { ValidateNPCFilter(); updateNeeded = true; };
 			npcNameFilter.Top.Set(0, 0f);
 			npcNameFilter.Left.Set(-152, 1f);
@@ -101,19 +103,19 @@ namespace RecipeBrowser
 			npcNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(npcNameFilter);
 
-			EncounteredRadioButton = new UICheckbox("Encountered", "Show only NPC killed already");
+			EncounteredRadioButton = new UICheckbox(RBText("Encountered"), RBText("Show only NPC killed already"));
 			EncounteredRadioButton.Top.Set(-40, 1f);
 			EncounteredRadioButton.Left.Set(6, .5f);
 			EncounteredRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(EncounteredRadioButton);
 
-			HasLootRadioButton = new UICheckbox("Has Loot", "Show only NPC with Loot");
+			HasLootRadioButton = new UICheckbox(RBText("Has Loot"), RBText("Show only NPC with Loot"));
 			HasLootRadioButton.Top.Set(-20, 1f);
 			HasLootRadioButton.Left.Set(6, .5f);
 			HasLootRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(HasLootRadioButton);
 
-			NewLootOnlyRadioButton = new UICheckbox("New Loot", "???");
+			NewLootOnlyRadioButton = new UICheckbox(RBText("New Loot"), "???");
 			NewLootOnlyRadioButton.Top.Set(-20, 1f);
 			NewLootOnlyRadioButton.Left.Set(110, .5f);
 			NewLootOnlyRadioButton.OnSelectedChanged += (a, b) => { updateNeeded = true; /*HasLootRadioButton.Selected = true;*/ };
@@ -122,12 +124,12 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				NewLootOnlyRadioButton.OnSelectedChanged += ItemChecklistNewLootOnlyFilter_SelectedChanged;
-				NewLootOnlyRadioButton.SetHoverText("Show only NPC with never before seen Loot");
+				NewLootOnlyRadioButton.SetHoverText(RBText("Show only NPC with never before seen Loot"));
 			}
 			else
 			{
 				NewLootOnlyRadioButton.SetDisabled();
-				NewLootOnlyRadioButton.SetHoverText("Install Item Checklist to use");
+				NewLootOnlyRadioButton.SetHoverText(RBText("Install Item Checklist to use"));
 			}
 
 			updateNeeded = true;
