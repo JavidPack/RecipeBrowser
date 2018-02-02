@@ -39,7 +39,7 @@ namespace RecipeBrowser
 		internal ItemCatalogueUI itemCatalogueUI;
 		internal BestiaryUI bestiaryUI;
 
-		internal List<UIRecipeSlot> favoritedRecipes;
+		internal List<int> localPlayerFavoritedRecipes => Main.LocalPlayer.GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes;
 		internal bool[] foundItems;
 
 		internal string[] mods;
@@ -213,7 +213,7 @@ namespace RecipeBrowser
 
 			tabController.SetPanel(0);
 
-			favoritedRecipes = new List<UIRecipeSlot>();
+			//favoritedRecipes = new List<int>();
 			favoritePanel = new UIDragablePanel();
 			favoritePanel.SetPadding(6);
 			favoritePanel.Left.Set(-310f, 0f);
@@ -301,22 +301,34 @@ namespace RecipeBrowser
 			bestiaryUI.CloseButtonClicked();
 		}
 
-		internal void FavoriteChange(UIRecipeSlot slot)
+		internal void FavoriteChange(int index, bool favorite)
 		{
-			if (favoritedRecipes.Contains(slot))
-			{
-				favoritedRecipes.Remove(slot);
-			}
-			if (slot.favorited)
-			{
-				favoritedRecipes.Add(slot);
-			}
-			UpdateFavoritedPanel();
+			RecipeCatalogueUI.instance.recipeSlots[index].favorited = favorite;
+			localPlayerFavoritedRecipes.RemoveAll(x => x == index);
+			if (favorite)
+				localPlayerFavoritedRecipes.Add(index);
+			favoritePanelUpdateNeeded = true;
+			RecipeCatalogueUI.instance.updateNeeded = true;
 		}
 
+		internal bool favoritePanelUpdateNeeded;
 		internal void UpdateFavoritedPanel()
 		{
-			ShowFavoritePanel = favoritedRecipes.Count > 0;
+			if (!favoritePanelUpdateNeeded)
+				return;
+			favoritePanelUpdateNeeded = false;
+
+			// Reset All
+			foreach (var recipeSlot in RecipeCatalogueUI.instance.recipeSlots)
+			{
+				recipeSlot.favorited = false;
+			}
+			foreach (var recipeIndex in localPlayerFavoritedRecipes)
+			{
+				RecipeCatalogueUI.instance.recipeSlots[recipeIndex].favorited = true;
+			}
+
+			ShowFavoritePanel = localPlayerFavoritedRecipes.Count > 0;
 			favoritePanel.RemoveAllChildren();
 
 			UIGrid list = new UIGrid();
@@ -329,10 +341,31 @@ namespace RecipeBrowser
 			int width = 1;
 			int height = 0;
 			int order = 1;
-			foreach (var item in favoritedRecipes)
+
+			for (int i = 0; i < Main.maxPlayers; i++)
 			{
-				Recipe r = Main.recipe[item.index];
-				UIRecipeProgress s = new UIRecipeProgress(item.index, r, order);
+				if (i != Main.myPlayer && Main.player[i].active)
+				{
+					foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes)
+					{
+						Recipe r = Main.recipe[recipeIndex];
+						UIRecipeProgress s = new UIRecipeProgress(recipeIndex, r, order, i);
+						order++;
+						s.Recalculate();
+						var a = s.GetInnerDimensions();
+						s.Width.Precent = 1;
+						list.Add(s);
+						height += (int)(a.Height + list.ListPadding);
+						width = Math.Max(width, (int)a.Width);
+						favoritePanel.AddDragTarget(s);
+					}
+				}
+			}
+
+			foreach (var recipeIndex in localPlayerFavoritedRecipes)
+			{
+				Recipe r = Main.recipe[recipeIndex];
+				UIRecipeProgress s = new UIRecipeProgress(recipeIndex, r, order, Main.myPlayer);
 				order++;
 				s.Recalculate();
 				var a = s.GetInnerDimensions();
@@ -363,16 +396,16 @@ namespace RecipeBrowser
 			recipeCatalogueUI.Update();
 			itemCatalogueUI.Update();
 			bestiaryUI.Update();
+			UpdateFavoritedPanel();
 		}
 
 		internal void ItemReceived(Item item)
 		{
-			var removes = favoritedRecipes.Where(x => x.item.type == item.type && x.item.maxStack == 1).ToList();
+			var removes = localPlayerFavoritedRecipes.Where(x => Main.recipe[x].createItem.type == item.type && Main.recipe[x].createItem.maxStack == 1).ToList();
 
-			foreach (var recipe in removes)
+			foreach (var recipeIndex in removes)
 			{
-				recipe.favorited = false;
-				FavoriteChange(recipe);
+				FavoriteChange(recipeIndex, false);
 			}
 		}
 

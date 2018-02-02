@@ -350,6 +350,8 @@ namespace RecipeBrowser
 					tileChooserGrid.Add(tileSlot);
 					tileSlots.Add(tileSlot);
 				}
+
+				RecipeBrowserUI.instance.UpdateFavoritedPanel();
 			}
 
 			if (!updateNeeded) { return; }

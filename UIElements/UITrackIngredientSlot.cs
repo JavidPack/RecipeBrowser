@@ -9,12 +9,14 @@ namespace RecipeBrowser.UIElements
 	internal class UITrackIngredientSlot : UIIngredientSlot
 	{
 		private int targetStack;
+		private int owner;
 		private Recipe recipe;
 
-		public UITrackIngredientSlot(Item item, int targetStack, Recipe recipe) : base(item)
+		public UITrackIngredientSlot(Item item, int targetStack, Recipe recipe, int owner, float scale = 0.75f) : base(item, scale)
 		{
 			this.targetStack = targetStack;
 			this.recipe = recipe;
+			this.owner = owner;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -26,7 +28,7 @@ namespace RecipeBrowser.UIElements
 				Rectangle rectangle = dimensions.ToRectangle();
 				if (!item.IsAir)
 				{
-					int count = CountItemGroups(Main.LocalPlayer, recipe, item.type, 999); // stopping at item.maxStack means you can't see if you can make multiple.
+					int count = CountItemGroups(Main.player[owner], recipe, item.type, 999); // stopping at item.maxStack means you can't see if you can make multiple.
 					string progress = count + "/" + targetStack;
 					Color progressColor = count >= targetStack ? Color.LightGreen : Color.LightSalmon;
 					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, progress, dimensions.Position() + new Vector2(10f, 26f) * scale + new Vector2(-4f, 0f), progressColor, 0f, Vector2.Zero, new Vector2(scale), -1f, /*scale*/1);

@@ -4,6 +4,9 @@ using Terraria;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria.UI.Chat;
+using Terraria.GameContent.UI.Chat;
+using System.Text;
 
 namespace RecipeBrowser.UIElements
 {
@@ -27,10 +30,23 @@ namespace RecipeBrowser.UIElements
 		{
 			if (Main.keyState.IsKeyDown(Main.FavoriteKey))
 			{
-				favorited = !favorited;
-				// trigger update since this reorders things
-				RecipeBrowserUI.instance.FavoriteChange(this);
-				RecipeCatalogueUI.instance.updateNeeded = true;
+				if (Main.drawingPlayerChat)
+				{
+					StringBuilder sb = new StringBuilder();
+					foreach (var item in Main.recipe[index].requiredItem)
+					{
+						if (!item.IsAir)
+							sb.Append(ItemTagHandler.GenerateTag(item));
+					}
+					sb.Append("-->");
+					sb.Append(ItemTagHandler.GenerateTag(Main.recipe[index].createItem));
+					if (ChatManager.AddChatText(Main.fontMouseText, sb.ToString(), Vector2.One))
+					{
+						Main.PlaySound(12);
+					}
+				}
+				else
+					RecipeBrowserUI.instance.FavoriteChange(this.index, !favorited);
 			}
 			else
 			{
@@ -81,7 +97,7 @@ namespace RecipeBrowser.UIElements
 			}
 			if (favorited && other.favorited)
 			{
-				return RecipeBrowserUI.instance.favoritedRecipes.IndexOf(this).CompareTo(RecipeBrowserUI.instance.favoritedRecipes.IndexOf(other));
+				return RecipeBrowserUI.instance.localPlayerFavoritedRecipes.IndexOf(this.index).CompareTo(RecipeBrowserUI.instance.localPlayerFavoritedRecipes.IndexOf(other.index));
 			}
 			return index.CompareTo(other.index);
 		}
@@ -90,7 +106,10 @@ namespace RecipeBrowser.UIElements
 		{
 			if (IsMouseHovering)
 				if (Main.keyState.IsKeyDown(Main.FavoriteKey))
-					Main.cursorOverride = 3;
+					if (Main.drawingPlayerChat)
+						Main.cursorOverride = 2;
+					else
+						Main.cursorOverride = 3;
 
 			backgroundTexture = defaultBackgroundTexture;
 

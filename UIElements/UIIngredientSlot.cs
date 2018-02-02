@@ -11,7 +11,7 @@ namespace RecipeBrowser.UIElements
 		private int clickIndicatorTime = 0;
 		private const int ClickTime = 30;
 
-		public UIIngredientSlot(Item item) : base(item)
+		public UIIngredientSlot(Item item, float scale = 0.75f) : base(item, scale)
 		{
 		}
 

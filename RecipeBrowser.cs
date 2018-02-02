@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.Serialization;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -9,10 +13,13 @@ namespace RecipeBrowser
 {
 	// Magic storage: item checklist support?
 	// Any iron bar not working for starred
-	// TODO: Autostar items needed for starred recipes.
+	// Loot cache manual reset button. Manually trigger recalculation
+	// TODO: Auto favorite items needed for starred recipes. And notify?
 	// TODO: Save starred recipes. Also, crafting check off starred last time, look into it.
+	// SHARED starred recipes maybe?
 	// TODO: Hide Items, items not interested in crafting. Only show if query item is that item (so you can still know how to craft if needed in craft chain.)
 	// TODO: Star Loot
+	// TODO: some sort of banner menu?
 	// TODO: Invesitgate Update placement. (Tiles purple flash)
 	internal class RecipeBrowser : Mod
 	{
@@ -31,7 +38,7 @@ namespace RecipeBrowser
 		// TODO, Chinese IME support
 		public override void Load()
 		{
-			// Too many people are downloading 0.10 versions on 0.9....
+			// Latest uses Middle Mouse button, added 0.10.1.1
 			if (ModLoader.version < new Version(0, 10, 1, 1))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
@@ -175,6 +182,29 @@ namespace RecipeBrowser
 					//Main.NewText($"Complete on {completedChestindex}");
 					break;
 
+				case MessageType.SendFavoritedRecipes:
+					byte player = reader.ReadByte();
+					bool syncPlayer = reader.ReadBoolean();
+					var r = Main.player[player].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes;
+					r.Clear();
+					int count = reader.ReadInt32();
+					for (int i = 0; i < count; i++)
+					{
+						r.Add(reader.ReadInt32());
+					}
+					Main.NewText($"Player {player} now has: " + string.Join(",", r.ToArray()));
+					Console.WriteLine($"Player {player} now has: " + string.Join(",", r.ToArray()));
+					if (Main.netMode == 2 && !syncPlayer)
+					{
+						Main.player[player].GetModPlayer<RecipeBrowserPlayer>().SendFavoritedRecipes(-1, player);
+					}
+					// We will separately maintain other player favorites. Do not set UIRecipeSlot.favorite 
+					//if (Main.netMode != 2)
+					{
+						RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
+					}
+					break;
+
 				default:
 					//DebugText("Unknown Message type: " + msgType);
 					break;
@@ -212,5 +242,10 @@ namespace RecipeBrowser
 		/// Once the 40 items are sent, send this packet so we don't have to wait anymore
 		/// </summary>
 		SilentSendChestContentsComplete,
+
+		/// <summary>
+		/// Sends player.whoami, count, and list of recipeindexs. Sent in SyncPlayer and SendClientChanges
+		/// </summary>
+		SendFavoritedRecipes
 	}
 }

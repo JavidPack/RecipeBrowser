@@ -22,7 +22,16 @@ namespace RecipeBrowser.UIElements
 		public override void Click(UIMouseEvent evt)
 		{
 			slot.Click(evt);
-			RecipeBrowserUI.instance.ShowRecipeBrowser = true;
+			if (!(Main.keyState.IsKeyDown(Main.FavoriteKey) && Main.drawingPlayerChat))
+			{
+				// inherited. RecipeCatalogueUI.instance.SetRecipe(slot.index);
+				RecipeCatalogueUI.instance.recipeGrid.Goto(delegate (UIElement element)
+				{
+					UIRecipeSlot itemSlot = element as UIRecipeSlot;
+					return itemSlot == slot;
+				}, true);
+				RecipeBrowserUI.instance.ShowRecipeBrowser = true;
+			}
 		}
 
 		public override void RightClick(UIMouseEvent evt)
@@ -32,16 +41,20 @@ namespace RecipeBrowser.UIElements
 
 		internal override void DrawAdditionalOverlays(SpriteBatch spriteBatch, Vector2 vector2, float scale)
 		{
+			bool favorited = slot.favorited;
 			slot.favorited = false;
 			slot.DrawAdditionalOverlays(spriteBatch, vector2, scale);
-			slot.favorited = true;
+			slot.favorited = favorited;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (IsMouseHovering)
 				if (Main.keyState.IsKeyDown(Main.FavoriteKey))
-					Main.cursorOverride = 3;
+					if (Main.drawingPlayerChat)
+						Main.cursorOverride = 2;
+					else
+						Main.cursorOverride = 3;
 
 			backgroundTexture = unableToCraftBackgroundTexture;
 
