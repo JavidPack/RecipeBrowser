@@ -212,6 +212,57 @@ namespace RecipeBrowser
 		}
 	}
 
+	public class RecipeBrowserConfig : ModConfig
+	{
+		public override MultiplayerSyncMode Mode => MultiplayerSyncMode.UniquePerPlayer;
+
+		public static RecipeBrowserConfig instance;
+
+		// color = new Color(73, 94, 171);
+		//[DefaultValue("73, 94, 171")]
+		[DefaultValue(typeof(Color), "73, 94, 171, 255")] // needs 4 comma separated bytes
+		[Label("Recipe Catalogue Background Color")]
+		//[JsonConverter(typeof(Terraria.ModLoader.ColorJsonConverter))]
+		public Color RecipeCatalogueBackgroundColor;
+
+		public List<Color> ListOfColors;
+
+		[OnDeserialized]
+		internal void OnDeserializedMethod(StreamingContext context)
+		{
+			// We use a method marked OnDeserialized to initialize default values of reference types since we can't do that with the DefaultValue attribute.
+			if (ListOfColors == null)
+				ListOfColors = new List<Color>() { };
+		}
+
+		public override void PostAutoLoad()
+		{
+			instance = this;
+		}
+
+		public override void PostSave()
+		{
+			if (!Main.dedServ)
+			{
+				RecipeCatalogueUI.color = RecipeCatalogueBackgroundColor;
+				if (RecipeCatalogueUI.instance != null && RecipeCatalogueUI.instance.mainPanel != null)
+					RecipeCatalogueUI.instance.mainPanel.BackgroundColor = RecipeCatalogueBackgroundColor;
+			}
+		}
+	}
+
+	public class PairClass
+	{
+		public int boost;
+		public bool enabled;
+	}
+
+	public struct PairStruct
+	{
+		public int boost;
+		public bool enabled;
+	}
+
 	//static class Extensions
 	//{
 	//	public static void MultiplyColorsByAlpha(this Texture2D texture)
