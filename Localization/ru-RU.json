@@ -1,16 +1,41 @@
 {
-	// Comments
+	//Russian Translation made by Terraria Phone&PC Team
 	"RecipeBrowserUI":{
-		"Recipes": "Моды",
-		"Items": "Моды",
-		"Bestiary": "Моды",
-		"Close": "Моды",
-		"All": "Моды",
-		"Mod Filter": "Моды",
+		"Recipes": "Рецепты",
+		"Items": "Предметы",
+		"Bestiary": "Мобы",
+		"Close": "Закрыть",
+		"All": "Все",
+		"Mod Filter": "Фильтр модов",
+	},
+	"Common":{
+		"Filter by Name": "Название",
+		"Filter by tooltip": "Описание",
+		"Install Item Checklist to use": "Установите мод Item Checklist для использования",
 	},
 	"RecipeCatalogueUI": {
-		// TODO
+		"Tile": "Тайл",
+		"All Recipes": "Все рецепты",
+		"Nearby Chests": "Ближайшие сундуки",
+		"Click to Refresh": "Нажмите чтобы обновить",
+		"Item Checklist Only": "Только Item Checklist",
+		"Only new Items made from Seen Items": "Только новые предметы из полученных предметов",
 	},
 	"ItemCatalogueUI": {
-	}
+		"Crafted": "Создано",
+		"Only show crafted items": "Показывать только созданные предметы",
+		"Loot": "Лут",
+		"Show only loot items": "Показывать только лут",
+		"Unobtained": "Неполученное",
+		"Only unobtained items": "Только неполученные предметы",
+		"BottomInstructions": "2x ЛКМ: Рецепт; 2x ПКМ: С кого выпадает",
+	},
+	"BestiaryUI": {
+		"Encountered": "Встречено",
+		"Show only NPC killed already": "Показывать только убитых мобов",
+		"Has Loot": "Лут",
+		"Show only NPC with Loot": "Показывать только мобов с лутом",
+		"New Loot": "Новый лут",
+		"Show only NPC with never before seen Loot": "Показывать только мобов, с которых ни разу не получен лут",
+	},
 }
