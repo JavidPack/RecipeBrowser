@@ -1,0 +1,16 @@
+{
+	// Comments
+	"RecipeBrowserUI":{
+		"Recipes": "Recipes",
+		"Items": "Items",
+		"Bestiary": "Bestiary",
+		"Close": "Close",
+		"All": "All",
+		"Mod Filter": "Mod Filter",
+	},
+	"RecipeCatalogueUI": {
+		// TODO
+	},
+	"ItemCatalogueUI": {
+	}
+}

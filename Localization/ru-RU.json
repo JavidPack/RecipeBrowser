@@ -1,0 +1,16 @@
+{
+	// Comments
+	"RecipeBrowserUI":{
+		"Recipes": "Моды",
+		"Items": "Моды",
+		"Bestiary": "Моды",
+		"Close": "Моды",
+		"All": "Моды",
+		"Mod Filter": "Моды",
+	},
+	"RecipeCatalogueUI": {
+		// TODO
+	},
+	"ItemCatalogueUI": {
+	}
+}

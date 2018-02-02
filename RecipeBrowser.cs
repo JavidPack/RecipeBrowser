@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -24,6 +26,7 @@ namespace RecipeBrowser
 	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
+		internal static Dictionary<string, ModTranslation> translations; // reference to private field.
 		internal static Mod itemChecklistInstance;
 		internal ModHotKey ToggleRecipeBrowserHotKey;
 		internal ModHotKey QueryHoveredItemHotKey;
@@ -45,6 +48,11 @@ namespace RecipeBrowser
 			}
 
 			instance = this;
+
+			FieldInfo translationsField = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic);
+			translations = (Dictionary<string, ModTranslation>)translationsField.GetValue(this);
+			LoadTranslations();
+
 			itemChecklistInstance = ModLoader.GetMod("ItemChecklist");
 			if (itemChecklistInstance != null && itemChecklistInstance.Version < new Version(0, 2, 1))
 				itemChecklistInstance = null;
@@ -74,6 +82,45 @@ namespace RecipeBrowser
 				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
 				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
 				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
+			}
+		}
+
+		internal static string RBText(string category, string key)
+		{
+			return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
+			// This isn't good until after load....
+			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+		}
+
+		private void LoadTranslations()
+		{
+			var modTranslationDictionary = new Dictionary<string, ModTranslation>();
+
+			var translationFiles = new List<string>();
+			foreach (var item in File)
+			{
+				if (item.Key.StartsWith("Localization"))
+					translationFiles.Add(item.Key);
+			}
+			foreach (var translationFile in translationFiles)
+			{
+				string translationFileContents = System.Text.Encoding.UTF8.GetString(GetFileBytes(translationFile));
+				GameCulture culture = GameCulture.FromName(Path.GetFileNameWithoutExtension(translationFile));
+				Dictionary<string, Dictionary<string, string>> dictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(translationFileContents);
+				foreach (KeyValuePair<string, Dictionary<string, string>> category in dictionary)
+					foreach (KeyValuePair<string, string> kvp in category.Value)
+					{
+						ModTranslation mt;
+						string key = category.Key + "." + kvp.Key;
+						if (!modTranslationDictionary.TryGetValue(key, out mt))
+							modTranslationDictionary[key] = mt = CreateTranslation(key);
+						mt.AddTranslation(culture, kvp.Value);
+					}
+			}
+
+			foreach (var value in modTranslationDictionary.Values)
+			{
+				AddTranslation(value);
 			}
 		}
 

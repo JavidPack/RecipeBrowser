@@ -85,6 +85,8 @@ namespace RecipeBrowser
 
 		public int CurrentPanel => tabController.currentPanel;
 
+        internal static string RBText(string key) => RecipeBrowser.RBText("RecipeBrowserUI", key);
+
 		public RecipeBrowserUI(UserInterface ui) : base(ui)
 		{
 			instance = this;
@@ -149,7 +151,7 @@ namespace RecipeBrowser
 			button.OnClick += (a, b) => tabController.SetPanel(RecipeCatalogue);
 			button.BackgroundColor = RecipeCatalogueUI.color;
 
-			UIText text = new UIText("Recipes", 0.85f);
+			UIText text = new UIText(RBText("Recipes"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -164,7 +166,7 @@ namespace RecipeBrowser
 			button.OnClick += (a, b) => { tabController.SetPanel(ItemCatalogue); itemCatalogueUI.updateNeeded = true; };
 			button.BackgroundColor = ItemCatalogueUI.color;
 
-			text = new UIText("Items", 0.85f);
+			text = new UIText(RBText("Items"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -179,7 +181,7 @@ namespace RecipeBrowser
 			button.OnClick += (a, b) => tabController.SetPanel(Bestiary);
 			button.BackgroundColor = BestiaryUI.color;
 
-			text = new UIText("Bestiary", 0.85f);
+			text = new UIText(RBText("Bestiary"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -195,7 +197,7 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
+			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("Mod Filter")+": "+RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
@@ -204,7 +206,7 @@ namespace RecipeBrowser
 			button.Append(modFilterButton);
 
 			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
-			closeButton = new UIHoverImageButton(texture, "Close");
+			closeButton = new UIHoverImageButton(texture, RBText("Close"));
 			closeButton.OnClick += CloseButtonClicked;
 			closeButton.Left.Set(-26, 1f);
 			closeButton.VAlign = 0.5f;
@@ -242,7 +244,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = "Mod Filter: " + GetModFilterTooltip(true);
+			button.hoverText = RBText("Mod Filter")+": " + GetModFilterTooltip(true);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -250,7 +252,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = "Mod Filter: " + GetModFilterTooltip(false);
+			button.hoverText = RBText("Mod Filter")+": " + GetModFilterTooltip(false);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -259,7 +261,7 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			modIndex = mods.Length - 1;
-			button.hoverText = "Mod Filter: All";
+			button.hoverText = RBText("Mod Filter")+": "+RBText("All");
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -277,7 +279,7 @@ namespace RecipeBrowser
 		private string GetModFilterTooltip(bool increment)
 		{
 			modIndex = increment ? (modIndex + 1) % mods.Length : (mods.Length + modIndex - 1) % mods.Length;
-			return modIndex == mods.Length - 1 ? "All" : mods[modIndex];
+			return modIndex == mods.Length - 1 ? RBText("All") : mods[modIndex];
 		}
 
 		internal void AllUpdateNeeded()
