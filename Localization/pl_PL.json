@@ -1,0 +1,41 @@
+{
+    // Translation by ArcheRion720 & Cr4X
+    "RecipeBrowserUI":{
+        "Recipes": "Przepisy",
+        "Items": "Przedmioty",
+        "Bestiary": "Bestiariusz",
+        "Close": "Zamknij",
+        "All": "Wszystko",
+        "Mod Filter": "Filtruj względem modów",
+    },
+    "Common":{
+        "Filter by Name": "Filtruj względem nazwy",
+        "Filter by tooltip": "Filtruj względem opisu",
+        "Install Item Checklist to use": "Zainstaluj 'Item Checklist', aby użyć",
+    },
+    "RecipeCatalogueUI": {
+        "Tile": "Struktury",
+        "All Recipes": "Wszystkie receptury",
+        "Nearby Chests": "Pobliskie skrzynie",
+        "Click to Refresh": "Kliknij aby odświeżyć",
+        "Item Checklist Only": "Tylko przedmioty z 'Item Checklist'",
+        "Only new Items made from Seen Items": "Tylko nowe przedmioty, zrobione z napotkanych przedmiotów",
+    },
+    "ItemCatalogueUI": {
+        "Crafted": "Stworzone",
+        "Only show crafted items": "Pokazuj tylko stworzone przedmioty",
+        "Loot": "Łup",
+        "Show only loot items": "Pokazuj tylko łupy",
+        "Unobtained": "Niezdobyte",
+        "Only unobtained items": " Tylko niezdobyte przedmioty",
+        "BottomInstructions": "2x LPM: Zobacz przepisy  ---  2x RMB: Zobacz NPC z szansą na łup",
+    },
+    "BestiaryUI": {
+        "Encountered": "Napotkane",
+        "Show only NPC killed already": "Pokaż tylko pokonanych NPC",
+        "Has Loot": "Ma łup",
+        "Show only NPC with Loot": "Pokaż tylko NPC z Łupem",
+        "New Loot": "Nowy Łup",
+        "Show only NPC with never before seen Loot": "Pokaż NPC z wcześniej nie widzianym łupem",
+    },
+}
