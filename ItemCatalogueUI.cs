@@ -12,7 +12,7 @@ namespace RecipeBrowser
 {
 	internal class ItemCatalogueUI
 	{
-		internal static string RBText(string key) => RecipeBrowser.RBText("ItemCatalogueUI", key);
+		internal static string RBText(string key, string category = "ItemCatalogueUI") => RecipeBrowser.RBText(category, key);
 
 		internal static ItemCatalogueUI instance;
 		internal static Color color = Color.DarkGreen;
@@ -61,7 +61,7 @@ namespace RecipeBrowser
 			text.VAlign = 0.5f;
 			inlaidPanel.Append(text);*/
 
-			itemNameFilter = new NewUITextBox(RBText("Filter by Name"));
+			itemNameFilter = new NewUITextBox(RBText("Filter by Name", "Common"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
@@ -70,7 +70,7 @@ namespace RecipeBrowser
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
 
-			itemDescriptionFilter = new NewUITextBox(RBText("Filter by tooltip"));
+			itemDescriptionFilter = new NewUITextBox(RBText("Filter by tooltip", "Common"));
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
@@ -112,7 +112,7 @@ namespace RecipeBrowser
 			else
 			{
 				UnobtainedRadioButton.SetDisabled();
-				UnobtainedRadioButton.SetHoverText(RBText("Install Item Checklist to use"));
+				UnobtainedRadioButton.SetHoverText(RBText("Install Item Checklist to use", "Common"));
 			}
 
 			//updateNeeded = true;

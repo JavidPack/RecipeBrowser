@@ -12,7 +12,7 @@ namespace RecipeBrowser
 {
 	internal class RecipeCatalogueUI
 	{
-		internal static string RBText(string key) => RecipeBrowser.RBText("RecipeCatalogueUI", key);
+		internal static string RBText(string key, string category = "RecipeCatalogueUI") => RecipeBrowser.RBText(category, key);
 
 		internal static RecipeCatalogueUI instance;
 		internal static Color color = new Color(73, 94, 171);
@@ -97,10 +97,10 @@ namespace RecipeBrowser
 			//queryItem.OnItemChanged += () => { Main.NewText("Item changed?"); TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
 
-			TileLookupRadioButton = new UICheckbox("Tile", "");
+			TileLookupRadioButton = new UICheckbox(RBText("Tile"), "");
 			TileLookupRadioButton.Top.Set(42, 0f);
 			TileLookupRadioButton.Left.Set(0, 0f);
-			TileLookupRadioButton.SetText("  Tile");
+			TileLookupRadioButton.SetText("  " + RBText("Tile"));
 			TileLookupRadioButton.OnSelectedChanged += (s, e) => { ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); updateNeeded = true; };
 			mainPanel.Append(TileLookupRadioButton);
 
@@ -127,10 +127,10 @@ namespace RecipeBrowser
 			else
 			{
 				ItemChecklistRadioButton.SetDisabled();
-				ItemChecklistRadioButton.SetHoverText(RBText("Install Item Checklist to use"));
+				ItemChecklistRadioButton.SetHoverText(RBText("Install Item Checklist to use", "Common"));
 			}
 
-			itemNameFilter = new NewUITextBox(RBText("Filter by Name"));
+			itemNameFilter = new NewUITextBox(RBText("Filter by Name", "Common"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
@@ -139,7 +139,7 @@ namespace RecipeBrowser
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
 
-			itemDescriptionFilter = new NewUITextBox("Filter by tooltip");
+			itemDescriptionFilter = new NewUITextBox(RBText("Filter by tooltip", "Common"));
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;

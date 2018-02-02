@@ -11,7 +11,7 @@ namespace RecipeBrowser
 {
 	internal class BestiaryUI
 	{
-		internal static string RBText(string key) => RecipeBrowser.RBText("BestiaryUI", key);
+		internal static string RBText(string key, string category = "BestiaryUI") => RecipeBrowser.RBText(category, key);
 
 		// Idea: Auto select/show loot from last npc hit.
 		internal static BestiaryUI instance;
@@ -95,7 +95,7 @@ namespace RecipeBrowser
 			queryItem.Left.Set(2, 0f);
 			mainPanel.Append(queryItem);
 
-			npcNameFilter = new NewUITextBox(RBText("Filter by Name"));
+			npcNameFilter = new NewUITextBox(RBText("Filter by Name", "Common"));
 			npcNameFilter.OnTextChanged += () => { ValidateNPCFilter(); updateNeeded = true; };
 			npcNameFilter.Top.Set(0, 0f);
 			npcNameFilter.Left.Set(-152, 1f);
@@ -129,7 +129,7 @@ namespace RecipeBrowser
 			else
 			{
 				NewLootOnlyRadioButton.SetDisabled();
-				NewLootOnlyRadioButton.SetHoverText(RBText("Install Item Checklist to use"));
+				NewLootOnlyRadioButton.SetHoverText(RBText("Install Item Checklist to use", "Common"));
 			}
 
 			updateNeeded = true;

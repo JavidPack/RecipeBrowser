@@ -85,7 +85,7 @@ namespace RecipeBrowser
 
 		public int CurrentPanel => tabController.currentPanel;
 
-        internal static string RBText(string key) => RecipeBrowser.RBText("RecipeBrowserUI", key);
+		internal static string RBText(string key, string category = "RecipeBrowserUI") => RecipeBrowser.RBText(category, key);
 
 		public RecipeBrowserUI(UserInterface ui) : base(ui)
 		{
