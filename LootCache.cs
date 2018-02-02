@@ -221,6 +221,8 @@ namespace RecipeBrowser
 					json = r.ReadToEnd();
 					li = JsonConvert.DeserializeObject<LootCache>(json, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
 					needsRecalculate = false;
+					if (li == null) // Investigate why some people get LootCache.json with only 0s in it.
+						li = new LootCache();
 				}
 			}
 

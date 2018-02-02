@@ -27,6 +27,7 @@ namespace RecipeBrowser
 		public override int Next(int minValue, int maxValue)
 		{
 			if (loop == 0) return minValue;
+			if (minValue == maxValue) return minValue;
 			int index = Math.Abs(maxValue) % 5000;
 			returns[index]++;
 			return minValue + ((maxValue + returns[index]) % (maxValue - minValue));
