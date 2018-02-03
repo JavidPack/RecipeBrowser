@@ -246,7 +246,7 @@ namespace RecipeBrowser
 						Main.player[player].GetModPlayer<RecipeBrowserPlayer>().SendFavoritedRecipes(-1, player);
 					}
 					// We will separately maintain other player favorites. Do not set UIRecipeSlot.favorite 
-					//if (Main.netMode != 2)
+					if (Main.netMode != 2)
 					{
 						RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 					}
