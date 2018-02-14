@@ -14,15 +14,12 @@ using Terraria.UI;
 namespace RecipeBrowser
 {
 	// Magic storage: item checklist support?
-	// Any iron bar not working for starred
 	// Loot cache manual reset button. Manually trigger recalculation
 	// TODO: Auto favorite items needed for starred recipes. And notify?
 	// TODO: Save starred recipes. Also, crafting check off starred last time, look into it.
-	// SHARED starred recipes maybe?
 	// TODO: Hide Items, items not interested in crafting. Only show if query item is that item (so you can still know how to craft if needed in craft chain.)
 	// TODO: Star Loot
 	// TODO: some sort of banner menu?
-	// TODO: Invesitgate Update placement. (Tiles purple flash)
 	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
@@ -41,8 +38,8 @@ namespace RecipeBrowser
 		// TODO, Chinese IME support
 		public override void Load()
 		{
-			// Latest uses Middle Mouse button, added 0.10.1.1
-			if (ModLoader.version < new Version(0, 10, 1, 1))
+			// Latest uses Mod.UpdateUI, added 0.10.1.2
+			if (ModLoader.version < new Version(0, 10, 1, 2))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
 			}
@@ -51,7 +48,6 @@ namespace RecipeBrowser
 
 			FieldInfo translationsField = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic);
 			translations = (Dictionary<string, ModTranslation>)translationsField.GetValue(this);
-			LoadTranslations();
 
 			itemChecklistInstance = ModLoader.GetMod("ItemChecklist");
 			if (itemChecklistInstance != null && itemChecklistInstance.Version < new Version(0, 2, 1))
@@ -90,38 +86,6 @@ namespace RecipeBrowser
 			return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
 			// This isn't good until after load....
 			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
-		}
-
-		private void LoadTranslations()
-		{
-			var modTranslationDictionary = new Dictionary<string, ModTranslation>();
-
-			var translationFiles = new List<string>();
-			foreach (var item in File)
-			{
-				if (item.Key.StartsWith("Localization"))
-					translationFiles.Add(item.Key);
-			}
-			foreach (var translationFile in translationFiles)
-			{
-				string translationFileContents = System.Text.Encoding.UTF8.GetString(GetFileBytes(translationFile));
-				GameCulture culture = GameCulture.FromName(Path.GetFileNameWithoutExtension(translationFile));
-				Dictionary<string, Dictionary<string, string>> dictionary = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string>>>(translationFileContents);
-				foreach (KeyValuePair<string, Dictionary<string, string>> category in dictionary)
-					foreach (KeyValuePair<string, string> kvp in category.Value)
-					{
-						ModTranslation mt;
-						string key = category.Key + "." + kvp.Key;
-						if (!modTranslationDictionary.TryGetValue(key, out mt))
-							modTranslationDictionary[key] = mt = CreateTranslation(key);
-						mt.AddTranslation(culture, kvp.Value);
-					}
-			}
-
-			foreach (var value in modTranslationDictionary.Values)
-			{
-				AddTranslation(value);
-			}
 		}
 
 		public override void Unload()
@@ -173,6 +137,11 @@ namespace RecipeBrowser
 			RecipeBrowserUI.instance.NewItemFound(type);
 		}
 
+		public override void UpdateUI(GameTime gameTime)
+		{
+			recipeBrowserTool?.UIUpdate(gameTime);
+		}
+
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			//if (CheatSheetLoaded) return;
@@ -192,7 +161,6 @@ namespace RecipeBrowser
 								lastSeenScreenWidth = Main.screenWidth;
 								lastSeenScreenHeight = Main.screenHeight;
 							}
-							recipeBrowserTool.UIUpdate();
 							recipeBrowserTool.UIDraw();
 						}
 						return true;
@@ -239,8 +207,8 @@ namespace RecipeBrowser
 					{
 						r.Add(reader.ReadInt32());
 					}
-					Main.NewText($"Player {player} now has: " + string.Join(",", r.ToArray()));
-					Console.WriteLine($"Player {player} now has: " + string.Join(",", r.ToArray()));
+					//Main.NewText($"Player {player} now has: " + string.Join(",", r.ToArray()));
+					//Console.WriteLine($"Player {player} now has: " + string.Join(",", r.ToArray()));
 					if (Main.netMode == 2 && !syncPlayer)
 					{
 						Main.player[player].GetModPlayer<RecipeBrowserPlayer>().SendFavoritedRecipes(-1, player);

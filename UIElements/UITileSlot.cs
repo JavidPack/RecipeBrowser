@@ -60,6 +60,7 @@ namespace RecipeBrowser.UIElements
 			//texture = null;
 			if (texture == null)
 			{
+
 				Main.instance.LoadTiles(tile);
 
 				var tileObjectData = TileObjectData.GetTileData(tile, 0, 0);
@@ -73,7 +74,7 @@ namespace RecipeBrowser.UIElements
 				int height = tileObjectData.Height;
 				int padding = tileObjectData.CoordinatePadding;
 
-				Main.spriteBatch.End();
+				//Main.spriteBatch.End();
 				RenderTarget2D renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, width * 16, height * 16);
 				Main.instance.GraphicsDevice.SetRenderTarget(renderTarget);
 				Main.instance.GraphicsDevice.Clear(Color.Transparent);
@@ -89,7 +90,7 @@ namespace RecipeBrowser.UIElements
 
 				Main.spriteBatch.End();
 				Main.instance.GraphicsDevice.SetRenderTarget(null);
-				Main.spriteBatch.Begin();
+				//Main.spriteBatch.Begin();
 				texture = renderTarget;
 			}
 		}

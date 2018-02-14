@@ -197,7 +197,7 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("Mod Filter")+": "+RBText("All"));
+			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("ModFilter")+": "+RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
@@ -244,7 +244,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("Mod Filter")+": " + GetModFilterTooltip(true);
+			button.hoverText = RBText("ModFilter")+": " + GetModFilterTooltip(true);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -252,7 +252,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("Mod Filter")+": " + GetModFilterTooltip(false);
+			button.hoverText = RBText("ModFilter")+": " + GetModFilterTooltip(false);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -261,7 +261,7 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			modIndex = mods.Length - 1;
-			button.hoverText = RBText("Mod Filter")+": "+RBText("All");
+			button.hoverText = RBText("ModFilter")+": "+RBText("All");
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}

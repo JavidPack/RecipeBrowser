@@ -61,7 +61,7 @@ namespace RecipeBrowser
 			text.VAlign = 0.5f;
 			inlaidPanel.Append(text);*/
 
-			itemNameFilter = new NewUITextBox(RBText("Filter by Name", "Common"));
+			itemNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
@@ -70,7 +70,7 @@ namespace RecipeBrowser
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
 
-			itemDescriptionFilter = new NewUITextBox(RBText("Filter by tooltip", "Common"));
+			itemDescriptionFilter = new NewUITextBox(RBText("FilterByTooltip", "Common"));
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
@@ -86,13 +86,13 @@ namespace RecipeBrowser
 			// show hidden toggle
 			// Favorite: Only affects sort order?
 
-			CraftedRadioButton = new UICheckbox(RBText("Crafted"), RBText("Only show crafted items"));
+			CraftedRadioButton = new UICheckbox(RBText("Crafted"), RBText("OnlyShowCraftedItems"));
 			CraftedRadioButton.Top.Set(0, 0f);
 			CraftedRadioButton.Left.Set(-270, 1f);
 			CraftedRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(CraftedRadioButton);
 
-			LootRadioButton = new UICheckbox(RBText("Loot"), RBText("Show only loot items"));
+			LootRadioButton = new UICheckbox(RBText("Loot"), RBText("ShowOnlyLootItems"));
 			LootRadioButton.Top.Set(20, 0f);
 			LootRadioButton.Left.Set(-270, 1f);
 			LootRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
@@ -107,12 +107,12 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				UnobtainedRadioButton.OnSelectedChanged += UnobtainedRadioButton_OnSelectedChanged;
-				UnobtainedRadioButton.SetHoverText(RBText("Only unobtained items"));
+				UnobtainedRadioButton.SetHoverText(RBText("OnlyUnobtainedItems"));
 			}
 			else
 			{
 				UnobtainedRadioButton.SetDisabled();
-				UnobtainedRadioButton.SetHoverText(RBText("Install Item Checklist to use", "Common"));
+				UnobtainedRadioButton.SetHoverText(RBText("InstallItemChecklistToUse", "Common"));
 			}
 
 			//updateNeeded = true;

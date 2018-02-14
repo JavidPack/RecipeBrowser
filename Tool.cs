@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.UI;
 
@@ -47,11 +48,11 @@ namespace RecipeBrowser
 			userInterface?.Recalculate();
 		}
 
-		internal virtual void UIUpdate()
+		internal virtual void UIUpdate(GameTime gameTime)
 		{
 			//if (visible)
 			{
-				userInterface?.Update(Main._drawInterfaceGameTime);
+				userInterface?.Update(gameTime);
 			}
 		}
 

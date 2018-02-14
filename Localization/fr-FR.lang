@@ -1,0 +1,32 @@
+RecipeBrowserUI.Recipes=Artisanat
+RecipeBrowserUI.Items=Objets
+RecipeBrowserUI.Bestiary=Bestiaire
+RecipeBrowserUI.Close=Fermer
+RecipeBrowserUI.All=Voir Tout
+RecipeBrowserUI.ModFilter=Filtre par Modules
+
+Common.FilterByName=Filtrer par Nom
+Common.FilterByTooltip=Filtrer par Description
+Common.InstallItemChecklistToUse=Installer Item Checklist pour Utiliser
+
+RecipeCatalogueUI.Tile=Bloc
+RecipeCatalogueUI.AllRecipes=Toutes les Recettes
+RecipeCatalogueUI.NearbyChests=Coffres à Proximité
+RecipeCatalogueUI.ClickToRefresh=Cliquer pour Rafraîchir
+RecipeCatalogueUI.ItemChecklistOnly=Item Checklist Uniquement
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Voir Uniquement les Nouveaux Objets Provenant d'Objets Déjà Vus
+
+ItemCatalogueUI.Crafted=Assemblé
+ItemCatalogueUI.OnlyShowCraftedItems=Voir Uniquement les Objets Déjà Assemblés
+ItemCatalogueUI.Loot=Butin
+ItemCatalogueUI.ShowOnlyLootItems=Voir Uniquement les Butins
+ItemCatalogueUI.Unobtained=Non Obtenu
+ItemCatalogueUI.OnlyUnobtainedItems=Voir Uniquement les Objets Non Obtenus
+ItemCatalogueUI.BottomInstructions=2x LMB: Voir les Recettes  ---  2x RMB: Voir les Ennemis à Butin
+
+BestiaryUI.Encountered=Rencontré
+BestiaryUI.ShowOnlyNPCKilledAlready=Voir Uniquement les Ennemis Déjà Vaincus
+BestiaryUI.HasLoot=Possède du Butin
+BestiaryUI.ShowOnlyNPCWithLoot=Voir Uniquement les Ennemis à Butin
+BestiaryUI.NewLoot=Nouveau Butin
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Voir Uniquement les Ennemis avec du Butin Jamais Obtenu

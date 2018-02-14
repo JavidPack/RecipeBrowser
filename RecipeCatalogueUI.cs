@@ -107,9 +107,9 @@ namespace RecipeBrowser
 			RadioButtonGroup = new UIRadioButtonGroup();
 			RadioButtonGroup.Left.Pixels = 45;
 			RadioButtonGroup.Width.Set(180, 0f);
-			UIRadioButton AllRecipesRadioButton = new UIRadioButton(RBText("All Recipes"), "");
-			NearbyIngredientsRadioBitton = new UIRadioButton(RBText("Nearby Chests"), RBText("Click to Refresh"));
-			ItemChecklistRadioButton = new UIRadioButton(RBText("Item Checklist Only"), "???");
+			UIRadioButton AllRecipesRadioButton = new UIRadioButton(RBText("AllRecipes"), "");
+			NearbyIngredientsRadioBitton = new UIRadioButton(RBText("NearbyChests"), RBText("ClickToRefresh"));
+			ItemChecklistRadioButton = new UIRadioButton(RBText("ItemChecklistOnly"), "???");
 			RadioButtonGroup.Add(AllRecipesRadioButton);
 			RadioButtonGroup.Add(NearbyIngredientsRadioBitton);
 			RadioButtonGroup.Add(ItemChecklistRadioButton);
@@ -121,16 +121,16 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				ItemChecklistRadioButton.OnSelectedChanged += ItemChecklistFilter_SelectedChanged;
-				ItemChecklistRadioButton.SetHoverText(RBText("Only new Items made from Seen Items"));
+				ItemChecklistRadioButton.SetHoverText(RBText("OnlyNewItemsMadeFromSeenItems"));
 				//ItemChecklistRadioButton.OnRightClick += ItemChecklistRadioButton_OnRightClick;
 			}
 			else
 			{
 				ItemChecklistRadioButton.SetDisabled();
-				ItemChecklistRadioButton.SetHoverText(RBText("Install Item Checklist to use", "Common"));
+				ItemChecklistRadioButton.SetHoverText(RBText("InstallItemChecklistToUse", "Common"));
 			}
 
-			itemNameFilter = new NewUITextBox(RBText("Filter by Name", "Common"));
+			itemNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
@@ -139,7 +139,7 @@ namespace RecipeBrowser
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
 
-			itemDescriptionFilter = new NewUITextBox(RBText("Filter by tooltip", "Common"));
+			itemDescriptionFilter = new NewUITextBox(RBText("FilterByTooltip", "Common"));
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;

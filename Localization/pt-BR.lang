@@ -1,0 +1,34 @@
+// Translations partially by Aleck ?#4397 and partially by ??Bluezinho??#1242
+
+RecipeBrowserUI.Recipes=Receitas
+RecipeBrowserUI.Items=Items
+RecipeBrowserUI.Bestiary=Bestiário
+RecipeBrowserUI.Close=Fechar
+RecipeBrowserUI.All=Todos
+RecipeBrowserUI.ModFilter=Filtro de Mods
+
+Common.FilterByName=Filtrar por Nome
+Common.FilterByTooltip=Filtrar por descrição
+Common.InstallItemChecklistToUse=Instale Item Checklist Para usar
+
+RecipeCatalogueUI.Tile=Título
+RecipeCatalogueUI.AllRecipes=Todas as receitas
+RecipeCatalogueUI.NearbyChests=Baús Pertos
+RecipeCatalogueUI.ClickToRefresh=Clique para Atualizar
+RecipeCatalogueUI.ItemChecklistOnly=Somente pela Item Checklist
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Somente Itens novos feito com Itens Vistos
+
+ItemCatalogueUI.Crafted=Craftado
+ItemCatalogueUI.OnlyShowCraftedItems=Mostrar apenas itens craftados
+ItemCatalogueUI.Loot=Saque
+ItemCatalogueUI.ShowOnlyLootItems=Mostrar apenas itens de saque
+ItemCatalogueUI.Unobtained=Não obtido
+ItemCatalogueUI.OnlyUnobtainedItems=Somente itens não obtidos
+ItemCatalogueUI.BottomInstructions=2x BEM: Ver Receitas  ---  2x BDM: Ver NPCs que carregam
+
+BestiaryUI.Encountered=Encontrado
+BestiaryUI.ShowOnlyNPCKilledAlready=Mostrar apenas NPCs já mortos
+BestiaryUI.HasLoot=Tem Saque
+BestiaryUI.ShowOnlyNPCWithLoot=Mostrar apenas NPCs com Saque
+BestiaryUI.NewLoot=Saque Novo
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Mostrar apenas NPCs com Saque nunca visto antes
