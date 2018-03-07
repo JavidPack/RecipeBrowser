@@ -65,6 +65,8 @@ namespace RecipeBrowser
 		internal List<UIRecipeSlot> recipeSlots;
 		internal List<UITileSlot> tileSlots;
 
+		internal List<int> craftingTiles;
+
 		internal bool updateNeeded;
 
 		public RecipeCatalogueUI()
@@ -160,6 +162,7 @@ namespace RecipeBrowser
 			recipeGrid.Width.Set(-20f, 1f);
 			recipeGrid.Height.Set(0, 1f);
 			recipeGrid.ListPadding = 2f;
+			recipeGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			recipeGridPanel.Append(recipeGrid);
 
 			var lootItemsScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -188,6 +191,7 @@ namespace RecipeBrowser
 			lootSourceGrid.Width.Set(0, 1f);
 			lootSourceGrid.Height.Set(0, 1f);
 			lootSourceGrid.ListPadding = 2f;
+			lootSourceGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			lootSourcePanel.Append(lootSourceGrid);
 
 			var lootSourceScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -217,6 +221,7 @@ namespace RecipeBrowser
 			tileChooserGrid.Height.Set(-24, 1f);
 			tileChooserGrid.Top.Set(24, 0f);
 			tileChooserGrid.ListPadding = 2f;
+			tileChooserGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			tileChooserPanel.Append(tileChooserGrid);
 
 			var tileChooserScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -352,6 +357,7 @@ namespace RecipeBrowser
 					tileChooserGrid.Add(tileSlot);
 					tileSlots.Add(tileSlot);
 				}
+				craftingTiles = tileUsageCounts.Select(x => x.Key).ToList();
 
 				RecipeBrowserUI.instance.UpdateFavoritedPanel();
 			}
@@ -377,7 +383,9 @@ namespace RecipeBrowser
 			if (queryLootItem != null)
 			{
 				//var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
-				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
+				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria",
+					queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type), 
+					queryLootItem.modItem != null ? 0 : queryLootItem.type);
 				List<JSONNPC> npcsthatdropme;
 				if (LootCache.instance.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
 				{

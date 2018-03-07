@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,8 @@ namespace RecipeBrowser
 				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
 				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
 				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
+				UIHorizontalGrid.moreLeftTexture = GetTexture("UIElements/MoreLeft");
+				UIHorizontalGrid.moreRightTexture = GetTexture("UIElements/MoreRight");
 			}
 		}
 
@@ -91,6 +94,7 @@ namespace RecipeBrowser
 		public override void Unload()
 		{
 			instance = null;
+			translations = null;
 			itemChecklistInstance = null;
 			LootCache.instance = null;
 			ToggleRecipeBrowserHotKey = null;
@@ -106,6 +110,8 @@ namespace RecipeBrowser
 			UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = null;
 			UIElements.UICheckbox.checkboxTexture = null;
 			UIElements.UICheckbox.checkmarkTexture = null;
+			UIHorizontalGrid.moreLeftTexture = null;
+			UIHorizontalGrid.moreRightTexture = null;
 		}
 
 		public override void PostSetupContent()
@@ -224,6 +230,56 @@ namespace RecipeBrowser
 					//DebugText("Unknown Message type: " + msgType);
 					break;
 			}
+		}
+
+		// Messages:
+		// string:"AddItemCategory" - string:SortName - string:Parent - Texture2D:Icon - Predicate<Item>:belongs
+		internal List<ModCategory> modCategories = new List<ModCategory>();
+		internal List<ModCategory> modFilters = new List<ModCategory>();
+		public override object Call(params object[] args)
+		{
+			/*
+			Mod RecipeBrowser = ModLoader.GetMod("RecipeBrowser");
+			if (RecipeBrowser != null)
+			{
+				RecipeBrowser.Call("AddItemCategory", "Example", "Weapons", GetTexture("Items/ExampleItem"), (Predicate<Item>)((Item item) => item.type == ItemType("Mundane")));
+			}
+			 */ 
+			try
+			{
+				string message = args[0] as string;
+				if (message == "AddItemCategory")
+				{
+					string sortName = args[1] as string;
+					string parentName = args[2] as string;
+					Texture2D icon = args[3] as Texture2D;
+					Predicate<Item> belongs = args[4] as Predicate<Item>;
+					if (!Main.dedServ)
+						modCategories.Add(new ModCategory(sortName, parentName, icon, belongs));
+					//modCategories.Add(new ModCategory(sortName, parentName, icon, (Item item) => item.type == ItemType("Mundane")));
+					return "Success";
+				}
+				else if (message == "AddItemFilter")
+				{
+					string sortName = args[1] as string;
+					string parentName = args[2] as string;
+					Texture2D icon = args[3] as Texture2D;
+					Predicate<Item> belongs = args[4] as Predicate<Item>;
+					if (!Main.dedServ)
+						modFilters.Add(new ModCategory(sortName, parentName, icon, belongs));
+					//modCategories.Add(new ModCategory(sortName, parentName, icon, (Item item) => item.type == ItemType("Mundane")));
+					return "Success";
+				}
+				else
+				{
+					ErrorLogger.Log("RecipeBrowser Call Error: Unknown Message: " + message);
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLogger.Log("RecipeBrowser Call Error: " + e.StackTrace + e.Message);
+			}
+			return "Failure";
 		}
 	}
 
