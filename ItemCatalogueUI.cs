@@ -911,7 +911,7 @@ namespace RecipeBrowser
 			{
 				button.selected = !button.selected;
 				ItemCatalogueUI.instance.updateNeeded = true;
-				Main.NewText("clicked on " + button.hoverText);
+				//Main.NewText("clicked on " + button.hoverText);
 			};
 		}
 	}
