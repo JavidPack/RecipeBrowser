@@ -1,0 +1,32 @@
+RecipeBrowserUI.Recipes=Rezepte
+RecipeBrowserUI.Items=Gegenstände
+RecipeBrowserUI.Bestiary=Bestiarium
+RecipeBrowserUI.Close=Schließen
+RecipeBrowserUI.All=Alle
+RecipeBrowserUI.ModFilter=Mod Filter
+
+Common.FilterByName=Filter nach Namen
+Common.FilterByTooltip=Filter nach Kurzinfo
+Common.InstallItemChecklistToUse=Installier Item Checklist zum benutzen
+
+RecipeCatalogueUI.Tile=Block
+RecipeCatalogueUI.AllRecipes=Alle Rezepte
+RecipeCatalogueUI.NearbyChests=Nahe Truhen
+RecipeCatalogueUI.ClickToRefresh=Klicken zum Aktualisieren
+RecipeCatalogueUI.ItemChecklistOnly=Nur Item Checklist
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Nur neue Gegenstände hergestellt aus gesehenen Gegenständen
+
+ItemCatalogueUI.Crafted=Hergestellt
+ItemCatalogueUI.OnlyShowCraftedItems=Zeige nur Hergestellte Gegenstände
+ItemCatalogueUI.Loot=Beute
+ItemCatalogueUI.ShowOnlyLootItems=Zeige nur Beute Gegenstände
+ItemCatalogueUI.Unobtained=Nicht erhalten
+ItemCatalogueUI.OnlyUnobtainedItems=Nur nicht erhaltene Gegenstände
+ItemCatalogueUI.BottomInstructions=2x LMB: Siehe Rezepte  ---  2x RMB: Siehe fallen lassende NPC
+
+BestiaryUI.Encountered=Begegnet
+BestiaryUI.ShowOnlyNPCKilledAlready=Zeige nur Getötete NPC
+BestiaryUI.HasLoot=Hat Beute
+BestiaryUI.ShowOnlyNPCWithLoot=Zeige nur NPC mit Beute
+BestiaryUI.NewLoot=Neue Beute
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Zeige nur NPC mit niemals zuvor gesehener Beute
