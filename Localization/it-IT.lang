@@ -14,12 +14,12 @@ RecipeCatalogueUI.AllRecipes=Tutte le Ricette
 RecipeCatalogueUI.NearbyChests=Ceste Vicine
 RecipeCatalogueUI.ClickToRefresh=Clicca per Ricaricare
 RecipeCatalogueUI.ItemChecklistOnly=Solo per Item Checklist
-RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Only new Items made from Seen Items
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Solo nuovi Oggetti fatti con Oggetti già Visti
 
 ItemCatalogueUI.Crafted=Costruito
 ItemCatalogueUI.OnlyShowCraftedItems=Mostra solo oggetti costruiti
 ItemCatalogueUI.Loot=Bottino
-ItemCatalogueUI.ShowOnlyLootItems=Mostra solo oggetti da bottino
+ItemCatalogueUI.ShowOnlyLootItems=Mostra solo oggetti da bottini
 ItemCatalogueUI.Unobtained=Non ottenuti
 ItemCatalogueUI.OnlyUnobtainedItems=Solo oggetti non ottenuti
 ItemCatalogueUI.BottomInstructions=2x tasto sinistro: Vedi Ricette  ---  2x tasto destro: Vedi PNG che lo lasciano cadere
