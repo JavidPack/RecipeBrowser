@@ -1,29 +1,30 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace RecipeBrowser
 {
 	// Magic storage: item checklist support?
-	// Any iron bar not working for starred
 	// Loot cache manual reset button. Manually trigger recalculation
 	// TODO: Auto favorite items needed for starred recipes. And notify?
 	// TODO: Save starred recipes. Also, crafting check off starred last time, look into it.
-	// SHARED starred recipes maybe?
 	// TODO: Hide Items, items not interested in crafting. Only show if query item is that item (so you can still know how to craft if needed in craft chain.)
 	// TODO: Star Loot
 	// TODO: some sort of banner menu?
-	// TODO: Invesitgate Update placement. (Tiles purple flash)
 	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
+		internal static Dictionary<string, ModTranslation> translations; // reference to private field.
 		internal static Mod itemChecklistInstance;
 		internal ModHotKey ToggleRecipeBrowserHotKey;
 		internal ModHotKey QueryHoveredItemHotKey;
@@ -38,13 +39,17 @@ namespace RecipeBrowser
 		// TODO, Chinese IME support
 		public override void Load()
 		{
-			// Latest uses Middle Mouse button, added 0.10.1.1
-			if (ModLoader.version < new Version(0, 10, 1, 1))
+			// Latest uses Mod.UpdateUI, added 0.10.1.2
+			if (ModLoader.version < new Version(0, 10, 1, 2))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
 			}
 
 			instance = this;
+
+			FieldInfo translationsField = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic);
+			translations = (Dictionary<string, ModTranslation>)translationsField.GetValue(this);
+
 			itemChecklistInstance = ModLoader.GetMod("ItemChecklist");
 			if (itemChecklistInstance != null && itemChecklistInstance.Version < new Version(0, 2, 1))
 				itemChecklistInstance = null;
@@ -74,12 +79,22 @@ namespace RecipeBrowser
 				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
 				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
 				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
+				UIHorizontalGrid.moreLeftTexture = GetTexture("UIElements/MoreLeft");
+				UIHorizontalGrid.moreRightTexture = GetTexture("UIElements/MoreRight");
 			}
+		}
+
+		internal static string RBText(string category, string key)
+		{
+			return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
+			// This isn't good until after load....
+			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
 		}
 
 		public override void Unload()
 		{
 			instance = null;
+			translations = null;
 			itemChecklistInstance = null;
 			LootCache.instance = null;
 			ToggleRecipeBrowserHotKey = null;
@@ -95,6 +110,8 @@ namespace RecipeBrowser
 			UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = null;
 			UIElements.UICheckbox.checkboxTexture = null;
 			UIElements.UICheckbox.checkmarkTexture = null;
+			UIHorizontalGrid.moreLeftTexture = null;
+			UIHorizontalGrid.moreRightTexture = null;
 		}
 
 		public override void PostSetupContent()
@@ -126,6 +143,11 @@ namespace RecipeBrowser
 			RecipeBrowserUI.instance.NewItemFound(type);
 		}
 
+		public override void UpdateUI(GameTime gameTime)
+		{
+			recipeBrowserTool?.UIUpdate(gameTime);
+		}
+
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			//if (CheatSheetLoaded) return;
@@ -145,7 +167,6 @@ namespace RecipeBrowser
 								lastSeenScreenWidth = Main.screenWidth;
 								lastSeenScreenHeight = Main.screenHeight;
 							}
-							recipeBrowserTool.UIUpdate();
 							recipeBrowserTool.UIDraw();
 						}
 						return true;
@@ -192,14 +213,14 @@ namespace RecipeBrowser
 					{
 						r.Add(reader.ReadInt32());
 					}
-					Main.NewText($"Player {player} now has: " + string.Join(",", r.ToArray()));
-					Console.WriteLine($"Player {player} now has: " + string.Join(",", r.ToArray()));
+					//Main.NewText($"Player {player} now has: " + string.Join(",", r.ToArray()));
+					//Console.WriteLine($"Player {player} now has: " + string.Join(",", r.ToArray()));
 					if (Main.netMode == 2 && !syncPlayer)
 					{
 						Main.player[player].GetModPlayer<RecipeBrowserPlayer>().SendFavoritedRecipes(-1, player);
 					}
 					// We will separately maintain other player favorites. Do not set UIRecipeSlot.favorite 
-					//if (Main.netMode != 2)
+					if (Main.netMode != 2)
 					{
 						RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 					}
@@ -209,6 +230,56 @@ namespace RecipeBrowser
 					//DebugText("Unknown Message type: " + msgType);
 					break;
 			}
+		}
+
+		// Messages:
+		// string:"AddItemCategory" - string:SortName - string:Parent - Texture2D:Icon - Predicate<Item>:belongs
+		internal List<ModCategory> modCategories = new List<ModCategory>();
+		internal List<ModCategory> modFilters = new List<ModCategory>();
+		public override object Call(params object[] args)
+		{
+			/*
+			Mod RecipeBrowser = ModLoader.GetMod("RecipeBrowser");
+			if (RecipeBrowser != null)
+			{
+				RecipeBrowser.Call("AddItemCategory", "Example", "Weapons", GetTexture("Items/ExampleItem"), (Predicate<Item>)((Item item) => item.type == ItemType("Mundane")));
+			}
+			 */ 
+			try
+			{
+				string message = args[0] as string;
+				if (message == "AddItemCategory")
+				{
+					string sortName = args[1] as string;
+					string parentName = args[2] as string;
+					Texture2D icon = args[3] as Texture2D;
+					Predicate<Item> belongs = args[4] as Predicate<Item>;
+					if (!Main.dedServ)
+						modCategories.Add(new ModCategory(sortName, parentName, icon, belongs));
+					//modCategories.Add(new ModCategory(sortName, parentName, icon, (Item item) => item.type == ItemType("Mundane")));
+					return "Success";
+				}
+				else if (message == "AddItemFilter")
+				{
+					string sortName = args[1] as string;
+					string parentName = args[2] as string;
+					Texture2D icon = args[3] as Texture2D;
+					Predicate<Item> belongs = args[4] as Predicate<Item>;
+					if (!Main.dedServ)
+						modFilters.Add(new ModCategory(sortName, parentName, icon, belongs));
+					//modCategories.Add(new ModCategory(sortName, parentName, icon, (Item item) => item.type == ItemType("Mundane")));
+					return "Success";
+				}
+				else
+				{
+					ErrorLogger.Log("RecipeBrowser Call Error: Unknown Message: " + message);
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLogger.Log("RecipeBrowser Call Error: " + e.StackTrace + e.Message);
+			}
+			return "Failure";
 		}
 	}
 

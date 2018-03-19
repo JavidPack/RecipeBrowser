@@ -1,0 +1,32 @@
+RecipeBrowserUI.Recipes=Ricette
+RecipeBrowserUI.Items=Oggetti
+RecipeBrowserUI.Bestiary=Bestiario
+RecipeBrowserUI.Close=Chiudi
+RecipeBrowserUI.All=Tutto
+RecipeBrowserUI.ModFilter=Filtra per Mod
+
+Common.FilterByName=Filtra per Nome
+Common.FilterByTooltip=Filtra per Descrizione
+Common.InstallItemChecklistToUse=Installa Item Checklist per usarlo
+
+RecipeCatalogueUI.Tile=Mattonella
+RecipeCatalogueUI.AllRecipes=Tutte le Ricette
+RecipeCatalogueUI.NearbyChests=Ceste Vicine
+RecipeCatalogueUI.ClickToRefresh=Clicca per Ricaricare
+RecipeCatalogueUI.ItemChecklistOnly=Solo per Item Checklist
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Solo nuovi Oggetti fatti con Oggetti già Visti
+
+ItemCatalogueUI.Crafted=Costruito
+ItemCatalogueUI.OnlyShowCraftedItems=Mostra solo oggetti costruiti
+ItemCatalogueUI.Loot=Bottino
+ItemCatalogueUI.ShowOnlyLootItems=Mostra solo oggetti da bottini
+ItemCatalogueUI.Unobtained=Non ottenuti
+ItemCatalogueUI.OnlyUnobtainedItems=Solo oggetti non ottenuti
+ItemCatalogueUI.BottomInstructions=2x tasto sinistro: Vedi Ricette  ---  2x tasto destro: Vedi PNG che lo lasciano cadere
+
+BestiaryUI.Encountered=Incontrato
+BestiaryUI.ShowOnlyNPCKilledAlready=Mostra solo PNG già sconfitti
+BestiaryUI.HasLoot=Ha bottino
+BestiaryUI.ShowOnlyNPCWithLoot=Mostra solo PNG con bottino
+BestiaryUI.NewLoot=Bottino nuovo
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Mostra solo PNG con bottino mai visto prima

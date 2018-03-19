@@ -11,6 +11,8 @@ namespace RecipeBrowser
 {
 	internal class BestiaryUI
 	{
+		internal static string RBText(string key, string category = "BestiaryUI") => RecipeBrowser.RBText(category, key);
+
 		// Idea: Auto select/show loot from last npc hit.
 		internal static BestiaryUI instance;
 
@@ -58,6 +60,7 @@ namespace RecipeBrowser
 			npcGrid.Width.Set(-20, 1f);
 			npcGrid.Height.Set(0, 1f);
 			npcGrid.ListPadding = 2f;
+			npcGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			npcGridPanel.Append(npcGrid);
 
 			var npcGridScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -79,6 +82,7 @@ namespace RecipeBrowser
 			lootGrid.Width.Set(0, 1f);
 			lootGrid.Height.Set(0, 1f);
 			lootGrid.ListPadding = 2f;
+			lootGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			lootPanel.Append(lootGrid);
 
 			var lootGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -93,7 +97,7 @@ namespace RecipeBrowser
 			queryItem.Left.Set(2, 0f);
 			mainPanel.Append(queryItem);
 
-			npcNameFilter = new NewUITextBox("Filter by Name");
+			npcNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			npcNameFilter.OnTextChanged += () => { ValidateNPCFilter(); updateNeeded = true; };
 			npcNameFilter.Top.Set(0, 0f);
 			npcNameFilter.Left.Set(-152, 1f);
@@ -101,19 +105,19 @@ namespace RecipeBrowser
 			npcNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(npcNameFilter);
 
-			EncounteredRadioButton = new UICheckbox("Encountered", "Show only NPC killed already");
+			EncounteredRadioButton = new UICheckbox(RBText("Encountered"), RBText("ShowOnlyNPCKilledAlready"));
 			EncounteredRadioButton.Top.Set(-40, 1f);
 			EncounteredRadioButton.Left.Set(6, .5f);
 			EncounteredRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(EncounteredRadioButton);
 
-			HasLootRadioButton = new UICheckbox("Has Loot", "Show only NPC with Loot");
+			HasLootRadioButton = new UICheckbox(RBText("HasLoot"), RBText("ShowOnlyNPCWithLoot"));
 			HasLootRadioButton.Top.Set(-20, 1f);
 			HasLootRadioButton.Left.Set(6, .5f);
 			HasLootRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 			mainPanel.Append(HasLootRadioButton);
 
-			NewLootOnlyRadioButton = new UICheckbox("New Loot", "???");
+			NewLootOnlyRadioButton = new UICheckbox(RBText("NewLoot"), "???");
 			NewLootOnlyRadioButton.Top.Set(-20, 1f);
 			NewLootOnlyRadioButton.Left.Set(110, .5f);
 			NewLootOnlyRadioButton.OnSelectedChanged += (a, b) => { updateNeeded = true; /*HasLootRadioButton.Selected = true;*/ };
@@ -122,12 +126,12 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				NewLootOnlyRadioButton.OnSelectedChanged += ItemChecklistNewLootOnlyFilter_SelectedChanged;
-				NewLootOnlyRadioButton.SetHoverText("Show only NPC with never before seen Loot");
+				NewLootOnlyRadioButton.SetHoverText(RBText("ShowOnlyNPCWithNeverBeforeSeenLoot"));
 			}
 			else
 			{
 				NewLootOnlyRadioButton.SetDisabled();
-				NewLootOnlyRadioButton.SetHoverText("Install Item Checklist to use");
+				NewLootOnlyRadioButton.SetHoverText(RBText("InstallItemChecklistToUse", "Common"));
 			}
 
 			updateNeeded = true;

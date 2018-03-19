@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Terraria;
@@ -85,6 +86,8 @@ namespace RecipeBrowser
 
 		public int CurrentPanel => tabController.currentPanel;
 
+		internal static string RBText(string key, string category = "RecipeBrowserUI") => RecipeBrowser.RBText(category, key);
+
 		public RecipeBrowserUI(UserInterface ui) : base(ui)
 		{
 			instance = this;
@@ -149,7 +152,7 @@ namespace RecipeBrowser
 			button.OnClick += (a, b) => tabController.SetPanel(RecipeCatalogue);
 			button.BackgroundColor = RecipeCatalogueUI.color;
 
-			UIText text = new UIText("Recipes", 0.85f);
+			UIText text = new UIText(RBText("Recipes"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -164,7 +167,7 @@ namespace RecipeBrowser
 			button.OnClick += (a, b) => { tabController.SetPanel(ItemCatalogue); itemCatalogueUI.updateNeeded = true; };
 			button.BackgroundColor = ItemCatalogueUI.color;
 
-			text = new UIText("Items", 0.85f);
+			text = new UIText(RBText("Items"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -179,7 +182,7 @@ namespace RecipeBrowser
 			button.OnClick += (a, b) => tabController.SetPanel(Bestiary);
 			button.BackgroundColor = BestiaryUI.color;
 
-			text = new UIText("Bestiary", 0.85f);
+			text = new UIText(RBText("Bestiary"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -195,7 +198,7 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), "Mod Filter: All");
+			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("ModFilter") + ": " + RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
@@ -204,7 +207,7 @@ namespace RecipeBrowser
 			button.Append(modFilterButton);
 
 			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
-			closeButton = new UIHoverImageButton(texture, "Close");
+			closeButton = new UIHoverImageButton(texture, RBText("Close"));
 			closeButton.OnClick += CloseButtonClicked;
 			closeButton.Left.Set(-26, 1f);
 			closeButton.VAlign = 0.5f;
@@ -242,7 +245,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = "Mod Filter: " + GetModFilterTooltip(true);
+			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(true);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -250,7 +253,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = "Mod Filter: " + GetModFilterTooltip(false);
+			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(false);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -259,7 +262,7 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			modIndex = mods.Length - 1;
-			button.hoverText = "Mod Filter: All";
+			button.hoverText = RBText("ModFilter") + ": " + RBText("All");
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -268,16 +271,20 @@ namespace RecipeBrowser
 		{
 			button.texture = null;
 			Mod otherMod = ModLoader.GetMod(mods[modIndex]);
-			if (otherMod != null && otherMod.TextureExists("icon"))
+			if (otherMod != null && otherMod.FileExists("icon.png"))
 			{
-				button.texture = otherMod.GetTexture("icon");
+				var modIconTexture = Texture2D.FromStream(Main.instance.GraphicsDevice, new MemoryStream(otherMod.GetFileBytes("icon.png")));
+				if (modIconTexture.Width == 80 && modIconTexture.Height == 80)
+				{
+					button.texture = modIconTexture;
+				}
 			}
 		}
 
 		private string GetModFilterTooltip(bool increment)
 		{
 			modIndex = increment ? (modIndex + 1) % mods.Length : (mods.Length + modIndex - 1) % mods.Length;
-			return modIndex == mods.Length - 1 ? "All" : mods[modIndex];
+			return modIndex == mods.Length - 1 ? RBText("All") : mods[modIndex];
 		}
 
 		internal void AllUpdateNeeded()
@@ -335,6 +342,7 @@ namespace RecipeBrowser
 			list.Width.Set(0, 1f);
 			list.Height.Set(0, 1f);
 			list.ListPadding = 5f;
+			list.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			favoritePanel.Append(list);
 			favoritePanel.AddDragTarget(list);
 			favoritePanel.AddDragTarget(list._innerList);
@@ -420,6 +428,11 @@ namespace RecipeBrowser
 			{
 				RecipeBrowserUI.instance.foundItems = (result as bool[]);
 			}
+		}
+
+		internal static void OnScrollWheel_FixHotbarScroll(UIScrollWheelEvent evt, UIElement listeningElement)
+		{
+			Main.LocalPlayer.ScrollHotbar(Terraria.GameInput.PlayerInput.ScrollWheelDelta / 120);
 		}
 	}
 

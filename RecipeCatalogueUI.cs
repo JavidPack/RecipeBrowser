@@ -12,6 +12,8 @@ namespace RecipeBrowser
 {
 	internal class RecipeCatalogueUI
 	{
+		internal static string RBText(string key, string category = "RecipeCatalogueUI") => RecipeBrowser.RBText(category, key);
+
 		internal static RecipeCatalogueUI instance;
 		internal static Color color = new Color(73, 94, 171);
 
@@ -63,6 +65,8 @@ namespace RecipeBrowser
 		internal List<UIRecipeSlot> recipeSlots;
 		internal List<UITileSlot> tileSlots;
 
+		internal List<int> craftingTiles;
+
 		internal bool updateNeeded;
 
 		public RecipeCatalogueUI()
@@ -95,19 +99,19 @@ namespace RecipeBrowser
 			//queryItem.OnItemChanged += () => { Main.NewText("Item changed?"); TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
 
-			TileLookupRadioButton = new UICheckbox("Tile", "");
+			TileLookupRadioButton = new UICheckbox(RBText("Tile"), "");
 			TileLookupRadioButton.Top.Set(42, 0f);
 			TileLookupRadioButton.Left.Set(0, 0f);
-			TileLookupRadioButton.SetText("  Tile");
+			TileLookupRadioButton.SetText("  " + RBText("Tile"));
 			TileLookupRadioButton.OnSelectedChanged += (s, e) => { ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); updateNeeded = true; };
 			mainPanel.Append(TileLookupRadioButton);
 
 			RadioButtonGroup = new UIRadioButtonGroup();
 			RadioButtonGroup.Left.Pixels = 45;
 			RadioButtonGroup.Width.Set(180, 0f);
-			UIRadioButton AllRecipesRadioButton = new UIRadioButton("All Recipes", "");
-			NearbyIngredientsRadioBitton = new UIRadioButton("Nearby Chests", "Click to Refresh");
-			ItemChecklistRadioButton = new UIRadioButton("Item Checklist Only", "???");
+			UIRadioButton AllRecipesRadioButton = new UIRadioButton(RBText("AllRecipes"), "");
+			NearbyIngredientsRadioBitton = new UIRadioButton(RBText("NearbyChests"), RBText("ClickToRefresh"));
+			ItemChecklistRadioButton = new UIRadioButton(RBText("ItemChecklistOnly"), "???");
 			RadioButtonGroup.Add(AllRecipesRadioButton);
 			RadioButtonGroup.Add(NearbyIngredientsRadioBitton);
 			RadioButtonGroup.Add(ItemChecklistRadioButton);
@@ -119,16 +123,16 @@ namespace RecipeBrowser
 			if (RecipeBrowser.itemChecklistInstance != null)
 			{
 				ItemChecklistRadioButton.OnSelectedChanged += ItemChecklistFilter_SelectedChanged;
-				ItemChecklistRadioButton.SetHoverText("Only new Items made from Seen Items");
+				ItemChecklistRadioButton.SetHoverText(RBText("OnlyNewItemsMadeFromSeenItems"));
 				//ItemChecklistRadioButton.OnRightClick += ItemChecklistRadioButton_OnRightClick;
 			}
 			else
 			{
 				ItemChecklistRadioButton.SetDisabled();
-				ItemChecklistRadioButton.SetHoverText("Install Item Checklist to use");
+				ItemChecklistRadioButton.SetHoverText(RBText("InstallItemChecklistToUse", "Common"));
 			}
 
-			itemNameFilter = new NewUITextBox("Filter by Name");
+			itemNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
@@ -137,7 +141,7 @@ namespace RecipeBrowser
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
 
-			itemDescriptionFilter = new NewUITextBox("Filter by tooltip");
+			itemDescriptionFilter = new NewUITextBox(RBText("FilterByTooltip", "Common"));
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
@@ -158,6 +162,7 @@ namespace RecipeBrowser
 			recipeGrid.Width.Set(-20f, 1f);
 			recipeGrid.Height.Set(0, 1f);
 			recipeGrid.ListPadding = 2f;
+			recipeGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			recipeGridPanel.Append(recipeGrid);
 
 			var lootItemsScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -186,6 +191,7 @@ namespace RecipeBrowser
 			lootSourceGrid.Width.Set(0, 1f);
 			lootSourceGrid.Height.Set(0, 1f);
 			lootSourceGrid.ListPadding = 2f;
+			lootSourceGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			lootSourcePanel.Append(lootSourceGrid);
 
 			var lootSourceScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -215,6 +221,7 @@ namespace RecipeBrowser
 			tileChooserGrid.Height.Set(-24, 1f);
 			tileChooserGrid.Top.Set(24, 0f);
 			tileChooserGrid.ListPadding = 2f;
+			tileChooserGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			tileChooserPanel.Append(tileChooserGrid);
 
 			var tileChooserScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -350,6 +357,7 @@ namespace RecipeBrowser
 					tileChooserGrid.Add(tileSlot);
 					tileSlots.Add(tileSlot);
 				}
+				craftingTiles = tileUsageCounts.Select(x => x.Key).ToList();
 
 				RecipeBrowserUI.instance.UpdateFavoritedPanel();
 			}
@@ -375,7 +383,9 @@ namespace RecipeBrowser
 			if (queryLootItem != null)
 			{
 				//var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
-				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
+				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria",
+					queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type), 
+					queryLootItem.modItem != null ? 0 : queryLootItem.type);
 				List<JSONNPC> npcsthatdropme;
 				if (LootCache.instance.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
 				{

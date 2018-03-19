@@ -166,9 +166,14 @@ namespace RecipeBrowser
 			this.UpdateScrollbar();
 		}
 
+		//internal delegate int ElementSort(UIElement item1, UIElement item2);
+		internal Comparison<UIElement> alternateSort;
 		public void UpdateOrder()
 		{
-			this._items.Sort(new Comparison<UIElement>(this.SortMethod));
+			if (alternateSort != null)
+				this._items.Sort(alternateSort);
+			else
+				this._items.Sort(new Comparison<UIElement>(this.SortMethod));
 			this.UpdateScrollbar();
 		}
 

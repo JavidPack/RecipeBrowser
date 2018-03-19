@@ -41,6 +41,9 @@ namespace RecipeBrowser
 		private float _innerListWidth;
 		public float ListPadding = 5f;
 
+		public static Texture2D moreLeftTexture;
+		public static Texture2D moreRightTexture;
+
 		public int Count
 		{
 			get
@@ -194,11 +197,32 @@ namespace RecipeBrowser
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			//var r = GetDimensions().ToRectangle();
+			//r.Inflate(-10,-10);
+			//spriteBatch.Draw(Main.magicPixel, r, Color.Yellow);
 			if (this._scrollbar != null)
 			{
 				this._innerList.Left.Set(-this._scrollbar.GetValue(), 0f);
 			}
 			this.Recalculate();
+		}
+
+		public bool drawArrows;
+		protected override void DrawChildren(SpriteBatch spriteBatch)
+		{
+			base.DrawChildren(spriteBatch);
+			if (drawArrows)
+			{
+				var inner = GetInnerDimensions().ToRectangle();
+				if (this._scrollbar.ViewPosition != 0)
+				{
+					spriteBatch.Draw(moreLeftTexture, new Vector2(inner.X, inner.Y), Color.White * .5f);
+				}
+				if (this._scrollbar.ViewPosition < _innerListWidth - inner.Width)
+				{
+					spriteBatch.Draw(moreRightTexture, new Vector2(inner.Right - moreRightTexture.Width, inner.Y), Color.White * .5f);
+				}
+			}
 		}
 	}
 }

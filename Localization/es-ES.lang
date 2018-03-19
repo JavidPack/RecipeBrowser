@@ -1,0 +1,32 @@
+RecipeBrowserUI.Recipes=Recetas
+RecipeBrowserUI.Items=Items
+RecipeBrowserUI.Bestiary=Bestiario
+RecipeBrowserUI.Close=Cerrar
+RecipeBrowserUI.All=Todo
+RecipeBrowserUI.ModFilter=Filtro por Mod
+
+Common.FilterByName=Filtro por nombre
+Common.FilterByTooltip=Filtro por descripción
+Common.InstallItemChecklistToUse=Instalar Item Checklist para ser utilizado
+
+RecipeCatalogueUI.Tile=Bloque
+RecipeCatalogueUI.AllRecipes=Todas las recetas
+RecipeCatalogueUI.NearbyChests=Cofres cercanos
+RecipeCatalogueUI.ClickToRefresh=Clic para recargar
+RecipeCatalogueUI.ItemChecklistOnly=Item Checklist solamente
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Solo Items nuevos disponibles por Items ya vistos
+
+ItemCatalogueUI.Crafted=Elaborado
+ItemCatalogueUI.OnlyShowCraftedItems=Solo items ya elaborados
+ItemCatalogueUI.Loot=Botín
+ItemCatalogueUI.ShowOnlyLootItems=Solo items de botín
+ItemCatalogueUI.Unobtained=Por Obtener
+ItemCatalogueUI.OnlyUnobtainedItems=Solo items por obtener
+ItemCatalogueUI.BottomInstructions=2x BIM: Ver Recetas  ---  2x BDM: Ver botín de NPCs
+
+BestiaryUI.Encountered=Avistados
+BestiaryUI.ShowOnlyNPCKilledAlready=Solo NPCs que han sido matados
+BestiaryUI.HasLoot=Botín?
+BestiaryUI.ShowOnlyNPCWithLoot=Solo NPC con botín
+BestiaryUI.NewLoot=Nuevo botín
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Solo NPCs que nunca han sido vistos

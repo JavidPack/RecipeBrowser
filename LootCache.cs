@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ReLogic.Reflection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -77,6 +78,81 @@ namespace RecipeBrowser
 			return ModLoader.GetMod(this.mod)?.GetNPC(this.name)?.npc.type ?? 0;
 		}
 	}
+
+	/*
+	[TypeConverter(typeof(JSONItemConverter))]
+	public class JSONItem2
+	{
+		public string mod;
+		public string name;
+
+		public JSONItem2(string mod, string name)
+		{
+			this.mod = mod;
+			this.name = name;
+		}
+
+		public JSONItem2(string mod, int id)
+		{
+			this.mod = mod;
+			if (mod == "Terraria")
+				name = ItemID.Search.GetName(id);
+			else
+			{
+				name = NPCLoader.GetNPC(id).Name;
+			}
+		}
+
+
+		public JSONItem2(int id)
+		{
+			if (id < ItemID.Count)
+			{
+				mod = "Terraria";
+				name = ItemID.Search.GetName(id);
+			}
+			else
+			{
+				mod = NPCLoader.GetNPC(id).mod.Name;
+				name = NPCLoader.GetNPC(id).Name;
+			}
+		}
+
+		public override bool Equals(object obj)
+		{
+			JSONItem p = obj as JSONItem;
+			if (p == null)
+			{
+				return false;
+			}
+			return (mod == p.mod) && (name == p.name);
+		}
+
+		public override int GetHashCode()
+		{
+			return new { mod, name }.GetHashCode();
+		}
+
+		internal bool IsAvailable()
+		{
+			return true;
+		}
+
+		internal int GetID()
+		{
+			//IdDictionary Search = IdDictionary.Create<NPCID, short>();
+
+			if (mod == "Terraria")
+			{
+				if (ItemID.Search.ContainsName(name))
+					return ItemID.Search.GetId(name);
+				return 0;
+			}
+
+			return ModLoader.GetMod(this.mod)?.GetItem(this.name)?.item.type ?? 0;
+		}
+	}
+	*/
 
 	[TypeConverter(typeof(JSONItemConverter))]
 	public class JSONItem
@@ -346,7 +422,7 @@ namespace RecipeBrowser
 				loots.Clear();
 				// Reset temp values
 				Main.rand = oldRand; // value 8 seconds.  // don't value to 0 and ignore.contains: 5 seconds.
-								  // value to 0, contains, 4 seconds.   .6 seconds without contains.
+									 // value to 0, contains, 4 seconds.   .6 seconds without contains.
 				Main.maxTilesX = oldMx;
 				Main.maxTilesY = oldMy;
 				Main.soundVolume = soundVolume;

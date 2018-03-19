@@ -1,0 +1,35 @@
+// Translation by ArcheRion720 & Cr4X
+
+RecipeBrowserUI.Recipes=Przepisy
+RecipeBrowserUI.Items=Przedmioty
+RecipeBrowserUI.Bestiary=Bestiariusz
+RecipeBrowserUI.Close=Zamknij
+RecipeBrowserUI.All=Wszystko
+RecipeBrowserUI.ModFilter=Filtruj względem modów
+
+Common.FilterByName=Filtruj względem nazwy
+Common.FilterByTooltip=Filtruj względem opisu
+Common.InstallItemChecklistToUse=Zainstaluj 'Item Checklist', aby użyć
+
+RecipeCatalogueUI.Tile=Struktury
+RecipeCatalogueUI.AllRecipes=Wszystkie receptury
+RecipeCatalogueUI.NearbyChests=Pobliskie skrzynie
+RecipeCatalogueUI.ClickToRefresh=Kliknij aby odświeżyć
+RecipeCatalogueUI.ItemChecklistOnly=Tylko przedmioty z 'Item Checklist'
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Tylko nowe przedmioty, zrobione z napotkanych przedmiotów
+
+ItemCatalogueUI.Crafted=Stworzone
+ItemCatalogueUI.OnlyShowCraftedItems=Pokazuj tylko stworzone przedmioty
+ItemCatalogueUI.Loot=Łup
+ItemCatalogueUI.ShowOnlyLootItems=Pokazuj tylko łupy
+ItemCatalogueUI.Unobtained=Niezdobyte
+ItemCatalogueUI.OnlyUnobtainedItems= Tylko niezdobyte przedmioty
+ItemCatalogueUI.BottomInstructions=2x LPM: Zobacz przepisy  ---  2x RMB: Zobacz NPC z szansą na łup
+
+BestiaryUI.Encountered=Napotkane
+BestiaryUI.ShowOnlyNPCKilledAlready=Pokaż tylko pokonanych NPC
+BestiaryUI.HasLoot=Ma łup
+BestiaryUI.ShowOnlyNPCWithLoot=Pokaż tylko NPC z Łupem
+BestiaryUI.NewLoot=Nowy Łup
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Pokaż NPC z wcześniej nie widzianym łupem
+

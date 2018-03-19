@@ -1,0 +1,32 @@
+RecipeBrowserUI.Recipes=Recipes
+RecipeBrowserUI.Items=Items
+RecipeBrowserUI.Bestiary=Bestiary
+RecipeBrowserUI.Close=Close
+RecipeBrowserUI.All=All
+RecipeBrowserUI.ModFilter=Mod Filter
+
+Common.FilterByName=Filter by Name
+Common.FilterByTooltip=Filter by tooltip
+Common.InstallItemChecklistToUse=Install Item Checklist to use
+
+RecipeCatalogueUI.Tile=Tile
+RecipeCatalogueUI.AllRecipes=All Recipes
+RecipeCatalogueUI.NearbyChests=Nearby Chests
+RecipeCatalogueUI.ClickToRefresh=Click to Refresh
+RecipeCatalogueUI.ItemChecklistOnly=Item Checklist Only
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Only new Items made from Seen Items
+
+ItemCatalogueUI.Crafted=Crafted
+ItemCatalogueUI.OnlyShowCraftedItems=Only show crafted items
+ItemCatalogueUI.Loot=Loot
+ItemCatalogueUI.ShowOnlyLootItems=Show only loot items
+ItemCatalogueUI.Unobtained=Unobtained
+ItemCatalogueUI.OnlyUnobtainedItems=Only unobtained items
+ItemCatalogueUI.BottomInstructions=2x LMB: View Recipes  ---  2x RMB: See dropping NPCs
+
+BestiaryUI.Encountered=Encountered
+BestiaryUI.ShowOnlyNPCKilledAlready=Show only NPC killed already
+BestiaryUI.HasLoot=Has Loot
+BestiaryUI.ShowOnlyNPCWithLoot=Show only NPC with Loot
+BestiaryUI.NewLoot=New Loot
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Show only NPC with never before seen Loot
