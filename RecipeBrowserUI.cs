@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using Terraria;
@@ -197,7 +198,7 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("ModFilter")+": "+RBText("All"));
+			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("ModFilter") + ": " + RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
@@ -244,7 +245,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("ModFilter")+": " + GetModFilterTooltip(true);
+			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(true);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -252,7 +253,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("ModFilter")+": " + GetModFilterTooltip(false);
+			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(false);
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -261,7 +262,7 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
 			modIndex = mods.Length - 1;
-			button.hoverText = RBText("ModFilter")+": "+RBText("All");
+			button.hoverText = RBText("ModFilter") + ": " + RBText("All");
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
 		}
@@ -270,9 +271,13 @@ namespace RecipeBrowser
 		{
 			button.texture = null;
 			Mod otherMod = ModLoader.GetMod(mods[modIndex]);
-			if (otherMod != null && otherMod.TextureExists("icon"))
+			if (otherMod != null && otherMod.FileExists("icon.png"))
 			{
-				button.texture = otherMod.GetTexture("icon");
+				var modIconTexture = Texture2D.FromStream(Main.instance.GraphicsDevice, new MemoryStream(otherMod.GetFileBytes("icon.png")));
+				if (modIconTexture.Width == 80 && modIconTexture.Height == 80)
+				{
+					button.texture = modIconTexture;
+				}
 			}
 		}
 
