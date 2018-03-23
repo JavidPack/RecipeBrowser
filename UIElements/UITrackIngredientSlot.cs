@@ -28,7 +28,7 @@ namespace RecipeBrowser.UIElements
 				Rectangle rectangle = dimensions.ToRectangle();
 				if (!item.IsAir)
 				{
-					int count = CountItemGroups(Main.player[owner], recipe, item.type, 999); // stopping at item.maxStack means you can't see if you can make multiple.
+					int count = CountItemGroups(Main.player[owner], recipe, item.type, targetStack > 999 ? targetStack : 999 ); // stopping at item.maxStack means you can't see if you can make multiple.
 					string progress = count + "/" + targetStack;
 					Color progressColor = count >= targetStack ? Color.LightGreen : Color.LightSalmon;
 					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, progress, dimensions.Position() + new Vector2(10f, 26f) * scale + new Vector2(-4f, 0f), progressColor, 0f, Vector2.Zero, new Vector2(scale), -1f, /*scale*/1);

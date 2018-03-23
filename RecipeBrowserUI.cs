@@ -224,7 +224,7 @@ namespace RecipeBrowser
 			favoritePanel.Top.Set(90f, 0f);
 			favoritePanel.Width.Set(415f, 0f);
 			favoritePanel.MinWidth.Set(50f, 0f);
-			favoritePanel.MaxWidth.Set(500f, 0f);
+			favoritePanel.MaxWidth.Set(600f, 0f);
 			favoritePanel.Height.Set(350, 0f);
 			favoritePanel.MinHeight.Set(50, 0f);
 			favoritePanel.MaxHeight.Set(300, 0f);
