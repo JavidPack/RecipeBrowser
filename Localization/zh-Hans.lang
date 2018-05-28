@@ -7,15 +7,15 @@ RecipeBrowserUI.All=全部
 RecipeBrowserUI.ModFilter=模组
 
 Common.FilterByName=搜索名称
-Common.FilterByTooltip=搜索说明
-Common.InstallItemChecklistToUse=安装[Item Checklist]以使用
+Common.FilterByTooltip=搜索提示
+Common.InstallItemChecklistToUse=安装[Item Checklist]可使用
 
 RecipeCatalogueUI.Tile=环境
-RecipeCatalogueUI.AllRecipes=全部合成配方
-RecipeCatalogueUI.NearbyChests=附近的箱子
+RecipeCatalogueUI.AllRecipes=全部配方
+RecipeCatalogueUI.NearbyChests=附近箱子
 RecipeCatalogueUI.ClickToRefresh=点击刷新
 RecipeCatalogueUI.ItemChecklistOnly=只显示曾有制作
-RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=只显示使用见过的物品制造的新物品
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=只显示使用见过的物品合成的新物品
 
 ItemCatalogueUI.Crafted=可合成
 ItemCatalogueUI.OnlyShowCraftedItems=只显示可合成的物品
@@ -23,11 +23,11 @@ ItemCatalogueUI.Loot=掉落物
 ItemCatalogueUI.ShowOnlyLootItems=只显示掉落物
 ItemCatalogueUI.Unobtained=未获得
 ItemCatalogueUI.OnlyUnobtainedItems=只显示未曾获得的物品
-ItemCatalogueUI.BottomInstructions=双击鼠标左键: 查看合成  ---  双击鼠标右键: 查看掉落
+ItemCatalogueUI.BottomInstructions=双击左键: 查看合成  ---  双击右键: 查看掉落
 
 BestiaryUI.Encountered=曾击杀
 BestiaryUI.ShowOnlyNPCKilledAlready=只显示曾经击杀过的NPC
 BestiaryUI.HasLoot=有掉落物
 BestiaryUI.ShowOnlyNPCWithLoot=只显示有掉落物的NPC
 BestiaryUI.NewLoot=新掉落物
-BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=只显示有从未见过的战利品的NPC
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=只显示有未见过的掉落物的NPC
