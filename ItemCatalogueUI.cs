@@ -843,7 +843,12 @@ namespace RecipeBrowser
 			}
 			Main.spriteBatch.End();
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
-			return renderTarget;
+
+			Texture2D mergedTexture = new Texture2D(Main.instance.GraphicsDevice, desiredWidth, desiredHeight);
+			Color[] content = new Color[desiredWidth * desiredHeight];
+			renderTarget.GetData<Color>(content);
+			mergedTexture.SetData<Color>(content);
+			return mergedTexture;
 		}
 
 		private Texture2D ResizeImage(Texture2D texture2D, int desiredWidth, int desiredHeight)
@@ -867,7 +872,12 @@ namespace RecipeBrowser
 
 			Main.spriteBatch.End();
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
-			return renderTarget;
+
+			Texture2D mergedTexture = new Texture2D(Main.instance.GraphicsDevice, desiredWidth, desiredHeight);
+			Color[] content = new Color[desiredWidth * desiredHeight];
+			renderTarget.GetData<Color>(content);
+			mergedTexture.SetData<Color>(content);
+			return mergedTexture;
 		}
 	}
 

@@ -354,7 +354,7 @@ namespace RecipeBrowser
 			{
 				if (i != Main.myPlayer && Main.player[i].active)
 				{
-					foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes)
+					foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes) // Collection was modified potential with receiving other player starred recipes?
 					{
 						Recipe r = Main.recipe[recipeIndex];
 						UIRecipeProgress s = new UIRecipeProgress(recipeIndex, r, order, i);
@@ -401,6 +401,14 @@ namespace RecipeBrowser
 		{
 			base.Update(gameTime);
 			// additional updates.
+			if (!mainPanel.GetDimensions().ToRectangle().Intersects(GetDimensions().ToRectangle()))
+			{
+				var parentSpace = GetDimensions().ToRectangle();
+				mainPanel.Left.Pixels = Utils.Clamp(mainPanel.Left.Pixels, 0, parentSpace.Right - mainPanel.Width.Pixels);
+				mainPanel.Top.Pixels = Utils.Clamp(mainPanel.Top.Pixels, 0, parentSpace.Bottom - mainPanel.Height.Pixels);
+				mainPanel.Recalculate();
+			}
+
 			recipeCatalogueUI.Update();
 			itemCatalogueUI.Update();
 			bestiaryUI.Update();
