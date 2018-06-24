@@ -335,7 +335,7 @@ namespace RecipeBrowser
 				RecipeCatalogueUI.instance.recipeSlots[recipeIndex].favorited = true;
 			}
 
-			ShowFavoritePanel = localPlayerFavoritedRecipes.Count > 0;
+			ShowFavoritePanel = localPlayerFavoritedRecipes.Count > 0; // TODO: checkbox for force this.
 			favoritePanel.RemoveAllChildren();
 
 			UIGrid list = new UIGrid();

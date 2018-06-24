@@ -145,6 +145,8 @@ namespace RecipeBrowser
 
 		public override void UpdateUI(GameTime gameTime)
 		{
+			// By doing these triggers here, we can use them even if autopaused.
+			Main.LocalPlayer.GetModPlayer<RecipeBrowserPlayer>().ProcessTriggersButAlways(null);
 			recipeBrowserTool?.UIUpdate(gameTime);
 		}
 
@@ -244,7 +246,7 @@ namespace RecipeBrowser
 			{
 				RecipeBrowser.Call("AddItemCategory", "Example", "Weapons", GetTexture("Items/ExampleItem"), (Predicate<Item>)((Item item) => item.type == ItemType("Mundane")));
 			}
-			 */ 
+			 */
 			try
 			{
 				string message = args[0] as string;

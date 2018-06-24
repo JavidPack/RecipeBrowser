@@ -139,7 +139,8 @@ namespace RecipeBrowser
 			packet.Send(toWho, fromWho);
 		}
 
-		public override void ProcessTriggers(TriggersSet triggersSet)
+		// These triggers should work in autopause and aren't related to Player actions, so we can use UpdateUI to call them.
+		public void ProcessTriggersButAlways(TriggersSet triggersSet)
 		{
 			//if (!RecipeBrowser.instance.CheatSheetLoaded)
 			{
