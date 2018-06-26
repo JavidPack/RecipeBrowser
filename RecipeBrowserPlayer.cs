@@ -140,7 +140,9 @@ namespace RecipeBrowser
 		}
 
 		// These triggers should work in autopause and aren't related to Player actions, so we can use UpdateUI to call them.
-		public void ProcessTriggersButAlways(TriggersSet triggersSet)
+		//public void ProcessTriggersButAlways(TriggersSet triggersSet)
+		// 0.6.1.6: hm, seemed to have backfired. Investigate why 0.6.1.5 approach would miss keypresses. 
+		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
 			//if (!RecipeBrowser.instance.CheatSheetLoaded)
 			{
