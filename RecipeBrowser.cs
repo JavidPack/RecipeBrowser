@@ -146,7 +146,7 @@ namespace RecipeBrowser
 		public override void UpdateUI(GameTime gameTime)
 		{
 			// By doing these triggers here, we can use them even if autopaused.
-			if(Main.autoPause)
+			if (Main.netMode == 0 && (Main.playerInventory || Main.npcChatText != "" || Main.player[Main.myPlayer].sign >= 0 || Main.ingameOptionsWindow || Main.inFancyUI) && Main.autoPause)
 				Main.LocalPlayer.GetModPlayer<RecipeBrowserPlayer>().ProcessTriggers(null);
 			recipeBrowserTool?.UIUpdate(gameTime);
 		}
