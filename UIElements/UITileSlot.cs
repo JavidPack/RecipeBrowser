@@ -54,13 +54,11 @@ namespace RecipeBrowser.UIElements
 			return -order.CompareTo(other.order);
 		}
 
-		// TODO, move this to a real update to prevent purple flash
 		public override void Update(GameTime gameTime)
 		{
 			//texture = null;
 			if (texture == null)
 			{
-
 				Main.instance.LoadTiles(tile);
 
 				var tileObjectData = TileObjectData.GetTileData(tile, 0, 0);
@@ -90,8 +88,15 @@ namespace RecipeBrowser.UIElements
 
 				Main.spriteBatch.End();
 				Main.instance.GraphicsDevice.SetRenderTarget(null);
+
+				texture = new Texture2D(Main.instance.GraphicsDevice, width * 16, height * 16);
+				Color[] content = new Color[width * 16 * height * 16];
+				renderTarget.GetData<Color>(content);
+				texture.SetData<Color>(content);
+
+				// RenderTargets lose data on resize, we need to copy to Texture2D instance, like above
 				//Main.spriteBatch.Begin();
-				texture = renderTarget;
+				//texture = renderTarget; 
 			}
 		}
 
@@ -124,6 +129,118 @@ namespace RecipeBrowser.UIElements
 			}
 			drawScale *= scale;
 			Vector2 vector = backgroundTexture.Size() * scale;
+			Vector2 position2 = dimensions.Position() + vector / 2f - texture.Size() * drawScale / 2f;
+			//Vector2 origin = texture.Size() * (1f / 2f - 0.5f);
+			spriteBatch.Draw(texture, position2, null, Color.White, 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);
+
+			if (IsMouseHovering)
+			{
+				string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tile, 0));
+				if (tileName == "")
+				{
+					if (tile < TileID.Count)
+						tileName = $"Tile {tile}";
+					else
+						tileName = Terraria.ModLoader.TileLoader.GetTile(tile).Name + " (err no entry)";
+				}
+				Main.hoverItemName = tileName;
+			}
+		}
+	}
+
+	class UITileNoSlot : UIElement
+	{
+		internal float scale = .75f;
+		public int order;
+		public int tile;
+		Texture2D texture;
+
+		public UITileNoSlot(int tile, int order, float scale = 0.75f)
+		{
+			this.scale = scale;
+			this.order = order;
+			this.tile = tile;
+			this.Width.Set(Main.inventoryBack9Texture.Width * scale, 0f);
+			this.Height.Set(Main.inventoryBack9Texture.Height * scale, 0f);
+		}
+
+		public override int CompareTo(object obj)
+		{
+			UITileSlot other = obj as UITileSlot;
+			return -order.CompareTo(other.order);
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			//texture = null;
+			if (texture == null)
+			{
+				Main.instance.LoadTiles(tile);
+
+				var tileObjectData = TileObjectData.GetTileData(tile, 0, 0);
+				if (tileObjectData == null)
+				{
+					texture = Main.magicPixel;
+					return;
+				}
+
+				int width = tileObjectData.Width;
+				int height = tileObjectData.Height;
+				int padding = tileObjectData.CoordinatePadding;
+
+				//Main.spriteBatch.End();
+				RenderTarget2D renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, width * 16, height * 16);
+				Main.instance.GraphicsDevice.SetRenderTarget(renderTarget);
+				Main.instance.GraphicsDevice.Clear(Color.Transparent);
+				Main.spriteBatch.Begin();
+
+				for (int i = 0; i < width; i++)
+				{
+					for (int j = 0; j < height; j++)
+					{
+						Main.spriteBatch.Draw(Main.tileTexture[tile], new Vector2(i * 16, j * 16), new Rectangle(i * 16 + i * padding, j * 16 + j * padding, 16, 16), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+					}
+				}
+
+				Main.spriteBatch.End();
+				Main.instance.GraphicsDevice.SetRenderTarget(null);
+
+				texture = new Texture2D(Main.instance.GraphicsDevice, width * 16, height * 16);
+				Color[] content = new Color[width * 16 * height * 16];
+				renderTarget.GetData<Color>(content);
+				texture.SetData<Color>(content);
+
+				// RenderTargets lose data on resize, we need to copy to Texture2D instance, like above
+				//Main.spriteBatch.Begin();
+				//texture = renderTarget; 
+			}
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			if (texture == null)
+				return;
+
+			CalculatedStyle dimensions = base.GetInnerDimensions();
+			Rectangle rectangle = dimensions.ToRectangle();
+
+			int height = texture.Height;
+			int width = texture.Width;
+			float drawScale = 1f; // larger, uncomment below
+			float availableWidth = (float)Main.inventoryBack9Texture.Width * scale;
+			if (width /** drawScale*/ > availableWidth || height /** drawScale*/ > availableWidth)
+			{
+				if (width > height)
+				{
+					drawScale = availableWidth / width;
+				}
+				else
+				{
+					drawScale = availableWidth / height;
+				}
+			}
+			drawScale *= scale;
+			Vector2 vector = Main.inventoryBack9Texture.Size() * scale;
 			Vector2 position2 = dimensions.Position() + vector / 2f - texture.Size() * drawScale / 2f;
 			//Vector2 origin = texture.Size() * (1f / 2f - 0.5f);
 			spriteBatch.Draw(texture, position2, null, Color.White, 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);

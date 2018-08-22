@@ -1,5 +1,4 @@
-// Translations partially by Aleck ?#4397 and partially by ??Bluezinho??#1242
-
+# Translations partially by Aleck ?#4397 and partially by ??Bluezinho??#1242
 RecipeBrowserUI.Recipes=Receitas
 RecipeBrowserUI.Items=Items
 RecipeBrowserUI.Bestiary=Bestiário
@@ -17,6 +16,7 @@ RecipeCatalogueUI.NearbyChests=Baús Pertos
 RecipeCatalogueUI.ClickToRefresh=Clique para Atualizar
 RecipeCatalogueUI.ItemChecklistOnly=Somente pela Item Checklist
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Somente Itens novos feito com Itens Vistos
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Craftado
 ItemCatalogueUI.OnlyShowCraftedItems=Mostrar apenas itens craftados
@@ -32,3 +32,4 @@ BestiaryUI.HasLoot=Tem Saque
 BestiaryUI.ShowOnlyNPCWithLoot=Mostrar apenas NPCs com Saque
 BestiaryUI.NewLoot=Saque Novo
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Mostrar apenas NPCs com Saque nunca visto antes
+# BestiaryUI.EmptyQuerySlotHint=Place item here

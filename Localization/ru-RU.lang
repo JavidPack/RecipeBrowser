@@ -1,5 +1,4 @@
-//Russian Translation made by Terraria Phone&PC Team
-
+# Russian Translation made by Terraria Phone&PC Team
 RecipeBrowserUI.Recipes=Рецепты
 RecipeBrowserUI.Items=Предметы
 RecipeBrowserUI.Bestiary=Мобы
@@ -17,13 +16,14 @@ RecipeCatalogueUI.NearbyChests=Ближайшие сундуки
 RecipeCatalogueUI.ClickToRefresh=Нажмите чтобы обновить
 RecipeCatalogueUI.ItemChecklistOnly=Только Item Checklist
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Только новые предметы из полученных предметов
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Создано
-ItemCatalogueUI.=Показывать только созданные предметы
+ItemCatalogueUI.OnlyShowCraftedItems=Показывать только созданные предметы
 ItemCatalogueUI.Loot=Лут
-ItemCatalogueUI.=Показывать только лут
+ItemCatalogueUI.ShowOnlyLootItems=Показывать только лут
 ItemCatalogueUI.Unobtained=Неполученное
-ItemCatalogueUI.=Только неполученные предметы
+ItemCatalogueUI.OnlyUnobtainedItems=Только неполученные предметы
 ItemCatalogueUI.BottomInstructions=2x ЛКМ: Рецепт; 2x ПКМ: С кого выпадает
 
 BestiaryUI.Encountered=Встречено
@@ -32,3 +32,4 @@ BestiaryUI.HasLoot=Лут
 BestiaryUI.ShowOnlyNPCWithLoot=Показывать только мобов с лутом
 BestiaryUI.NewLoot=Новый лут
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Показывать только мобов, с которых ни разу не получен лут
+# BestiaryUI.EmptyQuerySlotHint=Place item here

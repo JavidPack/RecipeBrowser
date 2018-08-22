@@ -1,5 +1,4 @@
-// Translation by ArcheRion720 & Cr4X
-
+# Translation by ArcheRion720 & Cr4X
 RecipeBrowserUI.Recipes=Przepisy
 RecipeBrowserUI.Items=Przedmioty
 RecipeBrowserUI.Bestiary=Bestiariusz
@@ -17,6 +16,7 @@ RecipeCatalogueUI.NearbyChests=Pobliskie skrzynie
 RecipeCatalogueUI.ClickToRefresh=Kliknij aby odświeżyć
 RecipeCatalogueUI.ItemChecklistOnly=Tylko przedmioty z 'Item Checklist'
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Tylko nowe przedmioty, zrobione z napotkanych przedmiotów
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Stworzone
 ItemCatalogueUI.OnlyShowCraftedItems=Pokazuj tylko stworzone przedmioty
@@ -32,4 +32,4 @@ BestiaryUI.HasLoot=Ma łup
 BestiaryUI.ShowOnlyNPCWithLoot=Pokaż tylko NPC z Łupem
 BestiaryUI.NewLoot=Nowy Łup
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Pokaż NPC z wcześniej nie widzianym łupem
-
+# BestiaryUI.EmptyQuerySlotHint=Place item here

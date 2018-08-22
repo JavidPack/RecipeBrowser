@@ -15,6 +15,7 @@ RecipeCatalogueUI.NearbyChests=Nearby Chests
 RecipeCatalogueUI.ClickToRefresh=Click to Refresh
 RecipeCatalogueUI.ItemChecklistOnly=Item Checklist Only
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Only new Items made from Seen Items
+RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Crafted
 ItemCatalogueUI.OnlyShowCraftedItems=Only show crafted items
@@ -30,3 +31,4 @@ BestiaryUI.HasLoot=Has Loot
 BestiaryUI.ShowOnlyNPCWithLoot=Show only NPC with Loot
 BestiaryUI.NewLoot=New Loot
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Show only NPC with never before seen Loot
+BestiaryUI.EmptyQuerySlotHint=Place item here

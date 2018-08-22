@@ -15,6 +15,7 @@ RecipeCatalogueUI.NearbyChests=Nahe Truhen
 RecipeCatalogueUI.ClickToRefresh=Klicken zum Aktualisieren
 RecipeCatalogueUI.ItemChecklistOnly=Nur Item Checklist
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Nur neue Gegenstände hergestellt aus gesehenen Gegenständen
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Hergestellt
 ItemCatalogueUI.OnlyShowCraftedItems=Zeige nur Hergestellte Gegenstände
@@ -30,3 +31,4 @@ BestiaryUI.HasLoot=Hat Beute
 BestiaryUI.ShowOnlyNPCWithLoot=Zeige nur NPC mit Beute
 BestiaryUI.NewLoot=Neue Beute
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Zeige nur NPC mit niemals zuvor gesehener Beute
+# BestiaryUI.EmptyQuerySlotHint=Place item here

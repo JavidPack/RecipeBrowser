@@ -95,6 +95,7 @@ namespace RecipeBrowser
 			queryItem = new UIBestiaryQueryItemSlot(new Item());
 			queryItem.Top.Set(2, 0f);
 			queryItem.Left.Set(2, 0f);
+			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			mainPanel.Append(queryItem);
 
 			npcNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));

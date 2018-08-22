@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.UI.Chat;
 
 namespace RecipeBrowser
 {
@@ -21,6 +22,10 @@ namespace RecipeBrowser
 	// TODO: Hide Items, items not interested in crafting. Only show if query item is that item (so you can still know how to craft if needed in craft chain.)
 	// TODO: Star Loot
 	// TODO: some sort of banner menu?
+	// TODO: Craft in UI for Multiple chests/banks/Magic Storage
+
+	// Multistep craft?
+	// Craft in GUI?
 	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
@@ -46,6 +51,11 @@ namespace RecipeBrowser
 			}
 
 			instance = this;
+
+			// Remember, this mod is NOT open source, don't steal these TagHandlers.
+			ChatManager.Register<TagHandlers.LinkTagHandler>("l", "link");
+			ChatManager.Register<TagHandlers.ImageTagHandler>("image");
+			//ChatManager.Register<TagHandlers.URLTagHandler>("u", "url");
 
 			FieldInfo translationsField = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic);
 			translations = (Dictionary<string, ModTranslation>)translationsField.GetValue(this);
@@ -203,6 +213,7 @@ namespace RecipeBrowser
 					int completedChestindex = reader.ReadInt32();
 					chestContentsAvailable[completedChestindex] = true;
 					RecipeCatalogueUI.instance.updateNeeded = true;
+					ItemCatalogueUI.instance.updateNeeded = true;
 					//Main.NewText($"Complete on {completedChestindex}");
 					break;
 
@@ -283,6 +294,18 @@ namespace RecipeBrowser
 				ErrorLogger.Log("RecipeBrowser Call Error: " + e.StackTrace + e.Message);
 			}
 			return "Failure";
+		}
+
+		public override void AddRecipes()
+		{
+			// Test crafting station display
+			//var recipe = new ModRecipe(this);
+			//recipe.AddIngredient(Terraria.ID.ItemID.BlueBerries, 20);
+			//recipe.AddTile(Terraria.ID.TileID.WorkBenches);
+			//recipe.AddTile(Terraria.ID.TileID.Chairs);
+			//recipe.needWater = true;
+			//recipe.SetResult(Terraria.ID.ItemID.PumpkinPie, 2);
+			//recipe.AddRecipe();
 		}
 	}
 

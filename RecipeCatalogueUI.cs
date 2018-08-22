@@ -96,6 +96,7 @@ namespace RecipeBrowser
 			queryItem = new UIRecipeCatalogueQueryItemSlot(new Item());
 			queryItem.Top.Set(2, 0f);
 			queryItem.Left.Set(2, 0f);
+			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			//queryItem.OnItemChanged += () => { Main.NewText("Item changed?"); TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
 
@@ -136,7 +137,7 @@ namespace RecipeBrowser
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
-			itemNameFilter.Left.Set(-208, 1f);
+			itemNameFilter.Left.Set(-204, 1f);
 			itemNameFilter.Width.Set(150, 0f);
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
@@ -145,20 +146,21 @@ namespace RecipeBrowser
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
-			itemDescriptionFilter.Left.Set(-208, 1f);
+			itemDescriptionFilter.Left.Set(-204, 1f);
 			itemDescriptionFilter.Width.Set(150, 0f);
 			itemDescriptionFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemDescriptionFilter);
 
 			recipeGridPanel = new UIPanel();
 			recipeGridPanel.SetPadding(6);
-			recipeGridPanel.Top.Pixels = 60;
-			recipeGridPanel.Width.Set(-60, 1f);
-			recipeGridPanel.Height.Set(-60 - 121, 1f);
+			recipeGridPanel.Top.Pixels = 120;
+			recipeGridPanel.Width.Set(-56, 1f);
+			recipeGridPanel.Height.Set(-50 - 120, 1f);
 			recipeGridPanel.BackgroundColor = Color.DarkBlue;
 			mainPanel.Append(recipeGridPanel);
 
 			recipeGrid = new UIGrid();
+			recipeGrid.alternateSort = ItemGridSort;
 			recipeGrid.Width.Set(-20f, 1f);
 			recipeGrid.Height.Set(0, 1f);
 			recipeGrid.ListPadding = 2f;
@@ -172,10 +174,10 @@ namespace RecipeBrowser
 			recipeGridPanel.Append(lootItemsScrollbar);
 			recipeGrid.SetScrollbar(lootItemsScrollbar);
 
-			recipeInfo = new UIRecipeInfo();
-			recipeInfo.Top.Set(-118, 1f);
+			recipeInfo = new UIRecipeInfo(); // -118, 120....to 50?
+			recipeInfo.Top.Set(-48, 1f);
 			recipeInfo.Width.Set(-50, 1f);
-			recipeInfo.Height.Set(120, 0f);
+			recipeInfo.Height.Set(50, 0f);
 			mainPanel.Append(recipeInfo);
 
 			UIPanel lootSourcePanel = new UIPanel();
@@ -204,9 +206,9 @@ namespace RecipeBrowser
 			// Tile Chooser
 			tileChooserPanel = new UIPanel();
 			tileChooserPanel.SetPadding(6);
-			tileChooserPanel.Top.Pixels = 60;
+			tileChooserPanel.Top.Pixels = 120;
 			tileChooserPanel.Width.Set(50, 0f);
-			tileChooserPanel.Height.Set(-60 - 121, 1f);
+			tileChooserPanel.Height.Set(-50 - 120, 1f);
 			tileChooserPanel.BackgroundColor = Color.CornflowerBlue;
 
 			uniqueCheckbox = new UICycleImage(RecipeBrowser.instance.GetTexture("Images/uniqueTile") /* Thanks MiningdiamondsVIII */, 2, new string[] { "Show inherited recipes", "Show unique recipes" }, 36, 20);
@@ -230,6 +232,8 @@ namespace RecipeBrowser
 			tileChooserScrollbar.Left.Set(-20, 1f);
 			tileChooserPanel.Append(tileChooserScrollbar);
 			tileChooserGrid.SetScrollbar(tileChooserScrollbar);
+
+			// needed? additionalDragTargets.Add(SharedUI.instance.sortsAndFiltersPanel);
 
 			recipeSlots = new List<UIRecipeSlot>();
 			tileSlots = new List<UITileSlot>();
@@ -441,6 +445,15 @@ namespace RecipeBrowser
 			recipeGrid._innerList.Recalculate();
 		}
 
+		private int ItemGridSort(UIElement x, UIElement y)
+		{
+			UIRecipeSlot a = x as UIRecipeSlot;
+			UIRecipeSlot b = y as UIRecipeSlot;
+			if (a.CompareToIgnoreIndex(b) == 0 && SharedUI.instance.SelectedSort != null)
+				return SharedUI.instance.SelectedSort.sort(a.item, b.item);
+			return a.CompareTo(b);
+		}
+
 		private bool PassRecipeFilters(Recipe recipe, List<int> groups)
 		{
 			if (RecipeBrowserUI.modIndex != RecipeBrowserUI.instance.mods.Length - 1)
@@ -545,6 +558,21 @@ namespace RecipeBrowser
 				}
 			}
 
+			var SelectedCategory = SharedUI.instance.SelectedCategory;
+			if (SelectedCategory != null)
+			{
+				if (!SelectedCategory.belongs(recipe.createItem) && !SelectedCategory.subCategories.Any(x => x.belongs(recipe.createItem)))
+					return false;
+			}
+			var availableFilters = SharedUI.instance.availableFilters;
+			if (availableFilters != null)
+				foreach (var filter in SharedUI.instance.availableFilters)
+				{
+					if (filter.button.selected)
+						if (!filter.belongs(recipe.createItem))
+							return false;
+				}
+
 			if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)
 				return false;
 
@@ -641,7 +669,10 @@ namespace RecipeBrowser
 		internal void SetRecipe(int index)
 		{
 			selectedIndex = -1;
-			recipeInfo.RemoveAllChildren();
+			//recipeInfo.RemoveAllChildren();
+			recipeInfo.tileList.ForEach(tile => tile.Remove());
+			recipeInfo.tileList.Clear();
+			recipeInfo.craftingTilesGrid.Clear();
 
 			foreach (var item in recipeSlots)
 			{
@@ -654,21 +685,38 @@ namespace RecipeBrowser
 			recipeslot.selected = true;
 			selectedIndex = index;
 
+			List<UIIngredientSlot> ingredients = new List<UIIngredientSlot>();
 			Recipe recipe = Main.recipe[index];
 			for (int i = 0; i < Recipe.maxRequirements; i++)
 			{
 				if (recipe.requiredItem[i].type > 0)
 				{
 					UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone());
-					ingredient.Left.Pixels = 200 + (i % 5 * 40);
-					ingredient.Top.Pixels = (i / 5 * 40);
+					//ingredient.Left.Pixels = 200 + (i % 5 * 40);
+					//ingredient.Top.Pixels = (i / 5 * 40);
+
+					ingredients.Add(ingredient);
 
 					OverrideForGroups(recipe, ingredient.item);
 					// TODO, stack?
 
-					recipeInfo.Append(ingredient);
+					//recipeInfo.Append(ingredient);
 				}
 			}
+			recipeInfo.craftingTilesGrid.AddRange(ingredients); // order...
+
+			//for (int i = 0; i < Recipe.maxRequirements; i++)
+			//{
+			//	if (recipe.requiredTile[i] > 0)
+			//	{
+			//		var tileSlot = new UITileNoSlot(recipe.requiredTile[i], i, 0.75f);
+			//		tileSlot.Left.Pixels = 10 + (i * 40);
+			//		tileSlot.Top.Pixels = 0;
+			//		recipeInfo.Append(tileSlot);
+			//		recipeInfo.tileList.Add(tileSlot);
+			//	}
+			//}
+
 		}
 
 		public static void OverrideForGroups(Recipe recipe, Item item)

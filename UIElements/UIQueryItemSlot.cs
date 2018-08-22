@@ -13,11 +13,21 @@ namespace RecipeBrowser.UIElements
 	{
 		public static Texture2D backgroundTextureFake = Main.inventoryBack8Texture;
 		internal bool real = true;
+		internal string emptyHintText;
 
 		public event Action OnItemChanged;
 
 		public UIQueryItemSlot(Item item) : base(item)
 		{
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			base.DrawSelf(spriteBatch);
+			if (item.IsAir && IsMouseHovering)
+			{
+				Main.hoverItemName = emptyHintText;
+			}
 		}
 
 		public override void Click(UIMouseEvent evt)

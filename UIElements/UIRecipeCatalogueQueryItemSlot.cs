@@ -14,6 +14,7 @@ namespace RecipeBrowser.UIElements
 			base.Click(evt);
 			RecipeCatalogueUI.instance.queryLootItem = (item.type == 0) ? null : item;
 			RecipeCatalogueUI.instance.updateNeeded = true;
+			SharedUI.instance.SelectedCategory = SharedUI.instance.categories[0];
 		}
 
 		internal override void ReplaceWithFake(int type)
@@ -23,6 +24,7 @@ namespace RecipeBrowser.UIElements
 			RecipeCatalogueUI.instance.updateNeeded = true;
 			RecipeCatalogueUI.instance.Tile = -1;
 			RecipeCatalogueUI.instance.TileLookupRadioButton.Selected = false;
+			SharedUI.instance.SelectedCategory = SharedUI.instance.categories[0];
 		}
 	}
 }

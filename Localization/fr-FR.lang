@@ -15,6 +15,7 @@ RecipeCatalogueUI.NearbyChests=Coffres à Proximité
 RecipeCatalogueUI.ClickToRefresh=Cliquer pour Rafraîchir
 RecipeCatalogueUI.ItemChecklistOnly=Item Checklist Uniquement
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Voir Uniquement les Nouveaux Objets Provenant d'Objets Déjà Vus
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Assemblé
 ItemCatalogueUI.OnlyShowCraftedItems=Voir Uniquement les Objets Déjà Assemblés
@@ -30,3 +31,4 @@ BestiaryUI.HasLoot=Possède du Butin
 BestiaryUI.ShowOnlyNPCWithLoot=Voir Uniquement les Ennemis à Butin
 BestiaryUI.NewLoot=Nouveau Butin
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Voir Uniquement les Ennemis avec du Butin Jamais Obtenu
+# BestiaryUI.EmptyQuerySlotHint=Place item here

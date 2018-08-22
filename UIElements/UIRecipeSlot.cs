@@ -102,6 +102,31 @@ namespace RecipeBrowser.UIElements
 			return index.CompareTo(other.index);
 		}
 
+		public int CompareToIgnoreIndex(UIRecipeSlot other)
+		{
+			if (favorited && !other.favorited)
+			{
+				return -1;
+			}
+			if (!favorited && other.favorited)
+			{
+				return 1;
+			}
+			if (recentlyDiscovered && !other.recentlyDiscovered)
+			{
+				return -1;
+			}
+			if (!recentlyDiscovered && other.recentlyDiscovered)
+			{
+				return 1;
+			}
+			if (favorited && other.favorited)
+			{
+				return RecipeBrowserUI.instance.localPlayerFavoritedRecipes.IndexOf(this.index).CompareTo(RecipeBrowserUI.instance.localPlayerFavoritedRecipes.IndexOf(other.index));
+			}
+			return 0;
+		}
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (IsMouseHovering)

@@ -15,6 +15,7 @@ RecipeCatalogueUI.NearbyChests=Ceste Vicine
 RecipeCatalogueUI.ClickToRefresh=Clicca per Ricaricare
 RecipeCatalogueUI.ItemChecklistOnly=Solo per Item Checklist
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Solo nuovi Oggetti fatti con Oggetti già Visti
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Costruito
 ItemCatalogueUI.OnlyShowCraftedItems=Mostra solo oggetti costruiti
@@ -30,3 +31,4 @@ BestiaryUI.HasLoot=Ha bottino
 BestiaryUI.ShowOnlyNPCWithLoot=Mostra solo PNG con bottino
 BestiaryUI.NewLoot=Bottino nuovo
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Mostra solo PNG con bottino mai visto prima
+# BestiaryUI.EmptyQuerySlotHint=Place item here

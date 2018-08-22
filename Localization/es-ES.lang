@@ -15,6 +15,7 @@ RecipeCatalogueUI.NearbyChests=Cofres cercanos
 RecipeCatalogueUI.ClickToRefresh=Clic para recargar
 RecipeCatalogueUI.ItemChecklistOnly=Item Checklist solamente
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Solo Items nuevos disponibles por Items ya vistos
+# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 ItemCatalogueUI.Crafted=Elaborado
 ItemCatalogueUI.OnlyShowCraftedItems=Solo items ya elaborados
@@ -30,3 +31,4 @@ BestiaryUI.HasLoot=Botín?
 BestiaryUI.ShowOnlyNPCWithLoot=Solo NPC con botín
 BestiaryUI.NewLoot=Nuevo botín
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Solo NPCs que nunca han sido vistos
+# BestiaryUI.EmptyQuerySlotHint=Place item here

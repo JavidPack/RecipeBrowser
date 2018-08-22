@@ -30,15 +30,18 @@ namespace RecipeBrowser
 		internal const int RecipeCatalogue = 0;
 		internal const int ItemCatalogue = 1;
 		internal const int Bestiary = 2;
+		internal const int Help = 3;
 
 		internal TabController tabController;
 		internal UIDragableElement mainPanel;
 		internal UIDragablePanel favoritePanel;
 		internal UIHoverImageButton closeButton;
 
+		internal SharedUI sharedUI;
 		internal RecipeCatalogueUI recipeCatalogueUI;
 		internal ItemCatalogueUI itemCatalogueUI;
 		internal BestiaryUI bestiaryUI;
+		internal HelpUI helpUI;
 
 		internal List<int> localPlayerFavoritedRecipes => Main.LocalPlayer.GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes;
 		internal bool[] foundItems;
@@ -119,9 +122,13 @@ namespace RecipeBrowser
 			mainPanel.MaxHeight.Set(1000, 0f);
 			//mainPanel.BackgroundColor = Color.LightBlue;
 
+			sharedUI = new SharedUI();
 			recipeCatalogueUI = new RecipeCatalogueUI();
 			itemCatalogueUI = new ItemCatalogueUI();
 			bestiaryUI = new BestiaryUI();
+			helpUI = new HelpUI();
+
+			sharedUI.Initialize();
 
 			var recipePanel = recipeCatalogueUI.CreateRecipeCataloguePanel();
 			mainPanel.Append(recipePanel);
@@ -132,10 +139,14 @@ namespace RecipeBrowser
 			var bestiaryPanel = bestiaryUI.CreateBestiaryPanel();
 			mainPanel.Append(bestiaryPanel);
 
+			var helpPanel = helpUI.CreateHelpPanel();
+			//mainPanel.Append(helpPanel); // does this do anything?
+
 			tabController = new TabController(mainPanel);
 			tabController.AddPanel(recipePanel);
 			tabController.AddPanel(cataloguePanel);
 			tabController.AddPanel(bestiaryPanel);
+			tabController.AddPanel(helpPanel);
 
 			mainPanel.AddDragTarget(recipePanel);
 			mainPanel.AddDragTarget(recipeCatalogueUI.recipeInfo);
@@ -143,6 +154,8 @@ namespace RecipeBrowser
 			mainPanel.AddDragTarget(cataloguePanel);
 			itemCatalogueUI.additionalDragTargets.ForEach(x => mainPanel.AddDragTarget(x));
 			mainPanel.AddDragTarget(bestiaryPanel);
+			mainPanel.AddDragTarget(helpPanel);
+			mainPanel.AddDragTarget(helpUI.message);
 
 			UIPanel button = new UIBottomlessPanel();
 			button.SetPadding(0);
@@ -183,6 +196,21 @@ namespace RecipeBrowser
 			button.BackgroundColor = BestiaryUI.color;
 
 			text = new UIText(RBText("Bestiary"), 0.85f);
+			text.HAlign = 0.5f;
+			text.VAlign = 0.5f;
+			button.Append(text);
+			mainPanel.Append(button);
+			tabController.AddButton(button);
+
+			button = new UIBottomlessPanel();
+			button.SetPadding(0);
+			button.Left.Set(-155, 1);
+			button.Width.Set(80, 0);
+			button.Height.Set(22, 0);
+			button.OnClick += (a, b) => tabController.SetPanel(Help);
+			button.BackgroundColor = HelpUI.color;
+
+			text = new UIText("Help", 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -409,6 +437,7 @@ namespace RecipeBrowser
 				mainPanel.Recalculate();
 			}
 
+			sharedUI.Update();
 			recipeCatalogueUI.Update();
 			itemCatalogueUI.Update();
 			bestiaryUI.Update();
@@ -486,6 +515,23 @@ namespace RecipeBrowser
 
 				parent.Append(panels[panelIndex]);
 				parent.Append(buttons[panelIndex]);
+
+				if(panelIndex == RecipeBrowserUI.ItemCatalogue)
+				{
+					SharedUI.instance.sortsAndFiltersPanel.Top.Set(0, 0f);
+					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-275, 1);
+					SharedUI.instance.sortsAndFiltersPanel.Height.Set(60, 0f);
+
+					ItemCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);
+				}
+				else if (panelIndex == RecipeBrowserUI.RecipeCatalogue)
+				{
+					SharedUI.instance.sortsAndFiltersPanel.Top.Set(60, 0f);
+					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-56, 1);
+					SharedUI.instance.sortsAndFiltersPanel.Height.Set(60, 0f);
+
+					RecipeCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);
+				}
 			}
 		}
 	}
