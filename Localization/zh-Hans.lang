@@ -16,7 +16,7 @@ RecipeCatalogueUI.NearbyChests=附近箱子
 RecipeCatalogueUI.ClickToRefresh=点击刷新
 RecipeCatalogueUI.ItemChecklistOnly=只显示曾有制作
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=只显示使用见过的物品合成的新物品
-# RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
+RecipeCatalogueUI.EmptyQuerySlotHint=在此放置物品
 
 ItemCatalogueUI.Crafted=可合成
 ItemCatalogueUI.OnlyShowCraftedItems=只显示可合成的物品
@@ -32,4 +32,4 @@ BestiaryUI.HasLoot=有掉落物
 BestiaryUI.ShowOnlyNPCWithLoot=只显示有掉落物的NPC
 BestiaryUI.NewLoot=新掉落物
 BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=只显示有未见过的掉落物的NPC
-# BestiaryUI.EmptyQuerySlotHint=Place item here
+BestiaryUI.EmptyQuerySlotHint=在此放置物品
