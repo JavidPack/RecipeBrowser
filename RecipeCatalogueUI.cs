@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.Localization;
 using Terraria.UI;
 
 namespace RecipeBrowser
@@ -68,6 +69,7 @@ namespace RecipeBrowser
 		internal List<int> craftingTiles;
 
 		internal bool updateNeeded;
+		internal int slowUpdateNeeded;
 
 		public RecipeCatalogueUI()
 		{
@@ -94,8 +96,6 @@ namespace RecipeBrowser
 			mainPanel.Width.Set(0, 1f);
 
 			queryItem = new UIRecipeCatalogueQueryItemSlot(new Item());
-			queryItem.Top.Set(2, 0f);
-			queryItem.Left.Set(2, 0f);
 			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			//queryItem.OnItemChanged += () => { Main.NewText("Item changed?"); TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
@@ -137,7 +137,7 @@ namespace RecipeBrowser
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
-			itemNameFilter.Left.Set(-204, 1f);
+			itemNameFilter.Left.Set(-202, 1f);
 			itemNameFilter.Width.Set(150, 0f);
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
@@ -146,7 +146,7 @@ namespace RecipeBrowser
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
-			itemDescriptionFilter.Left.Set(-204, 1f);
+			itemDescriptionFilter.Left.Set(-202, 1f);
 			itemDescriptionFilter.Width.Set(150, 0f);
 			itemDescriptionFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemDescriptionFilter);
@@ -154,9 +154,9 @@ namespace RecipeBrowser
 			recipeGridPanel = new UIPanel();
 			recipeGridPanel.SetPadding(6);
 			recipeGridPanel.Top.Pixels = 120;
-			recipeGridPanel.Width.Set(-56, 1f);
+			recipeGridPanel.Width.Set(-52, 1f);
 			recipeGridPanel.Height.Set(-50 - 120, 1f);
-			recipeGridPanel.BackgroundColor = Color.DarkBlue;
+			recipeGridPanel.BackgroundColor = Color.CornflowerBlue;
 			mainPanel.Append(recipeGridPanel);
 
 			recipeGrid = new UIGrid();
@@ -247,13 +247,13 @@ namespace RecipeBrowser
 		{
 			if (show)
 			{
-				recipeGridPanel.Width.Set(-113, 1f);
-				recipeGridPanel.Left.Set(53, 0f);
+				recipeGridPanel.Width.Set(-104, 1f);
+				recipeGridPanel.Left.Set(52, 0f);
 				mainPanel.Append(tileChooserPanel);
 			}
 			else
 			{
-				recipeGridPanel.Width.Set(-60, 1f);
+				recipeGridPanel.Width.Set(-52, 1f);
 				recipeGridPanel.Left.Set(0, 0f);
 				mainPanel.RemoveChild(tileChooserPanel);
 				Tile = -1;
@@ -261,23 +261,50 @@ namespace RecipeBrowser
 			recipeGridPanel.Recalculate();
 		}
 
-		internal void ShowCraftInterface()
-		{
-			// make smaller? bigger?
-			//throw new NotImplementedException();
-			Main.NewText("ShowCraftInterface");
-			if (Main.rand.NextBool(2))
-			{
-				recipeGridPanel.Width.Set(-120, 1f);
-				recipeGridPanel.Left.Set(60, 0f);
-			}
-			else
-			{
-				recipeGridPanel.Width.Set(-60, 1f);
-				recipeGridPanel.Left.Set(0, 0f);
-			}
-			recipeGridPanel.Recalculate();
-		}
+		// Previous approach showing Craft in Recipe Catalog menu. Might bring this back as an option later?
+		//internal void ToggleCraftPanel(bool show = true)
+		//{
+		//	if (show)
+		//	{
+		//		//recipeGridPanel.Width.Set(-113, 1f);
+		//		//recipeGridPanel.Left.Set(53, 0f);
+		//		recipeGridPanel.Width.Set(0, 0.5f);
+		//		mainPanel.Append(craftPanel);
+		//	}
+		//	else
+		//	{
+		//		//recipeGridPanel.Width.Set(-60, 1f);
+		//		//recipeGridPanel.Left.Set(0, 0f);
+		//		recipeGridPanel.Width.Set(-56, 1f);
+		//		mainPanel.RemoveChild(craftPanel);
+		//	}
+
+		//	recipeGridPanel.Recalculate();
+
+		//	RecipeCatalogueUI.instance.recipeGrid.Goto(delegate (UIElement element)
+		//	{
+		//		UIRecipeSlot itemSlot = element as UIRecipeSlot;
+		//		return itemSlot.index == selectedIndex;
+		//	}, true, true);
+		//}
+
+		//internal void ShowCraftInterface()
+		//{
+		//	// make smaller? bigger?
+		//	//throw new NotImplementedException();
+		//	Main.NewText("ShowCraftInterface");
+		//	if (Main.rand.NextBool(2))
+		//	{
+		//		recipeGridPanel.Width.Set(-120, 1f);
+		//		recipeGridPanel.Left.Set(60, 0f);
+		//	}
+		//	else
+		//	{
+		//		recipeGridPanel.Width.Set(-60, 1f);
+		//		recipeGridPanel.Left.Set(0, 0f);
+		//	}
+		//	recipeGridPanel.Recalculate();
+		//}
 
 		internal void CloseButtonClicked()
 		{
@@ -366,8 +393,16 @@ namespace RecipeBrowser
 				RecipeBrowserUI.instance.UpdateFavoritedPanel();
 			}
 
+			if (slowUpdateNeeded > 0)
+			{
+				slowUpdateNeeded--;
+				if (slowUpdateNeeded == 0)
+					updateNeeded = true;
+			}
+
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
+			slowUpdateNeeded = 0;
 
 			List<int> groups = new List<int>();
 			if (queryItem.item.stack > 0)
@@ -388,7 +423,7 @@ namespace RecipeBrowser
 			{
 				//var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
 				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria",
-					queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type), 
+					queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type),
 					queryLootItem.modItem != null ? 0 : queryLootItem.type);
 				List<JSONNPC> npcsthatdropme;
 				if (LootCache.instance.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
@@ -417,10 +452,18 @@ namespace RecipeBrowser
 			lootSourceGrid.UpdateOrder();
 			lootSourceGrid._innerList.Recalculate();
 
+			//if (SharedUI.instance.ObtainableFilter.button.selected)
+			//{
+			//	Main.NewText("Warning, Extended Craftable Filter will cause lag.");
+			//}
+
 			recipeGrid.Clear();
+			//int craftPathsCalculatedCount = 0;
 			for (int i = 0; i < Recipe.numRecipes; i++)
 			{
-				if (PassRecipeFilters(Main.recipe[i], groups))
+				//if (recipeSlots[i].craftPathsCalculated)
+				//	craftPathsCalculatedCount++;
+				if (PassRecipeFilters(recipeSlots[i], Main.recipe[i], groups))
 				// all the filters
 				//if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 				{
@@ -440,6 +483,7 @@ namespace RecipeBrowser
 					recipeGrid._innerList.Append(box);
 				}
 			}
+			//Main.NewText($"craftPathsCalculated: {craftPathsCalculatedCount}/{Recipe.numRecipes}");
 
 			recipeGrid.UpdateOrder();
 			recipeGrid._innerList.Recalculate();
@@ -454,7 +498,7 @@ namespace RecipeBrowser
 			return a.CompareTo(b);
 		}
 
-		private bool PassRecipeFilters(Recipe recipe, List<int> groups)
+		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups)
 		{
 			if (RecipeBrowserUI.modIndex != RecipeBrowserUI.instance.mods.Length - 1)
 			{
@@ -569,8 +613,32 @@ namespace RecipeBrowser
 				foreach (var filter in SharedUI.instance.availableFilters)
 				{
 					if (filter.button.selected)
+					{
+						// Extended craft problem.
 						if (!filter.belongs(recipe.createItem))
 							return false;
+						if (filter == SharedUI.instance.ObtainableFilter)
+						{
+							recipeSlot.CraftPathsNeeded();
+							if (!(recipeSlot.craftPathsCalculated && recipeSlot.craftPaths.Count > 0))
+								return false;
+						}
+						if (filter == SharedUI.instance.CraftableFilter)
+						{
+							int index = recipeSlot.index;
+							bool ableToCraft = false;
+							for (int n = 0; n < Main.numAvailableRecipes; n++)
+							{
+								if (index == Main.availableRecipe[n])
+								{
+									ableToCraft = true;
+									break;
+								}
+							}
+							if (!ableToCraft)
+								return false;
+						}
+					}
 				}
 
 			if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)
@@ -669,9 +737,6 @@ namespace RecipeBrowser
 		internal void SetRecipe(int index)
 		{
 			selectedIndex = -1;
-			//recipeInfo.RemoveAllChildren();
-			recipeInfo.tileList.ForEach(tile => tile.Remove());
-			recipeInfo.tileList.Clear();
 			recipeInfo.craftingTilesGrid.Clear();
 
 			foreach (var item in recipeSlots)
@@ -691,7 +756,7 @@ namespace RecipeBrowser
 			{
 				if (recipe.requiredItem[i].type > 0)
 				{
-					UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone());
+					UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone(), i);
 					//ingredient.Left.Pixels = 200 + (i % 5 * 40);
 					//ingredient.Top.Pixels = (i / 5 * 40);
 
@@ -704,6 +769,7 @@ namespace RecipeBrowser
 				}
 			}
 			recipeInfo.craftingTilesGrid.AddRange(ingredients); // order...
+			CraftUI.instance.SetRecipe(index);
 
 			//for (int i = 0; i < Recipe.maxRequirements; i++)
 			//{
@@ -728,28 +794,58 @@ namespace RecipeBrowser
 			}
 			if (recipe.anyIronBar && item.type == 22)
 			{
-				nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(22);
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(22);
 			}
 			else if (recipe.anyWood && item.type == 9)
 			{
-				nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(9);
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(9);
 			}
 			else if (recipe.anySand && item.type == 169)
 			{
-				nameOverride = Lang.misc[37].Value + " " + Lang.GetItemNameValue(169);
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(169);
 			}
 			else if (recipe.anyFragment && item.type == 3458)
 			{
-				nameOverride = Lang.misc[37].Value + " " + Lang.misc[51].Value;
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.51");
 			}
 			else if (recipe.anyPressurePlate && item.type == 542)
 			{
-				nameOverride = Lang.misc[37].Value + " " + Lang.misc[38].Value;
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.38");
 			}
 			if (nameOverride != "")
 			{
 				item.SetNameOverride(nameOverride);
 			}
+		}
+
+		public static string OverrideForGroups(Recipe recipe, int item)
+		{
+			string nameOverride;
+			if (recipe.ProcessGroupsForText(item, out nameOverride))
+			{
+				//Main.toolTip.name = name;
+			}
+			if (recipe.anyIronBar && item == 22)
+			{
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(22);
+			}
+			else if (recipe.anyWood && item == 9)
+			{
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(9);
+			}
+			else if (recipe.anySand && item == 169)
+			{
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(169);
+			}
+			else if (recipe.anyFragment && item == 3458)
+			{
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.51");
+			}
+			else if (recipe.anyPressurePlate && item == 542)
+			{
+				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.38");
+			}
+			return nameOverride;
 		}
 
 		// problem, how to detect that we need to request again?
@@ -844,6 +940,28 @@ namespace RecipeBrowser
 			//	}
 			//}
 			updateNeeded = true;
+		}
+
+		// Prefix of FindRecipes calls this. Ignores calls from AdjTiles.
+		internal void InvalidateExtendedCraft()
+		{
+			// Invalidate: Change any settings. Pickup any items, Move to new tiles?, 
+			// manually flag as dirty.
+			foreach (var slot in recipeSlots)
+			{
+				slot.craftPathsNeeded = false;
+				slot.craftPathsCalculated = false;
+				if (slot.craftPathsCalculationBegun)
+					slot.cancellationTokenSource?.Cancel();
+				slot.craftPathsCalculationBegun = false;
+				slot.craftPaths = null;
+			}
+			updateNeeded = true;
+			//CraftUI.instance.craftPathList.Clear();
+			CraftUI.instance.craftPathsUpToDate = false;
+
+			if (SharedUI.instance.ObtainableFilter.button.selected)
+				SharedUI.instance.ObtainableFilter.button.Click(new UIMouseEvent(null, Vector2.Zero));
 		}
 	}
 }

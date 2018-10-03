@@ -28,9 +28,10 @@ namespace RecipeBrowser
 		internal static RecipeBrowserUI instance;
 
 		internal const int RecipeCatalogue = 0;
-		internal const int ItemCatalogue = 1;
-		internal const int Bestiary = 2;
-		internal const int Help = 3;
+		internal const int Craft = 1;
+		internal const int ItemCatalogue = 2;
+		internal const int Bestiary = 3;
+		internal const int Help = 4;
 
 		internal TabController tabController;
 		internal UIDragableElement mainPanel;
@@ -39,6 +40,7 @@ namespace RecipeBrowser
 
 		internal SharedUI sharedUI;
 		internal RecipeCatalogueUI recipeCatalogueUI;
+		internal CraftUI craftUI;
 		internal ItemCatalogueUI itemCatalogueUI;
 		internal BestiaryUI bestiaryUI;
 		internal HelpUI helpUI;
@@ -124,6 +126,7 @@ namespace RecipeBrowser
 
 			sharedUI = new SharedUI();
 			recipeCatalogueUI = new RecipeCatalogueUI();
+			craftUI = new CraftUI();
 			itemCatalogueUI = new ItemCatalogueUI();
 			bestiaryUI = new BestiaryUI();
 			helpUI = new HelpUI();
@@ -132,6 +135,9 @@ namespace RecipeBrowser
 
 			var recipePanel = recipeCatalogueUI.CreateRecipeCataloguePanel();
 			mainPanel.Append(recipePanel);
+
+			var craftPanel = craftUI.CreateCraftPanel();
+			mainPanel.Append(craftPanel);
 
 			var cataloguePanel = itemCatalogueUI.CreateItemCataloguePanel();
 			mainPanel.Append(cataloguePanel);
@@ -144,6 +150,7 @@ namespace RecipeBrowser
 
 			tabController = new TabController(mainPanel);
 			tabController.AddPanel(recipePanel);
+			tabController.AddPanel(craftPanel);
 			tabController.AddPanel(cataloguePanel);
 			tabController.AddPanel(bestiaryPanel);
 			tabController.AddPanel(helpPanel);
@@ -151,6 +158,8 @@ namespace RecipeBrowser
 			mainPanel.AddDragTarget(recipePanel);
 			mainPanel.AddDragTarget(recipeCatalogueUI.recipeInfo);
 			mainPanel.AddDragTarget(recipeCatalogueUI.RadioButtonGroup);
+			mainPanel.AddDragTarget(craftPanel);
+			craftUI.additionalDragTargets.ForEach(x => mainPanel.AddDragTarget(x));
 			mainPanel.AddDragTarget(cataloguePanel);
 			itemCatalogueUI.additionalDragTargets.ForEach(x => mainPanel.AddDragTarget(x));
 			mainPanel.AddDragTarget(bestiaryPanel);
@@ -177,6 +186,21 @@ namespace RecipeBrowser
 			button.Left.Set(85, 0);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
+			button.OnClick += (a, b) => { tabController.SetPanel(Craft); };
+			button.BackgroundColor = CraftUI.color;
+
+			text = new UIText(RBText("Craft"), 0.85f);
+			text.HAlign = 0.5f;
+			text.VAlign = 0.5f;
+			button.Append(text);
+			mainPanel.Append(button);
+			tabController.AddButton(button);
+
+			button = new UIBottomlessPanel();
+			button.SetPadding(0);
+			button.Left.Set(160, 0);
+			button.Width.Set(80, 0);
+			button.Height.Set(22, 0);
 			button.OnClick += (a, b) => { tabController.SetPanel(ItemCatalogue); itemCatalogueUI.updateNeeded = true; };
 			button.BackgroundColor = ItemCatalogueUI.color;
 
@@ -189,7 +213,7 @@ namespace RecipeBrowser
 
 			button = new UIBottomlessPanel();
 			button.SetPadding(0);
-			button.Left.Set(160, 0);
+			button.Left.Set(235, 0);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
 			button.OnClick += (a, b) => tabController.SetPanel(Bestiary);
@@ -439,6 +463,7 @@ namespace RecipeBrowser
 
 			sharedUI.Update();
 			recipeCatalogueUI.Update();
+			craftUI.Update();
 			itemCatalogueUI.Update();
 			bestiaryUI.Update();
 			UpdateFavoritedPanel();
@@ -519,7 +544,7 @@ namespace RecipeBrowser
 				if(panelIndex == RecipeBrowserUI.ItemCatalogue)
 				{
 					SharedUI.instance.sortsAndFiltersPanel.Top.Set(0, 0f);
-					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-275, 1);
+					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-272, 1);
 					SharedUI.instance.sortsAndFiltersPanel.Height.Set(60, 0f);
 
 					ItemCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);
@@ -527,7 +552,7 @@ namespace RecipeBrowser
 				else if (panelIndex == RecipeBrowserUI.RecipeCatalogue)
 				{
 					SharedUI.instance.sortsAndFiltersPanel.Top.Set(60, 0f);
-					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-56, 1);
+					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-52, 1);
 					SharedUI.instance.sortsAndFiltersPanel.Height.Set(60, 0f);
 
 					RecipeCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);

@@ -66,7 +66,7 @@ namespace RecipeBrowser
 			}
 		}
 
-		// We only want to serialize id when name is null, meaning it's a vanilla npc. ModNPC have a guaranteed (ModName, Name) uniqueness. Name for vanilla is just convinience for editing json manually.
+		// We only want to serialize id when name is null, meaning it's a vanilla npc. ModNPC have a guaranteed (ModName, Name) uniqueness. Name for vanilla is just convenience for editing json manually.
 		public bool ShouldSerializeid()
 		{
 			return mod == "Terraria";

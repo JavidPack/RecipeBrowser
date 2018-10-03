@@ -64,16 +64,23 @@ namespace RecipeBrowser
 			return this._innerListHeight;
 		}
 
-		public void Goto(UIGrid.ElementSearchMethod searchMethod, bool center = false)
+		public void Goto(UIGrid.ElementSearchMethod searchMethod, bool center = false, bool fuzzy = false)
 		{
+			var innerDimensionHeight = GetInnerDimensions().Height;
 			for (int i = 0; i < this._items.Count; i++)
 			{
-				if (searchMethod(this._items[i]))
+				var item = this._items[i];
+				if (searchMethod(item))
 				{
-					this._scrollbar.ViewPosition = this._items[i].Top.Pixels;
+					if (fuzzy)
+					{
+						if (item.Top.Pixels > _scrollbar.ViewPosition && item.Top.Pixels + item.GetOuterDimensions().Height < _scrollbar.ViewPosition + innerDimensionHeight)
+							return;
+					}
+					this._scrollbar.ViewPosition = item.Top.Pixels;
 					if (center)
 					{
-						this._scrollbar.ViewPosition = this._items[i].Top.Pixels - GetInnerDimensions().Height / 2 + _items[i].GetOuterDimensions().Height / 2;
+						this._scrollbar.ViewPosition = item.Top.Pixels - innerDimensionHeight / 2 + item.GetOuterDimensions().Height / 2;
 					}
 					return;
 				}

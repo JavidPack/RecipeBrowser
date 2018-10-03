@@ -93,15 +93,13 @@ namespace RecipeBrowser
 			lootGrid.SetScrollbar(lootGridScrollbar);
 
 			queryItem = new UIBestiaryQueryItemSlot(new Item());
-			queryItem.Top.Set(2, 0f);
-			queryItem.Left.Set(2, 0f);
 			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			mainPanel.Append(queryItem);
 
 			npcNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			npcNameFilter.OnTextChanged += () => { ValidateNPCFilter(); updateNeeded = true; };
 			npcNameFilter.Top.Set(0, 0f);
-			npcNameFilter.Left.Set(-152, 1f);
+			npcNameFilter.Left.Set(-150, 1f);
 			npcNameFilter.Width.Set(150, 0f);
 			npcNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(npcNameFilter);

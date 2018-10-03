@@ -13,6 +13,7 @@ namespace RecipeBrowser.UIElements
 		{
 			base.Click(evt);
 			//BestiaryUI.instance.queryLootItem = (item.type == 0) ? null : item;
+			ReplaceWithFake(item.type);
 			BestiaryUI.instance.updateNeeded = true;
 		}
 

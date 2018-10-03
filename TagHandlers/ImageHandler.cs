@@ -29,12 +29,25 @@ namespace RecipeBrowser.TagHandlers
 					return texture;
 				}
 			}
+			private string tooltip;
+			public int vOffset;
+			private float otherScale;
 
 			string texturePath;
-			public ImageSnippet(string texturePath) : base("")
+			public ImageSnippet(string texturePath, string tooltip = null, float scale = 1f, float otherScale = 1f) : base("", Color.White, scale)
 			{
 				DeleteWhole = true;
 				this.texturePath = texturePath;
+				this.tooltip = tooltip;
+				this.otherScale = otherScale;
+			}
+
+			public override void OnHover()
+			{
+				if (!string.IsNullOrEmpty(tooltip))
+				{
+					Main.hoverItemName = tooltip;
+				}
 			}
 
 			public override Color GetVisibleColor()
@@ -44,17 +57,22 @@ namespace RecipeBrowser.TagHandlers
 
 			public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = default(Vector2), Color color = default(Color), float scale = 1f)
 			{
-				size = Texture.Size();
+				size = Texture.Size() * new Vector2(otherScale) + new Vector2(0, vOffset);
 				if (!justCheckingString && color != Color.Black)
 				{
-					spriteBatch.Draw(Texture, position, color);
+					//size = Texture.Size() * new Vector2(1, scale) + new Vector2(0, vOffset); // TODO: Why was `new Vector2( 1, scale)`??
+					//spriteBatch.Draw(Texture, position, color);
+					spriteBatch.Draw(Texture, position + new Vector2(0, vOffset), null, color, 0, Vector2.Zero, otherScale, SpriteEffects.None, 0);
+					//if (scale > 1)
+					//	Main.NewText(size);
+					//size = Vector2.Zero;
 				}
 				return true;
 			}
 
 			public override float GetStringLength(DynamicSpriteFont font)
 			{
-				return Texture.Size().X;
+				return Texture.Size().X * Scale;
 			}
 		}
 
@@ -63,9 +81,32 @@ namespace RecipeBrowser.TagHandlers
 			// TODO: option for scale or absolute size
 			// TODO: option for tooltip/translation key
 			// TODO: option for frame (animated?)
+			// tTooltip
+			// f0;0;20;20
+			// 
+			string tooltip = null;
+			float scale = 1f;
+			int vOffset = 0;
+			string[] array = options.Split(',');
+			foreach (var option in array)
+			{
+				if (option.Length != 0)
+				{
+					if (option[0] == 't')
+						tooltip = option.Substring(1).Replace(';', ':');
+					if (option[0] == 's')
+						float.TryParse(option.Substring(1), out scale);
+					if (option[0] == 'v')
+						int.TryParse(option.Substring(1), out vOffset);
+				}
+				//return new TextSnippet("<" + text.Replace("\\[", "[").Replace("\\]", "]") + ">", baseColor, 1f);
+			}
 			if (ModLoader.TextureExists(text))
 			{
-				return new ImageSnippet(text);
+				return new ImageSnippet(text, tooltip, 1f, scale)
+				{
+					vOffset = vOffset
+				};
 			}
 			return new TextSnippet(text);
 		}

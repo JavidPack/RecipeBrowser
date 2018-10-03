@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -15,6 +16,7 @@ namespace RecipeBrowser.UIElements
 		internal float scale = .75f;
 		public int itemType;
 		public Item item;
+		public bool hideSlot = false;
 
 		public UIItemSlot(Item item, float scale = .75f)
 		{
@@ -35,8 +37,11 @@ namespace RecipeBrowser.UIElements
 			{
 				CalculatedStyle dimensions = base.GetInnerDimensions();
 				Rectangle rectangle = dimensions.ToRectangle();
-				spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-				DrawAdditionalOverlays(spriteBatch, dimensions.Position(), scale);
+				if (!hideSlot)
+				{
+					spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+					DrawAdditionalOverlays(spriteBatch, dimensions.Position(), scale);
+				}
 				if (!item.IsAir)
 				{
 					Texture2D itemTexture = Main.itemTexture[this.item.type];
@@ -141,6 +146,7 @@ namespace RecipeBrowser.UIElements
 		public override void Click(UIMouseEvent evt)
 		{
 			ItemCatalogueUI.instance.SetItem(this);
+			CraftUI.instance.SetItem(this.item.type);
 		}
 
 		public override void DoubleClick(UIMouseEvent evt)
@@ -196,4 +202,84 @@ namespace RecipeBrowser.UIElements
 			BestiaryUI.instance.queryItem.ReplaceWithFake(item.type);
 		}
 	}
+
+	internal class UIItemNoSlot : UIElement
+	{
+		internal float scale = .75f;
+		public int itemType;
+		public Item item;
+		public UIItemNoSlot(Item item, float scale = .75f)
+		{
+			this.scale = scale;
+			this.item = item;
+			this.itemType = item.type;
+			this.Width.Set(32f * scale * 0.65f, 0f);
+			this.Height.Set(32f * scale * 0.65f, 0f);
+		}
+
+		public override void Draw(SpriteBatch spriteBatch)
+		{
+			base.Draw(spriteBatch);
+
+			Vector2 position = GetInnerDimensions().Position();
+			float num = 1f;
+			float num2 = 1f;
+			if (Main.netMode != 2 && !Main.dedServ)
+			{
+				Texture2D texture2D = Main.itemTexture[item.type];
+				Rectangle rectangle;
+				if (Main.itemAnimations[item.type] != null)
+				{
+					rectangle = Main.itemAnimations[item.type].GetFrame(texture2D);
+				}
+				else
+				{
+					rectangle = texture2D.Frame(1, 1, 0, 0);
+				}
+				if (rectangle.Height > 32)
+				{
+					num2 = 32f / (float)rectangle.Height;
+				}
+			}
+			num2 *= scale;
+			num *= num2;
+			if (num > 0.75f)
+			{
+				num = 0.75f;
+			}
+			{
+				float inventoryScale = Main.inventoryScale;
+				Main.inventoryScale = scale * num;
+				ItemSlot.Draw(spriteBatch, ref item, 14, position - new Vector2(10f) * scale * num, Color.White);
+				Main.inventoryScale = inventoryScale;
+			}
+
+			if (IsMouseHovering)
+			{
+				//Main.HoverItem = item.Clone();
+				//Main.instance.MouseText(item.Name, item.rare, 0, -1, -1, -1, -1);
+
+				Main.hoverItemName = item.Name;
+			}
+		}
+	}
+
+	//internal class UIHoverText : UIText
+	//{
+	//	string hover;
+	//	public UIHoverText(string hover, string text, float textScale = 1f, bool large = false) : base(text, textScale, large)
+	//	{
+	//		this.hover = hover;
+	//	}
+
+	//	protected override void DrawSelf(SpriteBatch spriteBatch)
+	//	{
+	//		base.DrawSelf(spriteBatch);
+
+	//		if (IsMouseHovering)
+	//		{
+	//			Main.hoverItemName = hover;
+	//		}
+	//	}
+	//}
 }

@@ -1,36 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.Map;
-using Terraria.UI;
-using Terraria.ID;
-using Terraria.GameContent.UI.Elements;
 using RecipeBrowser.UIElements;
 using System.Text;
-using System.Collections.Generic;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.Localization;
+using Terraria.UI;
 
 namespace RecipeBrowser
 {
 	internal class UIRecipeInfo : UIElement
 	{
-		// 0 means unchecked
-		//static int[] tileToItemCache;
-		//public UIRecipeInfo()
-		//{
-		//	tileToItemCache = new int[Main.tileTexture.Length];
-		//}
-
-		//public UIRecipeInfo()
-		//{
-		//	for (int i = 0; i < Recipe.maxRequirements; i++)
-		//	{
-		//		var ingredient = new
-		//		Append()
-		//	}
-		//}
-
+		// TODO: Fix order of ingredients to match recipe.
+		// TODO: Use Tile images here as well? Optional? // internal List<UITileNoSlot> tileList; 
 		internal UIHorizontalGrid craftingTilesGrid;
-		internal List<UITileNoSlot> tileList;
 
 		public UIRecipeInfo()
 		{
@@ -38,7 +21,7 @@ namespace RecipeBrowser
 			craftingPanel.SetPadding(6);
 			craftingPanel.Top.Set(-50, 1f);
 			craftingPanel.Left.Set(180, 0f);
-			craftingPanel.Width.Set(-180 - 4, 1f); //- 50
+			craftingPanel.Width.Set(-180 - 2, 1f); //- 50
 			craftingPanel.Height.Set(50, 0f);
 			craftingPanel.BackgroundColor = Color.CornflowerBlue;
 			Append(craftingPanel);
@@ -57,7 +40,7 @@ namespace RecipeBrowser
 			craftingPanel.Append(craftingTilesGridScrollbar);
 			craftingTilesGrid.SetScrollbar(craftingTilesGridScrollbar);
 
-			tileList = new List<UITileNoSlot>();
+			//tileList = new List<UITileNoSlot>();
 		}
 
 		private const int cols = 5;
@@ -81,14 +64,8 @@ namespace RecipeBrowser
 				StringBuilder sb = new StringBuilder();
 				StringBuilder sbTiles = new StringBuilder();
 
-				if (!Main.playerInventory) Main.LocalPlayer.AdjTiles(); // force adj tiles to be correct
-				Color textColor = Color.White;// new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
-				Color noColor = Color.OrangeRed;
-				Color yesColor = Color.Green;
-
-				//[c/FF0000:This text is red.]
-				sb.Append($"[c/{textColor.Hex3()}:{Lang.inter[22].Value}] ");
-				Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[22].Value, new Vector2((float)positionX, (float)(positionY)), textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+				sb.Append($"[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.22")}] ");
+				Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Language.GetTextValue("LegacyInterface.22"), new Vector2((float)positionX, (float)(positionY)), Utilities.textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 				int row = 0;
 				int tileIndex = 0;
 				bool comma = false;
@@ -100,9 +77,8 @@ namespace RecipeBrowser
 						if (tileIndex == 0 && !selectedRecipe.needWater && !selectedRecipe.needHoney && !selectedRecipe.needLava)
 						{
 							// "None"
-							sb.Append($"{(comma ? ", " : "")}[c/{textColor.Hex3()}:{Lang.inter[23].Value}]");
-							sbTiles.Append($"{(comma ? ", " : "")}[c/{textColor.Hex3()}:{Lang.inter[23].Value}]");
-							//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[23].Value, new Vector2(positionX, positionY + num63), textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+							sb.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
+							sbTiles.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
 							comma = true;
 							break;
 						}
@@ -112,17 +88,9 @@ namespace RecipeBrowser
 					{
 						row++;
 						int tileID = selectedRecipe.requiredTile[tileIndex];
-						string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tileID, 0));
-						if(tileName == "")
-						{
-							if(tileID < TileID.Count)
-								tileName = $"Tile {tileID}";
-							else
-								tileName = Terraria.ModLoader.TileLoader.GetTile(tileID).Name + " (err no entry)";
-						}
-						sb.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjTile[tileID] ? yesColor : noColor).Hex3()}:{tileName}]");
-						sbTiles.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjTile[tileID] ? yesColor : noColor).Hex3()}:{tileName}]");
-						//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, tileName, new Vector2(positionX, positionY + num63), Main.LocalPlayer.adjTile[tileID] ?  yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+						string tileName = Utilities.GetTileName(tileID);
+						DoChatTag(sb, comma, Main.LocalPlayer.adjTile[tileID], tileName);
+						DoChatTag(sbTiles, comma, Main.LocalPlayer.adjTile[tileID], tileName);
 						tileIndex++;
 						comma = true;
 					}
@@ -131,25 +99,22 @@ namespace RecipeBrowser
 				int yAdjust = (row + 1) * 26;
 				if (selectedRecipe.needWater)
 				{
-					sb.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjWater ? yesColor : noColor).Hex3()}:{Lang.inter[53].Value}]");
-					sbTiles.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjWater ? yesColor : noColor).Hex3()}:{Lang.inter[53].Value}]");
-					//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[53].Value, new Vector2((float)positionX, (float)(positionY + yAdjust)), Main.LocalPlayer.adjWater ? yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+					DoChatTag(sb, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
+					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
 					yAdjust += 26;
 					comma = true;
 				}
 				if (selectedRecipe.needHoney)
 				{
-					sb.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjHoney ? yesColor : noColor).Hex3()}:{Lang.inter[58].Value}]");
-					sbTiles.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjHoney ? yesColor : noColor).Hex3()}:{Lang.inter[58].Value}]");
-					//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[58].Value, new Vector2((float)positionX, (float)(positionY + yAdjust)), Main.LocalPlayer.adjHoney ? yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+					DoChatTag(sb, comma, Main.LocalPlayer.adjHoney, Language.GetTextValue("LegacyInterface.58"));
+					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjHoney, Language.GetTextValue("LegacyInterface.58"));
 					yAdjust += 26;
 					comma = true;
 				}
 				if (selectedRecipe.needLava)
 				{
-					sb.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjLava ? yesColor : noColor).Hex3()}:{Lang.inter[56].Value}]");
-					sbTiles.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjLava ? yesColor : noColor).Hex3()}:{Lang.inter[56].Value}]");
-					//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Lang.inter[56].Value, new Vector2((float)positionX, (float)(positionY + yAdjust)), Main.LocalPlayer.adjLava ? yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+					DoChatTag(sb, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
+					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
 					comma = true;
 				}
 				float width = Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X;
@@ -170,6 +135,11 @@ namespace RecipeBrowser
 					Main.hoverItemName = sb.ToString();
 				}
 			}
+		}
+
+		private void DoChatTag(StringBuilder sb, bool comma, bool state, string text)
+		{
+			sb.Append($"{(comma ? ", " : "")}[c/{(state ? Utilities.yesColor : Utilities.noColor).Hex3()}:{text}]");
 		}
 	}
 }
