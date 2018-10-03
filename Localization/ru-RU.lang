@@ -1,5 +1,6 @@
 # Russian Translation made by Terraria Phone&PC Team
 RecipeBrowserUI.Recipes=Рецепты
+# RecipeBrowserUI.Craft=Craft
 RecipeBrowserUI.Items=Предметы
 RecipeBrowserUI.Bestiary=Мобы
 RecipeBrowserUI.Close=Закрыть
@@ -17,6 +18,25 @@ RecipeCatalogueUI.ClickToRefresh=Нажмите чтобы обновить
 RecipeCatalogueUI.ItemChecklistOnly=Только Item Checklist
 RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Только новые предметы из полученных предметов
 # RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
+
+# CraftUI.EmptyQuerySlotHint=Place item here
+# CraftUI.Calc=Calc
+# CraftUI.CalcTooltip=Toggles Preemptive Extended Craft Calculation in Recipes
+# CraftUI.Loot=Loot
+# CraftUI.LootTooltip=Allow Farming in Craft Path (Only works for Enemies with Banners)
+# CraftUI.Shop=Shop
+# CraftUI.ShopTooltip=Allow Buy-able items in Craft Path (Coming Soon)
+# CraftUI.MissingStations=Missing Stations
+# CraftUI.MissingStationsTooltip=Allow Crafting Stations Never Encountered (Resets when you enter a world)
+# CraftUI.Inventory=Inventory
+# CraftUI.Banks=Banks
+# CraftUI.BanksTooltip=Include Items from personal Piggy Bank, Safe, and Defenders Forge (Coming Soon)
+# CraftUI.Chests=Chests
+# CraftUI.ChestsTooltip=Include Items from Nearby Chests (Coming Soon)
+# CraftUI.MagicStorage=Magic Storage
+# CraftUI.MagicStorageTooltip=Include Items and Crafting Stations from Nearby Magic Storage (Coming Soon)
+# CraftUI.BottomInstructions=RMB on Recipes to quickly visit this tab
+# CraftUI.NoPathsFound=No Paths Found for this Recipe/Item
 
 ItemCatalogueUI.Crafted=Создано
 ItemCatalogueUI.OnlyShowCraftedItems=Показывать только созданные предметы
