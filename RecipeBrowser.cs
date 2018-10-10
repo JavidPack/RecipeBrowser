@@ -42,9 +42,6 @@ namespace RecipeBrowser
 		private int lastSeenScreenHeight;
 		internal static bool[] chestContentsAvailable = new bool[1000];
 
-		const string HarmonyID = "mod.RecipeBrowser";
-		HarmonyInstance harmonyInstance;
-
 		// TODO, Chinese IME support
 		public override void Load()
 		{
@@ -101,11 +98,7 @@ namespace RecipeBrowser
 				Utilities.tileTextures = new Dictionary<int, Texture2D>();
 			}
 
-			harmonyInstance = HarmonyInstance.Create(HarmonyID);
-			if (!harmonyInstance.HasAnyPatches(HarmonyID)) // In case Unload failed, don't double up.
-			{
-				harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
-			}
+			Patches.Apply();
 		}
 
 		internal static string RBText(string category, string key)
@@ -141,11 +134,6 @@ namespace RecipeBrowser
 			UIHorizontalGrid.moreLeftTexture = null;
 			UIHorizontalGrid.moreRightTexture = null;
 			Utilities.tileTextures = null;
-
-			if (harmonyInstance != null)
-			{
-				harmonyInstance.UnpatchAll(HarmonyID);
-			}
 		}
 
 		public override void PostSetupContent()
