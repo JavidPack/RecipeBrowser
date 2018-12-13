@@ -36,7 +36,7 @@ CraftUI.ChestsTooltip=包括附近箱子中的物品 (即将推出)
 CraftUI.MagicStorage=魔法储存
 CraftUI.MagicStorageTooltip=包括附近[魔法储存]中的物品和制作站 (即将推出)
 CraftUI.BottomInstructions=在[合成配方]中右键快速访问此面板
-CraftUI.NoPathsFound=没有找到该配方/物品的制作途径
+CraftUI.NoPathsFound=没有找到该配方/物品的制作步骤
 
 ItemCatalogueUI.Crafted=可合成
 ItemCatalogueUI.OnlyShowCraftedItems=仅显示可合成的物品
