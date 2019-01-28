@@ -361,6 +361,15 @@ namespace RecipeBrowser
 					Main.player[playernum] = new Player();
 				}
 				//Main.player[0].active = true;
+
+				// Fix Terraria Overhaul bug
+				if(Main.maxTilesY < 600 || Main.maxTilesX < 2100)
+				{
+					Main.maxTilesX = 8400;
+					Main.maxTilesY = 2400;
+					Main.tile = new Tile[Main.maxTilesX + 1, Main.maxTilesY + 1];
+				}
+
 				int oldMx = Main.maxTilesX;
 				Main.maxTilesX = 2100;
 				int oldMy = Main.maxTilesY;
@@ -466,7 +475,12 @@ namespace RecipeBrowser
 			setLoadProgressText = (string s) => setTextMethod.Invoke(loadProgressObject, new object[] { s });
 			setLoadProgressProgress = (float f) => setProgressMethod.Invoke(loadProgressObject, new object[] { f });
 
-			if (ModLoader.version >= new Version(0, 10, 1))
+			if (ModLoader.version >= new Version(0, 11))
+			{
+				PropertyInfo setSubTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetProperty("SubProgressText", BindingFlags.Instance | BindingFlags.Public);
+				setLoadSubProgressText = (string s) => setSubTextMethod.SetValue(loadModsObject, s);
+			}
+			else if (ModLoader.version >= new Version(0, 10, 1))
 			{
 				MethodInfo setSubTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetMethod("SetSubProgressInit", BindingFlags.Instance | BindingFlags.NonPublic);
 				setLoadSubProgressText = (string s) => setSubTextMethod.Invoke(loadModsObject, new object[] { s });
