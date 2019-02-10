@@ -503,6 +503,7 @@ namespace RecipeBrowser
 			{
 				currentPanel = panelIndex;
 
+				// TODO: OnRemove event maybe? Public children?
 				panels.ForEach(panel => { if (parent.HasChild(panel)) parent.RemoveChild(panel); });
 
 				for (int i = buttons.Count - 1; i >= 0; i--)

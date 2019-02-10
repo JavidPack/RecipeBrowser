@@ -1,7 +1,7 @@
 ﻿author = jopojelly
-version = 0.7.1
+version = 0.7.1.1
 displayName = Recipe Browser
 homepage = https://forums.terraria.org/index.php?threads/recipe-browser.62462/
 buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, unused\*, .git\*,
-includePDB = false
+includePDB = true
 languageVersion = 6
