@@ -476,7 +476,7 @@ namespace RecipeBrowser
 			setLoadProgressText = (string s) => setTextMethod.Invoke(loadProgressObject, new object[] { s });
 			setLoadProgressProgress = (float f) => setProgressMethod.Invoke(loadProgressObject, new object[] { f });
 
-            //Check if the current tml is either 0.11 or it's tML FNA/64bit
+			//Check if the current tml is either 0.11 or it's tML FNA/64bit
 			if (ModLoader.version >= new Version(0, 11) || IsTMLFNA)
 			{
 				PropertyInfo setSubTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetProperty("SubProgressText", BindingFlags.Instance | BindingFlags.Public);
@@ -489,10 +489,8 @@ namespace RecipeBrowser
 			}
 		}
 
-        //Check if the field IsMono is in PlatformUtilities, as it's exclusive to tML FNA/64bit
-	    private static bool IsTMLFNA => typeof(PlatformUtilities).GetField("IsMono",
-	                                          BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) !=
-	                                      null;
+		//Check if the field IsMono is in PlatformUtilities, as it's exclusive to tML FNA/64bit
+		private static bool IsTMLFNA => typeof(PlatformUtilities).GetField("IsMono", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) != null;
 
 		private static int[] ignoreItemIDS = { ItemID.Heart, 1734, 1867, 184, 1735, 1868, ItemID.CopperCoin, ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin };
 
