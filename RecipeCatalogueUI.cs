@@ -458,6 +458,7 @@ namespace RecipeBrowser
 
 		private bool PassRecipeFilters(Recipe recipe, List<int> groups)
 		{
+			// TODO: Option to filter by source of Recipe rather than by createItem maybe?
 			if (RecipeBrowserUI.modIndex != RecipeBrowserUI.instance.mods.Length - 1)
 			{
 				if (recipe.createItem.modItem == null)
