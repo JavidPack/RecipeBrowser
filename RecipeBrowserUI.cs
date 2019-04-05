@@ -328,7 +328,7 @@ namespace RecipeBrowser
 			recipeCatalogueUI.updateNeeded = true;
 		}
 
-		private void CloseButtonClicked(UIMouseEvent evt, UIElement listeningElement)
+		internal void CloseButtonClicked(UIMouseEvent evt, UIElement listeningElement)
 		{
 			RecipeBrowserUI.instance.ShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
 

@@ -101,6 +101,11 @@ namespace RecipeBrowser
 			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
 		}
 
+		public override void PreSaveAndQuit()
+		{
+			RecipeBrowserUI.instance.CloseButtonClicked(null, null);
+		}
+
 		public override void Unload()
 		{
 			instance = null;
