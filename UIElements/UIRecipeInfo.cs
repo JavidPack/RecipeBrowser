@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using RecipeBrowser.UIElements;
+using System.Collections.Generic;
+using System.Text;
 using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.Map;
 using Terraria.UI;
-using Terraria.ID;
-using Terraria.GameContent.UI.Elements;
-using RecipeBrowser.UIElements;
-using System.Text;
-using System.Collections.Generic;
 
 namespace RecipeBrowser
 {
@@ -113,9 +113,9 @@ namespace RecipeBrowser
 						row++;
 						int tileID = selectedRecipe.requiredTile[tileIndex];
 						string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tileID, 0));
-						if(tileName == "")
+						if (tileName == "")
 						{
-							if(tileID < TileID.Count)
+							if (tileID < TileID.Count)
 								tileName = $"Tile {tileID}";
 							else
 								tileName = Terraria.ModLoader.TileLoader.GetTile(tileID).Name + " (err no entry)";
@@ -168,6 +168,13 @@ namespace RecipeBrowser
 				if (rectangle.Contains(Main.MouseScreen.ToPoint()) && Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X > 180)
 				{
 					Main.hoverItemName = sb.ToString();
+					/* Different approach to informing recipe mod source
+					ModRecipe modRecipe = selectedRecipe as ModRecipe;
+					if (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X > 180)
+						Main.hoverItemName = sb.ToString() + (modRecipe != null ? $"\n[{modRecipe.mod.DisplayName}]" : "");
+					else if (modRecipe != null)
+						Main.hoverItemName = $"[{modRecipe.mod.DisplayName}]";
+					*/
 				}
 			}
 		}

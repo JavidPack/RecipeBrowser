@@ -61,6 +61,7 @@ namespace RecipeBrowser
 		internal UIRadioButtonGroup RadioButtonGroup;
 
 		internal int selectedIndex = -1;
+		internal int hoveredIndex = -1;
 		internal int newestItem = 0;
 		internal List<UIRecipeSlot> recipeSlots;
 		internal List<UITileSlot> tileSlots;
@@ -312,6 +313,7 @@ namespace RecipeBrowser
 
 		internal void Update()
 		{
+			hoveredIndex = -1;
 			/*if (PlayerInput.Triggers.Current.Hotbar1 && !Main.LocalPlayer.inventory[0].IsAir)
 				RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.LocalPlayer.inventory[0].type);
 			if (PlayerInput.Triggers.Current.Hotbar2 && !Main.LocalPlayer.inventory[1].IsAir)
