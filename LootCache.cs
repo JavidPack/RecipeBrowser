@@ -351,7 +351,11 @@ namespace RecipeBrowser
 				Main.soundVolume = 0f;
 				if (!Main.dedServ)
 				{
-					Reflect();
+					try {
+						Reflect();
+					}
+					catch {
+					}
 				}
 				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache");
 				setLoadProgressProgress?.Invoke(0f);
