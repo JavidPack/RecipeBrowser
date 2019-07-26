@@ -78,7 +78,7 @@ namespace RecipeBrowser.UIElements
 					else
 					{
 						// TODO: Detect PreSaveAndQuit only.
-						ErrorLogger.Log("RecipeBrowser: You left an item in the recipe browser with a full inventory and have lost the item: " + item2.Name);
+						RecipeBrowser.instance.Logger.Warn("RecipeBrowser: You left an item in the recipe browser with a full inventory and have lost the item: " + item2.Name);
 					}
 				}
 				item = new Item();

@@ -24,7 +24,7 @@ namespace RecipeBrowser.TagHandlers
 				{
 					if (texture == null)
 					{
-						texture = ModLoader.GetTexture(texturePath);
+						texture = ModContent.GetTexture(texturePath);
 					}
 					return texture;
 				}
@@ -63,7 +63,7 @@ namespace RecipeBrowser.TagHandlers
 			// TODO: option for scale or absolute size
 			// TODO: option for tooltip/translation key
 			// TODO: option for frame (animated?)
-			if (ModLoader.TextureExists(text))
+			if (ModContent.TextureExists(text))
 			{
 				return new ImageSnippet(text);
 			}

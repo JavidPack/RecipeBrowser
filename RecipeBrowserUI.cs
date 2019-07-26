@@ -103,7 +103,7 @@ namespace RecipeBrowser
 			var type = Assembly.GetAssembly(typeof(Mod)).GetType("Terraria.ModLoader.Mod");
 			FieldInfo loadModsField = type.GetField("items", BindingFlags.Instance | BindingFlags.NonPublic);
 
-			mods = ModLoader.GetLoadedMods().Where(x => ((Dictionary<string, ModItem>)loadModsField.GetValue(ModLoader.GetMod(x))).Count > 0).ToArray();
+			mods = ModLoader.Mods.Where(mod => ((Dictionary<string, ModItem>)loadModsField.GetValue(mod)).Count > 0).Select(mod => mod.Name).ToArray();
 			modIndex = mods.Length - 1;
 		}
 
@@ -116,7 +116,7 @@ namespace RecipeBrowser
 			mainPanel.Top.Set(400f, 0f);
 			mainPanel.Width.Set(475f, 0f); // + 30
 			mainPanel.MinWidth.Set(415f, 0f);
-			mainPanel.MaxWidth.Set(784f, 0f);
+			mainPanel.MaxWidth.Set(884f, 0f);
 			mainPanel.Height.Set(350, 0f);
 			mainPanel.MinHeight.Set(263, 0f);
 			mainPanel.MaxHeight.Set(1000, 0f);
