@@ -1,8 +1,6 @@
 ﻿author = jopojelly
-version = 0.8
+version = 0.8.1
 displayName = Recipe Browser
 homepage = https://forums.terraria.org/index.php?threads/recipe-browser.62462/
-buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, unused\*, .git\*,
+buildIgnore = .vs\*, Properties\*, *.csproj, *.user, *.config, unused\*, .git\*,
 includePDB = true
-modReferences = TerrariaHooks
-languageVersion = 6

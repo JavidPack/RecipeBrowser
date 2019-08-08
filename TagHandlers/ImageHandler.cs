@@ -24,7 +24,7 @@ namespace RecipeBrowser.TagHandlers
 				{
 					if (texture == null)
 					{
-						texture = ModLoader.GetTexture(texturePath);
+						texture = ModContent.GetTexture(texturePath);
 					}
 					return texture;
 				}
@@ -101,7 +101,7 @@ namespace RecipeBrowser.TagHandlers
 				}
 				//return new TextSnippet("<" + text.Replace("\\[", "[").Replace("\\]", "]") + ">", baseColor, 1f);
 			}
-			if (ModLoader.TextureExists(text))
+			if (ModContent.TextureExists(text))
 			{
 				return new ImageSnippet(text, tooltip, 1f, scale)
 				{

@@ -11,6 +11,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Utilities;
 
 namespace RecipeBrowser
 {
@@ -312,11 +313,10 @@ namespace RecipeBrowser
 			}
 
 			// If we aren't up to date on each mod...
-			foreach (var mod in ModLoader.GetLoadedMods())
+			foreach (var m in ModLoader.Mods)
 			{
-				if (/*mod == "ModLoader" || */mod == "RecipeBrowser")
+				if (/*mod == "ModLoader" || */m.Name == "RecipeBrowser")
 					continue;
-				Mod m = ModLoader.GetMod(mod);
 				string modName = m.Name == "ModLoader" ? "Terraria" : m.Name;
 				if (!li.cachedMods.Any(x => x.Key == modName && x.Value == m.Version)) // if this mod is either updated or doesn't exist yet
 																					   //if (li.cachedMods.ContainsKey(modName) && li.cachedMods[modName] == m.Version)
@@ -350,7 +350,11 @@ namespace RecipeBrowser
 				Main.soundVolume = 0f;
 				if (!Main.dedServ)
 				{
-					Reflect();
+					try {
+						Reflect();
+					}
+					catch {
+					}
 				}
 				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache");
 				setLoadProgressProgress?.Invoke(0f);
@@ -361,6 +365,15 @@ namespace RecipeBrowser
 					Main.player[playernum] = new Player();
 				}
 				//Main.player[0].active = true;
+
+				// Fix Terraria Overhaul bug
+				if(Main.maxTilesY < 600 || Main.maxTilesX < 2100)
+				{
+					Main.maxTilesX = 8400;
+					Main.maxTilesY = 2400;
+					Main.tile = new Tile[Main.maxTilesX + 1, Main.maxTilesY + 1];
+				}
+
 				int oldMx = Main.maxTilesX;
 				Main.maxTilesX = 2100;
 				int oldMy = Main.maxTilesY;
@@ -454,24 +467,25 @@ namespace RecipeBrowser
 			Assembly assembly = Assembly.GetAssembly(typeof(Mod));
 			// TODO, return to old float and string.
 			var type = assembly.GetType("Terraria.ModLoader.Interface");
-			FieldInfo loadModsField = type.GetField("loadMods", BindingFlags.Static | BindingFlags.NonPublic);
-			var loadModsObject = loadModsField.GetValue(null);
+			FieldInfo loadModsField = type.GetField("loadModsProgress", BindingFlags.Static | BindingFlags.NonPublic);
+			var loadModsProgressField = loadModsField.GetValue(null);
 
-			FieldInfo loadProgressField = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetField("loadProgress", BindingFlags.Instance | BindingFlags.NonPublic);
-			var loadProgressObject = loadProgressField.GetValue(loadModsObject);
 
-			MethodInfo setTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadProgress").GetMethod("SetText", BindingFlags.Instance | BindingFlags.NonPublic);
-			MethodInfo setProgressMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadProgress").GetMethod("SetProgress", BindingFlags.Instance | BindingFlags.NonPublic);
+			Type UILoadModsProgressType = assembly.GetType("Terraria.ModLoader.UI.DownloadManager.UILoadModsProgress");
+			//FieldInfo loadProgressField = UILoadModsProgressType.GetField("loadProgress", BindingFlags.Instance | BindingFlags.NonPublic);
+			//var loadProgressObject = loadProgressField.GetValue(loadModsProgressField);
 
-			setLoadProgressText = (string s) => setTextMethod.Invoke(loadProgressObject, new object[] { s });
-			setLoadProgressProgress = (float f) => setProgressMethod.Invoke(loadProgressObject, new object[] { f });
+			MethodInfo SetLoadStageMethod = UILoadModsProgressType.GetMethod("SetLoadStage", BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo setProgressMethod = UILoadModsProgressType.GetProperty("Progress", BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo setSubTextMethod = UILoadModsProgressType.GetProperty("SubProgressText", BindingFlags.Instance | BindingFlags.Public);
 
-			if (ModLoader.version >= new Version(0, 10, 1))
-			{
-				MethodInfo setSubTextMethod = assembly.GetType("Terraria.ModLoader.UI.UILoadMods").GetMethod("SetSubProgressInit", BindingFlags.Instance | BindingFlags.NonPublic);
-				setLoadSubProgressText = (string s) => setSubTextMethod.Invoke(loadModsObject, new object[] { s });
-			}
+			setLoadProgressText = (string s) => SetLoadStageMethod.Invoke(loadModsProgressField, new object[] { s, -1 });
+			setLoadProgressProgress = (float f) => setProgressMethod.SetValue(loadModsProgressField, f );
+			setLoadSubProgressText = (string s) => setSubTextMethod.SetValue(loadModsProgressField, s);
 		}
+
+		//Check if the field IsMono is in PlatformUtilities, as it's exclusive to tML FNA/64bit
+		private static bool IsTMLFNA => typeof(PlatformUtilities).GetField("IsMono", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) != null;
 
 		private static int[] ignoreItemIDS = { ItemID.Heart, 1734, 1867, 184, 1735, 1868, ItemID.CopperCoin, ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin };
 

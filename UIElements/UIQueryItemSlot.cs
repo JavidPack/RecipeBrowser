@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace RecipeBrowser.UIElements
@@ -73,6 +74,11 @@ namespace RecipeBrowser.UIElements
 					if (Main.netMode == 1)
 					{
 						NetMessage.SendData(21, -1, -1, null, num, 1f, 0f, 0f, 0, 0, 0);
+					}
+					else
+					{
+						// TODO: Detect PreSaveAndQuit only.
+						RecipeBrowser.instance.Logger.Warn("RecipeBrowser: You left an item in the recipe browser with a full inventory and have lost the item: " + item2.Name);
 					}
 				}
 				item = new Item();

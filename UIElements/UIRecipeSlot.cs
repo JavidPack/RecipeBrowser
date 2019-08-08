@@ -155,11 +155,14 @@ namespace RecipeBrowser.UIElements
 			if (RecipePath.extendedCraft)
 				craftPathsNeeded = true;
 			if (IsMouseHovering)
+			{
 				if (Main.keyState.IsKeyDown(Main.FavoriteKey))
 					if (Main.drawingPlayerChat)
 						Main.cursorOverride = 2;
 					else
 						Main.cursorOverride = 3;
+				RecipeCatalogueUI.instance.hoveredIndex = index;
+			}
 
 			backgroundTexture = defaultBackgroundTexture;
 

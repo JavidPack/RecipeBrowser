@@ -121,7 +121,7 @@ namespace RecipeBrowser
 		public override void Update(GameTime gameTime)
 		{
 			Vector2 MousePosition = new Vector2((float)Main.mouseX, (float)Main.mouseY);
-			if (!ContainsPoint(MousePosition) && Main.mouseLeft)
+			if (!ContainsPoint(MousePosition) && (Main.mouseLeft || Main.mouseRight)) // This solution is fine, but we need a way to cleanly "unload" a UIElement
 			{
 				// TODO, figure out how to refocus without triggering unfocus while clicking enable button.
 				Unfocus();
