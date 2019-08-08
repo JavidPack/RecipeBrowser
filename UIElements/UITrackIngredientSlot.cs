@@ -12,7 +12,7 @@ namespace RecipeBrowser.UIElements
 		private int owner;
 		private Recipe recipe;
 
-		public UITrackIngredientSlot(Item item, int targetStack, Recipe recipe, int owner, float scale = 0.75f) : base(item, scale)
+		public UITrackIngredientSlot(Item item, int targetStack, Recipe recipe, int order, int owner, float scale = 0.75f) : base(item, order, scale)
 		{
 			this.targetStack = targetStack;
 			this.recipe = recipe;

@@ -39,7 +39,7 @@ namespace RecipeBrowser.UIElements
 				{
 					Item item = new Item();
 					item.SetDefaults(recipe.requiredItem[j].type);
-					UITrackIngredientSlot ingredient = new UITrackIngredientSlot(item, recipe.requiredItem[j].stack, recipe, owner, owner != Main.myPlayer ? .5f : 0.75f);
+					UITrackIngredientSlot ingredient = new UITrackIngredientSlot(item, recipe.requiredItem[j].stack, recipe, j, owner, owner != Main.myPlayer ? .5f : 0.75f);
 					x += (int)b.Width + 2;
 					ingredient.Left.Set(-x, 1f);
 

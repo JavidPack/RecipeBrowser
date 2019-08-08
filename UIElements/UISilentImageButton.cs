@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.UI;
 
@@ -36,13 +35,13 @@ namespace RecipeBrowser.UIElements
 			if (selected)
 			{
 				var r = GetDimensions().ToRectangle();
-				r.Inflate(0,0);
+				r.Inflate(0, 0);
 				//spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, r, Color.White);
-				spriteBatch.Draw( Main.inventoryBack14Texture, r, Color.White);
+				spriteBatch.Draw(Main.inventoryBack14Texture, r, Color.White);
 			}
 
 			CalculatedStyle dimensions = base.GetDimensions();
-			spriteBatch.Draw(this._texture, dimensions.Position(), Color.White * (selected ? _visibilityActive : ( IsMouseHovering ? _visibilityHovered  : this._visibilityInactive)));
+			spriteBatch.Draw(this._texture, dimensions.Position(), Color.White * (selected ? _visibilityActive : (IsMouseHovering ? _visibilityHovered : this._visibilityInactive)));
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverText;

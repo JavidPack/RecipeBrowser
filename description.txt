@@ -1,6 +1,6 @@
 ﻿Use the "Toggle Recipe Browser" hotkey to show/hide the recipe browser. (Assign it in the keybindings menu)
 
-Use the "Query Hovered Item" hotkey to quicky bring up the recipe browser with the hovered item. (Assign it in the keybindings menu, I suggest middle click)
+Use the "Query Hovered Item" hotkey to quickly bring up the recipe browser with the hovered item. (Assign it in the keybindings menu, I suggest middle click)
 
 Click on any Recipe to see details. Use categories and search filter to find the recipe you want.
 
@@ -8,4 +8,8 @@ Alt click on a recipe to pin a recipe.
 
 Place an item in the slot to find related recipes.
 
+You can view extended crafting options in the Craft menu. Recipes that can be satisfied with multiple crafting steps will be here.
+
 Also try out the Item Catalogue and Bestiary.
+
+There is an integrated Help in the Recipe Browser as well.

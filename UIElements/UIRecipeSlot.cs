@@ -1,12 +1,13 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
-using Terraria;
-using Terraria.UI;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.UI.Chat;
-using Terraria.GameContent.UI.Chat;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.GameContent.UI.Chat;
+using Terraria.UI;
+using Terraria.UI.Chat;
 
 namespace RecipeBrowser.UIElements
 {
@@ -16,10 +17,16 @@ namespace RecipeBrowser.UIElements
 		public static Texture2D recentlyDiscoveredBackgroundTexture = Main.inventoryBack8Texture;
 		public static Texture2D favoritedBackgroundTexture;
 		public static Texture2D ableToCraftBackgroundTexture;
+		public static Texture2D ableToCraftExtendedBackgroundTexture;
 		public int index;
 		public bool recentlyDiscovered;
 		public bool favorited;
 		public bool selected;
+		public bool craftPathsNeeded; // seen limits craftPaths calculation
+		public bool craftPathsCalculated;
+		public bool craftPathsCalculationBegun;
+		internal CancellationTokenSource cancellationTokenSource;
+		public List<CraftPath> craftPaths;
 
 		public UIRecipeSlot(int index, float scale = 0.75f) : base(Main.recipe[index].createItem, scale)
 		{
@@ -65,6 +72,8 @@ namespace RecipeBrowser.UIElements
 					break;
 				}
 			}
+
+			// Idea: Glint the CraftUI tab if extended craft available?
 		}
 
 		public override void DoubleClick(UIMouseEvent evt)
@@ -74,6 +83,20 @@ namespace RecipeBrowser.UIElements
 			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
 			RecipeCatalogueUI.instance.itemNameFilter.SetText("");
 			RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);
+		}
+
+		public override void RightClick(UIMouseEvent evt)
+		{
+			// TODO: Idea. Draw hinted craft path and suggest right click to view it?
+			base.RightClick(evt);
+
+			RecipeCatalogueUI.instance.SetRecipe(index);
+			RecipeCatalogueUI.instance.queryLootItem = Main.recipe[index].createItem;
+			RecipeCatalogueUI.instance.updateNeeded = true;
+
+			RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.Craft);
+			CraftUI.instance.SetRecipe(index);
+			//Main.NewText($"{craftPaths.Count} path(s) found:");
 		}
 
 		public override int CompareTo(object obj)
@@ -129,6 +152,8 @@ namespace RecipeBrowser.UIElements
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			if (RecipePath.extendedCraft)
+				craftPathsNeeded = true;
 			if (IsMouseHovering)
 			{
 				if (Main.keyState.IsKeyDown(Main.FavoriteKey))
@@ -140,6 +165,9 @@ namespace RecipeBrowser.UIElements
 			}
 
 			backgroundTexture = defaultBackgroundTexture;
+
+			if (craftPathsCalculated && craftPaths.Count > 0)
+				backgroundTexture = ableToCraftExtendedBackgroundTexture;
 
 			for (int n = 0; n < Main.numAvailableRecipes; n++)
 			{
@@ -162,6 +190,58 @@ namespace RecipeBrowser.UIElements
 				spriteBatch.Draw(favoritedBackgroundTexture, vector2, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			if (selected)
 				spriteBatch.Draw(selectedBackgroundTexture, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			base.Update(gameTime);
+			// Is this called even when not drawn? Yes. Need Draw flag
+			if (craftPathsNeeded && !craftPathsCalculated && !craftPathsCalculationBegun)
+			{
+				DoGetCraftPaths();
+			}
+		}
+
+		internal void CraftPathsImmediatelyNeeded()
+		{
+			craftPathsNeeded = true;
+			if (!craftPathsCalculated)
+			{
+				RecipePath.PrepareGetCraftPaths();
+				craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], CancellationToken.None);
+				craftPathsCalculated = true;
+			}
+		}
+
+		internal void CraftPathsNeeded()
+		{
+			craftPathsNeeded = true;
+			if (!craftPathsCalculated && !craftPathsCalculationBegun)
+			{
+				DoGetCraftPaths();
+			}
+		}
+
+		private void DoGetCraftPaths()
+		{
+			cancellationTokenSource = new CancellationTokenSource(500);
+			RecipePath.PrepareGetCraftPaths();
+			var firstTask = Task.Run(() => craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], cancellationTokenSource.Token), cancellationTokenSource.Token);
+			//var firstTask = new Task(() => craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], cancellationTokenSource.Token), cancellationTokenSource.Token);
+			var secondTask = firstTask.ContinueWith((t) =>
+			{
+				if (!cancellationTokenSource.Token.IsCancellationRequested)
+				{
+					craftPathsCalculated = true;
+					//RecipeCatalogueUI.instance.updateNeeded = true;
+					if (RecipeCatalogueUI.instance.slowUpdateNeeded == 0)
+						RecipeCatalogueUI.instance.slowUpdateNeeded = 5;
+				}
+				//else
+				//	Main.NewText(this.index + " cancelled");
+			});
+			//firstTask.Start();
+			craftPathsCalculationBegun = true;
 		}
 	}
 }

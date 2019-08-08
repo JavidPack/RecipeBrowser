@@ -24,13 +24,24 @@ namespace RecipeBrowser.UIElements
 			slot.Click(evt);
 			if (!(Main.keyState.IsKeyDown(Main.FavoriteKey) && Main.drawingPlayerChat))
 			{
-				// inherited. RecipeCatalogueUI.instance.SetRecipe(slot.index);
-				RecipeCatalogueUI.instance.recipeGrid.Goto(delegate (UIElement element)
+				if (slot.craftPathsCalculated && slot.craftPaths.Count > 0)
 				{
-					UIRecipeSlot itemSlot = element as UIRecipeSlot;
-					return itemSlot == slot;
-				}, true);
-				RecipeBrowserUI.instance.ShowRecipeBrowser = true;
+					RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.Craft);
+					CraftUI.instance.SetRecipe(slot.index);
+					if (!RecipeBrowserUI.instance.ShowRecipeBrowser)
+						RecipeBrowserUI.instance.ShowRecipeBrowser = true;
+				}
+				else
+				{
+					// inherited. RecipeCatalogueUI.instance.SetRecipe(slot.index);
+					RecipeCatalogueUI.instance.recipeGrid.Goto(delegate (UIElement element)
+					{
+						UIRecipeSlot itemSlot = element as UIRecipeSlot;
+						return itemSlot == slot;
+					}, true);
+					if (!RecipeBrowserUI.instance.ShowRecipeBrowser)
+						RecipeBrowserUI.instance.ShowRecipeBrowser = true;
+				}
 			}
 		}
 
@@ -56,7 +67,12 @@ namespace RecipeBrowser.UIElements
 					else
 						Main.cursorOverride = 3;
 
+			// TODO: Trigger slot.CraftPathsNeeded if RecipePath.extendedCraft
+
 			backgroundTexture = unableToCraftBackgroundTexture;
+
+			if (slot.craftPathsCalculated && slot.craftPaths.Count > 0)
+				backgroundTexture = UIRecipeSlot.ableToCraftExtendedBackgroundTexture;
 
 			for (int n = 0; n < Main.numAvailableRecipes; n++)
 			{

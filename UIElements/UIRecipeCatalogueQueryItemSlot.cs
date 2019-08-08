@@ -12,6 +12,7 @@ namespace RecipeBrowser.UIElements
 		public override void Click(UIMouseEvent evt)
 		{
 			base.Click(evt);
+			ReplaceWithFake(item.type);
 			RecipeCatalogueUI.instance.queryLootItem = (item.type == 0) ? null : item;
 			RecipeCatalogueUI.instance.updateNeeded = true;
 			SharedUI.instance.SelectedCategory = SharedUI.instance.categories[0];

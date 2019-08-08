@@ -79,7 +79,7 @@ namespace RecipeBrowser
 			sortsAndFiltersPanel.Top.Set(0, 0f);
 			sortsAndFiltersPanel.Width.Set(-275, 1);
 			sortsAndFiltersPanel.Height.Set(60, 0f);
-			sortsAndFiltersPanel.BackgroundColor = Color.LightSeaGreen;
+			sortsAndFiltersPanel.BackgroundColor = Color.CornflowerBlue;//Color.LightSeaGreen;
 			//sortsAndFiltersPanel.SetPadding(4);
 			//mainPanel.Append(sortsAndFiltersPanel);
 			//additionalDragTargets.Add(sortsAndFiltersPanel);
@@ -282,6 +282,8 @@ namespace RecipeBrowser
 
 		internal List<Category> categories;
 		internal List<Filter> filters;
+		internal Filter CraftableFilter;
+		internal Filter ObtainableFilter;
 		internal List<Sort> sorts;
 		private void SetupSortsAndCategories()
 		{
@@ -299,9 +301,13 @@ namespace RecipeBrowser
 			};
 
 			Texture2D materialsIcon = Utilities.StackResizeImage(new Texture2D[] { Main.itemTexture[ItemID.SpellTome] }, 24, 24);
+			Texture2D craftableIcon = ResizeImage(Main.itemTexture[ItemID.IronAnvil], 24, 24);
+			Texture2D extendedCraftIcon = ResizeImage(Main.itemTexture[ItemID.MythrilAnvil], 24, 24);
 			filters = new List<Filter>()
 			{
 				new Filter("Materials", x=>x.material, materialsIcon),
+				(CraftableFilter = new Filter("Craftable", x=>true, craftableIcon)),
+				(ObtainableFilter = new Filter("Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)", x=>true, extendedCraftIcon)),
 			};
 
 			// TODOS: Vanity armor, grapple, cart, potions buffs
@@ -370,6 +376,7 @@ namespace RecipeBrowser
 
 			categories = new List<Category>() {
 				new Category("All", x=> true, smallAll),
+				// TODO: Filter out tools from weapons. Separate belongs and doesn't belong predicates? How does inheriting work again? Other?
 				new Category("Weapons"/*, x=>x.damage>0*/, x=> false, smallWeapons) { //"Images/sortDamage"
 					subCategories = new List<Category>() {
 						new Category("Melee", x=>x.melee, smallMelee),
@@ -536,10 +543,10 @@ namespace RecipeBrowser
 	{
 		internal string name;
 		internal Predicate<Item> belongs;
-		internal List<Category> subCategories; //
+		internal List<Category> subCategories;
 		internal List<Sort> sorts;
 		internal UISilentImageButton button;
-		internal Category parent;
+		//internal Category parent;
 
 		public Filter(string name, Predicate<Item> belongs, Texture2D texture)
 		{

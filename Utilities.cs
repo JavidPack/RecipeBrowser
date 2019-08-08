@@ -1,6 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
+using Terraria.Map;
+using Terraria.ObjectData;
 
 namespace RecipeBrowser
 {
@@ -74,5 +78,65 @@ namespace RecipeBrowser
 			mergedTexture.SetData<Color>(content);
 			return mergedTexture;
 		}
+
+		internal static Dictionary<int, Texture2D> tileTextures;
+
+		internal static void GenerateTileTexture(int tile)
+		{
+			Texture2D texture;
+			Main.instance.LoadTiles(tile);
+
+			var tileObjectData = TileObjectData.GetTileData(tile, 0, 0);
+			if (tileObjectData == null)
+			{
+				tileTextures[tile] = Main.magicPixel;
+				return;
+			}
+
+			int width = tileObjectData.Width;
+			int height = tileObjectData.Height;
+			int padding = tileObjectData.CoordinatePadding;
+
+			//Main.spriteBatch.End();
+			RenderTarget2D renderTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, width * 16, height * 16);
+			Main.instance.GraphicsDevice.SetRenderTarget(renderTarget);
+			Main.instance.GraphicsDevice.Clear(Color.Transparent);
+			Main.spriteBatch.Begin();
+
+			for (int i = 0; i < width; i++)
+			{
+				for (int j = 0; j < height; j++)
+				{
+					Main.spriteBatch.Draw(Main.tileTexture[tile], new Vector2(i * 16, j * 16), new Rectangle(i * 16 + i * padding, j * 16 + j * padding, 16, 16), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+				}
+			}
+
+			Main.spriteBatch.End();
+			Main.instance.GraphicsDevice.SetRenderTarget(null);
+
+			texture = new Texture2D(Main.instance.GraphicsDevice, width * 16, height * 16);
+			Color[] content = new Color[width * 16 * height * 16];
+			renderTarget.GetData<Color>(content);
+			texture.SetData<Color>(content);
+			tileTextures[tile] = texture;
+		}
+
+		internal static string GetTileName(int tile)
+		{
+			string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tile, 0));
+			if (tileName == "")
+			{
+				if (tile < TileID.Count)
+					tileName = $"Tile {tile}";
+				else
+					tileName = Terraria.ModLoader.TileLoader.GetTile(tile).Name + " (err no entry)";
+			}
+			return tileName;
+		}
+
+		internal static Color textColor = Color.White; // new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);
+		internal static Color noColor = Color.LightSalmon; // OrangeRed Red
+		internal static Color yesColor = Color.LightGreen; // Green
+		internal static Color maybeColor = Color.Yellow; // LightYellow LightGoldenrodYellow Yellow    Goldenrod
 	}
 }

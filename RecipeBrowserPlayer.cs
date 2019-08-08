@@ -1,12 +1,13 @@
-﻿using RecipeBrowser.UIElements;
+﻿using Microsoft.Xna.Framework;
+using RecipeBrowser.UIElements;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.GameInput;
 using Terraria.ModLoader;
-using Terraria.UI;
 using Terraria.ModLoader.IO;
-using System.Linq;
-using System.Collections.Generic;
+using Terraria.UI;
 
 namespace RecipeBrowser
 {
@@ -69,6 +70,10 @@ namespace RecipeBrowser
 	internal class RecipeBrowserPlayer : ModPlayer
 	{
 		internal List<int> favoritedRecipes;
+		// For now, reset on enter world. Could remember later if needed.
+		static internal bool[] seenTiles;
+		// TODO: Remember hitNPCs? Implement just like seenTiles and reset each session?
+
 		public override void Initialize()
 		{
 			favoritedRecipes = new List<int>();
@@ -90,6 +95,51 @@ namespace RecipeBrowser
 		// Only happens on local client/SP
 		public override void OnEnterWorld(Player player)
 		{
+			seenTiles = new bool[TileLoader.TileCount];
+			Point center = player.Center.ToTileCoordinates();
+			for (int i = center.X - 100; i < center.X + 100; i++)
+			{
+				for (int j = center.Y - 100; j < center.Y + 100; j++)
+				{
+					if (WorldGen.InWorld(i, j) && Main.tile[i, j] != null && !seenTiles[Main.tile[i, j].type])
+					{
+						int Tile = Main.tile[i, j].type;
+						List<int> adjTiles = new List<int>();
+						adjTiles.Add(Tile);
+
+						ModTile modTile = TileLoader.GetTile(Tile);
+						if (modTile != null)
+						{
+							adjTiles.AddRange(modTile.adjTiles);
+						}
+						if (Tile == 302)
+							adjTiles.Add(17);
+						if (Tile == 77)
+							adjTiles.Add(17);
+						if (Tile == 133)
+						{
+							adjTiles.Add(17);
+							adjTiles.Add(77);
+						}
+						if (Tile == 134)
+							adjTiles.Add(16);
+						if (Tile == 354)
+							adjTiles.Add(14);
+						if (Tile == 469)
+							adjTiles.Add(14);
+						if (Tile == 355)
+						{
+							adjTiles.Add(13);
+							adjTiles.Add(14);
+						}
+						// TODO: GlobalTile.AdjTiles support (no player object, reflection needed since private)
+						foreach (var tile in adjTiles)
+						{
+							seenTiles[tile] = true;
+						}
+					}
+				}
+			}
 			RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 			RecipeCatalogueUI.instance.updateNeeded = true;
 			if (RecipeCatalogueUI.instance.recipeSlots.Count > 0)
@@ -160,12 +210,26 @@ namespace RecipeBrowser
 				}
 				if (RecipeBrowser.instance.QueryHoveredItemHotKey.JustPressed)
 				{
+					// Debug assistance, manually clear craftPath calculations
+					//foreach (var slot in RecipeCatalogueUI.instance.recipeSlots)
+					//{
+					//	slot.craftPathsNeeded = false;
+					//	slot.craftPathsCalculated = false;
+					//	slot.craftPaths = null;
+					//}
+					//RecipeCatalogueUI.instance.updateNeeded = true;
+					//RecipeCatalogueUI.instance.InvalidateExtendedCraft();
+
 					if (!Main.HoverItem.IsAir)
 					{
 						RecipeBrowserUI.instance.ShowRecipeBrowser = true;
 						if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.RecipeCatalogue)
 						{
 							RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
+						}
+						else if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.Craft)
+						{
+							CraftUI.instance.SetItem(Main.HoverItem.type);
 						}
 						else if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.ItemCatalogue)
 						{
@@ -184,6 +248,24 @@ namespace RecipeBrowser
 						{
 							BestiaryUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
 						}
+					}
+				}
+			}
+		}
+
+		public override void PreUpdateBuffs()
+		{
+			if (Main.myPlayer == player.whoAmI && seenTiles != null)
+			{
+				if (!Main.playerInventory)
+					Main.LocalPlayer.AdjTiles(); 
+				for (int i = 0; i < seenTiles.Length; i++)
+				{
+					if (player.adjTile[i] && !seenTiles[i]) // could move to Player_AdjTiles_Patcher, nah.
+					{
+						//Main.NewText("Seen " + Utilities.GetTileName(i));
+						seenTiles[i] = true;
+						RecipeCatalogueUI.instance.InvalidateExtendedCraft();
 					}
 				}
 			}

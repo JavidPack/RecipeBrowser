@@ -10,9 +10,11 @@ namespace RecipeBrowser.UIElements
 		public static Texture2D selectedBackgroundTexture = Main.inventoryBack15Texture;
 		private int clickIndicatorTime = 0;
 		private const int ClickTime = 30;
+		private int order; // Recipe Ingredient Order
 
-		public UIIngredientSlot(Item item, float scale = 0.75f) : base(item, scale)
+		public UIIngredientSlot(Item item, int order, float scale = 0.75f) : base(item, scale)
 		{
+			this.order = order;
 		}
 
 		public override void Click(UIMouseEvent evt)
@@ -38,6 +40,12 @@ namespace RecipeBrowser.UIElements
 				clickIndicatorTime--;
 				spriteBatch.Draw(selectedBackgroundTexture, vector2, null, Color.White * ((float)clickIndicatorTime / ClickTime), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			}
+		}
+
+		public override int CompareTo(object obj)
+		{
+			UIIngredientSlot other = obj as UIIngredientSlot;
+			return order.CompareTo(other.order);
 		}
 	}
 }

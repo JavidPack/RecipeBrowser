@@ -70,7 +70,7 @@ namespace RecipeBrowser
 			itemNameFilter.OnTextChanged += () => { ValidateItemFilter(); updateNeeded = true; };
 			itemNameFilter.OnTabPressed += () => { itemDescriptionFilter.Focus(); };
 			itemNameFilter.Top.Pixels = 0f;
-			itemNameFilter.Left.Set(-152, 1f);
+			itemNameFilter.Left.Set(-150, 1f);
 			itemNameFilter.Width.Set(150, 0f);
 			itemNameFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemNameFilter);
@@ -79,7 +79,7 @@ namespace RecipeBrowser
 			itemDescriptionFilter.OnTextChanged += () => { ValidateItemDescription(); updateNeeded = true; };
 			itemDescriptionFilter.OnTabPressed += () => { itemNameFilter.Focus(); };
 			itemDescriptionFilter.Top.Pixels = 30f;
-			itemDescriptionFilter.Left.Set(-152, 1f);
+			itemDescriptionFilter.Left.Set(-150, 1f);
 			itemDescriptionFilter.Width.Set(150, 0f);
 			itemDescriptionFilter.Height.Set(25, 0f);
 			mainPanel.Append(itemDescriptionFilter);
@@ -302,8 +302,41 @@ namespace RecipeBrowser
 			foreach (var filter in SharedUI.instance.availableFilters)
 			{
 				if (filter.button.selected)
+				{
 					if (!filter.belongs(slot.item))
 						return false;
+					if (filter == SharedUI.instance.ObtainableFilter)
+					{
+						bool ableToCraft = false;
+						for (int i = 0; i < Recipe.numRecipes; i++)
+						{
+							Recipe recipe = Main.recipe[i];
+							if (recipe.createItem.type == slot.item.type)
+							{
+								UIRecipeSlot recipeSlot = RecipeCatalogueUI.instance.recipeSlots[i];
+								recipeSlot.CraftPathsNeeded();
+								if (recipeSlot.craftPathsCalculated && recipeSlot.craftPaths.Count > 0)
+									ableToCraft = true;
+							}
+						}
+						if (!ableToCraft)
+							return false;
+					}
+					if (filter == SharedUI.instance.CraftableFilter)
+					{
+						bool ableToCraft = false;
+						for (int n = 0; n < Main.numAvailableRecipes; n++)
+						{
+							if (Main.recipe[Main.availableRecipe[n]].createItem.type == slot.item.type)
+							{
+								ableToCraft = true;
+								break;
+							}
+						}
+						if (!ableToCraft)
+							return false;
+					}
+				}
 			}
 
 			if (slot.item.Name.IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)

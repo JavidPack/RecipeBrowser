@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Harmony;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
@@ -41,6 +42,9 @@ namespace RecipeBrowser
 		private int lastSeenScreenHeight;
 		internal static bool[] chestContentsAvailable = new bool[1000];
 
+		const string HarmonyID = "mod.RecipeBrowser";
+		HarmonyInstance harmonyInstance;
+
 		// TODO, Chinese IME support
 		public override void Load()
 		{
@@ -55,6 +59,8 @@ namespace RecipeBrowser
 			// Remember, this mod is NOT open source, don't steal these TagHandlers.
 			ChatManager.Register<TagHandlers.LinkTagHandler>("l", "link");
 			ChatManager.Register<TagHandlers.ImageTagHandler>("image");
+			ChatManager.Register<TagHandlers.NPCTagHandler>("npc");
+			ChatManager.Register<TagHandlers.ItemHoverFixTagHandler>("itemhover");
 			//ChatManager.Register<TagHandlers.URLTagHandler>("u", "url");
 
 			FieldInfo translationsField = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -86,11 +92,19 @@ namespace RecipeBrowser
 				UIElements.UIRecipeSlot.favoritedBackgroundTexture = GetTexture("Images/FavoritedOverlay");
 				UIElements.UIRecipeSlot.selectedBackgroundTexture = GetTexture("Images/SelectedOverlay");
 				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
+				UIElements.UIRecipeSlot.ableToCraftExtendedBackgroundTexture = GetTexture("Images/CanCraftExtendedBackground");
 				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
 				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
 				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
 				UIHorizontalGrid.moreLeftTexture = GetTexture("UIElements/MoreLeft");
 				UIHorizontalGrid.moreRightTexture = GetTexture("UIElements/MoreRight");
+				Utilities.tileTextures = new Dictionary<int, Texture2D>();
+			}
+
+			harmonyInstance = HarmonyInstance.Create(HarmonyID);
+			if (!harmonyInstance.HasAnyPatches(HarmonyID)) // In case Unload failed, don't double up.
+			{
+				harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
 			}
 		}
 
@@ -119,15 +133,25 @@ namespace RecipeBrowser
 			RecipeCatalogueUI.instance = null;
 			ItemCatalogueUI.instance = null;
 			BestiaryUI.instance = null;
+			CraftUI.instance = null;
+			RecipePath.Refresh(true);
+			RecipeBrowserPlayer.seenTiles = null;
 
 			UIElements.UIRecipeSlot.favoritedBackgroundTexture = null;
 			UIElements.UIRecipeSlot.selectedBackgroundTexture = null;
 			UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = null;
+			UIElements.UIRecipeSlot.ableToCraftExtendedBackgroundTexture = null;
 			UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = null;
 			UIElements.UICheckbox.checkboxTexture = null;
 			UIElements.UICheckbox.checkmarkTexture = null;
 			UIHorizontalGrid.moreLeftTexture = null;
 			UIHorizontalGrid.moreRightTexture = null;
+			Utilities.tileTextures = null;
+
+			if (harmonyInstance != null)
+			{
+				harmonyInstance.UnpatchAll(HarmonyID);
+			}
 		}
 
 		public override void PostSetupContent()
