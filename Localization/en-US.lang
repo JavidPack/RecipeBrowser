@@ -20,7 +20,7 @@ RecipeCatalogueUI.EmptyQuerySlotHint=Place item here
 
 CraftUI.EmptyQuerySlotHint=Place item here
 CraftUI.Calc=Calc
-CraftUI.CalcTooltip=Toggles Preemptive Extended Craft Calculation in Recipes
+CraftUI.CalcTooltip=Toggles Preemptive Extended Craft Calculation in Recipes\nCan cause lag
 CraftUI.Loot=Loot
 CraftUI.LootTooltip=Allow Farming in Craft Path (Only works for Enemies with Banners)
 CraftUI.Shop=Shop

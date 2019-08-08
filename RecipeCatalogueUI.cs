@@ -503,7 +503,7 @@ namespace RecipeBrowser
 		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups)
 		{
 			// TODO: Option to filter by source of Recipe rather than by createItem maybe?
-			if (RecipeBrowserUI.modIndex != RecipeBrowserUI.instance.mods.Length - 1)
+			if (RecipeBrowserUI.modIndex != 0)
 			{
 				if (recipe.createItem.modItem == null)
 				{

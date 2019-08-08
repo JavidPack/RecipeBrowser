@@ -106,7 +106,7 @@ namespace RecipeBrowser
 			FieldInfo loadModsField = type.GetField("items", BindingFlags.Instance | BindingFlags.NonPublic);
 
 			mods = ModLoader.Mods.Where(mod => ((Dictionary<string, ModItem>)loadModsField.GetValue(mod)).Count > 0).Select(mod => mod.Name).ToArray();
-			modIndex = mods.Length - 1;
+			modIndex = 0;
 		}
 
 		public override void OnInitialize()
@@ -313,7 +313,7 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnMiddleClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			modIndex = mods.Length - 1;
+			modIndex = 0;
 			button.hoverText = RBText("ModFilter") + ": " + RBText("All");
 			UpdateModHoverImage(button);
 			AllUpdateNeeded();
@@ -336,7 +336,7 @@ namespace RecipeBrowser
 		private string GetModFilterTooltip(bool increment)
 		{
 			modIndex = increment ? (modIndex + 1) % mods.Length : (mods.Length + modIndex - 1) % mods.Length;
-			return modIndex == mods.Length - 1 ? RBText("All") : mods[modIndex];
+			return modIndex == 0 ? RBText("All") : mods[modIndex];
 		}
 
 		internal void AllUpdateNeeded()

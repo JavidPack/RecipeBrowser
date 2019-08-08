@@ -16,8 +16,8 @@ namespace RecipeBrowser
 	internal class RecipePathTester
 	{
 		//internal static IdDictionary Search;
-		internal static bool print = true;
-		internal static bool printResults = true;
+		internal static bool print = false;
+		internal static bool printResults = false;
 		//internal static bool printResultCounts = true;
 		//internal static bool calculateAll = false;
 		//internal static int calculateAllRepeat = 1;
@@ -272,11 +272,12 @@ namespace RecipeBrowser
 			if (token.IsCancellationRequested)
 				return;
 			// Some notion of limiting depth of tree might help.
-			//int count = inProgress.root.GetAllChildrenPreOrder().Count(); //.OfType<CraftPath.RecipeNode>()
-			//if (count > 20)
-			//{
-			//	return;
-			//}
+			// TODO
+			// Limit by Total steps (TODO: steps only, not HAves)
+			int count = inProgress.root.GetAllChildrenPreOrder().Count(); //.OfType<CraftPath.RecipeNode>()
+			if (count > 20) {
+				return;
+			}
 
 			// Current will always be an unfulfilled
 			CraftPath.UnfulfilledNode current = inProgress.GetCurrent();
@@ -378,13 +379,16 @@ namespace RecipeBrowser
 				{
 					bool encountered = false;
 
-					int npc = loots[lootable.First()].First(); // Only checks 1 item in Group, and first NPC that drops it. Fix later.
-
-					int bannerID = Item.NPCtoBanner(npc);
-					if (bannerID > 0)
-					{
-						if (NPC.killCount[bannerID] > 0)
-							encountered = true;
+					// Only checks 1 item in Group. Fix later.
+					var npcs = loots[lootable.First()];
+					foreach (var npc in npcs) {
+						int bannerID = Item.NPCtoBanner(npc);
+						if (bannerID > 0) {
+							if (NPC.killCount[bannerID] > 0) {
+								encountered = true;
+								break;
+							}
+						}
 					}
 
 					if (encountered)

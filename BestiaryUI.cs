@@ -272,7 +272,7 @@ namespace RecipeBrowser
 				}
 			}
 
-			if (RecipeBrowserUI.modIndex != RecipeBrowserUI.instance.mods.Length - 1)
+			if (RecipeBrowserUI.modIndex != 0)
 			{
 				if (slot.npc.modNPC == null)
 				{

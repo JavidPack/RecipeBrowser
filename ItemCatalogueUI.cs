@@ -262,7 +262,7 @@ namespace RecipeBrowser
 
 		private bool PassItemFilters(UIItemCatalogueItemSlot slot)
 		{
-			if (RecipeBrowserUI.modIndex != RecipeBrowserUI.instance.mods.Length - 1)
+			if (RecipeBrowserUI.modIndex != 0)
 			{
 				if (slot.item.modItem == null)
 				{

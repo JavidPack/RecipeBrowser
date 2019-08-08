@@ -1,5 +1,4 @@
-﻿using Harmony;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using Terraria;
@@ -8,7 +7,7 @@ namespace RecipeBrowser
 {
 	public static class Patches
 	{
-
+		private static bool AdjTilesActive = false;
 		public static void Apply()
 		{
 			// Patches are automatically unapplied on unload by TerrariaHooks. -ade
@@ -18,7 +17,8 @@ namespace RecipeBrowser
 			{
 				orig();
 
-				if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name.StartsWith("AdjTiles")))
+				if(!AdjTilesActive)
+				//if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name.StartsWith("AdjTiles")))
 				{
 					RecipeCatalogueUI.instance.InvalidateExtendedCraft();
 					//Main.NewText("FindRecipes postfix: InvalidateExtendedCraft");
@@ -31,6 +31,7 @@ namespace RecipeBrowser
 
 			// This patch will call FindRecipes even if the player inventory is closed, keeping Craft tool buttons accurate.
 			On.Terraria.Player.AdjTiles += (orig, player) => {
+				AdjTilesActive = true;
 				orig(player);
 
 				// AdjTiles does the opposite. This way recipes will be calculated 
@@ -56,6 +57,7 @@ namespace RecipeBrowser
 						Recipe.FindRecipes();
 					}
 				}
+				AdjTilesActive = false;
 			};
 		}
 
