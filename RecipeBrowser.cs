@@ -48,8 +48,8 @@ namespace RecipeBrowser
 		// TODO, Chinese IME support
 		public override void Load()
 		{
-			// Latest uses Mod.UpdateUI, added 0.10.1.2
-			if (ModLoader.version < new Version(0, 10, 1, 2))
+			// Latest uses UIProgress refactors.
+			if (ModLoader.version < new Version(0, 11, 3))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
 			}
@@ -113,6 +113,12 @@ namespace RecipeBrowser
 			return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
 			// This isn't good until after load....
 			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+		}
+
+		public override void PreSaveAndQuit()
+		{
+			RecipeBrowserUI.instance.CloseButtonClicked(null, null);
+			RecipeBrowserUI.instance.ShowRecipeBrowser = false;
 		}
 
 		public override void Unload()
@@ -310,12 +316,12 @@ namespace RecipeBrowser
 				}
 				else
 				{
-					ErrorLogger.Log("RecipeBrowser Call Error: Unknown Message: " + message);
+					RecipeBrowser.instance.Logger.Error("RecipeBrowser Call Error: Unknown Message: " + message);
 				}
 			}
 			catch (Exception e)
 			{
-				ErrorLogger.Log("RecipeBrowser Call Error: " + e.StackTrace + e.Message);
+				RecipeBrowser.instance.Logger.Error("RecipeBrowser Call Error: " + e.StackTrace + e.Message);
 			}
 			return "Failure";
 		}

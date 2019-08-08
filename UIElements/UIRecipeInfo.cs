@@ -1,6 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
+using System.Collections.Generic;
+using System.Text;
+using Terraria;
+using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
+using Terraria.Map;
 using System.Text;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
@@ -88,9 +94,22 @@ namespace RecipeBrowser
 					{
 						row++;
 						int tileID = selectedRecipe.requiredTile[tileIndex];
+						string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tileID, 0));
+						if (tileName == "")
+						{
+							if (tileID < TileID.Count)
+								tileName = $"Tile {tileID}";
+							else
+								tileName = Terraria.ModLoader.TileLoader.GetTile(tileID).Name + " (err no entry)";
+						}
+						sb.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjTile[tileID] ? yesColor : noColor).Hex3()}:{tileName}]");
+						sbTiles.Append($"{(comma ? ", " : "")}[c/{(Main.LocalPlayer.adjTile[tileID] ? yesColor : noColor).Hex3()}:{tileName}]");
+						//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, tileName, new Vector2(positionX, positionY + num63), Main.LocalPlayer.adjTile[tileID] ?  yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+/* TODO: figure out if this code is still correct.
 						string tileName = Utilities.GetTileName(tileID);
 						DoChatTag(sb, comma, Main.LocalPlayer.adjTile[tileID], tileName);
 						DoChatTag(sbTiles, comma, Main.LocalPlayer.adjTile[tileID], tileName);
+*/
 						tileIndex++;
 						comma = true;
 					}
@@ -133,6 +152,13 @@ namespace RecipeBrowser
 				if (rectangle.Contains(Main.MouseScreen.ToPoint()) && Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X > 180)
 				{
 					Main.hoverItemName = sb.ToString();
+					/* Different approach to informing recipe mod source
+					ModRecipe modRecipe = selectedRecipe as ModRecipe;
+					if (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X > 180)
+						Main.hoverItemName = sb.ToString() + (modRecipe != null ? $"\n[{modRecipe.mod.DisplayName}]" : "");
+					else if (modRecipe != null)
+						Main.hoverItemName = $"[{modRecipe.mod.DisplayName}]";
+					*/
 				}
 			}
 		}

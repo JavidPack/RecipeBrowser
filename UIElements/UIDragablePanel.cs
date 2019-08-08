@@ -106,6 +106,16 @@ namespace RecipeBrowser
 				Top.Set(Main.MouseScreen.Y - offset.Y, 0f);
 				Recalculate();
 			}
+			else
+			{
+				if (Parent != null && !dimensions.ToRectangle().Intersects(Parent.GetDimensions().ToRectangle()))
+				{
+					var parentSpace = Parent.GetDimensions().ToRectangle();
+					Left.Pixels = Utils.Clamp(Left.Pixels, 0, parentSpace.Right - Width.Pixels);
+					Top.Pixels = Utils.Clamp(Top.Pixels, 0, parentSpace.Bottom - Height.Pixels);
+					Recalculate();
+				}
+			}
 			if (resizeing)
 			{
 				if (resizeableX)
