@@ -82,6 +82,14 @@ namespace RecipeBrowser
 					recipeDictionary.Add(recipe.createItem.type, recipeList = new List<Recipe>());
 				recipeList.Add(recipe);
 			}
+			// This removes all troublesome ingredients.
+			// Ingredients from alchemy mods that just convert to ingredients used in a ton of recipes.
+			var toRemove = new List<int>();
+			foreach (var recipeKVP in recipeDictionary) {
+				if (recipeKVP.Value.Count > 15)
+					toRemove.Add(recipeKVP.Key);
+			}
+			toRemove.ForEach((key) => recipeDictionary.Remove(key));
 		}
 
 		internal static void Adjust(this Dictionary<int, int> d, int key, int adjustment)
@@ -531,12 +539,12 @@ namespace RecipeBrowser
 			{
 				if (!RecipePathTester.print && !RecipePathTester.printResults)
 					return;
-				Console.WriteLine(new String(' ', indent) + ToString());
+				RecipeBrowser.instance.Logger.Info(new String(' ', indent) + ToString());
 				if (children != null) // TODO: Initilize to 0? Leave as null?
 					foreach (var item in children)
 					{
 						if (item == null)
-							Console.WriteLine(new String(' ', indent + 4) + "null");
+							RecipeBrowser.instance.Logger.Info(new String(' ', indent + 4) + "null");
 						else
 							item.Print(indent + 4);
 					}
@@ -1120,7 +1128,9 @@ namespace RecipeBrowser
 
 		internal void Print()
 		{
-			Console.WriteLine("Printing CraftPath");
+			if (!RecipePathTester.print)
+				return;
+			RecipeBrowser.instance.Logger.Info("Printing CraftPath");
 			root.Print(0);
 		}
 
