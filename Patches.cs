@@ -13,21 +13,22 @@ namespace RecipeBrowser
 			// Patches are automatically unapplied on unload by TerrariaHooks. -ade
 
 			// This patch Invalidates the precomputed extended craft unless the reason for FindRecipes was just AdjTiles, since we ignore AdjTiles changes.
-			On.Terraria.Recipe.FindRecipes += (orig) =>
-			{
-				orig();
+			if(!Main.dedServ)
+				On.Terraria.Recipe.FindRecipes += (orig) =>
+				{
+					orig();
 
-				if(!AdjTilesActive)
-				//if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name.StartsWith("AdjTiles")))
-				{
-					RecipeCatalogueUI.instance.InvalidateExtendedCraft();
-					//Main.NewText("FindRecipes postfix: InvalidateExtendedCraft");
-				}
-				else
-				{
-					//Main.NewText("FindRecipes postfix: skipped");
-				}
-			};
+					if(!AdjTilesActive)
+					//if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name.StartsWith("AdjTiles")))
+					{
+						RecipeCatalogueUI.instance.InvalidateExtendedCraft();
+						//Main.NewText("FindRecipes postfix: InvalidateExtendedCraft");
+					}
+					else
+					{
+						//Main.NewText("FindRecipes postfix: skipped");
+					}
+				};
 
 			// This patch will call FindRecipes even if the player inventory is closed, keeping Craft tool buttons accurate.
 			On.Terraria.Player.AdjTiles += (orig, player) => {
