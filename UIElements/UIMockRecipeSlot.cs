@@ -22,9 +22,9 @@ namespace RecipeBrowser.UIElements
 		public override void Click(UIMouseEvent evt)
 		{
 			slot.Click(evt);
-			if (!(Main.keyState.IsKeyDown(Main.FavoriteKey) && Main.drawingPlayerChat))
+			if (!Main.keyState.IsKeyDown(Main.FavoriteKey))
 			{
-				if (slot.craftPathsCalculated && slot.craftPaths.Count > 0)
+				if ((slot.craftPathCalculated || slot.craftPathsCalculated) && slot.craftPaths.Count > 0)
 				{
 					RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.Craft);
 					CraftUI.instance.SetRecipe(slot.index);
@@ -34,6 +34,7 @@ namespace RecipeBrowser.UIElements
 				else
 				{
 					// inherited. RecipeCatalogueUI.instance.SetRecipe(slot.index);
+					RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.RecipeCatalogue);
 					RecipeCatalogueUI.instance.recipeGrid.Goto(delegate (UIElement element)
 					{
 						UIRecipeSlot itemSlot = element as UIRecipeSlot;
@@ -70,8 +71,9 @@ namespace RecipeBrowser.UIElements
 			// TODO: Trigger slot.CraftPathsNeeded if RecipePath.extendedCraft
 
 			backgroundTexture = unableToCraftBackgroundTexture;
-
-			if (slot.craftPathsCalculated && slot.craftPaths.Count > 0)
+			if(RecipePath.extendedCraft)
+				slot.CraftPathNeeded();
+			if ((slot.craftPathCalculated || slot.craftPathsCalculated) && slot.craftPaths.Count > 0)
 				backgroundTexture = UIRecipeSlot.ableToCraftExtendedBackgroundTexture;
 
 			for (int n = 0; n < Main.numAvailableRecipes; n++)

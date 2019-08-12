@@ -395,8 +395,11 @@ namespace RecipeBrowser
 				RecipeBrowserUI.instance.UpdateFavoritedPanel();
 			}
 
-			if (slowUpdateNeeded > 0)
-			{
+			if (!RecipeBrowserUI.instance.ShowRecipeBrowser || RecipeBrowserUI.instance.CurrentPanel != RecipeBrowserUI.RecipeCatalogue) {
+				return;
+			}
+
+			if (slowUpdateNeeded > 0) {
 				slowUpdateNeeded--;
 				if (slowUpdateNeeded == 0)
 					updateNeeded = true;
@@ -622,8 +625,8 @@ namespace RecipeBrowser
 							return false;
 						if (filter == SharedUI.instance.ObtainableFilter)
 						{
-							recipeSlot.CraftPathsNeeded();
-							if (!(recipeSlot.craftPathsCalculated && recipeSlot.craftPaths.Count > 0))
+							recipeSlot.CraftPathNeeded();
+							if (!((recipeSlot.craftPathCalculated || recipeSlot.craftPathsCalculated) && recipeSlot.craftPaths.Count > 0))
 								return false;
 						}
 						if (filter == SharedUI.instance.CraftableFilter)
@@ -952,13 +955,15 @@ namespace RecipeBrowser
 			// manually flag as dirty.
 			foreach (var slot in recipeSlots)
 			{
-				slot.craftPathsNeeded = false;
+				slot.craftPathNeeded = false;
+				slot.craftPathCalculated = false;
 				slot.craftPathsCalculated = false;
-				if (slot.craftPathsCalculationBegun)
-					slot.cancellationTokenSource?.Cancel();
-				slot.craftPathsCalculationBegun = false;
+				if (slot.craftPathCalculationBegun)
+					slot.craftPathCancellationTokenSource?.Cancel(); // won't cancel if not already begun, but TryDequeue will.
+				slot.craftPathCalculationBegun = false;
 				slot.craftPaths = null;
 			}
+			while (RecipeBrowser.instance.concurrentTasks.TryDequeue(out var _)) ;
 			updateNeeded = true;
 			//CraftUI.instance.craftPathList.Clear();
 			CraftUI.instance.craftPathsUpToDate = false;

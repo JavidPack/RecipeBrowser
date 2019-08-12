@@ -26,6 +26,7 @@ namespace RecipeBrowser.UIElements
 			playerBackGroundTexture = TextureManager.Load("Images/UI/PlayerBackground");
 			this.order = order;
 			this.owner = owner;
+			// TODO: Implement Craft Path for teammates.
 			UIMockRecipeSlot create = new UIMockRecipeSlot(RecipeCatalogueUI.instance.recipeSlots[index], owner != Main.myPlayer ? .5f : 0.75f);
 			create.Recalculate();
 			create.Left.Set(-create.Width.Pixels - (owner != Main.myPlayer ? 23 : 0), 1f);

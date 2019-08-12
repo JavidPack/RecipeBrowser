@@ -25,6 +25,7 @@ namespace RecipeBrowser
 		internal UIPanel itemGridPanel;
 		internal UIGrid itemGrid;
 		internal bool updateNeeded;
+		internal int slowUpdateNeeded;
 		internal NewUITextBox itemNameFilter;
 		internal NewUITextBox itemDescriptionFilter;
 		internal List<UIItemCatalogueItemSlot> itemSlots;
@@ -201,8 +202,20 @@ namespace RecipeBrowser
 
 		internal void Update()
 		{
+			// TODO: investigate why this Update is slower than RecipeCatalogueUI
+
+			if (!RecipeBrowserUI.instance.ShowRecipeBrowser || RecipeBrowserUI.instance.CurrentPanel != RecipeBrowserUI.ItemCatalogue)
+				return;
+
+			if (slowUpdateNeeded > 0) {
+				slowUpdateNeeded--;
+				if (slowUpdateNeeded == 0)
+					updateNeeded = true;
+			}
+
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
+			slowUpdateNeeded = 0;
 
 			if (itemSlots.Count == 0)
 			{
@@ -308,15 +321,18 @@ namespace RecipeBrowser
 					if (filter == SharedUI.instance.ObtainableFilter)
 					{
 						bool ableToCraft = false;
-						for (int i = 0; i < Recipe.numRecipes; i++)
+						for (int i = 0; i < Recipe.numRecipes; i++) // Optimize with non-trimmed RecipePath.recipeDictionary
 						{
 							Recipe recipe = Main.recipe[i];
 							if (recipe.createItem.type == slot.item.type)
 							{
 								UIRecipeSlot recipeSlot = RecipeCatalogueUI.instance.recipeSlots[i];
-								recipeSlot.CraftPathsNeeded();
-								if (recipeSlot.craftPathsCalculated && recipeSlot.craftPaths.Count > 0)
+								recipeSlot.CraftPathNeeded();
+								//recipeSlot.CraftPathsImmediatelyNeeded();
+								if ((recipeSlot.craftPathCalculated || recipeSlot.craftPathsCalculated) && recipeSlot.craftPaths.Count > 0) {
 									ableToCraft = true;
+									break;
+								}
 							}
 						}
 						if (!ableToCraft)

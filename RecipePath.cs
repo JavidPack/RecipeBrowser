@@ -176,7 +176,7 @@ namespace RecipeBrowser
 
 		// TODO: GetCraftPaths but without a Recipe? Just an item? Buy/Loot
 		// Bestiary Option? All New Items you can craft if you farm this npc?
-		internal static List<CraftPath> GetCraftPaths(Recipe recipe, CancellationToken token)
+		internal static List<CraftPath> GetCraftPaths(Recipe recipe, CancellationToken token, bool single)
 		{
 			//Main.NewText("GetCraftPaths");
 			
@@ -208,7 +208,7 @@ namespace RecipeBrowser
 			CraftPath craftPath = new CraftPath(recipe, haveItems); // Push. Can't pop. // not calling ConsumeResources(recipeNode); 
 			if (RecipePathTester.print)
 				craftPath.Print();
-			FindCraftPaths(paths, craftPath, token);
+			FindCraftPaths(paths, craftPath, token, single);
 
 			//watch.Stop();
 			//var elapsedMs = watch.ElapsedMilliseconds;
@@ -240,6 +240,7 @@ namespace RecipeBrowser
 
 		private static Dictionary<int, int> CalculateHaveItems()
 		{
+			// TODO: cache, return clone instead.
 			Dictionary<int, int> haveItems = new Dictionary<int, int>(); // Have items can't have already used items in final recipe.
 			if (sourceInventory)
 			{
@@ -270,15 +271,20 @@ namespace RecipeBrowser
 		}
 
 		// Multithreading to prevent lag?
-		private static void FindCraftPaths(List<CraftPath> paths, CraftPath inProgress, CancellationToken token)
+		private static void FindCraftPaths(List<CraftPath> paths, CraftPath inProgress, CancellationToken token, bool single)
 		{
+			if (single && paths.Count > 0)
+				return;
+
 			//if(token.CanBeCanceled && watch.ElapsedMilliseconds > 1000)
 			//{
 			//	Main.NewText("timed out" + watch.ElapsedMilliseconds);
 			//	return;
 			//}
-			if (token.IsCancellationRequested)
+			if (token.IsCancellationRequested) {
+				inProgress.Print();
 				return;
+			}
 			// Some notion of limiting depth of tree might help.
 			// TODO
 			// Limit by Total steps (TODO: steps only, not HAves)
@@ -347,10 +353,14 @@ namespace RecipeBrowser
 				if (RecipePathTester.print)
 					inProgress.Print();
 				int pathsBefore = paths.Count;
-				FindCraftPaths(paths, inProgress, token); // Handles everything from here recursively.
+				FindCraftPaths(paths, inProgress, token, single); // Handles everything from here recursively.
 				int pathsAfter = paths.Count;
 				// Pop restores Unfulfilled and restores consumed Items.
 				inProgress.Pop(current, recipeNode);
+
+				//if (pathsAfter > 5) {
+				//	return;
+				//}
 
 				// 3 Iron Ore 6 Lead Ore problem...if paths same size, try with craftMultiple of 1 maybe?
 				if (pathsBefore == pathsAfter) // and craftMultiple < some number for performance.
@@ -374,12 +384,12 @@ namespace RecipeBrowser
 					inProgress.Push(current, buyItemNode);
 					if (RecipePathTester.print)
 						inProgress.Print();
-					FindCraftPaths(paths, inProgress, token);
+					FindCraftPaths(paths, inProgress, token, single);
 					inProgress.Pop(current, buyItemNode);
 				}
 			}
 
-			if (allowLoots)
+			if (allowLoots) // multithread issue if allowLoots checked after.
 			{
 				//if (VialbleIngredients.Intersect(loots).Any())
 				var lootable = ViableIngredients.Intersect(loots.Keys); // TODO recipe groups. --> For loop??
@@ -405,7 +415,7 @@ namespace RecipeBrowser
 						inProgress.Push(current, lootItemNode);
 						if (RecipePathTester.print)
 							inProgress.Print();
-						FindCraftPaths(paths, inProgress, token);
+						FindCraftPaths(paths, inProgress, token, single);
 						inProgress.Pop(current, lootItemNode);
 					}
 				}

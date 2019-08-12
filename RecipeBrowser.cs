@@ -2,11 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -40,6 +43,9 @@ namespace RecipeBrowser
 		private int lastSeenScreenWidth;
 		private int lastSeenScreenHeight;
 		internal static bool[] chestContentsAvailable = new bool[1000];
+
+		private CancellationTokenSource concurrentTaskHandlerToken;
+		private Task concurrentTaskHandler;
 
 		// TODO, Chinese IME support
 		public override void Load()
@@ -95,6 +101,9 @@ namespace RecipeBrowser
 				UIHorizontalGrid.moreLeftTexture = GetTexture("UIElements/MoreLeft");
 				UIHorizontalGrid.moreRightTexture = GetTexture("UIElements/MoreRight");
 				Utilities.tileTextures = new Dictionary<int, Texture2D>();
+
+				concurrentTaskHandlerToken = new CancellationTokenSource();
+				concurrentTaskHandler = Task.Run(() => ConcurrentTaskHandler());
 			}
 
 			Patches.Apply();
@@ -115,6 +124,8 @@ namespace RecipeBrowser
 
 		public override void Unload()
 		{
+			concurrentTaskHandlerToken.Cancel();
+			concurrentTaskHandler.Wait();
 			instance = null;
 			translations = null;
 			itemChecklistInstance = null;
@@ -139,6 +150,49 @@ namespace RecipeBrowser
 			UIHorizontalGrid.moreLeftTexture = null;
 			UIHorizontalGrid.moreRightTexture = null;
 			Utilities.tileTextures = null;
+		}
+
+		public ConcurrentQueue<Task> concurrentTasks = new ConcurrentQueue<Task>();
+		public async Task ConcurrentTaskHandler() {
+			var runningTasks = new List<Task>();
+			try {
+				while (true) {
+					if (runningTasks.Count == 4) {
+						// this will 'block' unless the tasks themselves are also bound to the cancellation token
+						// you could add an extra 'delay task' and check if the returned task is the delay task
+						// but you need some way to make sure all of them finish on unload anyway...
+						var task2 = await Task.WhenAny(runningTasks);
+						try {
+							runningTasks.Remove(task2);
+							await task2; // catch exceptions from the completed task (or do something with the result)
+						}
+						catch (OperationCanceledException oce) when (oce.CancellationToken == concurrentTaskHandlerToken.Token) {
+							throw;
+						}
+						catch (Exception e) {
+							// task completed with exception
+						}
+					}
+
+					// runningTasks must be < 4 now
+					if (concurrentTasks.TryDequeue(out var task)) {
+						if (task.IsCanceled) {
+							Console.WriteLine();
+						}
+						task.Start(); //throws if you provide it with a 'hot' task
+						runningTasks.Add(task);
+					}
+					else { 
+						// free up the thread for a bit before looking for new tasks in the queue
+						await Task.Delay(100, concurrentTaskHandlerToken.Token);
+					}
+				}
+			}
+			// Causes log message.
+			catch (OperationCanceledException oce) when (oce.CancellationToken == concurrentTaskHandlerToken.Token) {
+				//somehow ensure all tasks finish?
+				await Task.WhenAll(runningTasks);
+			} 
 		}
 
 		public override void PostSetupContent()

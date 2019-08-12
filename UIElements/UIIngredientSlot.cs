@@ -28,6 +28,9 @@ namespace RecipeBrowser.UIElements
 
 		public override void DoubleClick(UIMouseEvent evt)
 		{
+			RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.RecipeCatalogue);
+			if (!RecipeBrowserUI.instance.ShowRecipeBrowser)
+				RecipeBrowserUI.instance.ShowRecipeBrowser = true;
 			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
 			RecipeCatalogueUI.instance.itemNameFilter.SetText("");
 			RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);

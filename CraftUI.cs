@@ -71,7 +71,8 @@ namespace RecipeBrowser
 			lootables.OnSelectedChanged += (s, e) =>
 			{
 				RecipeCatalogueUI.instance.InvalidateExtendedCraft();
-				RecipePath.allowLoots = lootables.Selected;
+				if(RecipeBrowser.instance.concurrentTasks.Count == 0) // prevents nasty bug.
+					RecipePath.allowLoots = lootables.Selected;
 			};
 			mainPanel.Append(lootables);
 			left += (int)lootables.MinWidth.Pixels + 6;
@@ -250,7 +251,10 @@ namespace RecipeBrowser
 			if (craftPathsUpToDate)
 				return;
 
-			craftPathsUpToDate = true;
+			if (!RecipeBrowserUI.instance.ShowRecipeBrowser || RecipeBrowserUI.instance.CurrentPanel != RecipeBrowserUI.Craft)
+				return;
+
+			craftPathsUpToDate = true; 
 			var slots = new List<UIRecipeSlot>();
 			foreach (var selectedIndex in selectedIndexes)
 			{

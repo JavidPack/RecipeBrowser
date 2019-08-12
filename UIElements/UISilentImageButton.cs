@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI;
 
@@ -45,6 +46,11 @@ namespace RecipeBrowser.UIElements
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverText;
+			}
+
+			if(this == SharedUI.instance.ObtainableFilter.button && IsMouseHovering) {
+				Main.hoverItemName = $"{RecipeBrowser.instance.concurrentTasks.Count} recipes remain to be calculated";
+				//spriteBatch.DrawString(Main.fontMouseText, RecipeBrowser.instance.concurrentTasks.Count + "", dimensions.Position(), Color.White);
 			}
 		}
 

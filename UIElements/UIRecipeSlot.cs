@@ -22,10 +22,15 @@ namespace RecipeBrowser.UIElements
 		public bool recentlyDiscovered;
 		public bool favorited;
 		public bool selected;
-		public bool craftPathsNeeded; // seen limits craftPaths calculation
+
+		// Single vs All needed.
+		public bool craftPathNeeded;
+		public bool craftPathCalculated;
+		public bool craftPathCalculationBegun;
+		internal CancellationTokenSource craftPathCancellationTokenSource;
+
+		// seen limits craftPaths calculation
 		public bool craftPathsCalculated;
-		public bool craftPathsCalculationBegun;
-		internal CancellationTokenSource cancellationTokenSource;
 		public List<CraftPath> craftPaths;
 
 		public UIRecipeSlot(int index, float scale = 0.75f) : base(Main.recipe[index].createItem, scale)
@@ -153,7 +158,7 @@ namespace RecipeBrowser.UIElements
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			if (RecipePath.extendedCraft)
-				craftPathsNeeded = true;
+				craftPathNeeded = true;
 			if (IsMouseHovering)
 			{
 				if (Main.keyState.IsKeyDown(Main.FavoriteKey))
@@ -166,7 +171,7 @@ namespace RecipeBrowser.UIElements
 
 			backgroundTexture = defaultBackgroundTexture;
 
-			if (craftPathsCalculated && craftPaths.Count > 0)
+			if ((craftPathCalculated || craftPathsCalculated) && craftPaths.Count > 0)
 				backgroundTexture = ableToCraftExtendedBackgroundTexture;
 
 			for (int n = 0; n < Main.numAvailableRecipes; n++)
@@ -196,52 +201,53 @@ namespace RecipeBrowser.UIElements
 		{
 			base.Update(gameTime);
 			// Is this called even when not drawn? Yes. Need Draw flag
-			if (craftPathsNeeded && !craftPathsCalculated && !craftPathsCalculationBegun)
+			if (craftPathNeeded && !(craftPathCalculated || craftPathsCalculated) && !craftPathCalculationBegun)
 			{
-				DoGetCraftPaths();
+				DoGetCraftPath();
 			}
 		}
 
 		internal void CraftPathsImmediatelyNeeded()
 		{
-			craftPathsNeeded = true;
 			if (!craftPathsCalculated)
 			{
 				RecipePath.PrepareGetCraftPaths();
-				craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], CancellationToken.None);
+				craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], CancellationToken.None, false);
 				craftPathsCalculated = true;
 			}
 		}
 
-		internal void CraftPathsNeeded()
+		internal void CraftPathNeeded()
 		{
-			craftPathsNeeded = true;
-			if (!craftPathsCalculated && !craftPathsCalculationBegun)
+			craftPathNeeded = true;
+			if (!(craftPathCalculated || craftPathsCalculated) && !craftPathCalculationBegun)
 			{
-				DoGetCraftPaths();
+				DoGetCraftPath();
 			}
 		}
 
-		private void DoGetCraftPaths()
+		private void DoGetCraftPath()
 		{
-			cancellationTokenSource = new CancellationTokenSource(500);
+			//var firstTask = Task.Run(() => craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], cancellationTokenSource.Token), cancellationTokenSource.Token);
 			RecipePath.PrepareGetCraftPaths();
-			var firstTask = Task.Run(() => craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], cancellationTokenSource.Token), cancellationTokenSource.Token);
-			//var firstTask = new Task(() => craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], cancellationTokenSource.Token), cancellationTokenSource.Token);
-			var secondTask = firstTask.ContinueWith((t) =>
-			{
-				if (!cancellationTokenSource.Token.IsCancellationRequested)
-				{
-					craftPathsCalculated = true;
-					//RecipeCatalogueUI.instance.updateNeeded = true;
-					if (RecipeCatalogueUI.instance.slowUpdateNeeded == 0)
-						RecipeCatalogueUI.instance.slowUpdateNeeded = 5;
-				}
-				//else
-				//	Main.NewText(this.index + " cancelled");
-			});
+			var task = new Task(TaskAction);
+			RecipeBrowser.instance.concurrentTasks.Enqueue(task);
 			//firstTask.Start();
-			craftPathsCalculationBegun = true;
+			craftPathCalculationBegun = true;
+		}
+
+		private void TaskAction() {
+			craftPathCancellationTokenSource = new CancellationTokenSource(1); // TODO: Configurable
+			// could a full override a simple?
+			craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], craftPathCancellationTokenSource.Token, true);
+			if (!craftPathCancellationTokenSource.Token.IsCancellationRequested) {
+				craftPathCalculated = true;
+				//RecipeCatalogueUI.instance.updateNeeded = true;
+				if (RecipeCatalogueUI.instance.slowUpdateNeeded == 0)
+					RecipeCatalogueUI.instance.slowUpdateNeeded = 5;
+				if (ItemCatalogueUI.instance.slowUpdateNeeded == 0)
+					ItemCatalogueUI.instance.slowUpdateNeeded = 30;
+			}
 		}
 	}
 }
