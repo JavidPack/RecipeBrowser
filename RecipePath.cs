@@ -389,7 +389,7 @@ namespace RecipeBrowser
 				}
 			}
 
-			if (allowLoots) // multithread issue if allowLoots checked after.
+			if (allowLoots && loots != null) // multithread issue if allowLoots checked after.
 			{
 				//if (VialbleIngredients.Intersect(loots).Any())
 				var lootable = ViableIngredients.Intersect(loots.Keys); // TODO recipe groups. --> For loop??

@@ -71,8 +71,7 @@ namespace RecipeBrowser
 			lootables.OnSelectedChanged += (s, e) =>
 			{
 				RecipeCatalogueUI.instance.InvalidateExtendedCraft();
-				if(RecipeBrowser.instance.concurrentTasks.Count == 0) // prevents nasty bug.
-					RecipePath.allowLoots = lootables.Selected;
+				RecipePath.allowLoots = lootables.Selected;
 			};
 			mainPanel.Append(lootables);
 			left += (int)lootables.MinWidth.Pixels + 6;
