@@ -125,8 +125,8 @@ namespace RecipeBrowser
 		public override void Unload()
 		{
 			if (!Main.dedServ) {
-				concurrentTaskHandlerToken.Cancel();
-				concurrentTaskHandler.Wait();
+				concurrentTaskHandlerToken?.Cancel();
+				concurrentTaskHandler?.Wait();
 			}
 			instance = null;
 			translations = null;
