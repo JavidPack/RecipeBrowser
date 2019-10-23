@@ -466,22 +466,20 @@ namespace RecipeBrowser
 		{
 			Assembly assembly = Assembly.GetAssembly(typeof(Mod));
 			// TODO, return to old float and string.
-			var type = assembly.GetType("Terraria.ModLoader.Interface");
-			FieldInfo loadModsField = type.GetField("loadModsProgress", BindingFlags.Static | BindingFlags.NonPublic);
-			var loadModsProgressField = loadModsField.GetValue(null);
+			
+			var type = assembly.GetType("Terraria.ModLoader.UI.Interface");
+			FieldInfo loadModsField = type.GetField("loadMods", BindingFlags.Static | BindingFlags.NonPublic);
+			var loadModsValue = loadModsField.GetValue(null);
 
+			Type UILoadModsType = assembly.GetType("Terraria.ModLoader.UI.UILoadMods");
 
-			Type UILoadModsProgressType = assembly.GetType("Terraria.ModLoader.UI.DownloadManager.UILoadModsProgress");
-			//FieldInfo loadProgressField = UILoadModsProgressType.GetField("loadProgress", BindingFlags.Instance | BindingFlags.NonPublic);
-			//var loadProgressObject = loadProgressField.GetValue(loadModsProgressField);
+			MethodInfo SetLoadStageMethod = UILoadModsType.GetMethod("SetLoadStage", BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo ProgressProperty = UILoadModsType.GetProperty("Progress", BindingFlags.Instance | BindingFlags.Public);
+			PropertyInfo SubProgressTextProperty = UILoadModsType.GetProperty("SubProgressText", BindingFlags.Instance | BindingFlags.Public);
 
-			MethodInfo SetLoadStageMethod = UILoadModsProgressType.GetMethod("SetLoadStage", BindingFlags.Instance | BindingFlags.Public);
-			PropertyInfo setProgressMethod = UILoadModsProgressType.GetProperty("Progress", BindingFlags.Instance | BindingFlags.Public);
-			PropertyInfo setSubTextMethod = UILoadModsProgressType.GetProperty("SubProgressText", BindingFlags.Instance | BindingFlags.Public);
-
-			setLoadProgressText = (string s) => SetLoadStageMethod.Invoke(loadModsProgressField, new object[] { s, -1 });
-			setLoadProgressProgress = (float f) => setProgressMethod.SetValue(loadModsProgressField, f );
-			setLoadSubProgressText = (string s) => setSubTextMethod.SetValue(loadModsProgressField, s);
+			setLoadProgressText = (string s) => SetLoadStageMethod.Invoke(loadModsValue, new object[] { s, -1 });
+			setLoadProgressProgress = (float f) => ProgressProperty.SetValue(loadModsValue, f );
+			setLoadSubProgressText = (string s) => SubProgressTextProperty.SetValue(loadModsValue, s);
 		}
 
 		//Check if the field IsMono is in PlatformUtilities, as it's exclusive to tML FNA/64bit

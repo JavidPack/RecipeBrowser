@@ -133,8 +133,7 @@ namespace RecipeBrowser
 				for (int k = 0; k < 200; k++)
 				{
 					// Use the non-smartselect CanChat vanillaCanChat value
-					// After 0.11.5 add: , Main.npc[k].townNPC || Main.npc[k].type == 105 || Main.npc[k].type == 106 || Main.npc[k].type == 123 || Main.npc[k].type == 354 || Main.npc[k].type == 376 || Main.npc[k].type == 579 || Main.npc[k].type == 453
-					if (Main.npc[k].active && NPCLoader.CanChat(Main.npc[k]))
+					if (Main.npc[k].active && NPCLoader.CanChat(Main.npc[k], Main.npc[k].townNPC || Main.npc[k].type == 105 || Main.npc[k].type == 106 || Main.npc[k].type == 123 || Main.npc[k].type == 354 || Main.npc[k].type == 376 || Main.npc[k].type == 579 || Main.npc[k].type == 453))
 					{
 						int type = Main.npc[k].type;
 						int shop = Array.IndexOf(shopToNPC, type);

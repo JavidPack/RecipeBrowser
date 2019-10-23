@@ -51,7 +51,7 @@ namespace RecipeBrowser
 		public override void Load()
 		{
 			// Latest uses UIProgress refactors.
-			if (ModLoader.version < new Version(0, 11, 3))
+			if (ModLoader.version < new Version(0, 11, 5))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
 			}
