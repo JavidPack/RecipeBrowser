@@ -66,6 +66,9 @@ namespace RecipeBrowser
 			StringBuilder sb = new StringBuilder();
 
 			string headingColor = Color.CornflowerBlue.Hex3();
+			// Overhaul warning
+			if(Terraria.ModLoader.ModLoader.GetMod("TerrariaOverhaul") != null)
+				sb.Append($"[c/{headingColor}:Jumbled Text?]\n    If the text below looks wrong, you'll need to disable Terraria Overhaul to fix it.\n\n");
 			// Recipes
 			sb.Append($"[c/{headingColor}:Recipes]\n    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{Color.Goldenrod.Hex3()}:Item Checklist Only] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.\n");
 			// Craft

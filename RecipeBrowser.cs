@@ -359,12 +359,12 @@ namespace RecipeBrowser
 				}
 				else
 				{
-					RecipeBrowser.instance.Logger.Error("RecipeBrowser Call Error: Unknown Message: " + message);
+					Logger.Error("Call Error: Unknown Message: " + message);
 				}
 			}
 			catch (Exception e)
 			{
-				RecipeBrowser.instance.Logger.Error("RecipeBrowser Call Error: " + e.StackTrace + e.Message);
+				Logger.Error("Call Error: " + e.StackTrace + e.Message);
 			}
 			return "Failure";
 		}
