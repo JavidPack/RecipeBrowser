@@ -243,6 +243,7 @@ namespace RecipeBrowser
 
 			if (HasLootRadioButton.Selected)
 			{
+				// Slow, AnyDrops or Cache results.
 				if (slot.GetDrops().Count == 0)
 				{
 					return false;

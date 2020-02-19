@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
 using static RecipeBrowser.Utilities;
 
@@ -25,13 +26,10 @@ namespace RecipeBrowser
 		internal InvisibleFixedUIHorizontalScrollbar lootGridScrollbar2;
 
 		private Sort selectedSort;
-		internal Sort SelectedSort
-		{
+		internal Sort SelectedSort {
 			get { return selectedSort; }
-			set
-			{
-				if (selectedSort != value)
-				{
+			set {
+				if (selectedSort != value) {
 					updateNeeded = true;
 					RecipeCatalogueUI.instance.updateNeeded = true;
 					ItemCatalogueUI.instance.updateNeeded = true;
@@ -41,13 +39,10 @@ namespace RecipeBrowser
 		}
 
 		private Category selectedCategory;
-		internal Category SelectedCategory
-		{
+		internal Category SelectedCategory {
 			get { return selectedCategory; }
-			set
-			{
-				if (selectedCategory != value)
-				{
+			set {
+				if (selectedCategory != value) {
 					updateNeeded = true;
 					RecipeCatalogueUI.instance.updateNeeded = true;
 					ItemCatalogueUI.instance.updateNeeded = true;
@@ -60,13 +55,11 @@ namespace RecipeBrowser
 			}
 		}
 
-		public SharedUI()
-		{
+		public SharedUI() {
 			instance = this;
 		}
 
-		internal void Initialize()
-		{
+		internal void Initialize() {
 			// Sorts
 			// Filters: Categories?
 			// Craft and Loot Badges as well!
@@ -80,24 +73,22 @@ namespace RecipeBrowser
 			sortsAndFiltersPanel.Width.Set(-275, 1);
 			sortsAndFiltersPanel.Height.Set(60, 0f);
 			sortsAndFiltersPanel.BackgroundColor = Color.CornflowerBlue;//Color.LightSeaGreen;
+
 			//sortsAndFiltersPanel.SetPadding(4);
 			//mainPanel.Append(sortsAndFiltersPanel);
 			//additionalDragTargets.Add(sortsAndFiltersPanel);
 			//SetupSortsAndCategories();
-
 			//PopulateSortsAndFiltersPanel();
 
 			updateNeeded = true;
 		}
 
-		internal void Update()
-		{
+		internal void Update() {
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
 
 			// Delay this so we can integrate mod categories.
-			if (sorts == null)
-			{
+			if (sorts == null) {
 				SetupSortsAndCategories();
 			}
 
@@ -105,20 +96,17 @@ namespace RecipeBrowser
 		}
 
 		internal List<Filter> availableFilters;
-		private void PopulateSortsAndFiltersPanel()
-		{
+		private void PopulateSortsAndFiltersPanel() {
 			var availableSorts = new List<Sort>(sorts);
 			availableFilters = new List<Filter>(filters);
 			//sortsAndFiltersPanel.RemoveAllChildren();
-			if (subCategorySortsFiltersGrid != null)
-			{
+			if (subCategorySortsFiltersGrid != null) {
 				sortsAndFiltersPanel.RemoveChild(subCategorySortsFiltersGrid);
 				sortsAndFiltersPanel.RemoveChild(lootGridScrollbar2);
 			}
 
 			bool doTopRow = false;
-			if (categoriesGrid == null)
-			{
+			if (categoriesGrid == null) {
 				doTopRow = true;
 
 				categoriesGrid = new UIHorizontalGrid();
@@ -146,6 +134,7 @@ namespace RecipeBrowser
 			sortsAndFiltersPanel.Append(subCategorySortsFiltersGrid);
 			subCategorySortsFiltersGrid.drawArrows = true;
 
+			float oldRow2ViewPosition = lootGridScrollbar2?.ViewPosition ?? 0f;
 			lootGridScrollbar2 = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
 			lootGridScrollbar2.SetView(100f, 1000f);
 			lootGridScrollbar2.Width.Set(0, 1f);
@@ -168,26 +157,22 @@ namespace RecipeBrowser
 			var visibleCategories = new List<Category>();
 			var visibleSubCategories = new List<Category>();
 			int left = 0;
-			foreach (var category in categories)
-			{
+			foreach (var category in categories) {
 				category.button.selected = false;
 				visibleCategories.Add(category);
 				bool meOrChildSelected = SelectedCategory == category;
-				foreach (var subcategory in category.subCategories)
-				{
+				foreach (var subcategory in category.subCategories) {
 					subcategory.button.selected = false;
 					meOrChildSelected |= subcategory == SelectedCategory;
 				}
-				if (meOrChildSelected)
-				{
+				if (meOrChildSelected) {
 					visibleSubCategories.AddRange(category.subCategories);
 					category.button.selected = true;
 				}
 			}
 
 			if (doTopRow)
-				foreach (var category in visibleCategories)
-				{
+				foreach (var category in visibleCategories) {
 					var container = new UISortableElement(++count);
 					container.Width.Set(24, 0);
 					container.Height.Set(24, 0);
@@ -205,8 +190,7 @@ namespace RecipeBrowser
 			//spacer.Width.Set(0, 1);
 			//sortsAndFiltersPanelGrid2.Add(spacer);
 
-			foreach (var category in visibleSubCategories)
-			{
+			foreach (var category in visibleSubCategories) {
 				var container = new UISortableElement(++count);
 				container.Width.Set(24, 0);
 				container.Height.Set(24, 0);
@@ -215,8 +199,7 @@ namespace RecipeBrowser
 				left += 26;
 			}
 
-			if (visibleSubCategories.Count > 0)
-			{
+			if (visibleSubCategories.Count > 0) {
 				var container2 = new UISortableElement(++count);
 				container2.Width.Set(24, 0);
 				container2.Height.Set(24, 0);
@@ -227,16 +210,15 @@ namespace RecipeBrowser
 				subCategorySortsFiltersGrid.Add(container2);
 			}
 
-			// add to sorts here
-			if (SelectedCategory != null)
-			{
+			// add to sorts and filters here
+			if (SelectedCategory != null) {
 				SelectedCategory.button.selected = true;
 				SelectedCategory.ParentAddToSorts(availableSorts);
+				SelectedCategory.ParentAddToFilters(availableFilters);
 			}
 
 			left = 0;
-			foreach (var sort in availableSorts)
-			{
+			foreach (var sort in availableSorts) {
 				sort.button.selected = false;
 				if (SelectedSort == sort) // TODO: SelectedSort no longwe valid
 					sort.button.selected = true;
@@ -252,15 +234,13 @@ namespace RecipeBrowser
 				//sortsAndFiltersPanel.Append(sort.button);
 				left += 26;
 			}
-			if (!availableSorts.Contains(SharedUI.instance.SelectedSort))
-			{
+			if (!availableSorts.Contains(SharedUI.instance.SelectedSort)) {
 				availableSorts[0].button.selected = true;
 				SharedUI.instance.SelectedSort = availableSorts[0];
 				updateNeeded = false;
 			}
 
-			if (SharedUI.instance.filters.Count > 0)
-			{
+			if (availableFilters.Count > 0) {
 				var container2 = new UISortableElement(++count);
 				container2.Width.Set(24, 0);
 				container2.Height.Set(24, 0);
@@ -269,8 +249,7 @@ namespace RecipeBrowser
 				container2.Append(image);
 				subCategorySortsFiltersGrid.Add(container2);
 
-				foreach (var item in SharedUI.instance.filters)
-				{
+				foreach (var item in availableFilters) {
 					var container = new UISortableElement(++count);
 					container.Width.Set(24, 0);
 					container.Height.Set(24, 0);
@@ -278,6 +257,10 @@ namespace RecipeBrowser
 					subCategorySortsFiltersGrid.Add(container);
 				}
 			}
+
+			// Restore view position after CycleFilter changes current filters.
+			subCategorySortsFiltersGrid.Recalculate();
+			lootGridScrollbar2.ViewPosition = oldRow2ViewPosition;
 		}
 
 		internal List<Category> categories;
@@ -285,8 +268,7 @@ namespace RecipeBrowser
 		internal Filter CraftableFilter;
 		internal Filter ObtainableFilter;
 		internal List<Sort> sorts;
-		private void SetupSortsAndCategories()
-		{
+		private void SetupSortsAndCategories() {
 			//Texture2D terrariaSort = ResizeImage(Main.inventorySortTexture[1], 24, 24);
 			Texture2D rarity = ResizeImage(Main.itemTexture[ItemID.MetalDetector], 24, 24);
 
@@ -313,14 +295,35 @@ namespace RecipeBrowser
 			// TODOS: Vanity armor, grapple, cart, potions buffs
 			// 24x24 pixels
 
-			List<int> yoyos = new List<int>();
-			for (int i = 0; i < ItemID.Sets.Yoyo.Length; ++i)
-			{
-				if (ItemID.Sets.Yoyo[i])
-				{ 
+			var yoyos = new List<int>();
+			for (int i = 0; i < ItemID.Sets.Yoyo.Length; ++i) {
+				if (ItemID.Sets.Yoyo[i]) {
 					yoyos.Add(i);
 				}
 			}
+
+			var useAmmoTypes = new Dictionary<int, int>();
+			var ammoTypes = new Dictionary<int, int>();
+			var testItem = new Item();
+			for (int i = 0; i < ItemLoader.ItemCount; i++) {
+				testItem.SetDefaults(i);
+				if (testItem.useAmmo > 0) {
+					useAmmoTypes.TryGetValue(testItem.useAmmo, out var currentCount);
+					useAmmoTypes[testItem.useAmmo] = currentCount + 1;
+				}
+				if (testItem.ammo > 0) {
+					ammoTypes.TryGetValue(testItem.ammo, out var currentCount);
+					ammoTypes[testItem.ammo] = currentCount + 1;
+				}
+			}
+			var sortedUseAmmoTypes = from pair in useAmmoTypes orderby pair.Value descending select pair.Key;
+			var sortedAmmoTypes = from pair in ammoTypes orderby pair.Value descending select pair.Key;
+
+			var ammoFilters = sortedAmmoTypes.Select(ammoType => new Filter(Lang.GetItemNameValue(ammoType), x => x.ammo == ammoType, ResizeImage(Main.itemTexture[ammoType], 24, 24))).ToList();
+			var useAmmoFilters = sortedUseAmmoTypes.Select(ammoType => new Filter(Lang.GetItemNameValue(ammoType), x => x.useAmmo == ammoType, ResizeImage(Main.itemTexture[ammoType], 24, 24))).ToList();
+
+			var ammoFilter = new CycleFilter("Cycle Ammo Types", RecipeBrowser.instance.GetTexture("Images/sortAmmo"), ammoFilters);
+			var useAmmoFilter = new CycleFilter("Cycle Used Ammo Types", RecipeBrowser.instance.GetTexture("Images/sortAmmo"), useAmmoFilters);
 
 			Texture2D smallMelee = ResizeImage(Main.itemTexture[ItemID.GoldBroadsword], 24, 24);
 			Texture2D smallYoyo = ResizeImage(Main.itemTexture[Main.rand.Next(yoyos)], 24, 24); //Main.rand.Next(ItemID.Sets.Yoyo) ItemID.Yelets
@@ -332,6 +335,9 @@ namespace RecipeBrowser
 			Texture2D smallHead = ResizeImage(Main.itemTexture[ItemID.SilverHelmet], 24, 24);
 			Texture2D smallBody = ResizeImage(Main.itemTexture[ItemID.SilverChainmail], 24, 24);
 			Texture2D smallLegs = ResizeImage(Main.itemTexture[ItemID.SilverGreaves], 24, 24);
+			Texture2D smallVanity = ResizeImage(Main.itemTexture[ItemID.BunnyHood], 24, 24);
+			//Texture2D smallVanity2 = ResizeImage(Main.itemTexture[ItemID.HerosHat], 24, 24);
+			Texture2D smallNonVanity = ResizeImage(Main.itemTexture[ItemID.GoldHelmet], 24, 24);
 			Texture2D smallTiles = ResizeImage(Main.itemTexture[ItemID.Sign], 24, 24);
 			Texture2D smallCraftingStation = ResizeImage(Main.itemTexture[ItemID.IronAnvil], 24, 24);
 			Texture2D smallWalls = ResizeImage(Main.itemTexture[ItemID.PearlstoneBrickWall], 24, 24);
@@ -340,6 +346,7 @@ namespace RecipeBrowser
 			Texture2D smallLightPets = ResizeImage(Main.itemTexture[ItemID.FairyBell], 24, 24);
 			Texture2D smallBossSummon = ResizeImage(Main.itemTexture[ItemID.MechanicalSkull], 24, 24);
 			Texture2D smallMounts = ResizeImage(Main.itemTexture[ItemID.SlimySaddle], 24, 24);
+			Texture2D smallHooks = ResizeImage(Main.itemTexture[ItemID.AmethystHook], 24, 24);
 			Texture2D smallDyes = ResizeImage(Main.itemTexture[ItemID.OrangeDye], 24, 24);
 			Texture2D smallHairDye = ResizeImage(Main.itemTexture[ItemID.BiomeHairDye], 24, 24);
 			Texture2D smallQuestFish = ResizeImage(Main.itemTexture[ItemID.FallenStarfish], 24, 24);
@@ -359,6 +366,7 @@ namespace RecipeBrowser
 			Texture2D smallOther = ResizeImage(Main.itemTexture[ItemID.UnicornonaStick], 24, 24);
 
 			Texture2D smallArmor = StackResizeImage(new Texture2D[] { Main.itemTexture[ItemID.SilverHelmet], Main.itemTexture[ItemID.SilverChainmail], Main.itemTexture[ItemID.SilverGreaves] }, 24, 24);
+			//Texture2D smallVanityFilterGroup = StackResizeImage2424(Main.itemTexture[ItemID.BunnyHood], Main.itemTexture[ItemID.GoldHelmet]);
 			Texture2D smallPetsLightPets = StackResizeImage(new Texture2D[] { Main.itemTexture[ItemID.ZephyrFish], Main.itemTexture[ItemID.FairyBell] }, 24, 24);
 			Texture2D smallPlaceables = StackResizeImage(new Texture2D[] { Main.itemTexture[ItemID.Sign], Main.itemTexture[ItemID.PearlstoneBrickWall] }, 24, 24);
 			Texture2D smallWeapons = StackResizeImage(new Texture2D[] { smallMelee, smallMagic, smallThrown }, 24, 24);
@@ -368,11 +376,19 @@ namespace RecipeBrowser
 			Texture2D smallBothDyes = StackResizeImage(new Texture2D[] { Main.itemTexture[ItemID.OrangeDye], Main.itemTexture[ItemID.BiomeHairDye] }, 24, 24);
 			Texture2D smallSortTiles = StackResizeImage(new Texture2D[] { Main.itemTexture[ItemID.Candelabra], Main.itemTexture[ItemID.GrandfatherClock] }, 24, 24);
 
+			Texture2D StackResizeImage2424(params Texture2D[] textures) => StackResizeImage(textures, 24, 24);
+			Texture2D ResizeImage2424(Texture2D texture) => ResizeImage(texture, 24, 24);
+
 			// Potions, other?
 			// should inherit children?
 			// should have other category?
 			if (WorldGen.statueList == null)
 				WorldGen.SetupStatueList();
+
+			var vanity = new MutuallyExclusiveFilter("Vanity", x => x.vanity, smallVanity);
+			var armor = new MutuallyExclusiveFilter("Armor", x => !x.vanity, smallNonVanity);
+			vanity.SetExclusions(new List<Filter>() { vanity, armor });
+			armor.SetExclusions(new List<Filter>() { vanity, armor });
 
 			categories = new List<Category>() {
 				new Category("All", x=> true, smallAll),
@@ -384,13 +400,14 @@ namespace RecipeBrowser
 						new Category("Magic", x=>x.magic, smallMagic),
 						new Category("Ranged", x=>x.ranged && x.ammo == 0, smallRanged) // TODO and ammo no
 						{
-							sorts = new List<Sort>() { new Sort("Use Ammo Type", "Images/sortAmmo", (x,y)=>x.useAmmo.CompareTo(y.useAmmo)), }
+							sorts = new List<Sort>() { new Sort("Use Ammo Type", "Images/sortAmmo", (x,y)=>x.useAmmo.CompareTo(y.useAmmo)), },
+							filters = new List<Filter> { useAmmoFilter }
 						},
 						new Category("Throwing", x=>x.thrown, smallThrown),
 						new Category("Summon", x=>x.summon && !x.sentry, smallSummon),
 						new Category("Sentry", x=>x.summon && x.sentry, smallSentry),
 					},
-					sorts = new List<Sort>() { new Sort("Damage", "Images/sortDamage", (x,y)=>x.damage.CompareTo(y.damage)), }
+					sorts = new List<Sort>() { new Sort("Damage", "Images/sortDamage", (x,y)=>x.damage.CompareTo(y.damage)), },
 				},
 				new Category("Tools"/*,x=>x.pick>0||x.axe>0||x.hammer>0*/, x=>false, smallTools) {
 					subCategories = new List<Category>() {
@@ -405,7 +422,17 @@ namespace RecipeBrowser
 						new Category("Body", x=>x.bodySlot!=-1, smallBody),
 						new Category("Legs", x=>x.legSlot!=-1, smallLegs),
 					},
-					sorts = new List<Sort>() { new Sort("Defense", "Images/sortDefense", (x,y)=>x.defense.CompareTo(y.defense)), }
+					sorts = new List<Sort>() { new Sort("Defense", "Images/sortDefense", (x,y)=>x.defense.CompareTo(y.defense)), },
+					filters = new List<Filter> {
+						//new Filter("Vanity", x=>x.vanity, RecipeBrowser.instance.GetTexture("Images/sortDefense")),
+						// Prefer MutuallyExclusiveFilter for this, rather than CycleFilter since there are only 2 options.
+						//new CycleFilter("Vanity/Armor", smallVanityFilterGroup, new List<Filter> {
+						//	new Filter("Vanity", x=>x.vanity, smallVanity),
+						//	new Filter("Armor", x=>!x.vanity, smallNonVanity),
+						//}),
+						vanity, armor,
+						//new DoubleFilter("Vanity", "Armor", smallVanity2, x=>x.vanity),
+					}
 				},
 				new Category("Tiles", x=>x.createTile!=-1, smallTiles)
 				{
@@ -414,7 +441,15 @@ namespace RecipeBrowser
 						new Category("Crafting Stations", x=>RecipeCatalogueUI.instance.craftingTiles.Contains(x.createTile), smallCraftingStation),
 						new Category("Containers", x=>x.createTile!=-1 && Main.tileContainer[x.createTile], smallContainer),
 						new Category("Wiring", x=>ItemID.Sets.SortingPriorityWiring[x.type] > -1, smallWiring),
-						new Category("Statues", x=>WorldGen.statueList.Any(point => point.X == x.createTile && point.Y == x.placeStyle), smallStatue), 
+						new Category("Statues", x=>WorldGen.statueList.Any(point => point.X == x.createTile && point.Y == x.placeStyle), smallStatue),
+						new Category("Doors", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsDoor.Contains(x.createTile), ResizeImage2424(Main.itemTexture[ItemID.WoodenDoor])),
+						new Category("Chairs", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsChair.Contains(x.createTile), ResizeImage2424(Main.itemTexture[ItemID.WoodenChair])),
+						new Category("Tables", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsTable.Contains(x.createTile), ResizeImage2424(Main.itemTexture[ItemID.PalmWoodTable])),
+						new Category("Light Sources", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsTorch.Contains(x.createTile), ResizeImage2424(Main.itemTexture[ItemID.ChineseLantern])),
+						new Category("Torches", x=> x.createTile > 0 && TileLoader.IsTorch(x.createTile), ResizeImage2424(Main.itemTexture[ItemID.RainbowTorch])),
+						// Banners => Banner Bonanza mod integration
+						//Main.itemTexture[Main.rand.Next(TileID.Sets.RoomNeeds.CountsAsTable)] doesn't work since those are tilesids. yoyo approach?
+						// todo: music box
 						//new Category("Paintings", x=>ItemID.Sets.SortingPriorityPainting[x.type] > -1, smallPaintings), // oops, this is painting tools not painting tiles
 						//new Category("5x4", x=>{
 						//	if(x.createTile!=-1)
@@ -425,9 +460,6 @@ namespace RecipeBrowser
 						//	return false;
 						//} , smallContainer),
 					},
-					// wires
-
-					// Banners
 					sorts = new List<Sort>() {
 						new Sort("Place Tile", smallSortTiles, (x,y)=> x.createTile == y.createTile ? x.placeStyle.CompareTo(y.placeStyle) : x.createTile.CompareTo(y.createTile)),
 					}
@@ -442,8 +474,12 @@ namespace RecipeBrowser
 				},
 				new Category("Ammo", x=>x.ammo!=0, RecipeBrowser.instance.GetTexture("Images/sortAmmo"))
 				{
-					sorts = new List<Sort>() { new Sort("Ammo Type", "Images/sortAmmo", (x,y)=>x.ammo.CompareTo(y.ammo)), }
-					// TODO: Filters/Subcategories for all ammo types?
+					sorts = new List<Sort>() {
+						new Sort("Ammo Type", "Images/sortAmmo", (x,y)=>x.ammo.CompareTo(y.ammo)),
+						new Sort("Damage", "Images/sortDamage", (x,y)=>x.damage.CompareTo(y.damage)),
+					},
+					filters = new List<Filter> { ammoFilter }
+					// TODO: Filters/Subcategories for all ammo types? // each click cycles?
 				},
 				new Category("Potions", x=>(x.UseSound != null && x.UseSound.Style == 3), smallPotions)
 				{
@@ -468,6 +504,11 @@ namespace RecipeBrowser
 						new Category("Carts", x=>x.mountType != -1 && MountID.Sets.Cart[x.mountType], smallCarts) // TODO: need mountType check? inherited parent logic or parent unions children?
 					}
 				},
+				new Category("Hooks", x=> Main.projHook[x.shoot], smallHooks){
+					sorts = new List<Sort>() {
+						new Sort("Grapple Range", smallHooks, (x,y)=> GrappleRange(x.shoot).CompareTo(GrappleRange(y.shoot))),
+					},
+				},
 				new Category("Dyes", x=>false, smallBothDyes)
 				{
 					subCategories = new List<Category>()
@@ -479,7 +520,11 @@ namespace RecipeBrowser
 				new Category("Boss Summons", x=>ItemID.Sets.SortingPriorityBossSpawns[x.type] != -1 && x.type != ItemID.LifeCrystal && x.type != ItemID.ManaCrystal && x.type != ItemID.CellPhone && x.type != ItemID.IceMirror && x.type != ItemID.MagicMirror && x.type != ItemID.LifeFruit && x.netID != ItemID.TreasureMap || x.netID == ItemID.PirateMap, smallBossSummon) { // vanilla bug.
 					sorts = new List<Sort>() { new Sort("Progression Order", "Images/sortDamage", (x,y)=>ItemID.Sets.SortingPriorityBossSpawns[x.type].CompareTo(ItemID.Sets.SortingPriorityBossSpawns[y.type])), }
 				},
-				new Category("Consumables", x=> !(x.createWall > 0 || x.createTile > -1) && !(x.ammo > 0 && !x.notAmmo) && x.consumable, smallConsumables),
+				new Category("Consumables", x=> !(x.createWall > 0 || x.createTile > -1) && !(x.ammo > 0 && !x.notAmmo) && x.consumable, smallConsumables){
+					subCategories = new List<Category>() {
+						new Category("Captured NPC", x=>x.makeNPC != 0, ResizeImage2424(Main.itemTexture[ItemID.GoldBunny])),
+					}
+				},
 				new Category("Fishing"/*, x=> x.fishingPole > 0 || x.bait>0|| x.questItem*/, x=>false, smallFishing){
 					subCategories = new List<Category>() {
 						new Category("Poles", x=>x.fishingPole > 0, "Images/sortFish") {sorts = new List<Sort>() { new Sort("Pole Power", "Images/sortFish", (x,y)=>x.fishingPole.CompareTo(y.fishingPole)), } },
@@ -492,46 +537,76 @@ namespace RecipeBrowser
 				new Category("Other", x=>BelongsInOther(x), smallOther),
 			};
 
-			foreach (var modCategory in RecipeBrowser.instance.modCategories)
-			{
-				if (string.IsNullOrEmpty(modCategory.parent))
-				{
+			foreach (var modCategory in RecipeBrowser.instance.modCategories) {
+				if (string.IsNullOrEmpty(modCategory.parent)) {
 					categories.Insert(categories.Count - 2, new Category(modCategory.name, modCategory.belongs, modCategory.icon));
 				}
-				else
-				{
-					foreach (var item in categories)
-					{
-						if (item.name == modCategory.parent)
-						{
+				else {
+					foreach (var item in categories) {
+						if (item.name == modCategory.parent) {
 							item.subCategories.Add(new Category(modCategory.name, modCategory.belongs, modCategory.icon));
 						}
 					}
 				}
 			}
 
-			foreach (var modCategory in RecipeBrowser.instance.modFilters)
-			{
+			foreach (var modCategory in RecipeBrowser.instance.modFilters) {
 				filters.Add(new Filter(modCategory.name, modCategory.belongs, modCategory.icon));
 			}
 
-			foreach (var parent in categories)
-			{
-				foreach (var child in parent.subCategories)
-				{
+			foreach (var parent in categories) {
+				foreach (var child in parent.subCategories) {
 					child.parent = parent; // 3 levels?
 				}
 			}
-
 			SelectedSort = sorts[0];
 			SelectedCategory = categories[0];
 		}
 
-		private bool BelongsInOther(Item item)
-		{
+		// TODO: Update with new 1.4 values.
+		Dictionary<int, float> vanillaGrappleRanges = new Dictionary<int, float>() {
+			[13] = 300f,
+			[32] = 400f,
+			[73] = 440f,
+			[74] = 440f,
+			[165] = 250f,
+			[256] = 350f,
+			[315] = 500f,
+			[322] = 550f,
+			[13] = 300f,
+			[331] = 400f,
+			[332] = 550f,
+			[372] = 400f,
+			[396] = 300f,
+			[446] = 500f,
+			[652] = 600f,
+			[646] = 550f,
+			[647] = 550f,
+			[648] = 550f,
+			[649] = 550f,
+			[486] = 480f,
+			[487] = 480f,
+			[488] = 480f,
+			[489] = 480f,
+			[230] = 300f,
+			[231] = 330f,
+			[232] = 360f,
+			[233] = 390f,
+			[234] = 420f,
+			[235] = 450f,
+		};
+
+		private float GrappleRange(int type) {
+			if (vanillaGrappleRanges.ContainsKey(type))
+				return vanillaGrappleRanges[type];
+			if (type > ProjectileID.Count)
+				return ProjectileLoader.GetProjectile(type).GrappleRange();
+			return 0;
+		}
+
+		private bool BelongsInOther(Item item) {
 			var cats = categories.Skip(1).Take(categories.Count - 2);
-			foreach (var category in cats)
-			{
+			foreach (var category in cats) {
 				if (category.BelongsRecursive(item))
 					return false;
 			}
@@ -546,18 +621,18 @@ namespace RecipeBrowser
 		internal List<Category> subCategories;
 		internal List<Sort> sorts;
 		internal UISilentImageButton button;
+		internal Texture2D texture;
 		//internal Category parent;
 
-		public Filter(string name, Predicate<Item> belongs, Texture2D texture)
-		{
+		public Filter(string name, Predicate<Item> belongs, Texture2D texture) {
 			this.name = name;
+			this.texture = texture;
 			subCategories = new List<Category>();
 			sorts = new List<Sort>();
 			this.belongs = belongs;
 
 			this.button = new UISilentImageButton(texture, name);
-			button.OnClick += (a, b) =>
-			{
+			button.OnClick += (a, b) => {
 				button.selected = !button.selected;
 				ItemCatalogueUI.instance.updateNeeded = true;
 				RecipeCatalogueUI.instance.updateNeeded = true;
@@ -566,23 +641,110 @@ namespace RecipeBrowser
 		}
 	}
 
+	internal class MutuallyExclusiveFilter : Filter
+	{
+		List<Filter> exclusives;
+
+		public MutuallyExclusiveFilter(string name, Predicate<Item> belongs, Texture2D texture) : base(name, belongs, texture) {
+			button.OnClick += (a, b) => {
+				if (button.selected) {
+					foreach (var item in exclusives) {
+						if (item != this)
+							item.button.selected = false;
+					}
+				}
+			};
+		}
+
+		internal void SetExclusions(List<Filter> exclusives) {
+			this.exclusives = exclusives;
+		}
+	}
+
+	// A bit confusing, don't use.
+	internal class DoubleFilter : Filter
+	{
+		bool right;
+		string other;
+		public DoubleFilter(string name, string other, Texture2D texture, Predicate<Item> belongs) : base(name, belongs, texture) {
+			this.other = other;
+			this.belongs = (item) => {
+				return belongs(item) ^ right;
+			};
+			button = new UIBadgedSilentImageButton(texture, name + " (RMB)");
+			button.OnClick += (a, b) => {
+				button.selected = !button.selected;
+				ItemCatalogueUI.instance.updateNeeded = true;
+				RecipeCatalogueUI.instance.updateNeeded = true;
+				//Main.NewText("clicked on " + button.hoverText);
+			};
+			button.OnRightClick += (a, b) => {
+				right = !right;
+				(button as UIBadgedSilentImageButton).drawX = right;
+				button.hoverText = (right ? other : name) + " (RMB)";
+				ItemCatalogueUI.instance.updateNeeded = true;
+				RecipeCatalogueUI.instance.updateNeeded = true;
+			};
+		}
+	}
+
+	internal class CycleFilter : Filter
+	{
+		int index = 0; // different images? different backgrounds?
+		List<Filter> filters;
+		List<UISilentImageButton> buttons = new List<UISilentImageButton>();
+
+		public CycleFilter(string name, Texture2D texture, List<Filter> filters) : base(name, (item) => false, texture) {
+			this.filters = filters;
+			this.belongs = (item) => {
+				return index == 0 ? true : filters[index - 1].belongs(item);
+			};
+			//CycleFilter needs SharedUI.instance.updateNeeded to update image, since each filter acts independently.
+
+			var firstButton = new UISilentImageButton(texture, name);
+			firstButton.OnClick += (a, b) => ButtonBehavior(true);
+			firstButton.OnRightClick += (a, b) => ButtonBehavior(false);
+
+			buttons.Add(firstButton);
+
+			for (int i = 0; i < filters.Count; i++) {
+				var buttonOption = new UISilentImageButton(filters[i].texture, filters[i].name);
+				buttonOption.OnClick += (a, b) => ButtonBehavior(true);
+				buttonOption.OnRightClick += (a, b) => ButtonBehavior(false);
+				buttonOption.OnMiddleClick += (a, b) => ButtonBehavior(false, true);
+				buttons.Add(buttonOption);
+			}
+
+			button = buttons[0];
+
+			void ButtonBehavior(bool increment, bool zero = false) {
+				button.selected = false;
+
+				index = zero ? 0 : (increment ? (index + 1) % buttons.Count : (buttons.Count + index - 1) % buttons.Count);
+				button = buttons[index];
+				if (index != 0)
+					button.selected = true;
+				ItemCatalogueUI.instance.updateNeeded = true;
+				RecipeCatalogueUI.instance.updateNeeded = true;
+				SharedUI.instance.updateNeeded = true;
+			}
+		}
+	}
+
 	internal class Sort
 	{
 		internal Func<Item, Item, int> sort;
 		internal UISilentImageButton button;
 
-		public Sort(string hoverText, Texture2D texture, Func<Item, Item, int> sort)
-		{
+		public Sort(string hoverText, Texture2D texture, Func<Item, Item, int> sort) {
 			this.sort = sort;
 			button = new UISilentImageButton(texture, hoverText);
-			button.OnClick += (a, b) =>
-			{
+			button.OnClick += (a, b) => {
 				SharedUI.instance.SelectedSort = this;
 			};
 		}
 
-		public Sort(string hoverText, string textureFileName, Func<Item, Item, int> sort) : this(hoverText, RecipeBrowser.instance.GetTexture(textureFileName), sort)
-		{
+		public Sort(string hoverText, string textureFileName, Func<Item, Item, int> sort) : this(hoverText, RecipeBrowser.instance.GetTexture(textureFileName), sort) {
 		}
 	}
 
@@ -593,8 +755,7 @@ namespace RecipeBrowser
 		internal string parent;
 		internal Texture2D icon;
 		internal Predicate<Item> belongs;
-		public ModCategory(string name, string parent, Texture2D icon, Predicate<Item> belongs)
-		{
+		public ModCategory(string name, string parent, Texture2D icon, Predicate<Item> belongs) {
 			this.name = name;
 			this.parent = parent;
 			this.icon = icon;
@@ -611,42 +772,45 @@ namespace RecipeBrowser
 		internal Predicate<Item> belongs;
 		internal List<Category> subCategories;
 		internal List<Sort> sorts;
+		internal List<Filter> filters;
 		internal UISilentImageButton button;
 		internal Category parent;
 
-		public Category(string name, Predicate<Item> belongs, Texture2D texture = null)
-		{
+		public Category(string name, Predicate<Item> belongs, Texture2D texture = null) {
 			if (texture == null)
 				texture = RecipeBrowser.instance.GetTexture("Images/sortAmmo");
 			this.name = name;
 			subCategories = new List<Category>();
 			sorts = new List<Sort>();
+			filters = new List<Filter>();
 			this.belongs = belongs;
 
 			this.button = new UISilentImageButton(texture, name);
-			button.OnClick += (a, b) =>
-			{
+			button.OnClick += (a, b) => {
 				//Main.NewText("clicked on " + button.hoverText);
 				SharedUI.instance.SelectedCategory = this;
 			};
 		}
 
-		public Category(string name, Predicate<Item> belongs, string textureFileName) : this(name, belongs, RecipeBrowser.instance.GetTexture(textureFileName))
-		{
+		public Category(string name, Predicate<Item> belongs, string textureFileName) : this(name, belongs, RecipeBrowser.instance.GetTexture(textureFileName)) {
 		}
 
-		internal bool BelongsRecursive(Item item)
-		{
+		internal bool BelongsRecursive(Item item) {
 			if (belongs(item))
 				return true;
 			return subCategories.Any(x => x.belongs(item));
 		}
 
-		internal void ParentAddToSorts(List<Sort> availableSorts)
-		{
+		internal void ParentAddToSorts(List<Sort> availableSorts) {
 			if (parent != null)
 				parent.ParentAddToSorts(availableSorts);
 			availableSorts.AddRange(sorts);
+		}
+
+		internal void ParentAddToFilters(List<Filter> availableFilters) {
+			if (parent != null)
+				parent.ParentAddToFilters(availableFilters);
+			availableFilters.AddRange(filters);
 		}
 	}
 }
