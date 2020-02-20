@@ -307,6 +307,8 @@ namespace RecipeBrowser
 			var testItem = new Item();
 			for (int i = 0; i < ItemLoader.ItemCount; i++) {
 				testItem.SetDefaults(i);
+				if (testItem.useAmmo >= ItemLoader.ItemCount || testItem.ammo >= ItemLoader.ItemCount || testItem.useAmmo < 1 || testItem.ammo < 1)
+					continue; // Some mods misuse useAmmo
 				if (testItem.useAmmo > 0) {
 					useAmmoTypes.TryGetValue(testItem.useAmmo, out var currentCount);
 					useAmmoTypes[testItem.useAmmo] = currentCount + 1;

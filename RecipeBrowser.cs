@@ -322,7 +322,7 @@ namespace RecipeBrowser
 		// Messages:
 		// string:"AddItemCategory" - string:SortName - string:Parent - Texture2D:Icon - Predicate<Item>:belongs
 		internal List<ModCategory> modCategories = new List<ModCategory>();
-		internal List<ModCategory> modFilters = new List<ModCategory>();
+		internal List<ModCategory> modFilters = new List<ModCategory>(); // TODO: BannerBonanza tmod bug and unload this.
 		public override object Call(params object[] args)
 		{
 			/*
