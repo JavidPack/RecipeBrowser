@@ -38,7 +38,7 @@ namespace RecipeBrowser
 		internal UIDragablePanel favoritePanel;
 		internal UIHoverImageButton closeButton;
 
-		internal SharedUI sharedUI;
+		//internal SharedUI sharedUI;
 		internal RecipeCatalogueUI recipeCatalogueUI;
 		internal CraftUI craftUI;
 		internal ItemCatalogueUI itemCatalogueUI;
@@ -124,14 +124,14 @@ namespace RecipeBrowser
 			mainPanel.MaxHeight.Set(1000, 0f);
 			//mainPanel.BackgroundColor = Color.LightBlue;
 
-			sharedUI = new SharedUI();
+			new SharedUI();
 			recipeCatalogueUI = new RecipeCatalogueUI();
 			craftUI = new CraftUI();
 			itemCatalogueUI = new ItemCatalogueUI();
 			bestiaryUI = new BestiaryUI();
 			helpUI = new HelpUI();
 
-			sharedUI.Initialize();
+			SharedUI.instance.Initialize();
 
 			var recipePanel = recipeCatalogueUI.CreateRecipeCataloguePanel();
 			mainPanel.Append(recipePanel);
@@ -461,7 +461,7 @@ namespace RecipeBrowser
 				mainPanel.Recalculate();
 			}
 
-			sharedUI.Update();
+			SharedUI.instance.Update();
 			recipeCatalogueUI.Update();
 			craftUI.Update();
 			itemCatalogueUI.Update();

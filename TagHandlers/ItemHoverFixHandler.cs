@@ -41,7 +41,7 @@ namespace RecipeBrowser.TagHandlers
 				if (true)
 				{
 					string stack = _item.stack > 1 ? $" ({_item.stack}) ": "";
-					Main.hoverItemName = _item.Name + stack + (_item.modItem != null ? " [" + _item.modItem.mod.Name + "]" : "");
+					Main.hoverItemName = _item.Name + stack + (_item.modItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + _item.modItem.mod.Name + "]" : "");
 				}
 				else
 				{

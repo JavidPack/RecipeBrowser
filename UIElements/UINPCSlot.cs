@@ -91,7 +91,7 @@ namespace RecipeBrowser.UIElements
 
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null ? " [" + npc.modNPC.mod.Name + "]" : "");
+				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + npc.modNPC.mod.Name + "]" : "");
 			}
 		}
 

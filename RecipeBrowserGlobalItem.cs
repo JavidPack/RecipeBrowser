@@ -30,9 +30,8 @@ namespace RecipeBrowser
 			// TODO: Config option to show always
 			if (RecipeCatalogueUI.instance.hoveredIndex < 0) return;
 
-			// TODO: Config option to not show this.
 			var selectedModRecipe = Main.recipe[RecipeCatalogueUI.instance.hoveredIndex] as ModRecipe;
-			if (selectedModRecipe != null && item.IsTheSameAs(selectedModRecipe.createItem))
+			if (selectedModRecipe != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.IsTheSameAs(selectedModRecipe.createItem))
 			{
 				var line = new TooltipLine(mod, "RecipeBrowser:RecipeOriginHint", "Recipe added by " + selectedModRecipe.mod.DisplayName)
 				{

@@ -139,6 +139,7 @@ namespace RecipeBrowser
 			ItemCatalogueUI.instance = null;
 			BestiaryUI.instance = null;
 			CraftUI.instance = null;
+			SharedUI.instance = null;
 			RecipePath.Refresh(true);
 			RecipeBrowserPlayer.seenTiles = null;
 
