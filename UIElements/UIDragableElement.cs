@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace RecipeBrowser
@@ -89,6 +90,13 @@ namespace RecipeBrowser
 			{
 				dragging = false;
 				resizeing = false;
+			}
+			if(this == RecipeBrowserUI.instance.mainPanel) {
+				RecipeBrowserClientConfig config = ModContent.GetInstance<RecipeBrowserClientConfig>();
+				CalculatedStyle dimensions = GetOuterDimensions(); // Drag can go negative, need clamped by Min and Max values
+				config.RecipeBrowserSize = new Vector2(dimensions.Width, dimensions.Height);
+				config.RecipeBrowserPosition = new Vector2(Left.Pixels, Top.Pixels);
+				RecipeBrowserClientConfig.SaveConfig();
 			}
 		}
 

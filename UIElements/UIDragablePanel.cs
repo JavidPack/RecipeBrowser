@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Graphics;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace RecipeBrowser
@@ -89,6 +90,11 @@ namespace RecipeBrowser
 				dragging = false;
 				resizeing = false;
 			}
+			if (this == RecipeBrowserUI.instance.favoritePanel) {
+				RecipeBrowserClientConfig config = ModContent.GetInstance<RecipeBrowserClientConfig>();
+				config.FavoritedRecipePanelPosition = new Vector2(Left.Pixels, Top.Pixels);
+				RecipeBrowserClientConfig.SaveConfig();
+			}
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -111,7 +117,7 @@ namespace RecipeBrowser
 				if (Parent != null && !dimensions.ToRectangle().Intersects(Parent.GetDimensions().ToRectangle()))
 				{
 					var parentSpace = Parent.GetDimensions().ToRectangle();
-					Left.Pixels = Utils.Clamp(Left.Pixels, 0, parentSpace.Right - Width.Pixels);
+					Left.Pixels = Utils.Clamp(Left.Pixels, Width.Pixels - parentSpace.Right, 0); // TODO: Adjust automatically for Left.Percent (measure from left or right edge)
 					Top.Pixels = Utils.Clamp(Top.Pixels, 0, parentSpace.Bottom - Height.Pixels);
 					Recalculate();
 				}

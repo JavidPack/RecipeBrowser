@@ -124,6 +124,12 @@ namespace RecipeBrowser
 			mainPanel.MaxHeight.Set(1000, 0f);
 			//mainPanel.BackgroundColor = Color.LightBlue;
 
+			var config = ModContent.GetInstance<RecipeBrowserClientConfig>();
+			mainPanel.Left.Set(config.RecipeBrowserPosition.X, 0f);
+			mainPanel.Top.Set(config.RecipeBrowserPosition.Y, 0f);
+			mainPanel.Width.Set(config.RecipeBrowserSize.X, 0f);
+			mainPanel.Height.Set(config.RecipeBrowserSize.Y, 0f);
+
 			new SharedUI();
 			recipeCatalogueUI = new RecipeCatalogueUI();
 			craftUI = new CraftUI();
@@ -283,6 +289,9 @@ namespace RecipeBrowser
 			//favoritePanel.BackgroundColor = new Color(73, 94, 171);
 			favoritePanel.BackgroundColor = Color.Transparent;
 			//Append(favoritePanel);
+
+			favoritePanel.Left.Set(config.FavoritedRecipePanelPosition.X, 0f);
+			favoritePanel.Top.Set(config.FavoritedRecipePanelPosition.Y, 0f);
 		}
 
 		//private void ItemChecklistRadioButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
