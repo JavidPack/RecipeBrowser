@@ -341,6 +341,7 @@ namespace RecipeBrowser
 		internal void Update()
 		{
 			hoveredIndex = -1;
+			UIItemSlot.hoveredItem = null;
 			/*if (PlayerInput.Triggers.Current.Hotbar1 && !Main.LocalPlayer.inventory[0].IsAir)
 				RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.LocalPlayer.inventory[0].type);
 			if (PlayerInput.Triggers.Current.Hotbar2 && !Main.LocalPlayer.inventory[1].IsAir)

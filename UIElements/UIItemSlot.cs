@@ -17,6 +17,7 @@ namespace RecipeBrowser.UIElements
 		public int itemType;
 		public Item item;
 		public bool hideSlot = false;
+		internal static Item hoveredItem;
 
 		public UIItemSlot(Item item, float scale = .75f)
 		{
@@ -121,6 +122,8 @@ namespace RecipeBrowser.UIElements
 						//	Main.hoverItemName = this.item.name;
 						//	Main.toolTip = item.Clone();
 						Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.modItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.modItem.mod.Name + "]" : ""));
+
+						hoveredItem = Main.HoverItem;
 					}
 				}
 			}

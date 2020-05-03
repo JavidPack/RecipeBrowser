@@ -155,6 +155,7 @@ namespace RecipeBrowser
 			UIHorizontalGrid.moreRightTexture = null;
 			Utilities.tileTextures = null;
 			ArmorSetFeatureHelper.Unload();
+			UIItemSlot.hoveredItem = null;
 		}
 
 		public ConcurrentQueue<Task> concurrentTasks = new ConcurrentQueue<Task>();
