@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.GameContent.UI.Chat;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.ID;
 
 namespace RecipeBrowser.UIElements
 {
@@ -54,7 +55,7 @@ namespace RecipeBrowser.UIElements
 					sb.Append(ItemTagHandler.GenerateTag(Main.recipe[index].createItem));
 					if (ChatManager.AddChatText(Main.fontMouseText, sb.ToString(), Vector2.One))
 					{
-						Main.PlaySound(12);
+						Main.PlaySound(SoundID.MenuTick);
 					}
 				}
 				else

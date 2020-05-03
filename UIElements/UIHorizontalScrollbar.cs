@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
+using Terraria.ID;
 
 namespace RecipeBrowser.UIElements
 {
@@ -88,7 +89,7 @@ namespace RecipeBrowser.UIElements
 			this._isHoveringOverHandle = handleRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y));
 			if (!isHoveringOverHandle && this._isHoveringOverHandle && Main.hasFocus)
 			{
-				Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+				Main.PlaySound(SoundID.MenuTick);
 			}
 			this.DrawBar(spriteBatch, this._texture, dimensions.ToRectangle(), Color.White);
 			this.DrawBar(spriteBatch, this._innerTexture, handleRectangle, Color.White * ((this._isDragging || this._isHoveringOverHandle) ? 1f : 0.85f));

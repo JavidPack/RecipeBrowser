@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.ID;
 
 namespace RecipeBrowser.TagHandlers
 {
@@ -47,7 +48,7 @@ namespace RecipeBrowser.TagHandlers
 				float maxHeight = 24 * scale;
 				Texture2D texture2D = null;
 				Rectangle rectangle = new Rectangle();
-				if (Main.netMode != 2 && !Main.dedServ)
+				if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 				{
 					Main.instance.LoadNPC(npcType);
 					texture2D = Main.npcTexture[npcType];

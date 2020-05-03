@@ -16,6 +16,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.ID;
 
 namespace RecipeBrowser
 {
@@ -183,7 +184,7 @@ namespace RecipeBrowser
 					// runningTasks must be < 4 now
 					if (concurrentTasks.TryDequeue(out var task)) {
 						if (task.IsCanceled) {
-							Console.WriteLine();
+							//Console.WriteLine();
 						}
 						task.Start(); //throws if you provide it with a 'hot' task
 						runningTasks.Add(task);
@@ -233,7 +234,7 @@ namespace RecipeBrowser
 		public override void UpdateUI(GameTime gameTime)
 		{
 			// By doing these triggers here, we can use them even if autopaused.
-			if (Main.netMode == 0 && (Main.playerInventory || Main.npcChatText != "" || Main.player[Main.myPlayer].sign >= 0 || Main.ingameOptionsWindow || Main.inFancyUI) && Main.autoPause)
+			if (Main.netMode == NetmodeID.SinglePlayer && (Main.playerInventory || Main.npcChatText != "" || Main.player[Main.myPlayer].sign >= 0 || Main.ingameOptionsWindow || Main.inFancyUI) && Main.autoPause)
 				Main.LocalPlayer.GetModPlayer<RecipeBrowserPlayer>().ProcessTriggers(null);
 			recipeBrowserTool?.UIUpdate(gameTime);
 		}
@@ -277,7 +278,7 @@ namespace RecipeBrowser
 					{
 						for (int i = 0; i < 40; i++)
 						{
-							NetMessage.SendData(32, whoAmI, -1, null, chestIndex, (float)i, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(MessageID.SyncChestItem, whoAmI, -1, null, chestIndex, (float)i, 0f, 0f, 0, 0, 0);
 						}
 						var message = GetPacket();
 						message.Write((byte)MessageType.SilentSendChestContentsComplete);
@@ -306,12 +307,12 @@ namespace RecipeBrowser
 					}
 					//Main.NewText($"Player {player} now has: " + string.Join(",", r.ToArray()));
 					//Console.WriteLine($"Player {player} now has: " + string.Join(",", r.ToArray()));
-					if (Main.netMode == 2 && !syncPlayer)
+					if (Main.netMode == NetmodeID.Server && !syncPlayer)
 					{
 						Main.player[player].GetModPlayer<RecipeBrowserPlayer>().SendFavoritedRecipes(-1, player);
 					}
 					// We will separately maintain other player favorites. Do not set UIRecipeSlot.favorite 
-					if (Main.netMode != 2)
+					if (Main.netMode != NetmodeID.Server)
 					{
 						RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 					}

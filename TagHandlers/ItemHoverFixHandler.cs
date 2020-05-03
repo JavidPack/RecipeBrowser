@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.ID;
 
 namespace RecipeBrowser.TagHandlers
 {
@@ -54,7 +55,7 @@ namespace RecipeBrowser.TagHandlers
 			{
 				float num = 1f;
 				float num2 = 1f;
-				if (Main.netMode != 2 && !Main.dedServ)
+				if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 				{
 					Texture2D texture2D = Main.itemTexture[this._item.type];
 					Rectangle rectangle;

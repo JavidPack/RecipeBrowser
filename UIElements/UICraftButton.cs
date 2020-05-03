@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.ID;
 
 namespace RecipeBrowser.UIElements
 {
@@ -46,7 +47,7 @@ namespace RecipeBrowser.UIElements
 			base.MouseOver(evt);
 			if (AbleToCraft())
 			{
-				Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+				Main.PlaySound(SoundID.MenuTick);
 			}
 		}
 

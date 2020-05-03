@@ -227,7 +227,7 @@ namespace RecipeBrowser.UIElements
 			Vector2 position = GetInnerDimensions().Position();
 			float num = 1f;
 			float num2 = 1f;
-			if (Main.netMode != 2 && !Main.dedServ)
+			if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 			{
 				Texture2D texture2D = Main.itemTexture[item.type];
 				Rectangle rectangle;

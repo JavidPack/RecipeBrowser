@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
+using Terraria.ID;
 
 namespace RecipeBrowser
 {
@@ -699,7 +700,7 @@ namespace RecipeBrowser
 					Vector2 chestPosition = new Vector2((float)(chest.x * 16 + 16), (float)(chest.y * 16 + 16));
 					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange)
 					{
-						if (Main.netMode == 0 || RecipeBrowser.chestContentsAvailable[chestIndex])
+						if (Main.netMode == NetmodeID.SinglePlayer || RecipeBrowser.chestContentsAvailable[chestIndex])
 						{
 							foundItems.UnionWith(chest.item.Select(x => x.type));
 							//sources.Add(chest.item);
@@ -864,7 +865,7 @@ namespace RecipeBrowser
 			updateNeeded = true;
 			if (!button.Selected) return;
 			// Reset
-			if (Main.netMode == 0) return; // we can skip all this in SP
+			if (Main.netMode == NetmodeID.SinglePlayer) return; // we can skip all this in SP
 			RecipeBrowser.chestContentsAvailable = new bool[1000];
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 			{

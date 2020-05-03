@@ -836,7 +836,7 @@ namespace RecipeBrowser
 
 						if (r.recipe.createItem.type == 9 && (r.craftPath.root as RecipeNode).recipe.createItem.type == 9)
 						{
-							Console.WriteLine(); // 2629 living wood plat
+							//Console.WriteLine(); // 2629 living wood plat
 						}
 
 						vialbleIngredients.Remove(r.recipe.createItem.type);

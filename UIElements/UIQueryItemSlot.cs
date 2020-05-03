@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.ID;
 
 namespace RecipeBrowser.UIElements
 {
@@ -71,9 +72,9 @@ namespace RecipeBrowser.UIElements
 				{
 					int num = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, item2.type, item2.stack, false, (int)item.prefix, true, false);
 					Main.item[num].newAndShiny = false;
-					if (Main.netMode == 1)
+					if (Main.netMode == NetmodeID.MultiplayerClient)
 					{
-						NetMessage.SendData(21, -1, -1, null, num, 1f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.SyncItem, -1, -1, null, num, 1f, 0f, 0f, 0, 0, 0);
 					}
 					else
 					{
