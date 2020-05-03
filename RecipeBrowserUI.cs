@@ -557,6 +557,7 @@ namespace RecipeBrowser
 					SharedUI.instance.sortsAndFiltersPanel.Width.Set(-272, 1);
 					SharedUI.instance.sortsAndFiltersPanel.Height.Set(60, 0f);
 
+					SharedUI.instance.updateNeeded = true;
 					ItemCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);
 				}
 				else if (panelIndex == RecipeBrowserUI.RecipeCatalogue)
@@ -566,6 +567,11 @@ namespace RecipeBrowser
 					SharedUI.instance.sortsAndFiltersPanel.Height.Set(60, 0f);
 
 					RecipeCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);
+
+					SharedUI.instance.updateNeeded = true;
+					if (SharedUI.instance.SelectedCategory?.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
+						SharedUI.instance.SelectedCategory = SharedUI.instance.categories[0];
+					}
 				}
 			}
 		}

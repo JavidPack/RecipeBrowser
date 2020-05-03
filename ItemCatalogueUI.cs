@@ -156,6 +156,11 @@ namespace RecipeBrowser
 		{
 			UIItemCatalogueItemSlot a = x as UIItemCatalogueItemSlot;
 			UIItemCatalogueItemSlot b = y as UIItemCatalogueItemSlot;
+			if (a == null || b == null) {
+				return x.Id.CompareTo(y.Id);
+			}
+			if (SharedUI.instance.SelectedSort.button.hoverText == "Total Defense" && x is UIArmorSetCatalogueItemSlot armorA && y is UIArmorSetCatalogueItemSlot armorB)
+				return armorA.set.Item5.CompareTo(armorB.set.Item5); // Total Hack
 			if (SharedUI.instance.SelectedSort != null)
 				return SharedUI.instance.SelectedSort.sort(a.item, b.item);
 			return a.itemType.CompareTo(b.itemType);
@@ -249,10 +254,17 @@ namespace RecipeBrowser
 				}
 			}
 
-
-
 			itemGrid.Clear();
-			foreach (var slot in itemSlots)
+			List<UIItemCatalogueItemSlot> slotsToUse = itemSlots;
+
+			if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
+				if (ArmorSetFeatureHelper.armorSetSlots == null)
+					ArmorSetFeatureHelper.CalculateArmorSets();
+				slotsToUse = ArmorSetFeatureHelper.armorSetSlots.Cast<UIItemCatalogueItemSlot>().ToList();
+				ArmorSetFeatureHelper.AppendSpecialUI(itemGrid);
+			}
+
+			foreach (var slot in slotsToUse)
 			{
 				if (PassItemFilters(slot))
 				{

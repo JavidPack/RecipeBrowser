@@ -270,5 +270,13 @@ namespace RecipeBrowser
 				}
 			}
 		}
+
+		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo) {
+			if (drawInfo.drawPlayer == UIArmorSetCatalogueItemSlot.drawPlayer) {
+				drawInfo.upperArmorColor = Color.White;
+				drawInfo.middleArmorColor = Color.White;
+				drawInfo.lowerArmorColor = Color.White;
+			}
+		}
 	}
 }

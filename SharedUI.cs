@@ -22,6 +22,7 @@ namespace RecipeBrowser
 
 		internal UIPanel sortsAndFiltersPanel;
 		internal UIHorizontalGrid categoriesGrid;
+		internal InvisibleFixedUIHorizontalScrollbar categoriesGridScrollbar;
 		internal UIHorizontalGrid subCategorySortsFiltersGrid;
 		internal InvisibleFixedUIHorizontalScrollbar lootGridScrollbar2;
 
@@ -105,10 +106,7 @@ namespace RecipeBrowser
 				sortsAndFiltersPanel.RemoveChild(lootGridScrollbar2);
 			}
 
-			bool doTopRow = false;
 			if (categoriesGrid == null) {
-				doTopRow = true;
-
 				categoriesGrid = new UIHorizontalGrid();
 				categoriesGrid.Width.Set(0, 1f);
 				categoriesGrid.Height.Set(26, 0f);
@@ -117,12 +115,12 @@ namespace RecipeBrowser
 				sortsAndFiltersPanel.Append(categoriesGrid);
 				categoriesGrid.drawArrows = true;
 
-				var lootGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
-				lootGridScrollbar.SetView(100f, 1000f);
-				lootGridScrollbar.Width.Set(0, 1f);
-				lootGridScrollbar.Top.Set(0, 0f);
-				sortsAndFiltersPanel.Append(lootGridScrollbar);
-				categoriesGrid.SetScrollbar(lootGridScrollbar);
+				categoriesGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
+				categoriesGridScrollbar.SetView(100f, 1000f);
+				categoriesGridScrollbar.Width.Set(0, 1f);
+				categoriesGridScrollbar.Top.Set(0, 0f);
+				sortsAndFiltersPanel.Append(categoriesGridScrollbar);
+				categoriesGrid.SetScrollbar(categoriesGridScrollbar);
 			}
 
 			subCategorySortsFiltersGrid = new UIHorizontalGrid();
@@ -169,22 +167,25 @@ namespace RecipeBrowser
 					visibleSubCategories.AddRange(category.subCategories);
 					category.button.selected = true;
 				}
+				if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.RecipeCatalogue && category.name == ArmorSetFeatureHelper.ArmorSetsHoverTest)
+					visibleCategories.Remove(category);
 			}
 
-			if (doTopRow)
-				foreach (var category in visibleCategories) {
-					var container = new UISortableElement(++count);
-					container.Width.Set(24, 0);
-					container.Height.Set(24, 0);
-					//category.button.Left.Pixels = left;
-					//if (category.parent != null)
-					//	container.OrderIndex
-					//	category.button.Top.Pixels = 12;
-					//sortsAndFiltersPanel.Append(category.button);
-					container.Append(category.button);
-					categoriesGrid.Add(container);
-					left += 26;
-				}
+			float oldTopRowViewPosition = categoriesGridScrollbar?.ViewPosition ?? 0f;
+			categoriesGrid.Clear();
+			foreach (var category in visibleCategories) {
+				var container = new UISortableElement(++count);
+				container.Width.Set(24, 0);
+				container.Height.Set(24, 0);
+				//category.button.Left.Pixels = left;
+				//if (category.parent != null)
+				//	container.OrderIndex
+				//	category.button.Top.Pixels = 12;
+				//sortsAndFiltersPanel.Append(category.button);
+				container.Append(category.button);
+				categoriesGrid.Add(container);
+				left += 26;
+			}
 
 			//UISortableElement spacer = new UISortableElement(++count);
 			//spacer.Width.Set(0, 1);
@@ -261,6 +262,8 @@ namespace RecipeBrowser
 			// Restore view position after CycleFilter changes current filters.
 			subCategorySortsFiltersGrid.Recalculate();
 			lootGridScrollbar2.ViewPosition = oldRow2ViewPosition;
+			categoriesGrid.Recalculate();
+			//categoriesGridScrollbar.ViewPosition = oldTopRowViewPosition; // And after category disappears, not really needed since only 1 will disappear, unlike 2nd row. Test more if more special categories are added
 		}
 
 		internal List<Category> categories;
@@ -417,6 +420,9 @@ namespace RecipeBrowser
 						new Category("Axes", x=>x.axe>0, "Images/sortAxe"){ sorts = new List<Sort>() { new Sort("Axe Power", "Images/sortAxe", (x,y)=>x.axe.CompareTo(y.axe)), } },
 						new Category("Hammers", x=>x.hammer>0, "Images/sortHammer"){ sorts = new List<Sort>() { new Sort("Hammer Power", "Images/sortHammer", (x,y)=>x.hammer.CompareTo(y.hammer)), } },
 					},
+				},
+				new Category(ArmorSetFeatureHelper.ArmorSetsHoverTest, x => true, "Images/categoryArmorSets") {
+					sorts = new List<Sort>() { new Sort("Total Defense", "Images/categoryArmorSets", (x,y)=>x.defense.CompareTo(y.defense)), }, // See ItemCatalogueUI.ItemGridSort for actual implementation
 				},
 				new Category("Armor"/*,  x=>x.headSlot!=-1||x.bodySlot!=-1||x.legSlot!=-1*/, x => false, smallArmor) {
 					subCategories = new List<Category>() {

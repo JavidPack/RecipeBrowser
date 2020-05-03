@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -153,6 +154,7 @@ namespace RecipeBrowser
 			UIHorizontalGrid.moreLeftTexture = null;
 			UIHorizontalGrid.moreRightTexture = null;
 			Utilities.tileTextures = null;
+			ArmorSetFeatureHelper.Unload();
 		}
 
 		public ConcurrentQueue<Task> concurrentTasks = new ConcurrentQueue<Task>();
