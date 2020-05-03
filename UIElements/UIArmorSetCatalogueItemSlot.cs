@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
+using Terraria.ModLoader.UI;
 using Terraria.UI;
 
 namespace RecipeBrowser.UIElements
@@ -12,13 +13,21 @@ namespace RecipeBrowser.UIElements
 	internal class UIArmorSetCatalogueItemSlot : UIItemCatalogueItemSlot
 	{
 		internal Tuple<Item, Item, Item, string, int> set;
+		internal Item compareItem;
 		private bool drawError = false;
+		private UIItemCatalogueItemSlot headSlot;
+		private UIItemCatalogueItemSlot bodySlot;
+		private UIItemCatalogueItemSlot legsSlot;
+		internal bool needsUpdate = false;
+
 		internal static Player drawPlayer;
 		internal static bool useDye;
 		internal static bool animate;
 		internal static bool accessories;
-		public UIArmorSetCatalogueItemSlot(Tuple<Item, Item, Item, string, int> set, float scale = 0.75f) : base(set.Item1, scale) {
+		internal static bool showItems = true;
+		public UIArmorSetCatalogueItemSlot(Tuple<Item, Item, Item, string, int> set, float scale = 0.75f) : base(set.Item1 != null ? set.Item1 : set.Item2, scale) {
 			this.set = set;
+			this.compareItem = set.Item1 != null ? set.Item1 : set.Item2;
 
 			this.Width.Set(defaultBackgroundTexture.Width * scale, 0f);
 			this.Height.Set(defaultBackgroundTexture.Height * 4.6f * scale, 0f); // 50 heigh
@@ -26,29 +35,50 @@ namespace RecipeBrowser.UIElements
 			if (set.Item1 != null) {
 				Item item = new Item();
 				item.SetDefaults(set.Item1.type, false);
-				var slot = new UIItemCatalogueItemSlot(item, scale);
-				slot.Top.Set(60, 0);
-				Append(slot);
+				headSlot = new UIItemCatalogueItemSlot(item, scale);
+				headSlot.Top.Set(60, 0);
 			}
 			if (set.Item2 != null) {
 				Item item = new Item();
 				item.SetDefaults(set.Item2.type, false);
-				var slot = new UIItemCatalogueItemSlot(item, scale);
-				slot.Top.Set(100, 0);
-				Append(slot);
+				bodySlot = new UIItemCatalogueItemSlot(item, scale);
+				bodySlot.Top.Set(100, 0);
 			}
 			if (set.Item3 != null) {
 				Item item = new Item();
 				item.SetDefaults(set.Item3.type, false);
-				var slot = new UIItemCatalogueItemSlot(item, scale);
-				slot.Top.Set(140, 0);
-				Append(slot);
+				legsSlot = new UIItemCatalogueItemSlot(item, scale);
+				legsSlot.Top.Set(140, 0);
+			}
+			if (showItems) {
+				if (headSlot != null)
+					UICommon.AddOrRemoveChild(this, headSlot, showItems);
+				if (bodySlot != null)
+					UICommon.AddOrRemoveChild(this, bodySlot, showItems);
+				if (legsSlot != null)
+					UICommon.AddOrRemoveChild(this, legsSlot, showItems);
 			}
 		}
 
 		private static uint lastUpdate;
 		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
+
+			if (needsUpdate) {
+				if (headSlot != null)
+					UICommon.AddOrRemoveChild(this, headSlot, showItems);
+				if (bodySlot != null)
+					UICommon.AddOrRemoveChild(this, bodySlot, showItems);
+				if (legsSlot != null)
+					UICommon.AddOrRemoveChild(this, legsSlot, showItems);
+
+				if(showItems)
+					this.Height.Set(defaultBackgroundTexture.Height * 4.6f * scale, 0f); // 50 heigh
+				else
+					this.Height.Set(defaultBackgroundTexture.Height * 1.6f * scale, 0f);
+
+				needsUpdate = false;
+			}
 
 			if (Main.GameUpdateCount != lastUpdate) {
 				lastUpdate = Main.GameUpdateCount;
@@ -177,15 +207,27 @@ namespace RecipeBrowser.UIElements
 		internal static void AppendSpecialUI(UIGrid itemGrid) {
 			var panel = new UIPanel();
 			panel.Width.Percent = 1f;
-			panel.Height.Set(80, 0f);
+			panel.Height.Set(100, 0f);
 			panel.Width.Set(162, 0f);
 			panel.SetPadding(12);
+
+			var showItemsCheckbox = new UICheckbox("Show Items", "Display the items that make up the set");
+			showItemsCheckbox.Selected = UIArmorSetCatalogueItemSlot.showItems;
+			showItemsCheckbox.OnSelectedChanged += (s, e) => {
+				UIArmorSetCatalogueItemSlot.showItems = showItemsCheckbox.Selected;
+				foreach (var item in armorSetSlots) {
+					item.needsUpdate = true;
+				}
+			};
+			showItemsCheckbox.Left.Set(0, 0);
+			panel.Append(showItemsCheckbox);
 
 			var useDyeCheckbox = new UICheckbox("Use Dye", "Draw armor sets with currently equipped dye");
 			useDyeCheckbox.Selected = UIArmorSetCatalogueItemSlot.useDye;
 			useDyeCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.useDye = useDyeCheckbox.Selected;
 			};
+			useDyeCheckbox.Top.Set(20, 0);
 			useDyeCheckbox.Left.Set(0, 0);
 			panel.Append(useDyeCheckbox);
 
@@ -194,7 +236,7 @@ namespace RecipeBrowser.UIElements
 			animateCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.animate = animateCheckbox.Selected;
 			};
-			animateCheckbox.Top.Set(20, 0);
+			animateCheckbox.Top.Set(40, 0);
 			animateCheckbox.Left.Set(0, 0);
 			panel.Append(animateCheckbox);
 
@@ -203,7 +245,7 @@ namespace RecipeBrowser.UIElements
 			accessoriesCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.accessories = accessoriesCheckbox.Selected;
 			};
-			accessoriesCheckbox.Top.Set(40, 0);
+			accessoriesCheckbox.Top.Set(60, 0);
 			accessoriesCheckbox.Left.Set(0, 0);
 			panel.Append(accessoriesCheckbox);
 
@@ -247,19 +289,54 @@ namespace RecipeBrowser.UIElements
 
 						testPlayer.UpdateArmorSets(255);
 						if (testPlayer.setBonus != "") {
-							string setBonus = testPlayer.setBonus;
+							string fullSetBonus = testPlayer.setBonus;
+							int fullDefenseBonus = testPlayer.statDefense;
 
 							// This section for testing leg-less sets
 							testPlayer.legs = -1;
 							testPlayer.armor[2] = new Item();
+							testPlayer.statDefense = 0;
 							testPlayer.UpdateArmorSets(255);
-							if (testPlayer.setBonus != "") {
-								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, body, null, testPlayer.setBonus, head.defense + body.defense + testPlayer.statDefense);
+							int noLegsDefenseBonus = testPlayer.statDefense;
+							string noLegSetBonus = testPlayer.setBonus;
+							testPlayer.legs = leg.legSlot;
+							testPlayer.armor[2] = leg;
+
+							// This section for testing head-less sets
+							testPlayer.head = -1;
+							testPlayer.armor[0] = new Item();
+							testPlayer.statDefense = 0;
+							testPlayer.UpdateArmorSets(255);
+							int noHeadDefenseBonus = testPlayer.statDefense;
+							string noHeadSetBonus = testPlayer.setBonus;
+							testPlayer.head = head.headSlot;
+							testPlayer.armor[0] = head;
+
+							// This section for testing body-less sets
+							testPlayer.body = -1;
+							testPlayer.armor[1] = new Item();
+							testPlayer.statDefense = 0;
+							testPlayer.UpdateArmorSets(255);
+							int noBodyDefenseBonus = testPlayer.statDefense;
+							string noBodySetBonus = testPlayer.setBonus;
+
+							if (noLegSetBonus != "") {
+								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, body, null, noLegSetBonus, head.defense + body.defense + noLegsDefenseBonus);
+								if (!sets.Contains(tupleToAdd))
+									sets.Add(tupleToAdd);
+							}
+							else if (noHeadSetBonus != "") {
+								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(null, body, leg, noHeadSetBonus, body.defense + leg.defense + noHeadDefenseBonus);
+								if (!sets.Contains(tupleToAdd))
+									sets.Add(tupleToAdd);
+							}
+							else if (noBodySetBonus != "") {
+								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, null, leg, noBodySetBonus, head.defense + leg.defense + noBodyDefenseBonus);
 								if (!sets.Contains(tupleToAdd))
 									sets.Add(tupleToAdd);
 							}
 							else {
-								sets.Add(new Tuple<Item, Item, Item, string, int>(head, body, leg, setBonus, head.defense + body.defense + leg.defense + testPlayer.statDefense));
+								sets.Add(new Tuple<Item, Item, Item, string, int>(head, body, leg, fullSetBonus, head.defense + body.defense + leg.defense + fullDefenseBonus));
 							}
 						}
 					}
@@ -271,8 +348,6 @@ namespace RecipeBrowser.UIElements
 			armorSetSlots = new List<UIArmorSetCatalogueItemSlot>();
 			if (armorSetSlots.Count == 0) {
 				foreach (var set in sets) {
-					Item item = new Item();
-					item.SetDefaults(set.Item1.type, false);
 					var slot = new UIArmorSetCatalogueItemSlot(set);
 					armorSetSlots.Add(slot);
 				}

@@ -372,6 +372,10 @@ namespace RecipeBrowser
 
 			if (itemDescriptionFilter.currentString.Length > 0)
 			{
+				if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
+					if (slot is UIArmorSetCatalogueItemSlot setCatalogueItemSlot)
+						return setCatalogueItemSlot.set.Item4.IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1;
+				}
 				if ((slot.item.ToolTip != null && GetTooltipsAsString(slot.item.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1) /*|| (recipe.createItem.toolTip2 != null && recipe.createItem.toolTip2.ToLower().IndexOf(itemDescriptionFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)*/)
 				{
 					return true;
