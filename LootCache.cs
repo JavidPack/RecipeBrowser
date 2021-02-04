@@ -25,6 +25,8 @@ namespace RecipeBrowser
 		//public int iterations;
 		public long lastUpdateTime;
 
+		public bool calculationCancelled;
+
 		//public List<Tuple<string, Version>> cachedMods; // Dictionary better?
 		public Dictionary<string, Version> cachedMods;
 
@@ -287,7 +289,7 @@ namespace RecipeBrowser
 			string filename = "LootCache.json";
 			string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 			string path = Path.Combine(folder, filename);
-			LootCache li = new LootCache();
+			LootCache li = null;
 			bool needsRecalculate = true;
 			LootCacheManagerActive = true;
 			List<string> modsThatNeedRecalculate = new List<string>();
@@ -296,15 +298,20 @@ namespace RecipeBrowser
 				using (StreamReader r = new StreamReader(path))
 				{
 					json = r.ReadToEnd();
-					li = JsonConvert.DeserializeObject<LootCache>(json, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
-					needsRecalculate = false;
-					if (li == null) // Investigate why some people get LootCache.json with only 0s in it.
-						li = new LootCache();
+					try {
+						li = JsonConvert.DeserializeObject<LootCache>(json, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
+						needsRecalculate = false;
+					}
+					catch (Exception) {
+						RecipeBrowser.instance.Logger.Error("Deserialize LootCache.json failed");
+					}
 				}
 			}
+			if (li == null) // Investigate why some people get LootCache.json with only 0s in it.
+				li = new LootCache();
 
 			// New Recipe Browser version, assume total reset needed (adjust this logic next update.)
-			if (li.recipeBrowserVersion != recipeBrowserMod.Version)
+			if (li.recipeBrowserVersion != recipeBrowserMod.Version || li.calculationCancelled)
 			{
 				li.lootInfos.Clear();
 				li.cachedMods.Clear();
@@ -356,7 +363,7 @@ namespace RecipeBrowser
 					catch {
 					}
 				}
-				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache");
+				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache (Hold shift to skip if stuck)");
 				setLoadProgressProgress?.Invoke(0f);
 
 				// expert drops?
@@ -399,8 +406,10 @@ namespace RecipeBrowser
 				if (Main.rand == null)
 					Main.rand = new Terraria.Utilities.UnifiedRandom();
 
+				bool cancelled = false;
 				for (int i = 1; i < NPCLoader.NPCCount; i++) // for every npc...
 				{
+					
 					npc.SetDefaults(i);
 					npc.value = 0; // Causes some drops to be missed, why is this here?
 					string currentMod = npc.modNPC?.mod.Name ?? "Terraria";
@@ -415,7 +424,7 @@ namespace RecipeBrowser
 					JSONNPC jsonNPC = new JSONNPC(npc.modNPC?.mod.Name ?? "Terraria", npc.modNPC?.Name ?? npc.TypeName, npc.modNPC != null ? 0 : i);
 
 					loots.Clear();
-					CalculateLoot(npc);  // ...calculate drops
+					cancelled = CalculateLoot(npc);  // ...calculate drops
 
 					foreach (var loot in loots)
 					{
@@ -431,6 +440,8 @@ namespace RecipeBrowser
 							li.lootInfos.Add(jsonitem, npcsthatdropme = new List<JSONNPC>());
 						npcsthatdropme.Add(jsonNPC);
 					}
+					if (cancelled)
+						break;
 				}
 				loots.Clear();
 				// Reset temp values
@@ -445,6 +456,7 @@ namespace RecipeBrowser
 				var elapsedMs = watch.ElapsedMilliseconds;
 				//li.iterations = MaxNumberLootExperiments;
 				li.lastUpdateTime = elapsedMs;
+				li.calculationCancelled = cancelled;
 				Directory.CreateDirectory(folder);
 				json = JsonConvert.SerializeObject(li, Formatting.Indented, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
 				File.WriteAllText(path, json);
@@ -490,8 +502,9 @@ namespace RecipeBrowser
 		public const int MaxNumberLootExperiments = 5000;
 		internal static HashSet<int> loots;
 
-		internal static void CalculateLoot(NPC npc)
+		internal static bool CalculateLoot(NPC npc)
 		{
+			bool cancelled = false;
 			if (npc.type == NPCID.WallofFlesh) Main.hardMode = true;//return;
 																	// Hmmmmmm, start hardmode code might overwrite world....
 			npc.Center = new Microsoft.Xna.Framework.Vector2(1000, 1000);
@@ -502,6 +515,11 @@ namespace RecipeBrowser
 
 			for (int i = 0; i < MaxNumberLootExperiments; i++)
 			{
+				if (Main.keyState.PressingShift()) {
+					RecipeBrowser.instance.Logger.Error($"LootCache calculation cancelled. NPCID {npc.type}/{NPCLoader.NPCCount}, Source Mod: {npc.modNPC?.mod.Name ?? "Terraria"}, Name: {Lang.GetNPCNameValue(npc.type)}, Step: {i}/{MaxNumberLootExperiments}");
+					cancelled = true;
+					break;
+				}
 				if (i == 0)
 					Main.rand = fakeRandom;
 				if (i == 50)
@@ -547,6 +565,7 @@ namespace RecipeBrowser
 			}
 			//}
 			Main.hardMode = false;
+			return cancelled;
 		}
 	}
 

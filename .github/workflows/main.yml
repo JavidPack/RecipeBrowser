@@ -1,0 +1,25 @@
+name: Push on Master jobs
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  automaticpublish:
+    name: Automatic Mod Browser Publish Integration
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+       
+      # Mod Browser integration
+      - uses: JavidPack/tModLoaderPublishIntegration@v0.11.8
+        with:
+          STEAMID64: ${{secrets.STEAMID64}}
+          MODBROWSERPASSPHRASE: ${{secrets.MODBROWSERPASSPHRASE}}
+          MODNAME: RecipeBrowser
+        
+      # Upload artifact for all builds
+      - uses: actions/upload-artifact@v2
+        with:
+          name: .tmod file
+          path: ~/tModLoader/ModLoader/Mods/RecipeBrowser.tmod
