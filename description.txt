@@ -13,3 +13,5 @@ You can view extended crafting options in the Craft menu. Recipes that can be sa
 Also try out the Item Catalogue and Bestiary.
 
 There is an integrated Help in the Recipe Browser as well.
+
+If you get stuck during "Rebuilding Loot Cache", let me know which mod is causing the issue.
