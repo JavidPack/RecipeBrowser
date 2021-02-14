@@ -257,7 +257,7 @@ namespace RecipeBrowser
 		{
 			if (Main.myPlayer == player.whoAmI && seenTiles != null)
 			{
-				if (!Main.playerInventory)
+				if (!Main.playerInventory && WorldGen.InWorld((int)player.position.X / 16, (int)player.position.Y / 16, 10))
 					Main.LocalPlayer.AdjTiles(); 
 				for (int i = 0; i < seenTiles.Length; i++)
 				{
