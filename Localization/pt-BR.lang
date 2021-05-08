@@ -1,4 +1,4 @@
-# Translations partially by Aleck ?#4397 and partially by ??Bluezinho??#1242
+# Translations partially by Aleck ?#4397 and partially by ??Bluezinho??#1242, completed by Pixelnando#7284
 RecipeBrowserUI.Recipes=Receitas
 RecipeBrowserUI.Craft=Criação
 RecipeBrowserUI.Items=Items
@@ -9,7 +9,7 @@ RecipeBrowserUI.ModFilter=Filtro de Mods
 
 Common.FilterByName=Filtrar por Nome
 Common.FilterByTooltip=Filtrar por descrição
-Common.InstallItemChecklistToUse=Instale Item Checklist Para usar
+Common.InstallItemChecklistToUse=Instale Item Checklist para usar
 
 RecipeCatalogueUI.Tile=Título
 RecipeCatalogueUI.AllRecipes=Todas as receitas
