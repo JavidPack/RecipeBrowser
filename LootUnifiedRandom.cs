@@ -1,4 +1,5 @@
 ﻿using System;
+using Terraria;
 using Terraria.Utilities;
 
 namespace RecipeBrowser
@@ -11,6 +12,9 @@ namespace RecipeBrowser
 		//internal static bool zero;
 		private int[] returns;
 
+		// realRandom avoids deadlock caused by re-rolling prefixes
+		internal UnifiedRandom realRandom;
+
 		public LootUnifiedRandom()
 		{
 			returns = new int[5000];
@@ -18,7 +22,7 @@ namespace RecipeBrowser
 
 		public override int Next(int maxValue)
 		{
-			if (loop == 0) return 0;
+			if (loop == 0 && !realRandom.NextBool(100)) return 0;
 			int index = Math.Abs(maxValue) % 5000;
 			returns[index]++;
 			return (maxValue + returns[index]) % maxValue;

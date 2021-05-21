@@ -512,6 +512,7 @@ namespace RecipeBrowser
 
 			var realRandom = Main.rand;
 			var fakeRandom = new LootUnifiedRandom();
+			fakeRandom.realRandom = realRandom;
 
 			for (int i = 0; i < MaxNumberLootExperiments; i++)
 			{
