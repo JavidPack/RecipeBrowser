@@ -69,7 +69,7 @@ namespace RecipeBrowser
 				int row = 0;
 				int tileIndex = 0;
 				bool comma = false;
-				while (tileIndex < Recipe.maxRequirements)
+				while (tileIndex < selectedRecipe.requiredTile.Length)
 				{
 					int num63 = (tileIndex + 1) * 26;
 					if (selectedRecipe.requiredTile[tileIndex] == -1)

@@ -34,7 +34,7 @@ namespace RecipeBrowser.UIElements
 			Append(create);
 			int x = (owner != Main.myPlayer ? 23 : 0);
 			x += (int)b.Width + 2;
-			for (int j = 0; j < Recipe.maxRequirements; j++)
+			for (int j = 0; j < recipe.requiredItem.Length; j++)
 			{
 				if (recipe.requiredItem[j].type > 0)
 				{
