@@ -533,7 +533,7 @@ namespace RecipeBrowser
 			{
 				if (RecipeBrowserUI.instance.foundItems != null)
 				{
-					for (int i = 0; i < Recipe.maxRequirements; i++)
+					for (int i = 0; i < recipe.requiredItem.Length; i++)
 					{
 						if (recipe.requiredItem[i].type > 0)
 						{
@@ -760,7 +760,7 @@ namespace RecipeBrowser
 
 			List<UIIngredientSlot> ingredients = new List<UIIngredientSlot>();
 			Recipe recipe = Main.recipe[index];
-			for (int i = 0; i < Recipe.maxRequirements; i++)
+			for (int i = 0; i < recipe.requiredItem.Length; i++)
 			{
 				if (recipe.requiredItem[i].type > 0)
 				{
@@ -779,7 +779,7 @@ namespace RecipeBrowser
 			recipeInfo.craftingTilesGrid.AddRange(ingredients); // order...
 			CraftUI.instance.SetRecipe(index);
 
-			//for (int i = 0; i < Recipe.maxRequirements; i++)
+			//for (int i = 0; i < recipe.requiredTile.Length; i++)
 			//{
 			//	if (recipe.requiredTile[i] > 0)
 			//	{
