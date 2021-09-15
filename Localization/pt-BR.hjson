@@ -1,0 +1,74 @@
+Mods: {
+	RecipeBrowser: {
+		RecipeBrowserUI: {
+			Recipes: Receitas
+			Craft: Criação
+			Items: Items
+			Bestiary: Bestiário
+			Close: Fechar
+			All: Todos
+			ModFilter: Filtro de Mods
+		}
+
+		Common: {
+			FilterByName: Filtrar por Nome
+			FilterByTooltip: Filtrar por descrição
+			InstallItemChecklistToUse: Instale Item Checklist para usar
+		}
+
+		RecipeCatalogueUI: {
+			Tile: Título
+			AllRecipes: Todas as receitas
+			NearbyChests: Baús Próximos
+			ClickToRefresh: Clique para Atualizar
+			ItemChecklistOnly: Somente pela Item Checklist
+			OnlyNewItemsMadeFromSeenItems: Somente Itens novos feitos com Itens Vistos
+			EmptyQuerySlotHint: Coloque o item aqui
+		}
+
+		CraftUI: {
+			EmptyQuerySlotHint: Coloque o item aqui
+			Calc: Calc
+			CalcTooltip:
+				'''
+				Ativa o Cálculo Preventivo de Criação Estendido em Receitas
+				Pode causar lag
+				'''
+			Loot: Espólio
+			LootTooltip: Permitir Farming no Caminho de Criação (Funciona apenas para Inimigos com Bandeiras)
+			Shop: Loja
+			ShopTooltip: Permitir itens Compráveis no Caminho de Criação (Em Breve)
+			MissingStations: Estações Ausentes
+			MissingStationsTooltip: Permitir Estações de Criação Nunca Encontradas (Redefinido quando você entra em um mundo)
+			Inventory: Inventário
+			Banks: Bancos
+			BanksTooltip: Incluir Itens do Porquinho, Cofre, e Forja do Defensor pessoais (Em Breve)
+			Chests: Baús
+			ChestsTooltip: Incluir Itens de Baús Próximos (Em Breve)
+			MagicStorage: Magic Storage
+			MagicStorageTooltip: Incluir Itens e Estações de Criação de Magic Storages Próximos (Em Breve)
+			BottomInstructions: Botão direito do mouse nas Receitas para visitar essa aba rapidamente
+			NoPathsFound: Nenhum Caminho Encontrado para essa Receita/Item
+		}
+
+		ItemCatalogueUI: {
+			Crafted: Criado
+			OnlyShowCraftedItems: Mostrar apenas itens criados
+			Loot: Espólio
+			ShowOnlyLootItems: Mostrar apenas itens tipo espólio
+			Unobtained: Não obtido
+			OnlyUnobtainedItems: Somente itens não obtidos
+			BottomInstructions: 2x Botão direito do mouse: Ver Receitas  ---  2x Botão direito do mouse: Ver NPCs que soltam
+		}
+
+		BestiaryUI: {
+			Encountered: Encontrado
+			ShowOnlyNPCKilledAlready: Mostrar apenas NPCs já mortos
+			HasLoot: Tem Espólios
+			ShowOnlyNPCWithLoot: Mostrar apenas NPCs com Espólios
+			NewLoot: Espólios Novos
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar apenas NPCs com Espólios nunca vistos antes
+			EmptyQuerySlotHint: Coloque o item aqui
+		}
+	}
+}

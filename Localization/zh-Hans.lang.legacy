@@ -1,0 +1,55 @@
+# Chinese Translations made by 抗药又坚硬汉化组(SBMW GROUP).
+RecipeBrowserUI.Recipes=合成配方
+RecipeBrowserUI.Craft=制作步骤
+RecipeBrowserUI.Items=物品图鉴
+RecipeBrowserUI.Bestiary=生物图鉴
+RecipeBrowserUI.Close=关闭
+RecipeBrowserUI.All=全部
+RecipeBrowserUI.ModFilter=模组
+
+Common.FilterByName=搜索名称
+Common.FilterByTooltip=搜索提示
+Common.InstallItemChecklistToUse=安装[Item Checklist]可使用
+
+RecipeCatalogueUI.Tile=环境
+RecipeCatalogueUI.AllRecipes=全部配方
+RecipeCatalogueUI.NearbyChests=附近箱子
+RecipeCatalogueUI.ClickToRefresh=点击刷新
+RecipeCatalogueUI.ItemChecklistOnly=仅Item Checklist
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=仅显示曾获得过其材料但从未曾合成过的新物品
+RecipeCatalogueUI.EmptyQuerySlotHint=在此放置物品
+
+CraftUI.EmptyQuerySlotHint=在此放置物品
+CraftUI.Calc=计算
+CraftUI.CalcTooltip=在[合成配方]中切换优先扩展制作步骤的计算
+CraftUI.Loot=掉落
+CraftUI.LootTooltip=允许显示可掉落获得的物品 (仅拥有旗帜的生物)
+CraftUI.Shop=商店
+CraftUI.ShopTooltip=允许显示可购买获得的物品 (即将推出)
+CraftUI.MissingStations=新制作站
+CraftUI.MissingStationsTooltip=允许显示从未曾遇到过的制作站 (进入新世界时将重置)
+CraftUI.Inventory=背包
+CraftUI.Banks=移动存储箱
+CraftUI.BanksTooltip=包括个人的猪猪储蓄罐,保险箱,守卫者熔炉中的物品 (即将推出)
+CraftUI.Chests=箱子
+CraftUI.ChestsTooltip=包括附近箱子中的物品 (即将推出)
+CraftUI.MagicStorage=魔法储存
+CraftUI.MagicStorageTooltip=包括附近[魔法储存]中的物品和制作站 (即将推出)
+CraftUI.BottomInstructions=在[合成配方]中右键快速访问此面板
+CraftUI.NoPathsFound=没有找到该配方/物品的制作步骤
+
+ItemCatalogueUI.Crafted=可合成
+ItemCatalogueUI.OnlyShowCraftedItems=仅显示可合成的物品
+ItemCatalogueUI.Loot=掉落物
+ItemCatalogueUI.ShowOnlyLootItems=仅显示掉落物
+ItemCatalogueUI.Unobtained=未获得
+ItemCatalogueUI.OnlyUnobtainedItems=仅显示从未曾获得的物品
+ItemCatalogueUI.BottomInstructions=双击左键: 查看合成  ---  双击右键: 查看掉落
+
+BestiaryUI.Encountered=曾击杀
+BestiaryUI.ShowOnlyNPCKilledAlready=仅显示曾击杀过的生物
+BestiaryUI.HasLoot=含掉落物
+BestiaryUI.ShowOnlyNPCWithLoot=仅显示含有掉落物的生物
+BestiaryUI.NewLoot=新掉落物
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=仅显示含有从未曾获得过其掉落物的生物
+BestiaryUI.EmptyQuerySlotHint=在此放置物品

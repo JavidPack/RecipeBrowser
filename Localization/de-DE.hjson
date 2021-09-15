@@ -1,0 +1,46 @@
+Mods: {
+	RecipeBrowser: {
+		RecipeBrowserUI: {
+			Recipes: Rezepte
+			Items: Gegenstände
+			Bestiary: Bestiarium
+			Close: Schließen
+			All: Alle
+			ModFilter: Mod Filter
+		}
+
+		Common: {
+			FilterByName: Filter nach Namen
+			FilterByTooltip: Filter nach Kurzinfo
+			InstallItemChecklistToUse: Installier Item Checklist zum benutzen
+		}
+
+		RecipeCatalogueUI: {
+			Tile: Block
+			AllRecipes: Alle Rezepte
+			NearbyChests: Nahe Truhen
+			ClickToRefresh: Klicken zum Aktualisieren
+			ItemChecklistOnly: Nur Item Checklist
+			OnlyNewItemsMadeFromSeenItems: Nur neue Gegenstände hergestellt aus gesehenen Gegenständen
+		}
+
+		ItemCatalogueUI: {
+			Crafted: Hergestellt
+			OnlyShowCraftedItems: Zeige nur Hergestellte Gegenstände
+			Loot: Beute
+			ShowOnlyLootItems: Zeige nur Beute Gegenstände
+			Unobtained: Nicht erhalten
+			OnlyUnobtainedItems: Nur nicht erhaltene Gegenstände
+			BottomInstructions: 2x LMB: Siehe Rezepte  ---  2x RMB: Siehe fallen lassende NPC
+		}
+
+		BestiaryUI: {
+			Encountered: Begegnet
+			ShowOnlyNPCKilledAlready: Zeige nur Getötete NPC
+			HasLoot: Hat Beute
+			ShowOnlyNPCWithLoot: Zeige nur NPC mit Beute
+			NewLoot: Neue Beute
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Zeige nur NPC mit niemals zuvor gesehener Beute
+		}
+	}
+}

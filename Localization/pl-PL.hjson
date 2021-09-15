@@ -1,0 +1,46 @@
+Mods: {
+	RecipeBrowser: {
+		RecipeBrowserUI: {
+			Recipes: Przepisy
+			Items: Przedmioty
+			Bestiary: Bestiariusz
+			Close: Zamknij
+			All: Wszystko
+			ModFilter: Filtruj względem modów
+		}
+
+		Common: {
+			FilterByName: Filtruj względem nazwy
+			FilterByTooltip: Filtruj względem opisu
+			InstallItemChecklistToUse: Zainstaluj 'Item Checklist', aby użyć
+		}
+
+		RecipeCatalogueUI: {
+			Tile: Struktury
+			AllRecipes: Wszystkie receptury
+			NearbyChests: Pobliskie skrzynie
+			ClickToRefresh: Kliknij aby odświeżyć
+			ItemChecklistOnly: Tylko przedmioty z 'Item Checklist'
+			OnlyNewItemsMadeFromSeenItems: Tylko nowe przedmioty, zrobione z napotkanych przedmiotów
+		}
+
+		ItemCatalogueUI: {
+			Crafted: Stworzone
+			OnlyShowCraftedItems: Pokazuj tylko stworzone przedmioty
+			Loot: Łup
+			ShowOnlyLootItems: Pokazuj tylko łupy
+			Unobtained: Niezdobyte
+			OnlyUnobtainedItems: " Tylko niezdobyte przedmioty"
+			BottomInstructions: 2x LPM: Zobacz przepisy  ---  2x RMB: Zobacz NPC z szansą na łup
+		}
+
+		BestiaryUI: {
+			Encountered: Napotkane
+			ShowOnlyNPCKilledAlready: Pokaż tylko pokonanych NPC
+			HasLoot: Ma łup
+			ShowOnlyNPCWithLoot: Pokaż tylko NPC z Łupem
+			NewLoot: Nowy Łup
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Pokaż NPC z wcześniej nie widzianym łupem
+		}
+	}
+}
