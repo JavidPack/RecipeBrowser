@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
@@ -9,8 +10,8 @@ namespace RecipeBrowser.UIElements
 {
 	internal class UICheckbox : UIText
 	{
-		public static Texture2D checkboxTexture;
-		public static Texture2D checkmarkTexture;
+		public static Asset<Texture2D> checkboxTexture;
+		public static Asset<Texture2D> checkmarkTexture;
 
 		public event EventHandler OnSelectedChanged;
 
@@ -72,9 +73,9 @@ namespace RecipeBrowser.UIElements
 			//Rectangle hitbox = GetInnerDimensions().ToRectangle();
 			//Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);
 
-			spriteBatch.Draw(checkboxTexture, pos, null, disabled ? Color.Gray : Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(checkboxTexture.Value, pos, null, disabled ? Color.Gray : Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 			if (Selected)
-				spriteBatch.Draw(checkmarkTexture, pos, null, disabled ? Color.Gray : Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(checkmarkTexture.Value, pos, null, disabled ? Color.Gray : Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
 			if (IsMouseHovering)
 			{

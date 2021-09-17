@@ -29,8 +29,8 @@ namespace RecipeBrowser.UIElements
 			this.set = set;
 			this.compareItem = set.Item1 != null ? set.Item1 : set.Item2;
 
-			this.Width.Set(defaultBackgroundTexture.Width * scale, 0f);
-			this.Height.Set(defaultBackgroundTexture.Height * 4.6f * scale, 0f); // 50 heigh
+			this.Width.Set(defaultBackgroundTexture.Width() * scale, 0f);
+			this.Height.Set(defaultBackgroundTexture.Height() * 4.6f * scale, 0f); // 50 heigh
 
 			if (set.Item1 != null) {
 				Item item = new Item();
@@ -73,9 +73,9 @@ namespace RecipeBrowser.UIElements
 					UICommon.AddOrRemoveChild(this, legsSlot, showItems);
 
 				if(showItems)
-					this.Height.Set(defaultBackgroundTexture.Height * 4.6f * scale, 0f); // 50 heigh
+					this.Height.Set(defaultBackgroundTexture.Height() * 4.6f * scale, 0f); // 50 heigh
 				else
-					this.Height.Set(defaultBackgroundTexture.Height * 1.6f * scale, 0f);
+					this.Height.Set(defaultBackgroundTexture.Height() * 1.6f * scale, 0f);
 
 				needsUpdate = false;
 			}
@@ -126,14 +126,14 @@ namespace RecipeBrowser.UIElements
 					for (int i = 0; i < 20; i++) {
 						drawPlayer.armor[i] = Main.LocalPlayer.armor[i].Clone();
 						if (i < 10)
-							drawPlayer.hideVisual[i] = Main.LocalPlayer.hideVisual[i];
+							drawPlayer.hideVisibleAccessory[i] = Main.LocalPlayer.hideVisibleAccessory[i];
 					}
 				}
 				else {
 					for (int i = 0; i < 20; i++) {
 						drawPlayer.armor[i].TurnToAir();
 						if (i < 10)
-							drawPlayer.hideVisual[i] = true;
+							drawPlayer.hideVisibleAccessory[i] = true;
 					}
 				}
 
@@ -163,7 +163,7 @@ namespace RecipeBrowser.UIElements
 			CalculatedStyle dimensions = base.GetInnerDimensions();
 			Rectangle rectangle = dimensions.ToRectangle();
 
-			spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, new Vector2(scale, scale * 1.5f), SpriteEffects.None, 0f);
+			spriteBatch.Draw(backgroundTexture.Value, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, new Vector2(scale, scale * 1.5f), SpriteEffects.None, 0f);
 			if (drawError)
 				return;
 
@@ -174,8 +174,8 @@ namespace RecipeBrowser.UIElements
 
 			//Main.gameMenu = true;
 			try {
-				Main.instance.DrawPlayer(drawPlayer, drawPlayer.position, drawPlayer.fullRotation, drawPlayer.fullRotationOrigin, 0f);
-				_useImmediateMode = true;
+				Main.PlayerRenderer.DrawPlayer(Main.Camera, drawPlayer, drawPlayer.position, drawPlayer.fullRotation, drawPlayer.fullRotationOrigin, 0f);
+				UseImmediateMode = true;
 			}
 			catch (Exception) {
 				drawError = true;

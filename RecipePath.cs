@@ -458,32 +458,6 @@ namespace RecipeBrowser
 			}
 			return result;
 		}
-
-		internal static List<int> GetAcceptedGroups(Recipe recipe)
-		{
-			List<int> acceptedGroups = new List<int>(recipe.acceptedGroups);
-			if (recipe.anyWood)
-			{
-				acceptedGroups.Add(RecipeGroupID.Wood);
-			}
-			if (recipe.anyIronBar)
-			{
-				acceptedGroups.Add(RecipeGroupID.IronBar);
-			}
-			if (recipe.anySand)
-			{
-				acceptedGroups.Add(RecipeGroupID.Sand);
-			}
-			if (recipe.anyPressurePlate)
-			{
-				acceptedGroups.Add(RecipeGroupID.PressurePlate);
-			}
-			if (recipe.anyFragment)
-			{
-				acceptedGroups.Add(RecipeGroupID.Fragment);
-			}
-			return acceptedGroups;
-		}
 	}
 
 	//internal class CraftPathOld
@@ -705,7 +679,7 @@ namespace RecipeBrowser
 			{
 				int count = listOfItems.Sum(x => x.Item2);
 
-				return $"{ItemHoverFixTagHandler.GenerateTag(recipeGroup.ValidItems[recipeGroup.IconicItemIndex], count, recipeGroup.GetText(), false)} ({string.Concat(listOfItems.Select(x => ItemHoverFixTagHandler.GenerateTag(x.Item1, x.Item2, null, true)))})";
+				return $"{ItemHoverFixTagHandler.GenerateTag(recipeGroup.IconicItemId, count, recipeGroup.GetText(), false)} ({string.Concat(listOfItems.Select(x => ItemHoverFixTagHandler.GenerateTag(x.Item1, x.Item2, null, true)))})";
 				// return $"Haves: {string.Join(", ", listOfItems.Select(x => $"{Lang.GetItemNameValue(x.Item1)} ({x.Item2})"))}";
 			}
 		}
@@ -797,13 +771,13 @@ namespace RecipeBrowser
 		internal class UnfulfilledNode : CraftPathNode
 		{
 			internal RecipeGroup recipeGroup;
-			internal List<int> item;
+			internal HashSet<int> item;
 			internal int stack;
 
 			public UnfulfilledNode(int item, int stack, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath)
 			{
 				this.stack = stack;
-				this.item = new List<int>() { item };
+				this.item = new HashSet<int>() { item };
 			}
 
 			public UnfulfilledNode(RecipeGroup recipeGroup, int stack, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath)
@@ -820,7 +794,7 @@ namespace RecipeBrowser
 				return $"Need: { string.Join(", ", item.Select(x => $"{Lang.GetItemNameValue(x)} ({stack})"))}";
 			}
 
-			internal void CheckParentsForRecipeLoopViaIngredients(List<int> vialbleIngredients)
+			internal void CheckParentsForRecipeLoopViaIngredients(HashSet<int> vialbleIngredients)
 			{
 				var p = parent;
 				while (p != null)
@@ -932,17 +906,16 @@ namespace RecipeBrowser
 				this.recipe = recipe;
 				this.multiplier = multiplier;
 				children = new CraftPathNode[recipe.requiredItem.Count(x => !x.IsAir)];
-
-				List<int> groups = RecipePath.GetAcceptedGroups(recipe);
+				
 				for (int i = 0; i < children.Length; i++) // For Each Ingredient.
 				{
 					bool itemIsRecipeGroupItem = false;
-					foreach (var groupid in groups)
+					foreach (var groupid in recipe.acceptedGroups)
 					{
 						// 6 wood, 4 shadewood works for 10 any wood.
 
 						// multiplier assumes all same Item in ItemGroup used for all Recipes.
-						if (recipe.requiredItem[i].type == RecipeGroup.recipeGroups[groupid].ValidItems[RecipeGroup.recipeGroups[groupid].IconicItemIndex])
+						if (recipe.requiredItem[i].type == RecipeGroup.recipeGroups[groupid].IconicItemId)
 						{
 							bool foundValidItem = false;
 							bool foundPartialItem = false;

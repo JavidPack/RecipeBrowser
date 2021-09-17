@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
@@ -79,9 +81,9 @@ namespace RecipeBrowser.UIElements
 
 		private void InternalSetText(object text, float textScale, bool large)
 		{
-			DynamicSpriteFont dynamicSpriteFont = large ? Main.fontDeathText : Main.fontMouseText;
+			Asset<DynamicSpriteFont> dynamicSpriteFont = large ? FontAssets.DeathText : FontAssets.MouseText;
 			//Vector2 textSize = new Vector2(dynamicSpriteFont.MeasureString(text.ToString()).X, large ? 32f : 16f) * textScale;
-			_textSize = ChatManager.GetStringSize(dynamicSpriteFont, Text, new Vector2(textScale));
+			_textSize = ChatManager.GetStringSize(dynamicSpriteFont.Value, Text, new Vector2(textScale));
 			this._text = text;
 			this._textScale = textScale;
 			//this._textSize = textSize;
@@ -116,12 +118,12 @@ namespace RecipeBrowser.UIElements
 			if (IsMouseHovering)
 				Main.hoverItemName = HoverText;
 
-			var font = _isLarge ? Main.fontDeathText : Main.fontMouseText;
+			var font = _isLarge ? FontAssets.DeathText : FontAssets.MouseText;
 			int hoveredSnippet = -1;
 			TextSnippet[] textSnippets = ChatManager.ParseMessage(Text, Color.White).ToArray();
 			ChatManager.ConvertNormalSnippets(textSnippets);
 
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, font, textSnippets, pos, 0f, Vector2.Zero, new Vector2(_textScale), out hoveredSnippet);
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, font.Value, textSnippets, pos, 0f, Vector2.Zero, new Vector2(_textScale), out hoveredSnippet);
 			if (hoveredSnippet > -1)
 			{
 				// annoying click. Main.NewText(hoveredSnippet);

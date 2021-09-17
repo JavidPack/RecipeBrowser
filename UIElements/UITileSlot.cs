@@ -4,6 +4,8 @@ using Terraria;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
 using System;
+using ReLogic.Content;
+using Terraria.GameContent;
 using Terraria.ObjectData;
 using Terraria.Map;
 using Terraria.ID;
@@ -12,8 +14,8 @@ namespace RecipeBrowser.UIElements
 {
 	class UITileSlot : UIElement
 	{
-		public Texture2D backgroundTexture => Main.inventoryBack9Texture;
-		public Texture2D selectedTexture => UIRecipeSlot.selectedBackgroundTexture;
+		public Texture2D backgroundTexture => TextureAssets.InventoryBack9.Value;
+		public Asset<Texture2D> selectedTexture => UIRecipeSlot.selectedBackgroundTexture;
 		internal float scale = .75f;
 		public int order; // usage count
 		public int tile;
@@ -76,7 +78,7 @@ namespace RecipeBrowser.UIElements
 			spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
 			if (selected)
-				spriteBatch.Draw(selectedTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(selectedTexture.Value, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
 			int height = texture.Height;
 			int width = texture.Width;
@@ -118,8 +120,8 @@ namespace RecipeBrowser.UIElements
 			this.scale = scale;
 			this.order = order;
 			this.tile = tile;
-			this.Width.Set(Main.inventoryBack9Texture.Width * scale, 0f);
-			this.Height.Set(Main.inventoryBack9Texture.Height * scale, 0f);
+			this.Width.Set(TextureAssets.InventoryBack9.Value.Width * scale, 0f);
+			this.Height.Set(TextureAssets.InventoryBack9.Value.Height * scale, 0f);
 		}
 
 		public override int CompareTo(object obj)
@@ -151,7 +153,7 @@ namespace RecipeBrowser.UIElements
 			int height = texture.Height;
 			int width = texture.Width;
 			float drawScale = 1f; // larger, uncomment below
-			float availableWidth = (float)Main.inventoryBack9Texture.Width * scale;
+			float availableWidth = (float)TextureAssets.InventoryBack9.Value.Width * scale;
 			if (width /** drawScale*/ > availableWidth || height /** drawScale*/ > availableWidth)
 			{
 				if (width > height)
@@ -164,7 +166,7 @@ namespace RecipeBrowser.UIElements
 				}
 			}
 			drawScale *= scale;
-			Vector2 vector = Main.inventoryBack9Texture.Size() * scale;
+			Vector2 vector = TextureAssets.InventoryBack9.Size() * scale;
 			Vector2 position2 = dimensions.Position() + vector / 2f - texture.Size() * drawScale / 2f;
 			//Vector2 origin = texture.Size() * (1f / 2f - 0.5f);
 			spriteBatch.Draw(texture, position2, null, Color.White, 0f, Vector2.Zero, drawScale, SpriteEffects.None, 0f);

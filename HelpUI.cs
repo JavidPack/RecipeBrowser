@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -67,7 +68,7 @@ namespace RecipeBrowser
 
 			string headingColor = Color.CornflowerBlue.Hex3();
 			// Overhaul warning
-			if(Terraria.ModLoader.ModLoader.GetMod("TerrariaOverhaul") != null)
+			if(Terraria.ModLoader.ModLoader.TryGetMod("TerrariaOverhaul", out _))
 				sb.Append($"[c/{headingColor}:Jumbled Text?]\n    If the text below looks wrong, you'll need to disable Terraria Overhaul to fix it.\n\n");
 			// Recipes
 			sb.Append($"[c/{headingColor}:Recipes]\n    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{Color.Goldenrod.Hex3()}:Item Checklist Only] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.\n");
@@ -117,7 +118,7 @@ namespace RecipeBrowser
 		}
 	}
 
-	//list = Utils.WordwrapStringSmart(text, c, Main.fontMouseText, WidthLimit, 10);
+	//list = Utils.WordwrapStringSmart(text, c, FontAssets.MouseText.Value, WidthLimit, 10);
 	internal class UIMessageBox : UIPanel
 	{
 		private string text;
@@ -178,7 +179,7 @@ namespace RecipeBrowser
 			CalculatedStyle space = GetInnerDimensions();
 			//Main.spriteBatch.Draw(Main.magicPixel, space.ToRectangle(), Color.Yellow * .7f);
 			//Main.spriteBatch.Draw(Main.magicPixel, GetOuterDimensions().ToRectangle(), Color.Red * .7f);
-			DynamicSpriteFont font = Main.fontMouseText;
+			DynamicSpriteFont font = FontAssets.MouseText.Value;
 			float position = 0f;
 			if (this._scrollbar != null)
 			{
@@ -207,7 +208,7 @@ namespace RecipeBrowser
 					ChatManager.ConvertNormalSnippets(texts);
 					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, font, texts, new Vector2(space.X, space.Y + position /*+ offset*/), 0f, Vector2.Zero, Vector2.One, out hoveredSnippet);
 					//offset += 20;
-					//offset += texts.Max(t => (int)ChatManager.GetStringSize(Main.fontMouseText, texts, Vector2.One).X);
+					//offset += texts.Max(t => (int)ChatManager.GetStringSize(FontAssets.MouseText.Value, texts, Vector2.One).X);
 					if (hoveredSnippet > -1 && IsMouseHovering)
 					{
 						texts[hoveredSnippet].OnHover();
@@ -252,7 +253,7 @@ namespace RecipeBrowser
 			{
 				return;
 			}
-			DynamicSpriteFont font = Main.fontMouseText;
+			DynamicSpriteFont font = FontAssets.MouseText.Value;
 
 			drawTextSnippets = WordwrapStringSmart(text, Color.White, font, (int)space.Width, -1);
 			//height = ChatManager.GetStringSize(font, text, Vector2.One, space.Width).Y;

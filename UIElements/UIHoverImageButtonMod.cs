@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 
 namespace RecipeBrowser
 {
@@ -8,7 +9,7 @@ namespace RecipeBrowser
 		internal Texture2D texture;
 		private Vector2 offset = new Vector2(0, 12);
 
-		public UIHoverImageButtonMod(Texture2D texture, string hoverText) : base(texture, hoverText)
+		public UIHoverImageButtonMod(Asset<Texture2D> texture, string hoverText) : base(texture, hoverText)
 		{
 		}
 

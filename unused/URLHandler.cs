@@ -65,7 +65,7 @@
 
 //			public override void OnClick()
 //			{
-//				ChatManager.AddChatText(Main.fontMouseText, "[e:" + sn + "]", Vector2.One);
+//				ChatManager.AddChatText(FontAssets.MouseText.Value, "[e:" + sn + "]", Vector2.One);
 //			}
 
 //			public override void OnHover()

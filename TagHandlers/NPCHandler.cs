@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
@@ -31,7 +32,7 @@ namespace RecipeBrowser.TagHandlers
 				if (npcType >= Terraria.ID.NPCID.Count)
 				{
 					ModNPC modNPC = NPCLoader.GetNPC(npcType);
-					Main.hoverItemName = Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.mod.Name + "]" : "");
+					Main.hoverItemName = Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.Mod.Name + "]" : "");
 				}
 				else
 				{
@@ -51,15 +52,15 @@ namespace RecipeBrowser.TagHandlers
 				if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 				{
 					Main.instance.LoadNPC(npcType);
-					texture2D = Main.npcTexture[npcType];
-					rectangle = new Rectangle(0, (Main.npcTexture[npcType].Height / Main.npcFrameCount[npcType]) * 0, Main.npcTexture[npcType].Width, Main.npcTexture[npcType].Height / Main.npcFrameCount[npcType]);
+					texture2D = TextureAssets.Npc[npcType].Value;
+					rectangle = new Rectangle(0, (texture2D.Height / Main.npcFrameCount[npcType]) * 0, texture2D.Width, texture2D.Height / Main.npcFrameCount[npcType]);
 
 					if (head)
 					{
-						int headIndex = NPC.TypeToHeadIndex(npcType);
+						int headIndex = NPC.TypeToDefaultHeadIndex(npcType);
 						if(headIndex != -1)
 						{
-							texture2D = Main.npcHeadTexture[headIndex];
+							texture2D = TextureAssets.NpcHead[headIndex].Value;
 							rectangle = texture2D.Bounds; // or texture2D.Frame(1, 1, 0, 0);
 						}
 					}

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using ReLogic.Content;
 using Terraria;
 using Terraria.UI;
 
@@ -8,7 +9,7 @@ namespace RecipeBrowser.UIElements
 {
 	internal class UICycleImage : UIElement
 	{
-		private Texture2D texture;
+		private Asset<Texture2D> texture;
 		private int _drawWidth;
 		private int _drawHeight;
 		private int padding;
@@ -33,7 +34,7 @@ namespace RecipeBrowser.UIElements
 			}
 		}
 
-		public UICycleImage(Texture2D texture, int states, string[] hoverTexts, int width, int height, int textureOffsetX = 0, int textureOffsetY = 0, int padding = 2)
+		public UICycleImage(Asset<Texture2D> texture, int states, string[] hoverTexts, int width, int height, int textureOffsetX = 0, int textureOffsetY = 0, int padding = 2)
 		{
 			this.texture = texture;
 			this._drawWidth = width;
@@ -52,7 +53,7 @@ namespace RecipeBrowser.UIElements
 			CalculatedStyle dimensions = base.GetDimensions();
 			Point point = new Point(textureOffsetX, textureOffsetY + ((padding + _drawHeight) * currentState));
 			Color color = base.IsMouseHovering ? Color.White : Color.Silver;
-			spriteBatch.Draw(texture, new Rectangle((int)dimensions.X, (int)dimensions.Y, this._drawWidth, this._drawHeight), new Rectangle?(new Rectangle(point.X, point.Y, this._drawWidth, this._drawHeight)), color);
+			spriteBatch.Draw(texture.Value, new Rectangle((int)dimensions.X, (int)dimensions.Y, this._drawWidth, this._drawHeight), new Rectangle?(new Rectangle(point.X, point.Y, this._drawWidth, this._drawHeight)), color);
 			if (IsMouseHovering)
 			{
 				Main.hoverItemName = hoverTexts[CurrentState];

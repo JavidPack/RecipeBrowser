@@ -275,11 +275,11 @@ namespace RecipeBrowser
 
 			if (RecipeBrowserUI.modIndex != 0)
 			{
-				if (slot.npc.modNPC == null)
+				if (slot.npc.ModNPC == null)
 				{
 					return false;
 				}
-				if (slot.npc.modNPC.mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.npc.ModNPC.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
 				{
 					return false;
 				}

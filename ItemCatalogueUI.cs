@@ -157,7 +157,7 @@ namespace RecipeBrowser
 			UIItemCatalogueItemSlot a = x as UIItemCatalogueItemSlot;
 			UIItemCatalogueItemSlot b = y as UIItemCatalogueItemSlot;
 			if (a == null || b == null) {
-				return x.Id.CompareTo(y.Id);
+				return x.UniqueId.CompareTo(y.UniqueId);
 			}
 			if (SharedUI.instance.SelectedSort.button.hoverText == "Total Defense" && x is UIArmorSetCatalogueItemSlot armorA && y is UIArmorSetCatalogueItemSlot armorB)
 				return armorA.set.Item5.CompareTo(armorB.set.Item5); // Total Hack
@@ -289,11 +289,11 @@ namespace RecipeBrowser
 		{
 			if (RecipeBrowserUI.modIndex != 0)
 			{
-				if (slot.item.modItem == null)
+				if (slot.item.ModItem == null)
 				{
 					return false;
 				}
-				if (slot.item.modItem.mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.item.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
 				{
 					return false;
 				}

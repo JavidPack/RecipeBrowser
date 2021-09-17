@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using ReLogic.Content;
 using Terraria.Graphics;
 using Terraria.UI;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ModLoader;
 
 namespace RecipeBrowser.UIElements
 {
@@ -12,18 +14,18 @@ namespace RecipeBrowser.UIElements
 	{
 		private static int CORNER_SIZE = 12;
 		private static int BAR_SIZE = 4;
-		private static Texture2D _borderTexture;
-		private static Texture2D _backgroundTexture;
+		private static Asset<Texture2D> _borderTexture;
+		private static Asset<Texture2D> _backgroundTexture;
 
 		public UIBottomlessPanel()
 		{
 			if (UIBottomlessPanel._borderTexture == null)
 			{
-				UIBottomlessPanel._borderTexture = TextureManager.Load("Images/UI/PanelBorder");
+				UIBottomlessPanel._borderTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PanelBorder");
 			}
 			if (UIBottomlessPanel._backgroundTexture == null)
 			{
-				UIBottomlessPanel._backgroundTexture = TextureManager.Load("Images/UI/PanelBackground");
+				UIBottomlessPanel._backgroundTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PanelBackground");
 			}
 			base.SetPadding((float)UIBottomlessPanel.CORNER_SIZE);
 		}
@@ -48,8 +50,8 @@ namespace RecipeBrowser.UIElements
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			this.DrawPanel(spriteBatch, UIBottomlessPanel._backgroundTexture, this.BackgroundColor);
-			this.DrawPanel(spriteBatch, UIBottomlessPanel._borderTexture, this.BorderColor);
+			this.DrawPanel(spriteBatch, UIBottomlessPanel._backgroundTexture.Value, this.BackgroundColor);
+			this.DrawPanel(spriteBatch, UIBottomlessPanel._borderTexture.Value, this.BorderColor);
 
 			//Rectangle hitbox = GetInnerDimensions().ToRectangle();
 			//Main.spriteBatch.Draw(Main.magicPixel, hitbox, Color.Red * 0.6f);

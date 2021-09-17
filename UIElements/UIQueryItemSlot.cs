@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.ID;
@@ -13,7 +15,7 @@ namespace RecipeBrowser.UIElements
 {
 	internal class UIQueryItemSlot : UIItemSlot
 	{
-		public static Texture2D backgroundTextureFake = Main.inventoryBack8Texture;
+		public static Asset<Texture2D> backgroundTextureFake = TextureAssets.InventoryBack8;
 		internal bool real = true;
 		internal string emptyHintText;
 
@@ -67,7 +69,7 @@ namespace RecipeBrowser.UIElements
 
 				Player player = Main.player[Main.myPlayer];
 				item.position = player.Center;
-				Item item2 = player.GetItem(player.whoAmI, item, false, true);
+				Item item2 = player.GetItem(player.whoAmI, item, GetItemSettings.GetItemInDropItemCheck);
 				if (item2.stack > 0)
 				{
 					int num = Item.NewItem((int)player.position.X, (int)player.position.Y, player.width, player.height, item2.type, item2.stack, false, (int)item.prefix, true, false);

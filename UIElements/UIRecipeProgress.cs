@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Reflection;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
@@ -12,7 +13,7 @@ namespace RecipeBrowser.UIElements
 	{
 		private int order;
 		private int owner; // which player are we tracking the progress for.
-		Texture2D playerBackGroundTexture;
+		Asset<Texture2D> playerBackGroundTexture;
 
 		static MethodInfo drawPlayerHeadMethodInfo;
 
@@ -23,7 +24,7 @@ namespace RecipeBrowser.UIElements
 				drawPlayerHeadMethodInfo = typeof(Main).GetMethod("DrawPlayerHead", BindingFlags.Instance | BindingFlags.NonPublic);
 			}
 
-			playerBackGroundTexture = TextureManager.Load("Images/UI/PlayerBackground");
+			playerBackGroundTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PlayerBackground");
 			this.order = order;
 			this.owner = owner;
 			// TODO: Implement Craft Path for teammates.
@@ -34,20 +35,18 @@ namespace RecipeBrowser.UIElements
 			Append(create);
 			int x = (owner != Main.myPlayer ? 23 : 0);
 			x += (int)b.Width + 2;
-			for (int j = 0; j < Recipe.maxRequirements; j++)
+			for (int j = 0; j < recipe.requiredItem.Count; j++)
 			{
-				if (recipe.requiredItem[j].type > 0)
-				{
-					Item item = new Item();
-					item.SetDefaults(recipe.requiredItem[j].type);
-					UITrackIngredientSlot ingredient = new UITrackIngredientSlot(item, recipe.requiredItem[j].stack, recipe, j, owner, owner != Main.myPlayer ? .5f : 0.75f);
-					x += (int)b.Width + 2;
-					ingredient.Left.Set(-x, 1f);
+				Item item = new Item();
+				item.SetDefaults(recipe.requiredItem[j].type);
+				UITrackIngredientSlot ingredient =
+					new UITrackIngredientSlot(item, recipe.requiredItem[j].stack, recipe, j, owner, owner != Main.myPlayer ? .5f : 0.75f);
+				x += (int)b.Width + 2;
+				ingredient.Left.Set(-x, 1f);
 
-					RecipeCatalogueUI.OverrideForGroups(recipe, ingredient.item);
+				RecipeCatalogueUI.OverrideForGroups(recipe, ingredient.item);
 
-					Append(ingredient);
-				}
+				Append(ingredient);
 			}
 			Height.Pixels = b.Height;
 			Width.Pixels = x + 12;

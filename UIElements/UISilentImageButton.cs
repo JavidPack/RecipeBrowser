@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 using Terraria.UI.Chat;
 
@@ -21,7 +22,7 @@ namespace RecipeBrowser.UIElements
 				//ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, "X", dimensions.Position() + new Vector2(14f, 10f), Color.LightSalmon, 0f, Vector2.Zero, new Vector2(0.7f));
 				var r = dimensions.ToRectangle();
 				r.Inflate(-2, -2);
-				spriteBatch.Draw(Main.cdTexture, r, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
+				spriteBatch.Draw(TextureAssets.Cd.Value, r, null, Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
 			}
 		}
 	}
@@ -41,12 +42,16 @@ namespace RecipeBrowser.UIElements
 			this.Width.Set((float)this._texture.Width, 0f);
 			this.Height.Set((float)this._texture.Height, 0f);
 			this.hoverText = hoverText;
+
+			base.Recalculate();
 		}
 
 		public void SetImage(Texture2D texture) {
 			this._texture = texture;
 			this.Width.Set((float)this._texture.Width, 0f);
 			this.Height.Set((float)this._texture.Height, 0f);
+
+			base.Recalculate();
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch) {
@@ -54,7 +59,7 @@ namespace RecipeBrowser.UIElements
 				var r = GetDimensions().ToRectangle();
 				r.Inflate(0, 0);
 				//spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, r, Color.White);
-				spriteBatch.Draw(Main.inventoryBack14Texture, r, Color.White);
+				spriteBatch.Draw(TextureAssets.InventoryBack14.Value, r, Color.White);
 			}
 
 			CalculatedStyle dimensions = base.GetDimensions();
@@ -64,8 +69,8 @@ namespace RecipeBrowser.UIElements
 			}
 
 			if (this == SharedUI.instance.ObtainableFilter.button && IsMouseHovering) {
-				Main.hoverItemName = $"{RecipeBrowser.instance.concurrentTasks.Count} recipes remain to be calculated";
-				//spriteBatch.DrawString(Main.fontMouseText, RecipeBrowser.instance.concurrentTasks.Count + "", dimensions.Position(), Color.White);
+				Main.hoverItemName = $"{UISystem.Instance.concurrentTasks.Count} recipes remain to be calculated";
+				//spriteBatch.DrawString(FontAssets.MouseText.Value, UISystem.Instance.concurrentTasks.Count + "", dimensions.Position(), Color.White);
 			}
 		}
 

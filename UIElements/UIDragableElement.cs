@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
@@ -10,7 +11,7 @@ namespace RecipeBrowser
 {
 	internal class UIDragableElement : UIElement
 	{
-		private static Texture2D dragTexture;
+		private static Asset<Texture2D> dragTexture;
 		private Vector2 offset;
 		private bool dragable;
 		private bool dragging;
@@ -30,7 +31,7 @@ namespace RecipeBrowser
 			this.resizeableY = resizeableY;
 			if (dragTexture == null)
 			{
-				dragTexture = TextureManager.Load("Images/UI/PanelBorder");
+				dragTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PanelBorder");
 			}
 			additionalDragTargets = new List<UIElement>();
 		}
@@ -109,7 +110,7 @@ namespace RecipeBrowser
 			if (ContainsPoint(Main.MouseScreen))
 			{
 				Main.LocalPlayer.mouseInterface = true;
-				Main.LocalPlayer.showItemIcon = false;
+				Main.LocalPlayer.cursorItemIconEnabled = false;
 				Main.ItemIconCacheUpdate(0);
 			}
 			if (dragging)
@@ -140,7 +141,7 @@ namespace RecipeBrowser
 			base.DrawChildren(spriteBatch);
 			if (resizeable)
 			{
-				DrawDragAnchor(spriteBatch, dragTexture, Color.Black/*this.BorderColor*/);
+				DrawDragAnchor(spriteBatch, dragTexture.Value, Color.Black/*this.BorderColor*/);
 			}
 		}
 

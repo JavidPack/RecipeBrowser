@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ReLogic.Graphics;
 using System;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
@@ -11,6 +13,7 @@ namespace RecipeBrowser
 {
 	internal class NewUITextBox : UIPanel//UITextPanel<string>
 	{
+		private static readonly Asset<Texture2D> CloseButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton");
 		internal bool focused = false;
 
 		//private int _cursor;
@@ -47,8 +50,7 @@ namespace RecipeBrowser
 			BorderColor = Color.White;
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
 
-			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
-			var closeButton = new UIHoverImageButton(texture, "");
+			var closeButton = new UIHoverImageButton(CloseButtonTexture, "");
 			closeButton.OnClick += (a, b) => SetText("");
 			closeButton.Left.Set(-20f, 1f);
 			//closeButton.Top.Set(0f, .5f);
@@ -260,12 +262,12 @@ namespace RecipeBrowser
 			{
 				color *= 0.5f;
 				//Utils.DrawBorderString(spriteBatch, hintText, new Vector2(space.X, space.Y), Color.Gray, 1f);
-				spriteBatch.DrawString(Main.fontMouseText, hintText, drawPos, color);
+				spriteBatch.DrawString(FontAssets.MouseText.Value, hintText, drawPos, color);
 			}
 			else
 			{
 				//Utils.DrawBorderString(spriteBatch, displayString, drawPos, Color.White, 1f);
-				spriteBatch.DrawString(Main.fontMouseText, displayString, drawPos, color);
+				spriteBatch.DrawString(FontAssets.MouseText.Value, displayString, drawPos, color);
 			}
 
 			//			CalculatedStyle innerDimensions2 = base.GetInnerDimensions();
@@ -290,7 +292,7 @@ namespace RecipeBrowser
 			//
 			//			CalculatedStyle innerDimensions = base.GetInnerDimensions();
 			//			Vector2 pos = innerDimensions.Position();
-			//			DynamicSpriteFont spriteFont = base.IsLarge ? Main.fontDeathText : Main.fontMouseText;
+			//			DynamicSpriteFont spriteFont = base.IsLarge ? Main.fontDeathText : FontAssets.MouseText.Value;
 			//			Vector2 vector = new Vector2(spriteFont.MeasureString(base.Text.Substring(0, this._cursor)).X, base.IsLarge ? 32f : 16f) * base.TextScale;
 			//			if (base.IsLarge)
 			//			{

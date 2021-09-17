@@ -9,6 +9,7 @@ using ReLogic.Graphics;
 using System.Net;
 using System.IO;
 using System;
+using ReLogic.Content;
 using Terraria.ModLoader;
 
 namespace RecipeBrowser.TagHandlers
@@ -17,14 +18,14 @@ namespace RecipeBrowser.TagHandlers
 	{
 		private class ImageSnippet : TextSnippet
 		{
-			Texture2D texture;
-			Texture2D Texture
+			Asset<Texture2D> texture;
+			Asset<Texture2D> Texture
 			{
 				get
 				{
 					if (texture == null)
 					{
-						texture = ModContent.GetTexture(texturePath);
+						texture = ModContent.Request<Texture2D>(texturePath);
 					}
 					return texture;
 				}
@@ -62,7 +63,7 @@ namespace RecipeBrowser.TagHandlers
 				{
 					//size = Texture.Size() * new Vector2(1, scale) + new Vector2(0, vOffset); // TODO: Why was `new Vector2( 1, scale)`??
 					//spriteBatch.Draw(Texture, position, color);
-					spriteBatch.Draw(Texture, position + new Vector2(0, vOffset), null, color, 0, Vector2.Zero, otherScale, SpriteEffects.None, 0);
+					spriteBatch.Draw(Texture.Value, position + new Vector2(0, vOffset), null, color, 0, Vector2.Zero, otherScale, SpriteEffects.None, 0);
 					//if (scale > 1)
 					//	Main.NewText(size);
 					//size = Vector2.Zero;
@@ -101,7 +102,7 @@ namespace RecipeBrowser.TagHandlers
 				}
 				//return new TextSnippet("<" + text.Replace("\\[", "[").Replace("\\]", "]") + ">", baseColor, 1f);
 			}
-			if (ModContent.TextureExists(text))
+			if (ModContent.HasAsset(text))
 			{
 				return new ImageSnippet(text, tooltip, 1f, scale)
 				{

@@ -9,13 +9,14 @@ using Terraria.ID;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
+using Terraria.GameContent;
 
 namespace RecipeBrowser.UIElements
 {
 	internal class UINPCSlot : UIElement
 	{
-		public static Texture2D selectedBackgroundTexture = Main.inventoryBack15Texture;
-		public static Texture2D backgroundTexture = Main.inventoryBack9Texture;
+		public static Texture2D selectedBackgroundTexture = TextureAssets.InventoryBack15.Value;
+		public static Texture2D backgroundTexture = TextureAssets.InventoryBack9.Value;
 		private float scale = .75f;
 		public int npcType;
 		public NPC npc;
@@ -46,7 +47,7 @@ namespace RecipeBrowser.UIElements
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			Main.instance.LoadNPC(npcType);
-			Texture2D npcTexture = Main.npcTexture[npcType];
+			Texture2D npcTexture = TextureAssets.Npc[npcType].Value;
 
 			if (++frameTimer > frameDelay)
 			{
@@ -58,7 +59,7 @@ namespace RecipeBrowser.UIElements
 				}
 			}
 
-			Rectangle npcDrawRectangle = new Rectangle(0, (Main.npcTexture[npcType].Height / Main.npcFrameCount[npcType]) * frameCounter, Main.npcTexture[npcType].Width, Main.npcTexture[npcType].Height / Main.npcFrameCount[npcType]);
+			Rectangle npcDrawRectangle = new Rectangle(0, (npcTexture.Height / Main.npcFrameCount[npcType]) * frameCounter, npcTexture.Width, npcTexture.Height / Main.npcFrameCount[npcType]);
 
 			CalculatedStyle dimensions = base.GetInnerDimensions();
 			spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
@@ -91,7 +92,7 @@ namespace RecipeBrowser.UIElements
 
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + npc.modNPC.mod.Name + "]" : "");
+				Main.hoverItemName = Lang.GetNPCNameValue(npc.type) + (npc.ModNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + npc.ModNPC.Mod.Name + "]" : "");
 			}
 		}
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 using Terraria.UI.Chat;
 
@@ -31,7 +32,7 @@ namespace RecipeBrowser.UIElements
 					int count = CountItemGroups(Main.player[owner], recipe, item.type, targetStack > 999 ? targetStack : 999 ); // stopping at item.maxStack means you can't see if you can make multiple.
 					string progress = count + "/" + targetStack;
 					Color progressColor = count >= targetStack ? Color.LightGreen : Color.LightSalmon;
-					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, progress, dimensions.Position() + new Vector2(10f, 26f) * scale + new Vector2(-4f, 0f), progressColor, 0f, Vector2.Zero, new Vector2(scale), -1f, /*scale*/1);
+					ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, progress, dimensions.Position() + new Vector2(10f, 26f) * scale + new Vector2(-4f, 0f), progressColor, 0f, Vector2.Zero, new Vector2(scale), -1f, /*scale*/1);
 				}
 			}
 		}
@@ -44,12 +45,12 @@ namespace RecipeBrowser.UIElements
 			{
 				return 0;
 			}
-			for (int i = 0; i != 58; i++)
+			for (int i = 0; i <= 58; i++)
 			{
 				if (!player.inventory[i].IsAir)
 				{
 					int current = player.inventory[i].type;
-					if (recipe.useWood(current, item.type) || recipe.useSand(current, item.type) || recipe.useIronBar(current, item.type) || recipe.useFragment(current, item.type) || recipe.AcceptedByItemGroups(current, item.type) || recipe.usePressurePlate(current, item.type))
+					if (recipe.AcceptedByItemGroups(current, item.type))
 					{
 						count += player.inventory[i].stack;
 					}

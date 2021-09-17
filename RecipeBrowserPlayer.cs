@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -110,7 +111,7 @@ namespace RecipeBrowser
 						ModTile modTile = TileLoader.GetTile(Tile);
 						if (modTile != null)
 						{
-							adjTiles.AddRange(modTile.adjTiles);
+							adjTiles.AddRange(modTile.AdjTiles);
 						}
 						if (Tile == 302)
 							adjTiles.Add(17);
@@ -171,15 +172,15 @@ namespace RecipeBrowser
 			RecipeBrowserPlayer clone = clientPlayer as RecipeBrowserPlayer;
 			if (!favoritedRecipes.SequenceEqual(clone.favoritedRecipes))
 			{
-				SendFavoritedRecipes(-1, player.whoAmI);
+				SendFavoritedRecipes(-1, Player.whoAmI);
 			}
 		}
 
 		public void SendFavoritedRecipes(int toWho, int fromWho, bool syncPlayer = false)
 		{
-			ModPacket packet = mod.GetPacket();
+			ModPacket packet = Mod.GetPacket();
 			packet.Write((byte)MessageType.SendFavoritedRecipes);
-			packet.Write((byte)player.whoAmI);
+			packet.Write((byte)Player.whoAmI);
 			packet.Write((bool)syncPlayer); // prevents duplicate sends when normal syncPlayer is happening.
 			packet.Write(favoritedRecipes.Count);
 			foreach (var recipeIndex in favoritedRecipes)
@@ -255,13 +256,13 @@ namespace RecipeBrowser
 
 		public override void PreUpdateBuffs()
 		{
-			if (Main.myPlayer == player.whoAmI && seenTiles != null)
+			if (Main.myPlayer == Player.whoAmI && seenTiles != null)
 			{
-				if (!Main.playerInventory && WorldGen.InWorld((int)player.position.X / 16, (int)player.position.Y / 16, 10))
+				if (!Main.playerInventory && WorldGen.InWorld((int)Player.position.X / 16, (int)Player.position.Y / 16, 10))
 					Main.LocalPlayer.AdjTiles(); 
 				for (int i = 0; i < seenTiles.Length; i++)
 				{
-					if (player.adjTile[i] && !seenTiles[i]) // could move to Player_AdjTiles_Patcher, nah.
+					if (Player.adjTile[i] && !seenTiles[i]) // could move to Player_AdjTiles_Patcher, nah.
 					{
 						//Main.NewText("Seen " + Utilities.GetTileName(i));
 						seenTiles[i] = true;
@@ -271,11 +272,15 @@ namespace RecipeBrowser
 			}
 		}
 
-		public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo) {
+		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo) {
 			if (drawInfo.drawPlayer == UIArmorSetCatalogueItemSlot.drawPlayer) {
-				drawInfo.upperArmorColor = Color.White;
-				drawInfo.middleArmorColor = Color.White;
-				drawInfo.lowerArmorColor = Color.White;
+				drawInfo.colorArmorHead = Color.White;
+				drawInfo.colorArmorBody = Color.White;
+				drawInfo.colorArmorLegs = Color.White;
+
+				//drawInfo.upperArmorColor = Color.White;
+				//drawInfo.middleArmorColor = Color.White;
+				//drawInfo.lowerArmorColor = Color.White;
 			}
 		}
 	}

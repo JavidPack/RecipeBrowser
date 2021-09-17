@@ -1,13 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.UI;
 
 namespace RecipeBrowser.UIElements
 {
 	internal class UIIngredientSlot : UIItemSlot
 	{
-		public static Texture2D selectedBackgroundTexture = Main.inventoryBack15Texture;
+		public static Asset<Texture2D> selectedBackgroundTexture = TextureAssets.InventoryBack15;
 		private int clickIndicatorTime = 0;
 		private const int ClickTime = 30;
 		private int order; // Recipe Ingredient Order
@@ -41,7 +43,7 @@ namespace RecipeBrowser.UIElements
 			if (clickIndicatorTime > 0)
 			{
 				clickIndicatorTime--;
-				spriteBatch.Draw(selectedBackgroundTexture, vector2, null, Color.White * ((float)clickIndicatorTime / ClickTime), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(selectedBackgroundTexture.Value, vector2, null, Color.White * ((float)clickIndicatorTime / ClickTime), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 			}
 		}
 
