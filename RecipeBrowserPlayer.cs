@@ -80,15 +80,12 @@ namespace RecipeBrowser
 			favoritedRecipes = new List<int>();
 		}
 
-		public override TagCompound Save()
+		public override void SaveData(TagCompound tag)
 		{
-			return new TagCompound
-			{
-				["StarredRecipes"] = favoritedRecipes.Select(x => RecipeIO.Save(Main.recipe[x])).ToList(),
-			};
+			tag["StarredRecipes"] = favoritedRecipes.Select(x => RecipeIO.Save(Main.recipe[x])).ToList();
 		}
 
-		public override void Load(TagCompound tag)
+		public override void LoadData(TagCompound tag)
 		{
 			favoritedRecipes = tag.GetList<TagCompound>("StarredRecipes").Select(RecipeIO.Load).Where(x => x > -1).ToList();
 		}
@@ -153,7 +150,8 @@ namespace RecipeBrowser
 		public override void PlayerDisconnect(Player player)
 		{
 			// When a player leaves, trigger an update to get rid of Starred Recipe entries.
-			RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
+			if (RecipeBrowserUI.instance is not null)
+				RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 		}
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
