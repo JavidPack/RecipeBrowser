@@ -918,7 +918,7 @@ namespace RecipeBrowser
 				slot.craftPathCalculationBegun = false;
 				slot.craftPaths = null;
 			}
-			while (UISystem.Instance.concurrentTasks.TryDequeue(out var _)) ;
+			while (RecipeBrowser.instance.concurrentTasks.TryDequeue(out var _)) ;
 			updateNeeded = true;
 			//CraftUI.instance.craftPathList.Clear();
 			CraftUI.instance.craftPathsUpToDate = false;

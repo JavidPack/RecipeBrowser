@@ -69,7 +69,7 @@ namespace RecipeBrowser.UIElements
 			}
 
 			if (this == SharedUI.instance.ObtainableFilter.button && IsMouseHovering) {
-				Main.hoverItemName = $"{UISystem.Instance.concurrentTasks.Count} recipes remain to be calculated";
+				Main.hoverItemName = $"{RecipeBrowser.instance.concurrentTasks.Count} recipes remain to be calculated";
 				//spriteBatch.DrawString(FontAssets.MouseText.Value, UISystem.Instance.concurrentTasks.Count + "", dimensions.Position(), Color.White);
 			}
 		}

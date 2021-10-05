@@ -234,7 +234,7 @@ namespace RecipeBrowser.UIElements
 			//var firstTask = Task.Run(() => craftPaths = RecipePath.GetCraftPaths(Main.recipe[index], cancellationTokenSource.Token), cancellationTokenSource.Token);
 			RecipePath.PrepareGetCraftPaths();
 			var task = new Task(TaskAction);
-			UISystem.Instance.concurrentTasks.Enqueue(task);
+			RecipeBrowser.instance.concurrentTasks.Enqueue(task);
 			//firstTask.Start();
 			craftPathCalculationBegun = true;
 		}
