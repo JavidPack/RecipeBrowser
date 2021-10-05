@@ -320,6 +320,8 @@ namespace RecipeBrowser
 			}
 			if (li == null) // Investigate why some people get LootCache.json with only 0s in it.
 				li = new LootCache();
+			LootCache.instance = li;
+			return; // TODO: investigate newtonsoft dictionary regression
 
 			// New Recipe Browser version, assume total reset needed (adjust this logic next update.)
 			if (li.recipeBrowserVersion != recipeBrowserMod.Version || li.calculationCancelled)

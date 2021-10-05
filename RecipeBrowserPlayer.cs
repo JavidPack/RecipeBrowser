@@ -150,8 +150,7 @@ namespace RecipeBrowser
 		public override void PlayerDisconnect(Player player)
 		{
 			// When a player leaves, trigger an update to get rid of Starred Recipe entries.
-			if (RecipeBrowserUI.instance is not null)
-				RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
+			RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 		}
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
