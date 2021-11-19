@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System.Text;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
@@ -65,16 +66,19 @@ namespace RecipeBrowser
 				StringBuilder sbTiles = new StringBuilder();
 
 				sb.Append($"[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.22")}] ");
-				Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, Language.GetTextValue("LegacyInterface.22"), new Vector2((float)positionX, (float)(positionY)), Utilities.textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+				Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, Language.GetTextValue("LegacyInterface.22"), new Vector2((float)positionX, (float)(positionY)), Utilities.textColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 				int row = 0;
 				int tileIndex = 0;
 				bool comma = false;
-				while (tileIndex < Recipe.maxRequirements)
+				while (tileIndex < selectedRecipe.requiredTile.Count)
 				{
 					int num63 = (tileIndex + 1) * 26;
 					if (selectedRecipe.requiredTile[tileIndex] == -1)
 					{
-						if (tileIndex == 0 && !selectedRecipe.needWater && !selectedRecipe.needHoney && !selectedRecipe.needLava)
+						if (tileIndex == 0 &&
+							!selectedRecipe.HasCondition(Recipe.Condition.NearWater) &&
+							!selectedRecipe.HasCondition(Recipe.Condition.NearHoney) &&
+							!selectedRecipe.HasCondition(Recipe.Condition.NearLava))
 						{
 							// "None"
 							sb.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
@@ -89,7 +93,7 @@ namespace RecipeBrowser
 						row++;
 						int tileID = selectedRecipe.requiredTile[tileIndex];
 						string tileName = Utilities.GetTileName(tileID);
-						//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, tileName, new Vector2(positionX, positionY + num63), Main.LocalPlayer.adjTile[tileID] ?  yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+						//Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, tileName, new Vector2(positionX, positionY + num63), Main.LocalPlayer.adjTile[tileID] ?  yesColor : noColor, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 						DoChatTag(sb, comma, Main.LocalPlayer.adjTile[tileID], tileName);
 						DoChatTag(sbTiles, comma, Main.LocalPlayer.adjTile[tileID], tileName);
 
@@ -99,45 +103,45 @@ namespace RecipeBrowser
 				}
 				// white if window not open?
 				int yAdjust = (row + 1) * 26;
-				if (selectedRecipe.needWater)
+				if (selectedRecipe.HasCondition(Recipe.Condition.NearWater))
 				{
 					DoChatTag(sb, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
 					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
 					yAdjust += 26;
 					comma = true;
 				}
-				if (selectedRecipe.needHoney)
+				if (selectedRecipe.HasCondition(Recipe.Condition.NearHoney))
 				{
 					DoChatTag(sb, comma, Main.LocalPlayer.adjHoney, Language.GetTextValue("LegacyInterface.58"));
 					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjHoney, Language.GetTextValue("LegacyInterface.58"));
 					yAdjust += 26;
 					comma = true;
 				}
-				if (selectedRecipe.needLava)
+				if (selectedRecipe.HasCondition(Recipe.Condition.NearLava))
 				{
 					DoChatTag(sb, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
 					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
 					comma = true;
 				}
-				float width = Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X;
+				float width = Terraria.UI.Chat.ChatManager.GetStringSize(FontAssets.MouseText.Value, sbTiles.ToString(), Vector2.One).X;
 				if (width > 170)
 				{
 					Vector2 scale = new Vector2(170 / width);
-					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, sbTiles.ToString(), new Vector2(positionX, positionY + 26), Color.White, 0f, Vector2.Zero, scale, -1f, 2f);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, sbTiles.ToString(), new Vector2(positionX, positionY + 26), Color.White, 0f, Vector2.Zero, scale, -1f, 2f);
 				}
 				else
 				{
-					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, sbTiles.ToString(), new Vector2(positionX, positionY + 26), Color.White, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+					Terraria.UI.Chat.ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, sbTiles.ToString(), new Vector2(positionX, positionY + 26), Color.White, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 				}
 				Rectangle rectangle = GetDimensions().ToRectangle();
 				rectangle.Width = 180;
 				//if (IsMouseHovering)
-				if (rectangle.Contains(Main.MouseScreen.ToPoint()) && Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X > 180)
+				if (rectangle.Contains(Main.MouseScreen.ToPoint()) && Terraria.UI.Chat.ChatManager.GetStringSize(FontAssets.MouseText.Value, sbTiles.ToString(), Vector2.One).X > 180)
 				{
 					Main.hoverItemName = sb.ToString();
 					/* Different approach to informing recipe mod source
 					ModRecipe modRecipe = selectedRecipe as ModRecipe;
-					if (Terraria.UI.Chat.ChatManager.GetStringSize(Main.fontMouseText, sbTiles.ToString(), Vector2.One).X > 180)
+					if (Terraria.UI.Chat.ChatManager.GetStringSize(FontAssets.MouseText.Value, sbTiles.ToString(), Vector2.One).X > 180)
 						Main.hoverItemName = sb.ToString() + (modRecipe != null ? $"\n[{modRecipe.mod.DisplayName}]" : "");
 					else if (modRecipe != null)
 						Main.hoverItemName = $"[{modRecipe.mod.DisplayName}]";

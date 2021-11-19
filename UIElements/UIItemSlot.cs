@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +13,8 @@ namespace RecipeBrowser.UIElements
 {
 	internal class UIItemSlot : UIElement
 	{
-		public static Texture2D defaultBackgroundTexture = Main.inventoryBack9Texture;
-		public Texture2D backgroundTexture = defaultBackgroundTexture;
+		public static Asset<Texture2D> defaultBackgroundTexture = TextureAssets.InventoryBack9;
+		public Asset<Texture2D> backgroundTexture = defaultBackgroundTexture;
 		internal float scale = .75f;
 		public int itemType;
 		public Item item;
@@ -24,8 +26,8 @@ namespace RecipeBrowser.UIElements
 			this.scale = scale;
 			this.item = item;
 			this.itemType = item.type;
-			this.Width.Set(defaultBackgroundTexture.Width * scale, 0f);
-			this.Height.Set(defaultBackgroundTexture.Height * scale, 0f);
+			this.Width.Set(defaultBackgroundTexture.Width() * scale, 0f);
+			this.Height.Set(defaultBackgroundTexture.Height() * scale, 0f);
 		}
 
 		internal int frameCounter = 0;
@@ -40,28 +42,21 @@ namespace RecipeBrowser.UIElements
 				Rectangle rectangle = dimensions.ToRectangle();
 				if (!hideSlot)
 				{
-					spriteBatch.Draw(backgroundTexture, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+					spriteBatch.Draw(backgroundTexture.Value, dimensions.Position(), null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 					DrawAdditionalOverlays(spriteBatch, dimensions.Position(), scale);
 				}
 				if (!item.IsAir)
 				{
-					Texture2D itemTexture = Main.itemTexture[this.item.type];
-					Rectangle rectangle2;
-					if (Main.itemAnimations[item.type] != null)
-					{
-						rectangle2 = Main.itemAnimations[item.type].GetFrame(itemTexture);
-					}
-					else
-					{
-						rectangle2 = itemTexture.Frame(1, 1, 0, 0);
-					}
+					Main.instance.LoadItem(this.item.type);
+					Texture2D itemTexture = TextureAssets.Item[this.item.type].Value;
+					Rectangle rectangle2 = Main.itemAnimations[item.type]?.GetFrame(itemTexture) ?? itemTexture.Frame();
 					Color newColor = Color.White;
 					float pulseScale = 1f;
 					ItemSlot.GetItemLight(ref newColor, ref pulseScale, item, false);
 					int height = rectangle2.Height;
 					int width = rectangle2.Width;
 					float drawScale = 1f;
-					float availableWidth = (float)defaultBackgroundTexture.Width * scale;
+					float availableWidth = (float)defaultBackgroundTexture.Width() * scale;
 					if (width > availableWidth || height > availableWidth)
 					{
 						if (width > height)
@@ -94,12 +89,12 @@ namespace RecipeBrowser.UIElements
 						item.GetColor(Color.White), origin, drawScale * pulseScale);
 					if (ItemID.Sets.TrapSigned[item.type])
 					{
-						spriteBatch.Draw(Main.wireTexture, dimensions.Position() + new Vector2(40f, 40f) * scale, new Rectangle?(new Rectangle(4, 58, 8, 8)), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+						spriteBatch.Draw(TextureAssets.Wire.Value, dimensions.Position() + new Vector2(40f, 40f) * scale, new Rectangle?(new Rectangle(4, 58, 8, 8)), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 					}
 					DrawAdditionalBadges(spriteBatch, dimensions.Position(), scale);
 					if (item.stack > 1)
 					{
-						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, item.stack.ToString(), dimensions.Position() + new Vector2(10f, 26f) * scale, Color.White, 0f, Vector2.Zero, new Vector2(scale), -1f, scale);
+						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, item.stack.ToString(), dimensions.Position() + new Vector2(10f, 26f) * scale, Color.White, 0f, Vector2.Zero, new Vector2(scale), -1f, scale);
 					}
 
 					//this.item.GetColor(Color.White);
@@ -117,11 +112,11 @@ namespace RecipeBrowser.UIElements
 					{
 						// TODO, should only need 2 of these 3 I think
 						Main.HoverItem = item.Clone();
-						Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.modItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.modItem.mod.Name + "]" : "");
+						Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.ModItem.Mod.Name + "]" : "");
 
 						//	Main.hoverItemName = this.item.name;
 						//	Main.toolTip = item.Clone();
-						Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.modItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.modItem.mod.Name + "]" : ""));
+						Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.ModItem.Mod.Name + "]" : ""));
 
 						hoveredItem = Main.HoverItem;
 					}
@@ -171,18 +166,18 @@ namespace RecipeBrowser.UIElements
 		{
 			base.DrawAdditionalOverlays(spriteBatch, vector2, scale);
 			if (selected)
-				spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture.Value, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 		}
 
 		internal override void DrawAdditionalBadges(SpriteBatch spriteBatch, Vector2 vector2, float scale)
 		{
 			base.DrawAdditionalBadges(spriteBatch, vector2, scale);
 			if (ItemCatalogueUI.instance.isLoot[item.type])
-				spriteBatch.Draw(Main.wire2Texture, vector2 + new Vector2(40f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.Wire2.Value, vector2 + new Vector2(40f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 			if (ItemCatalogueUI.instance.craftResults[item.type])
-				spriteBatch.Draw(Main.wire3Texture, vector2 + new Vector2(10f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.Wire3.Value, vector2 + new Vector2(10f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 			if (RecipeBrowserUI.instance.foundItems != null && !RecipeBrowserUI.instance.foundItems[item.type])
-				spriteBatch.Draw(Main.wire4Texture, vector2 + new Vector2(10f, 40f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+				spriteBatch.Draw(TextureAssets.Wire4.Value, vector2 + new Vector2(10f, 40f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 		}
 	}
 
@@ -229,7 +224,7 @@ namespace RecipeBrowser.UIElements
 			float num2 = 1f;
 			if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 			{
-				Texture2D texture2D = Main.itemTexture[item.type];
+				Texture2D texture2D = TextureAssets.Item[item.type].Value;
 				Rectangle rectangle;
 				if (Main.itemAnimations[item.type] != null)
 				{

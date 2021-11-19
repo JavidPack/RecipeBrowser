@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Generic;
+using ReLogic.Content;
 using Terraria;
 using Terraria.UI;
 
@@ -41,8 +42,8 @@ namespace RecipeBrowser
 		private float _innerListWidth;
 		public float ListPadding = 5f;
 
-		public static Texture2D moreLeftTexture;
-		public static Texture2D moreRightTexture;
+		public static Asset<Texture2D> moreLeftTexture;
+		public static Asset<Texture2D> moreRightTexture;
 
 		public int Count
 		{
@@ -216,11 +217,11 @@ namespace RecipeBrowser
 				var inner = GetInnerDimensions().ToRectangle();
 				if (this._scrollbar.ViewPosition != 0)
 				{
-					spriteBatch.Draw(moreLeftTexture, new Vector2(inner.X, inner.Y), Color.White * .5f);
+					spriteBatch.Draw(moreLeftTexture.Value, new Vector2(inner.X, inner.Y), Color.White * .5f);
 				}
 				if (this._scrollbar.ViewPosition < _innerListWidth - inner.Width)
 				{
-					spriteBatch.Draw(moreRightTexture, new Vector2(inner.Right - moreRightTexture.Width, inner.Y), Color.White * .5f);
+					spriteBatch.Draw(moreRightTexture.Value, new Vector2(inner.Right - moreRightTexture.Width(), inner.Y), Color.White * .5f);
 				}
 			}
 		}

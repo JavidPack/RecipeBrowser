@@ -1,7 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Map;
 using Terraria.ObjectData;
@@ -10,6 +14,22 @@ namespace RecipeBrowser
 {
 	static class Utilities
 	{
+		//public static Asset<Texture2D> ToAsset(this Texture2D texture)
+		//{
+		//	using MemoryStream stream = new();
+		//	texture.SaveAsPng(stream, texture.Width, texture.Height);
+		//	stream.Position = 0;
+		//	return RecipeBrowser.instance.Assets.CreateUntracked<Texture2D>(stream, "any.png");
+		//}
+
+		internal static Texture2D StackResizeImage(Asset<Texture2D>[] texture2D, int desiredWidth, int desiredHeight)
+		{
+			foreach (Asset<Texture2D> asset in texture2D)
+				asset.Wait?.Invoke();
+
+			return StackResizeImage(texture2D.Select(asset => asset.Value).ToArray(), desiredWidth, desiredHeight);
+		}
+
 		internal static Texture2D StackResizeImage(Texture2D[] texture2D, int desiredWidth, int desiredHeight)
 		{
 			float overlap = .5f;
@@ -47,7 +67,14 @@ namespace RecipeBrowser
 			Color[] content = new Color[desiredWidth * desiredHeight];
 			renderTarget.GetData<Color>(content);
 			mergedTexture.SetData<Color>(content);
+
 			return mergedTexture;
+		}
+
+		internal static Texture2D ResizeImage(Asset<Texture2D> asset, int desiredWidth, int desiredHeight)
+		{
+			asset.Wait?.Invoke();
+			return ResizeImage(asset.Value, desiredWidth, desiredHeight);
 		}
 
 		internal static Texture2D ResizeImage(Texture2D texture2D, int desiredWidth, int desiredHeight)
@@ -76,6 +103,7 @@ namespace RecipeBrowser
 			Color[] content = new Color[desiredWidth * desiredHeight];
 			renderTarget.GetData<Color>(content);
 			mergedTexture.SetData<Color>(content);
+
 			return mergedTexture;
 		}
 
@@ -89,7 +117,7 @@ namespace RecipeBrowser
 			var tileObjectData = TileObjectData.GetTileData(tile, 0, 0);
 			if (tileObjectData == null)
 			{
-				tileTextures[tile] = Main.magicPixel;
+				tileTextures[tile] = TextureAssets.MagicPixel.Value;
 				return;
 			}
 
@@ -107,7 +135,7 @@ namespace RecipeBrowser
 			{
 				for (int j = 0; j < height; j++)
 				{
-					Main.spriteBatch.Draw(Main.tileTexture[tile], new Vector2(i * 16, j * 16), new Rectangle(i * 16 + i * padding, j * 16 + j * padding, 16, 16), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(TextureAssets.Tile[tile].Value, new Vector2(i * 16, j * 16), new Rectangle(i * 16 + i * padding, j * 16 + j * padding, 16, 16), Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 				}
 			}
 

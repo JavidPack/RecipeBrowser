@@ -3,6 +3,8 @@ using System.Linq;
 using Terraria;
 using Terraria.UI;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
+using Terraria.GameContent;
 
 namespace RecipeBrowser.UIElements
 {
@@ -10,8 +12,8 @@ namespace RecipeBrowser.UIElements
 	// Todo, temporary?
 	internal class UIMockRecipeSlot : UIItemSlot
 	{
-		public static Texture2D ableToCraftBackgroundTexture;
-		public static Texture2D unableToCraftBackgroundTexture = Main.inventoryBack11Texture;
+		public static Asset<Texture2D> ableToCraftBackgroundTexture;
+		public static Asset<Texture2D> unableToCraftBackgroundTexture = TextureAssets.InventoryBack11;
 		private UIRecipeSlot slot;
 
 		public UIMockRecipeSlot(UIRecipeSlot slot, float scale = 0.75f) : base(slot.item, scale)

@@ -4,6 +4,7 @@ using ReLogic.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -42,7 +43,7 @@ namespace RecipeBrowser.TagHandlers
 				if (true)
 				{
 					string stack = _item.stack > 1 ? $" ({_item.stack}) ": "";
-					Main.hoverItemName = _item.Name + stack + (_item.modItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + _item.modItem.mod.Name + "]" : "");
+					Main.hoverItemName = _item.Name + stack + (_item.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + _item.ModItem.Mod.Name + "]" : "");
 				}
 				else
 				{
@@ -57,7 +58,8 @@ namespace RecipeBrowser.TagHandlers
 				float num2 = 1f;
 				if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 				{
-					Texture2D texture2D = Main.itemTexture[this._item.type];
+					Main.instance.LoadItem(this._item.type);
+					Texture2D texture2D = TextureAssets.Item[this._item.type].Value;
 					Rectangle rectangle;
 					if (Main.itemAnimations[this._item.type] != null)
 					{
@@ -86,7 +88,7 @@ namespace RecipeBrowser.TagHandlers
 					ItemSlot.Draw(spriteBatch, ref this._item, 14, position - new Vector2(10f) * scale * num, Color.White);
 					if (check)
 					{
-						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, "✓", position + new Vector2(14, 10), Utilities.yesColor, 0f, Vector2.Zero, new Vector2(0.7f));
+						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, "✓", position + new Vector2(14, 10), Utilities.yesColor, 0f, Vector2.Zero, new Vector2(0.7f));
 					}
 					Main.inventoryScale = inventoryScale;
 				}
@@ -152,7 +154,7 @@ namespace RecipeBrowser.TagHandlers
 						}
 						else if (int.TryParse(array[i].Substring(1), out value2))
 						{
-							item.Prefix((int)((byte)Utils.Clamp<int>(value2, 0, ModPrefix.PrefixCount)));
+							item.Prefix((int)((byte)Utils.Clamp<int>(value2, 0, PrefixLoader.PrefixCount)));
 						}
 					}
 				}

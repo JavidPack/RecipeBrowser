@@ -1,0 +1,46 @@
+Mods: {
+	RecipeBrowser: {
+		RecipeBrowserUI: {
+			Recipes: Ricette
+			Items: Oggetti
+			Bestiary: Bestiario
+			Close: Chiudi
+			All: Tutto
+			ModFilter: Filtra per Mod
+		}
+
+		Common: {
+			FilterByName: Filtra per Nome
+			FilterByTooltip: Filtra per Descrizione
+			InstallItemChecklistToUse: Installa Item Checklist per usarlo
+		}
+
+		RecipeCatalogueUI: {
+			Tile: Mattonella
+			AllRecipes: Tutte le Ricette
+			NearbyChests: Ceste Vicine
+			ClickToRefresh: Clicca per Ricaricare
+			ItemChecklistOnly: Solo per Item Checklist
+			OnlyNewItemsMadeFromSeenItems: Solo nuovi Oggetti fatti con Oggetti già Visti
+		}
+
+		ItemCatalogueUI: {
+			Crafted: Costruito
+			OnlyShowCraftedItems: Mostra solo oggetti costruiti
+			Loot: Bottino
+			ShowOnlyLootItems: Mostra solo oggetti da bottini
+			Unobtained: Non ottenuti
+			OnlyUnobtainedItems: Solo oggetti non ottenuti
+			BottomInstructions: 2x tasto sinistro: Vedi Ricette  ---  2x tasto destro: Vedi PNG che lo lasciano cadere
+		}
+
+		BestiaryUI: {
+			Encountered: Incontrato
+			ShowOnlyNPCKilledAlready: Mostra solo PNG già sconfitti
+			HasLoot: Ha bottino
+			ShowOnlyNPCWithLoot: Mostra solo PNG con bottino
+			NewLoot: Bottino nuovo
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostra solo PNG con bottino mai visto prima
+		}
+	}
+}

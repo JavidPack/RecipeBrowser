@@ -25,6 +25,8 @@ namespace RecipeBrowser
 		//public int iterations;
 		public long lastUpdateTime;
 
+		public bool calculationCancelled;
+
 		//public List<Tuple<string, Version>> cachedMods; // Dictionary better?
 		public Dictionary<string, Version> cachedMods;
 
@@ -76,7 +78,11 @@ namespace RecipeBrowser
 		internal int GetID()
 		{
 			if (id != 0) return id;
-			return ModLoader.GetMod(this.mod)?.GetNPC(this.name)?.npc.type ?? 0;
+
+			if (ModLoader.TryGetMod(this.mod, out Mod mod))
+				return mod.GetContent<ModNPC>().FirstOrDefault(npc => npc.Name == this.name)?.Type ?? 0;
+
+			return 0;
 		}
 	}
 
@@ -114,7 +120,7 @@ namespace RecipeBrowser
 			}
 			else
 			{
-				mod = NPCLoader.GetNPC(id).mod.Name;
+				mod = NPCLoader.GetNPC(id).Mod.Name;
 				name = NPCLoader.GetNPC(id).Name;
 			}
 		}
@@ -150,7 +156,10 @@ namespace RecipeBrowser
 				return 0;
 			}
 
-			return ModLoader.GetMod(this.mod)?.GetItem(this.name)?.item.type ?? 0;
+			if (ModLoader.TryGetMod(this.mod, out Mod mod))
+				return mod.GetContent<ModItem>().FirstOrDefault(item => item.Name == this.name)?.Type ?? 0;
+
+			return 0;
 		}
 	}
 	*/
@@ -197,7 +206,11 @@ namespace RecipeBrowser
 		internal int GetID()
 		{
 			if (id != 0) return id;
-			return ModLoader.GetMod(this.mod)?.GetItem(this.name)?.item.type ?? 0;
+
+			if (ModLoader.TryGetMod(this.mod, out Mod mod))
+				return mod.GetContent<ModItem>().FirstOrDefault(item => item.Name == this.name)?.Type ?? 0;
+
+			return 0;
 		}
 	}
 
@@ -287,7 +300,7 @@ namespace RecipeBrowser
 			string filename = "LootCache.json";
 			string folder = Path.Combine(Main.SavePath, "Mods", "Cache");
 			string path = Path.Combine(folder, filename);
-			LootCache li = new LootCache();
+			LootCache li = null;
 			bool needsRecalculate = true;
 			LootCacheManagerActive = true;
 			List<string> modsThatNeedRecalculate = new List<string>();
@@ -296,15 +309,23 @@ namespace RecipeBrowser
 				using (StreamReader r = new StreamReader(path))
 				{
 					json = r.ReadToEnd();
-					li = JsonConvert.DeserializeObject<LootCache>(json, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
-					needsRecalculate = false;
-					if (li == null) // Investigate why some people get LootCache.json with only 0s in it.
-						li = new LootCache();
+					try {
+						li = JsonConvert.DeserializeObject<LootCache>(json, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
+						needsRecalculate = false;
+					}
+					catch (Exception e) {
+						RecipeBrowser.instance.Logger.Error("Deserialize LootCache.json failed");
+					}
 				}
 			}
+			if (li == null) // Investigate why some people get LootCache.json with only 0s in it.
+				li = new LootCache();
+			LootCacheManagerActive = false;
+			LootCache.instance = li;
+			return; // TODO: investigate newtonsoft dictionary regression
 
 			// New Recipe Browser version, assume total reset needed (adjust this logic next update.)
-			if (li.recipeBrowserVersion != recipeBrowserMod.Version)
+			if (li.recipeBrowserVersion != recipeBrowserMod.Version || li.calculationCancelled)
 			{
 				li.lootInfos.Clear();
 				li.cachedMods.Clear();
@@ -356,7 +377,7 @@ namespace RecipeBrowser
 					catch {
 					}
 				}
-				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache");
+				setLoadProgressText?.Invoke("Recipe Browser: Rebuilding Loot Cache (Hold shift to skip if stuck)");
 				setLoadProgressProgress?.Invoke(0f);
 
 				// expert drops?
@@ -385,7 +406,7 @@ namespace RecipeBrowser
 						Main.tile[x, y] = new Tile();
 						Main.tile[x, y].type = 0;
 						if (y > Main.maxTilesY * 0.3f)
-							Main.tile[x, y].active(true);
+							Main.tile[x, y].IsActive = true;
 					}
 				}
 				Main.worldSurface = 200;
@@ -399,11 +420,13 @@ namespace RecipeBrowser
 				if (Main.rand == null)
 					Main.rand = new Terraria.Utilities.UnifiedRandom();
 
+				bool cancelled = false;
 				for (int i = 1; i < NPCLoader.NPCCount; i++) // for every npc...
 				{
+					
 					npc.SetDefaults(i);
 					npc.value = 0; // Causes some drops to be missed, why is this here?
-					string currentMod = npc.modNPC?.mod.Name ?? "Terraria";
+					string currentMod = npc.ModNPC?.Mod.Name ?? "Terraria";
 					if (!modsThatNeedRecalculate.Contains(currentMod))
 						continue;
 					if (lastMod != currentMod)
@@ -412,10 +435,10 @@ namespace RecipeBrowser
 						setLoadSubProgressText?.Invoke(lastMod);
 					}
 					setLoadProgressProgress?.Invoke((float)i / NPCLoader.NPCCount);
-					JSONNPC jsonNPC = new JSONNPC(npc.modNPC?.mod.Name ?? "Terraria", npc.modNPC?.Name ?? npc.TypeName, npc.modNPC != null ? 0 : i);
+					JSONNPC jsonNPC = new JSONNPC(npc.ModNPC?.Mod.Name ?? "Terraria", npc.ModNPC?.Name ?? npc.TypeName, npc.ModNPC != null ? 0 : i);
 
 					loots.Clear();
-					CalculateLoot(npc);  // ...calculate drops
+					cancelled = CalculateLoot(npc);  // ...calculate drops
 
 					foreach (var loot in loots)
 					{
@@ -425,12 +448,14 @@ namespace RecipeBrowser
 						item.SetDefaults(loot, true);
 
 						//JSONItem jsonitem = new JSONItem(item.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(loot), item.modItem != null ? 0 : loot);
-						JSONItem jsonitem = new JSONItem(item.modItem?.mod.Name ?? "Terraria", item.modItem?.Name ?? Lang.GetItemNameValue(loot), item.modItem != null ? 0 : loot);
+						JSONItem jsonitem = new JSONItem(item.ModItem?.Mod.Name ?? "Terraria", item.ModItem?.Name ?? Lang.GetItemNameValue(loot), item.ModItem != null ? 0 : loot);
 						List<JSONNPC> npcsthatdropme;
 						if (!li.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
 							li.lootInfos.Add(jsonitem, npcsthatdropme = new List<JSONNPC>());
 						npcsthatdropme.Add(jsonNPC);
 					}
+					if (cancelled)
+						break;
 				}
 				loots.Clear();
 				// Reset temp values
@@ -445,6 +470,7 @@ namespace RecipeBrowser
 				var elapsedMs = watch.ElapsedMilliseconds;
 				//li.iterations = MaxNumberLootExperiments;
 				li.lastUpdateTime = elapsedMs;
+				li.calculationCancelled = cancelled;
 				Directory.CreateDirectory(folder);
 				json = JsonConvert.SerializeObject(li, Formatting.Indented, new JsonSerializerSettings { Converters = { new Newtonsoft.Json.Converters.VersionConverter() } });
 				File.WriteAllText(path, json);
@@ -482,16 +508,14 @@ namespace RecipeBrowser
 			setLoadSubProgressText = (string s) => SubProgressTextProperty.SetValue(loadModsValue, s);
 		}
 
-		//Check if the field IsMono is in PlatformUtilities, as it's exclusive to tML FNA/64bit
-		private static bool IsTMLFNA => typeof(PlatformUtilities).GetField("IsMono", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly) != null;
-
 		private static int[] ignoreItemIDS = { ItemID.Heart, 1734, 1867, 184, 1735, 1868, ItemID.CopperCoin, ItemID.CopperCoin, ItemID.SilverCoin, ItemID.GoldCoin, ItemID.PlatinumCoin };
 
 		public const int MaxNumberLootExperiments = 5000;
 		internal static HashSet<int> loots;
 
-		internal static void CalculateLoot(NPC npc)
+		internal static bool CalculateLoot(NPC npc)
 		{
+			bool cancelled = false;
 			if (npc.type == NPCID.WallofFlesh) Main.hardMode = true;//return;
 																	// Hmmmmmm, start hardmode code might overwrite world....
 			npc.Center = new Microsoft.Xna.Framework.Vector2(1000, 1000);
@@ -499,9 +523,15 @@ namespace RecipeBrowser
 
 			var realRandom = Main.rand;
 			var fakeRandom = new LootUnifiedRandom();
+			fakeRandom.realRandom = realRandom;
 
 			for (int i = 0; i < MaxNumberLootExperiments; i++)
 			{
+				if (Main.keyState.PressingShift()) {
+					RecipeBrowser.instance.Logger.Error($"LootCache calculation cancelled. NPCID {npc.type}/{NPCLoader.NPCCount}, Source Mod: {npc.ModNPC?.Mod.Name ?? "Terraria"}, Name: {Lang.GetNPCNameValue(npc.type)}, Step: {i}/{MaxNumberLootExperiments}");
+					cancelled = true;
+					break;
+				}
 				if (i == 0)
 					Main.rand = fakeRandom;
 				if (i == 50)
@@ -547,12 +577,13 @@ namespace RecipeBrowser
 			}
 			//}
 			Main.hardMode = false;
+			return cancelled;
 		}
 	}
 
 	public class RecipeBrowserGlobalNPC : GlobalNPC
 	{
-		public override bool PreNPCLoot(NPC npc)
+		public override bool PreKill(NPC npc)
 		{
 			if (LootCacheManager.LootCacheManagerActive)
 				((List<int>)(NPCLoader.blockLoot)).AddRange(LootCacheManager.loots);

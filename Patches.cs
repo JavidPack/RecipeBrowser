@@ -14,9 +14,9 @@ namespace RecipeBrowser
 
 			// This patch Invalidates the precomputed extended craft unless the reason for FindRecipes was just AdjTiles, since we ignore AdjTiles changes.
 			if(!Main.dedServ)
-				On.Terraria.Recipe.FindRecipes += (orig) =>
+				On.Terraria.Recipe.FindRecipes += (orig, canDelayCheck) =>
 				{
-					orig();
+					orig(canDelayCheck);
 
 					if(!AdjTilesActive)
 					//if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name.StartsWith("AdjTiles")))

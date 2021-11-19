@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 
 namespace RecipeBrowser.UIElements
@@ -32,9 +33,9 @@ namespace RecipeBrowser.UIElements
 
 			var neededTiles = new HashSet<int>(path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().SelectMany(x => x.recipe.requiredTile));
 			neededTiles.Remove(-1);
-			var needWater = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.needWater);
-			var needHoney = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.needHoney);
-			var needLava = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.needLava);
+			var needWater = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Recipe.Condition.NearWater));
+			var needHoney = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Recipe.Condition.NearHoney));
+			var needLava = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Recipe.Condition.NearLava));
 
 			var missingTiles = neededTiles.Where(x => !Main.LocalPlayer.adjTile[x]);
 
@@ -47,7 +48,7 @@ namespace RecipeBrowser.UIElements
 
 			// Maybe have a summary tiles needed if Full Craft implemented
 
-			var drawTextSnippets = UIMessageBox.WordwrapStringSmart(sb.ToString(), Color.White, Main.fontMouseText, 300, -1);
+			var drawTextSnippets = UIMessageBox.WordwrapStringSmart(sb.ToString(), Color.White, FontAssets.MouseText.Value, 300, -1);
 			foreach (var textSnippet in drawTextSnippets)
 			{
 				string s = string.Concat(textSnippet.Select(x => x.TextOriginal));
@@ -78,21 +79,14 @@ namespace RecipeBrowser.UIElements
 			if (recipeNode != null)
 			{
 				sb.Append(ItemHoverFixTagHandler.GenerateTag(recipeNode.recipe.createItem.type, recipeNode.recipe.createItem.stack * recipeNode.multiplier));
-				sb.Append("<");
-				for (int i = 0; i < recipeNode.recipe.requiredItem.Length; i++)
+				sb.Append('<');
+				for (int i = 0; i < recipeNode.recipe.requiredItem.Count; i++)
 				{
 					Item item = recipeNode.recipe.requiredItem[i];
-					if (!item.IsAir)
-					{
-						bool check = false;
-						var child = recipeNode.children[i];
-						if (child is CraftPath.HaveItemNode)
-						{
-							check = true;
-						}
-						string nameOverride = RecipeCatalogueUI.OverrideForGroups(recipeNode.recipe, item.type);
-						sb.Append(ItemHoverFixTagHandler.GenerateTag(item.type, item.stack * recipeNode.multiplier, nameOverride, check));
-					}
+					bool check = recipeNode.children[i] is CraftPath.HaveItemNode;
+
+					string nameOverride = RecipeCatalogueUI.OverrideForGroups(recipeNode.recipe, item.type);
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(item.type, item.stack * recipeNode.multiplier, nameOverride, check));
 				}
 			}
 			else
@@ -132,9 +126,9 @@ namespace RecipeBrowser.UIElements
 				{
 					var neededTiles = new HashSet<int>(recipeNode.recipe.requiredTile);
 					neededTiles.Remove(-1);
-					var needWater = recipeNode.recipe.needWater;
-					var needHoney = recipeNode.recipe.needHoney;
-					var needLava = recipeNode.recipe.needLava;
+					var needWater = recipeNode.recipe.HasCondition(Recipe.Condition.NearWater);
+					var needHoney = recipeNode.recipe.HasCondition(Recipe.Condition.NearHoney);
+					var needLava = recipeNode.recipe.HasCondition(Recipe.Condition.NearLava);
 
 					UIRecipeInfoRightAligned simpleRecipeInfo = new UIRecipeInfoRightAligned(neededTiles.ToList(), needWater, needHoney, needLava);
 					simpleRecipeInfo.Top.Set(top, 0);

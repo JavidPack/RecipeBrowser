@@ -9,12 +9,12 @@ namespace RecipeBrowser
 	internal class RecipeBrowserGlobalItem : GlobalItem
 	{
 		// OnPickup only called on LocalPlayer: I think
-		public override void OnCraft(Item item, Recipe recipe)
+		public override void OnCreate(Item item, ItemCreationContext context)
 		{
 			ItemReceived(item);
 		}
 
-		// OnPIckup only called on LocalPlayer: i == Main.myPlayer
+		// OnPickup only called on LocalPlayer: i == Main.myPlayer
 		public override bool OnPickup(Item item, Player player)
 		{
 			ItemReceived(item);
@@ -90,9 +90,9 @@ namespace RecipeBrowser
 				else if (copper > 0) {
 					color = new Color((byte)(246f * mouseFade), (byte)(138f * mouseFade), (byte)(96f * mouseFade), Main.mouseTextColor);
 				}
-				var valueTooltip = new TooltipLine(mod, "RecipeBrowserValue", Lang.tip[49].Value + " " + text);
+				var valueTooltip = new TooltipLine(Mod, "RecipeBrowserValue", Lang.tip[49].Value + " " + text);
 				if (storeValue == 0) {
-					valueTooltip = new TooltipLine(mod, "RecipeBrowserValue", Lang.tip[51].Value);
+					valueTooltip = new TooltipLine(Mod, "RecipeBrowserValue", Lang.tip[51].Value);
 					color = new Color((byte)(120f * mouseFade), (byte)(120f * mouseFade), (byte)(120f * mouseFade), Main.mouseTextColor);
 				}
 				valueTooltip.overrideColor = color;
@@ -104,10 +104,10 @@ namespace RecipeBrowser
 			// TODO: Config option to show always
 			if (RecipeCatalogueUI.instance.hoveredIndex < 0) return;
 
-			var selectedModRecipe = Main.recipe[RecipeCatalogueUI.instance.hoveredIndex] as ModRecipe;
-			if (selectedModRecipe != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.IsTheSameAs(selectedModRecipe.createItem))
+			var selectedModRecipe = Main.recipe[RecipeCatalogueUI.instance.hoveredIndex];
+			if (selectedModRecipe.Mod != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.IsTheSameAs(selectedModRecipe.createItem))
 			{
-				var line = new TooltipLine(mod, "RecipeBrowser:RecipeOriginHint", "Recipe added by " + selectedModRecipe.mod.DisplayName)
+				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", "Recipe added by " + selectedModRecipe.Mod.DisplayName)
 				{
 					overrideColor = Color.Goldenrod
 				};

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
@@ -213,7 +214,7 @@ namespace RecipeBrowser
 			tileChooserPanel.Height.Set(-50 - 120, 1f);
 			tileChooserPanel.BackgroundColor = Color.CornflowerBlue;
 
-			uniqueCheckbox = new UICycleImage(RecipeBrowser.instance.GetTexture("Images/uniqueTile") /* Thanks MiningdiamondsVIII */, 2, new string[] { "Show inherited recipes", "Show unique recipes" }, 36, 20);
+			uniqueCheckbox = new UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("Images/uniqueTile") /* Thanks MiningdiamondsVIII */, 2, new string[] { "Show inherited recipes", "Show unique recipes" }, 36, 20);
 			uniqueCheckbox.Top.Set(0, 0f);
 			uniqueCheckbox.Left.Set(1, 0f);
 			uniqueCheckbox.CurrentState = 1;
@@ -342,7 +343,7 @@ namespace RecipeBrowser
 		internal void Update()
 		{
 			hoveredIndex = -1;
-			UIItemSlot.hoveredItem = null;
+			UIElements.UIItemSlot.hoveredItem = null;
 			/*if (PlayerInput.Triggers.Current.Hotbar1 && !Main.LocalPlayer.inventory[0].IsAir)
 				RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.LocalPlayer.inventory[0].type);
 			if (PlayerInput.Triggers.Current.Hotbar2 && !Main.LocalPlayer.inventory[1].IsAir)
@@ -376,12 +377,10 @@ namespace RecipeBrowser
 				int currentCount;
 				for (int i = 0; i < Recipe.numRecipes; i++)
 				{
-					for (int j = 0; j < 15; j++)
+					foreach (int type in Main.recipe[i].requiredTile)
 					{
-						if (Main.recipe[i].requiredTile[j] == -1)
-							break;
-						tileUsageCounts.TryGetValue(Main.recipe[i].requiredTile[j], out currentCount);
-						tileUsageCounts[Main.recipe[i].requiredTile[j]] = currentCount + 1;
+						tileUsageCounts.TryGetValue(type, out currentCount);
+						tileUsageCounts[type] = currentCount + 1;
 					}
 				}
 				// sort
@@ -429,9 +428,9 @@ namespace RecipeBrowser
 			if (queryLootItem != null)
 			{
 				//var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
-				var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria",
-					queryLootItem.modItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type),
-					queryLootItem.modItem != null ? 0 : queryLootItem.type);
+				var jsonitem = new JSONItem(queryLootItem.ModItem?.Mod.Name ?? "Terraria",
+					queryLootItem.ModItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type),
+					queryLootItem.ModItem != null ? 0 : queryLootItem.type);
 				List<JSONNPC> npcsthatdropme;
 				if (LootCache.instance.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
 				{
@@ -510,11 +509,11 @@ namespace RecipeBrowser
 			// TODO: Option to filter by source of Recipe rather than by createItem maybe?
 			if (RecipeBrowserUI.modIndex != 0)
 			{
-				if (recipe.createItem.modItem == null)
+				if (recipe.createItem.ModItem == null)
 				{
 					return false;
 				}
-				if (recipe.createItem.modItem.mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (recipe.createItem.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
 				{
 					return false;
 				}
@@ -533,14 +532,11 @@ namespace RecipeBrowser
 			{
 				if (RecipeBrowserUI.instance.foundItems != null)
 				{
-					for (int i = 0; i < Recipe.maxRequirements; i++)
+					foreach (Item item in recipe.requiredItem)
 					{
-						if (recipe.requiredItem[i].type > 0)
+						if (!RecipeBrowserUI.instance.foundItems[item.type])
 						{
-							if (!RecipeBrowserUI.instance.foundItems[recipe.requiredItem[i].type])
-							{
-								return false;
-							}
+							return false;
 						}
 					}
 					// filter out recipes that make things I've already obtained
@@ -565,7 +561,7 @@ namespace RecipeBrowser
 					Terraria.ModLoader.ModTile modTile = Terraria.ModLoader.TileLoader.GetTile(Tile);
 					if (modTile != null)
 					{
-						adjTiles.AddRange(modTile.adjTiles);
+						adjTiles.AddRange(modTile.AdjTiles);
 					}
 					if (Tile == 302)
 						adjTiles.Add(17);
@@ -599,8 +595,7 @@ namespace RecipeBrowser
 			{
 				int type = queryItem.item.type;
 				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any();
-
-				inGroup |= recipe.useWood(type, type) || recipe.useSand(type, type) || recipe.useFragment(type, type) || recipe.useIronBar(type, type) || recipe.usePressurePlate(type, type);
+				
 				if (!inGroup)
 				{
 					if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
@@ -695,7 +690,7 @@ namespace RecipeBrowser
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
-				if (chest != null && !Chest.isLocked(chest.x, chest.y))
+				if (chest != null && !Chest.IsLocked(chest.x, chest.y))
 				{
 					Vector2 chestPosition = new Vector2((float)(chest.x * 16 + 16), (float)(chest.y * 16 + 16));
 					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange)
@@ -760,22 +755,20 @@ namespace RecipeBrowser
 
 			List<UIIngredientSlot> ingredients = new List<UIIngredientSlot>();
 			Recipe recipe = Main.recipe[index];
-			for (int i = 0; i < Recipe.maxRequirements; i++)
+			for (int i = 0; i < recipe.requiredItem.Count; i++)
 			{
-				if (recipe.requiredItem[i].type > 0)
-				{
-					UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone(), i);
-					//ingredient.Left.Pixels = 200 + (i % 5 * 40);
-					//ingredient.Top.Pixels = (i / 5 * 40);
+				UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone(), i);
+				//ingredient.Left.Pixels = 200 + (i % 5 * 40);
+				//ingredient.Top.Pixels = (i / 5 * 40);
 
-					ingredients.Add(ingredient);
+				ingredients.Add(ingredient);
 
-					OverrideForGroups(recipe, ingredient.item);
-					// TODO, stack?
+				OverrideForGroups(recipe, ingredient.item);
+				// TODO, stack?
 
-					//recipeInfo.Append(ingredient);
-				}
+				//recipeInfo.Append(ingredient);
 			}
+
 			recipeInfo.craftingTilesGrid.AddRange(ingredients); // order...
 			CraftUI.instance.SetRecipe(index);
 
@@ -795,31 +788,11 @@ namespace RecipeBrowser
 
 		public static void OverrideForGroups(Recipe recipe, Item item)
 		{
-			string nameOverride;
-			if (recipe.ProcessGroupsForText(item.type, out nameOverride))
+			if (recipe.ProcessGroupsForText(item.type, out string nameOverride))
 			{
 				//Main.toolTip.name = name;
 			}
-			if (recipe.anyIronBar && item.type == 22)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(22);
-			}
-			else if (recipe.anyWood && item.type == 9)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(9);
-			}
-			else if (recipe.anySand && item.type == 169)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(169);
-			}
-			else if (recipe.anyFragment && item.type == 3458)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.51");
-			}
-			else if (recipe.anyPressurePlate && item.type == 542)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.38");
-			}
+
 			if (nameOverride != "")
 			{
 				item.SetNameOverride(nameOverride);
@@ -828,31 +801,11 @@ namespace RecipeBrowser
 
 		public static string OverrideForGroups(Recipe recipe, int item)
 		{
-			string nameOverride;
-			if (recipe.ProcessGroupsForText(item, out nameOverride))
+			if (recipe.ProcessGroupsForText(item, out string nameOverride))
 			{
 				//Main.toolTip.name = name;
 			}
-			if (recipe.anyIronBar && item == 22)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(22);
-			}
-			else if (recipe.anyWood && item == 9)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(9);
-			}
-			else if (recipe.anySand && item == 169)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Lang.GetItemNameValue(169);
-			}
-			else if (recipe.anyFragment && item == 3458)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.51");
-			}
-			else if (recipe.anyPressurePlate && item == 542)
-			{
-				nameOverride = Language.GetTextValue("LegacyMisc.37") + " " + Language.GetTextValue("LegacyMisc.38");
-			}
+
 			return nameOverride;
 		}
 
@@ -870,7 +823,7 @@ namespace RecipeBrowser
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
 			{
 				Chest chest = Main.chest[chestIndex];
-				if (chest != null && !Chest.isLocked(chest.x, chest.y))
+				if (chest != null && !Chest.IsLocked(chest.x, chest.y))
 				{
 					Vector2 chestPosition = new Vector2((float)(chest.x * 16 + 16), (float)(chest.y * 16 + 16));
 					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange)

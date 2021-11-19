@@ -1,0 +1,46 @@
+Mods: {
+	RecipeBrowser: {
+		RecipeBrowserUI: {
+			Recipes: Artisanat
+			Items: Objets
+			Bestiary: Bestiaire
+			Close: Fermer
+			All: Voir Tout
+			ModFilter: Filtre par Modules
+		}
+
+		Common: {
+			FilterByName: Filtrer par Nom
+			FilterByTooltip: Filtrer par Description
+			InstallItemChecklistToUse: Installer Item Checklist pour Utiliser
+		}
+
+		RecipeCatalogueUI: {
+			Tile: Bloc
+			AllRecipes: Toutes les Recettes
+			NearbyChests: Coffres à Proximité
+			ClickToRefresh: Cliquer pour Rafraîchir
+			ItemChecklistOnly: Item Checklist Uniquement
+			OnlyNewItemsMadeFromSeenItems: Voir Uniquement les Nouveaux Objets Provenant d'Objets Déjà Vus
+		}
+
+		ItemCatalogueUI: {
+			Crafted: Assemblé
+			OnlyShowCraftedItems: Voir Uniquement les Objets Déjà Assemblés
+			Loot: Butin
+			ShowOnlyLootItems: Voir Uniquement les Butins
+			Unobtained: Non Obtenu
+			OnlyUnobtainedItems: Voir Uniquement les Objets Non Obtenus
+			BottomInstructions: 2x LMB: Voir les Recettes  ---  2x RMB: Voir les Ennemis à Butin
+		}
+
+		BestiaryUI: {
+			Encountered: Rencontré
+			ShowOnlyNPCKilledAlready: Voir Uniquement les Ennemis Déjà Vaincus
+			HasLoot: Possède du Butin
+			ShowOnlyNPCWithLoot: Voir Uniquement les Ennemis à Butin
+			NewLoot: Nouveau Butin
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Voir Uniquement les Ennemis avec du Butin Jamais Obtenu
+		}
+	}
+}

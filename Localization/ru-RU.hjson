@@ -1,0 +1,46 @@
+Mods: {
+	RecipeBrowser: {
+		RecipeBrowserUI: {
+			Recipes: Рецепты
+			Items: Предметы
+			Bestiary: Мобы
+			Close: Закрыть
+			All: Все
+			ModFilter: Фильтр модов
+		}
+
+		Common: {
+			FilterByName: Название
+			FilterByTooltip: Описание
+			InstallItemChecklistToUse: Установите мод Item Checklist для использования
+		}
+
+		RecipeCatalogueUI: {
+			Tile: Тайл
+			AllRecipes: Все рецепты
+			NearbyChests: Ближайшие сундуки
+			ClickToRefresh: Нажмите чтобы обновить
+			ItemChecklistOnly: Только Item Checklist
+			OnlyNewItemsMadeFromSeenItems: Только новые предметы из полученных предметов
+		}
+
+		ItemCatalogueUI: {
+			Crafted: Создано
+			OnlyShowCraftedItems: Показывать только созданные предметы
+			Loot: Лут
+			ShowOnlyLootItems: Показывать только лут
+			Unobtained: Неполученное
+			OnlyUnobtainedItems: Только неполученные предметы
+			BottomInstructions: 2x ЛКМ: Рецепт; 2x ПКМ: С кого выпадает
+		}
+
+		BestiaryUI: {
+			Encountered: Встречено
+			ShowOnlyNPCKilledAlready: Показывать только убитых мобов
+			HasLoot: Лут
+			ShowOnlyNPCWithLoot: Показывать только мобов с лутом
+			NewLoot: Новый лут
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Показывать только мобов, с которых ни разу не получен лут
+		}
+	}
+}

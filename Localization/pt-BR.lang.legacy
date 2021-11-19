@@ -1,0 +1,55 @@
+# Translations partially by Aleck ?#4397 and partially by ??Bluezinho??#1242, completed by Pixelnando#7284
+RecipeBrowserUI.Recipes=Receitas
+RecipeBrowserUI.Craft=Criação
+RecipeBrowserUI.Items=Items
+RecipeBrowserUI.Bestiary=Bestiário
+RecipeBrowserUI.Close=Fechar
+RecipeBrowserUI.All=Todos
+RecipeBrowserUI.ModFilter=Filtro de Mods
+
+Common.FilterByName=Filtrar por Nome
+Common.FilterByTooltip=Filtrar por descrição
+Common.InstallItemChecklistToUse=Instale Item Checklist para usar
+
+RecipeCatalogueUI.Tile=Título
+RecipeCatalogueUI.AllRecipes=Todas as receitas
+RecipeCatalogueUI.NearbyChests=Baús Próximos
+RecipeCatalogueUI.ClickToRefresh=Clique para Atualizar
+RecipeCatalogueUI.ItemChecklistOnly=Somente pela Item Checklist
+RecipeCatalogueUI.OnlyNewItemsMadeFromSeenItems=Somente Itens novos feitos com Itens Vistos
+RecipeCatalogueUI.EmptyQuerySlotHint=Coloque o item aqui
+
+CraftUI.EmptyQuerySlotHint=Coloque o item aqui
+CraftUI.Calc=Calc
+CraftUI.CalcTooltip=Ativa o Cálculo Preventivo de Criação Estendido em Receitas\nPode causar lag
+CraftUI.Loot=Espólio
+CraftUI.LootTooltip=Permitir Farming no Caminho de Criação (Funciona apenas para Inimigos com Bandeiras)
+CraftUI.Shop=Loja
+CraftUI.ShopTooltip=Permitir itens Compráveis no Caminho de Criação (Em Breve)
+CraftUI.MissingStations=Estações Ausentes
+CraftUI.MissingStationsTooltip=Permitir Estações de Criação Nunca Encontradas (Redefinido quando você entra em um mundo)
+CraftUI.Inventory=Inventário
+CraftUI.Banks=Bancos
+CraftUI.BanksTooltip=Incluir Itens do Porquinho, Cofre, e Forja do Defensor pessoais (Em Breve)
+CraftUI.Chests=Baús
+CraftUI.ChestsTooltip=Incluir Itens de Baús Próximos (Em Breve)
+CraftUI.MagicStorage=Magic Storage
+CraftUI.MagicStorageTooltip=Incluir Itens e Estações de Criação de Magic Storages Próximos (Em Breve)
+CraftUI.BottomInstructions=Botão direito do mouse nas Receitas para visitar essa aba rapidamente
+CraftUI.NoPathsFound=Nenhum Caminho Encontrado para essa Receita/Item
+
+ItemCatalogueUI.Crafted=Criado
+ItemCatalogueUI.OnlyShowCraftedItems=Mostrar apenas itens criados
+ItemCatalogueUI.Loot=Espólio
+ItemCatalogueUI.ShowOnlyLootItems=Mostrar apenas itens tipo espólio
+ItemCatalogueUI.Unobtained=Não obtido
+ItemCatalogueUI.OnlyUnobtainedItems=Somente itens não obtidos
+ItemCatalogueUI.BottomInstructions=2x Botão direito do mouse: Ver Receitas  ---  2x Botão direito do mouse: Ver NPCs que soltam
+
+BestiaryUI.Encountered=Encontrado
+BestiaryUI.ShowOnlyNPCKilledAlready=Mostrar apenas NPCs já mortos
+BestiaryUI.HasLoot=Tem Espólios
+BestiaryUI.ShowOnlyNPCWithLoot=Mostrar apenas NPCs com Espólios
+BestiaryUI.NewLoot=Espólios Novos
+BestiaryUI.ShowOnlyNPCWithNeverBeforeSeenLoot=Mostrar apenas NPCs com Espólios nunca vistos antes
+BestiaryUI.EmptyQuerySlotHint=Coloque o item aqui

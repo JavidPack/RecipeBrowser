@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -102,10 +103,7 @@ namespace RecipeBrowser
 		// Technically since RecipeBrowserUI ctor happens in Mod.Load, we could miss mods that add during Load that happen after me.
 		public void PostSetupContent()
 		{
-			var type = Assembly.GetAssembly(typeof(Mod)).GetType("Terraria.ModLoader.Mod");
-			FieldInfo loadModsField = type.GetField("items", BindingFlags.Instance | BindingFlags.NonPublic);
-
-			mods = ModLoader.Mods.Where(mod => ((Dictionary<string, ModItem>)loadModsField.GetValue(mod)).Count > 0).Select(mod => mod.Name).ToArray();
+			mods = ModLoader.Mods.Where(mod => mod.GetContent<ModItem>().Any()).Select(mod => mod.Name).ToArray();
 			modIndex = 0;
 		}
 
@@ -256,7 +254,8 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			var modFilterButton = new UIHoverImageButtonMod(RecipeBrowser.instance.GetTexture("Images/filterMod"), RBText("ModFilter") + ": " + RBText("All"));
+			Asset<Texture2D> filterModTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("Images/filterMod", AssetRequestMode.ImmediateLoad);
+			var modFilterButton = new UIHoverImageButtonMod(filterModTexture, RBText("ModFilter") + ": " + RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnClick += ModFilterButton_OnClick;
@@ -264,8 +263,8 @@ namespace RecipeBrowser
 			modFilterButton.OnMiddleClick += ModFilterButton_OnMiddleClick;
 			button.Append(modFilterButton);
 
-			Texture2D texture = RecipeBrowser.instance.GetTexture("UIElements/closeButton");
-			closeButton = new UIHoverImageButton(texture, RBText("Close"));
+			Asset<Texture2D> closeButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton");
+			closeButton = new UIHoverImageButton(closeButtonTexture, RBText("Close"));
 			closeButton.OnClick += CloseButtonClicked;
 			closeButton.Left.Set(-26, 1f);
 			closeButton.VAlign = 0.5f;

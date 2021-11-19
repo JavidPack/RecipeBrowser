@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 
@@ -8,7 +9,7 @@ namespace RecipeBrowser
 	{
 		internal string hoverText;
 
-		public UIHoverImageButton(Texture2D texture, string hoverText) : base(texture)
+		public UIHoverImageButton(Asset<Texture2D> texture, string hoverText) : base(texture)
 		{
 			this.hoverText = hoverText;
 		}

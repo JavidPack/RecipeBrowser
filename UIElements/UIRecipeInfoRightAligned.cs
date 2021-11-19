@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Text;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.Localization;
 using Terraria.UI;
 using Terraria.UI.Chat;
@@ -65,8 +66,8 @@ namespace RecipeBrowser
 				comma = true;
 			}
 			string message = sbTiles.ToString();
-			float stringWidth = ChatManager.GetStringSize(Main.fontMouseText, message, Vector2.One).X;
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, message, new Vector2(positionX - stringWidth, positionY), Color.White, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
+			float stringWidth = ChatManager.GetStringSize(FontAssets.MouseText.Value, message, Vector2.One).X;
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, message, new Vector2(positionX - stringWidth, positionY), Color.White, 0f, Vector2.Zero, Vector2.One, -1f, 2f);
 			stringWidth += 2;
 			int drawNumber = 0;
 			for (int i = 0; i < tiles.Count; i++)
@@ -97,7 +98,7 @@ namespace RecipeBrowser
 
 						//spriteBatch.Draw(Main.magicPixel, new Rectangle((int)(positionX - stringWidth - tiles.Count * 24 + i * 24), (int)positionY, 22, 22), Color.Red * 0.6f);
 						spriteBatch.Draw(texture, new Vector2(positionX - stringWidth - drawNumber * 24 + 11, positionY + 11), null, Color.White, 0f, texture.Size() * 0.5f, drawScale, SpriteEffects.None, 0f);
-						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontItemStack, Main.LocalPlayer.adjTile[tile] ? "✓" : RecipeBrowserPlayer.seenTiles[tile] ? "X" : "?", new Vector2(positionX - stringWidth - drawNumber * 24, positionY) + new Vector2(14f, 10f), Main.LocalPlayer.adjTile[tile] ? Utilities.yesColor : RecipeBrowserPlayer.seenTiles[tile] ? Utilities.maybeColor : Utilities.noColor, 0f, Vector2.Zero, new Vector2(0.7f));
+						ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, Main.LocalPlayer.adjTile[tile] ? "✓" : RecipeBrowserPlayer.seenTiles[tile] ? "X" : "?", new Vector2(positionX - stringWidth - drawNumber * 24, positionY) + new Vector2(14f, 10f), Main.LocalPlayer.adjTile[tile] ? Utilities.yesColor : RecipeBrowserPlayer.seenTiles[tile] ? Utilities.maybeColor : Utilities.noColor, 0f, Vector2.Zero, new Vector2(0.7f));
 
 						Rectangle rectangle = new Rectangle((int)(positionX - stringWidth - drawNumber * 24), (int)(positionY), 22, 22);
 						if (rectangle.Contains(Main.MouseScreen.ToPoint()))

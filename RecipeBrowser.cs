@@ -36,8 +36,8 @@ namespace RecipeBrowser
 		internal static RecipeBrowser instance;
 		internal static Dictionary<string, ModTranslation> translations; // reference to private field.
 		internal static Mod itemChecklistInstance;
-		internal ModHotKey ToggleRecipeBrowserHotKey;
-		internal ModHotKey QueryHoveredItemHotKey;
+		internal ModKeybind ToggleRecipeBrowserHotKey;
+		internal ModKeybind QueryHoveredItemHotKey;
 
 		//internal bool CheatSheetLoaded = false;
 		internal RecipeBrowserTool recipeBrowserTool;
@@ -53,7 +53,7 @@ namespace RecipeBrowser
 		public override void Load()
 		{
 			// Latest uses UIProgress refactors.
-			if (ModLoader.version < new Version(0, 11, 5))
+			if (BuildInfo.tMLVersion < new Version(0, 11, 5))
 			{
 				throw new Exception("\nThis mod uses functionality only present in the latest tModLoader. Please update tModLoader to use this mod\n\n");
 			}
@@ -67,11 +67,10 @@ namespace RecipeBrowser
 			ChatManager.Register<TagHandlers.ItemHoverFixTagHandler>("itemhover");
 			//ChatManager.Register<TagHandlers.URLTagHandler>("u", "url");
 
-			FieldInfo translationsField = typeof(Mod).GetField("translations", BindingFlags.Instance | BindingFlags.NonPublic);
+			FieldInfo translationsField = typeof(LocalizationLoader).GetField("translations", BindingFlags.Static | BindingFlags.NonPublic);
 			translations = (Dictionary<string, ModTranslation>)translationsField.GetValue(this);
-
-			itemChecklistInstance = ModLoader.GetMod("ItemChecklist");
-			if (itemChecklistInstance != null && itemChecklistInstance.Version < new Version(0, 2, 1))
+			
+			if (ModLoader.TryGetMod("ItemChecklist", out itemChecklistInstance) && itemChecklistInstance.Version < new Version(0, 2, 1))
 				itemChecklistInstance = null;
 
 			/*
@@ -79,8 +78,8 @@ namespace RecipeBrowser
 			if (cheatSheet == null)
 			{
 			*/
-			ToggleRecipeBrowserHotKey = RegisterHotKey("Toggle Recipe Browser", "OemCloseBrackets");
-			QueryHoveredItemHotKey = RegisterHotKey("Query Hovered Item", "Mouse3");
+			ToggleRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Recipe Browser", "OemCloseBrackets");
+			QueryHoveredItemHotKey = KeybindLoader.RegisterKeybind(this, "Query Hovered Item", "Mouse3");
 			/*
 				CheatSheetLoaded = false;
 			}
@@ -90,18 +89,17 @@ namespace RecipeBrowser
 				CheatSheetLoaded = true;
 			}
 			*/
-			if (!Main.dedServ /*&& !CheatSheetLoaded*/)
-			{
+			if (!Main.dedServ /*&& !CheatSheetLoaded*/) {
 				recipeBrowserTool = new RecipeBrowserTool();
-				UIElements.UIRecipeSlot.favoritedBackgroundTexture = GetTexture("Images/FavoritedOverlay");
-				UIElements.UIRecipeSlot.selectedBackgroundTexture = GetTexture("Images/SelectedOverlay");
-				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
-				UIElements.UIRecipeSlot.ableToCraftExtendedBackgroundTexture = GetTexture("Images/CanCraftExtendedBackground");
-				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = GetTexture("Images/CanCraftBackground");
-				UIElements.UICheckbox.checkboxTexture = GetTexture("UIElements/checkBox");
-				UIElements.UICheckbox.checkmarkTexture = GetTexture("UIElements/checkMark");
-				UIHorizontalGrid.moreLeftTexture = GetTexture("UIElements/MoreLeft");
-				UIHorizontalGrid.moreRightTexture = GetTexture("UIElements/MoreRight");
+				UIElements.UIRecipeSlot.favoritedBackgroundTexture = Assets.Request<Texture2D>("Images/FavoritedOverlay");
+				UIElements.UIRecipeSlot.selectedBackgroundTexture = Assets.Request<Texture2D>("Images/SelectedOverlay");
+				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftBackground");
+				UIElements.UIRecipeSlot.ableToCraftExtendedBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftExtendedBackground");
+				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftBackground");
+				UIElements.UICheckbox.checkboxTexture = Assets.Request<Texture2D>("UIElements/checkBox");
+				UIElements.UICheckbox.checkmarkTexture = Assets.Request<Texture2D>("UIElements/checkMark");
+				UIHorizontalGrid.moreLeftTexture = Assets.Request<Texture2D>("UIElements/MoreLeft");
+				UIHorizontalGrid.moreRightTexture = Assets.Request<Texture2D>("UIElements/MoreRight");
 				Utilities.tileTextures = new Dictionary<int, Texture2D>();
 
 				concurrentTaskHandlerToken = new CancellationTokenSource();
@@ -118,8 +116,7 @@ namespace RecipeBrowser
 			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
 		}
 
-		public override void PreSaveAndQuit()
-		{
+		public void PreSaveAndQuit() {
 			RecipeBrowserUI.instance.CloseButtonClicked(null, null);
 			RecipeBrowserUI.instance.ShowRecipeBrowser = false;
 		}
@@ -189,7 +186,7 @@ namespace RecipeBrowser
 						task.Start(); //throws if you provide it with a 'hot' task
 						runningTasks.Add(task);
 					}
-					else { 
+					else {
 						// free up the thread for a bit before looking for new tasks in the queue
 						await Task.Delay(100, concurrentTaskHandlerToken.Token);
 					}
@@ -199,9 +196,8 @@ namespace RecipeBrowser
 			catch (OperationCanceledException oce) when (oce.CancellationToken == concurrentTaskHandlerToken.Token) {
 				//somehow ensure all tasks finish?
 				await Task.WhenAll(runningTasks);
-			} 
+			}
 		}
-
 		public override void PostSetupContent()
 		{
 			if (!Main.dedServ)
@@ -231,29 +227,24 @@ namespace RecipeBrowser
 			RecipeBrowserUI.instance.NewItemFound(type);
 		}
 
-		public override void UpdateUI(GameTime gameTime)
-		{
+		public void UpdateUI(GameTime gameTime) {
 			// By doing these triggers here, we can use them even if autopaused.
 			if (Main.netMode == NetmodeID.SinglePlayer && (Main.playerInventory || Main.npcChatText != "" || Main.player[Main.myPlayer].sign >= 0 || Main.ingameOptionsWindow || Main.inFancyUI) && Main.autoPause)
 				Main.LocalPlayer.GetModPlayer<RecipeBrowserPlayer>().ProcessTriggers(null);
 			recipeBrowserTool?.UIUpdate(gameTime);
 		}
 
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-		{
+		public void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
 			//if (CheatSheetLoaded) return;
 
 			int inventoryLayerIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-			if (inventoryLayerIndex != -1)
-			{
+			if (inventoryLayerIndex != -1) {
 				layers.Insert(inventoryLayerIndex, new LegacyGameInterfaceLayer(
 					"RecipeBrowser: UI",
-					delegate
-					{
+					delegate {
 						//if (!CheatSheetLoaded)
 						{
-							if (lastSeenScreenWidth != Main.screenWidth || lastSeenScreenHeight != Main.screenHeight)
-							{
+							if (lastSeenScreenWidth != Main.screenWidth || lastSeenScreenHeight != Main.screenHeight) {
 								recipeBrowserTool.ScreenResolutionChanged();
 								lastSeenScreenWidth = Main.screenWidth;
 								lastSeenScreenHeight = Main.screenHeight;
@@ -331,12 +322,11 @@ namespace RecipeBrowser
 		public override object Call(params object[] args)
 		{
 			/*
-			Mod RecipeBrowser = ModLoader.GetMod("RecipeBrowser");
-			if (RecipeBrowser != null)
+			if (ModLoader.TryGetMod("RecipeBrowser", out Mod recipeBrowser))
 			{
-				RecipeBrowser.Call("AddItemCategory", "Example", "Weapons", GetTexture("Items/ExampleItem"), (Predicate<Item>)((Item item) => item.type == ItemType("Mundane")));
+				recipeBrowser.Call("AddItemCategory", "Example", "Weapons", GetTexture("Items/ExampleItem"), (Predicate<Item>)((Item item) => item.type == ItemType("Mundane")));
 			}
-			 */
+			*/
 			try
 			{
 				string message = args[0] as string;

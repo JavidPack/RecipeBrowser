@@ -96,6 +96,12 @@ namespace RecipeBrowser
 			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			mainPanel.Append(queryItem);
 
+			var warning = new UIText("Bestiary unimplemented at this time.");
+			warning.TextColor = Color.Red;
+			warning.Left.Set(50, 0f);
+			warning.Top.Set(10, 0f);
+			mainPanel.Append(warning);
+
 			npcNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			npcNameFilter.OnTextChanged += () => { ValidateNPCFilter(); updateNeeded = true; };
 			npcNameFilter.Top.Set(0, 0f);
@@ -275,11 +281,11 @@ namespace RecipeBrowser
 
 			if (RecipeBrowserUI.modIndex != 0)
 			{
-				if (slot.npc.modNPC == null)
+				if (slot.npc.ModNPC == null)
 				{
 					return false;
 				}
-				if (slot.npc.modNPC.mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.npc.ModNPC.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
 				{
 					return false;
 				}
