@@ -263,7 +263,7 @@ namespace RecipeBrowser
 			modFilterButton.OnMiddleClick += ModFilterButton_OnMiddleClick;
 			button.Append(modFilterButton);
 
-			Asset<Texture2D> closeButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton");
+			Asset<Texture2D> closeButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton", AssetRequestMode.ImmediateLoad);
 			closeButton = new UIHoverImageButton(closeButtonTexture, RBText("Close"));
 			closeButton.OnClick += CloseButtonClicked;
 			closeButton.Left.Set(-26, 1f);

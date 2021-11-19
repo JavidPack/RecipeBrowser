@@ -13,7 +13,7 @@ namespace RecipeBrowser
 {
 	internal class NewUITextBox : UIPanel//UITextPanel<string>
 	{
-		private static readonly Asset<Texture2D> CloseButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton");
+		private static readonly Asset<Texture2D> CloseButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton", AssetRequestMode.ImmediateLoad);
 		internal bool focused = false;
 
 		//private int _cursor;
