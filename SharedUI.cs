@@ -332,7 +332,7 @@ namespace RecipeBrowser
 			var testItem = new Item();
 			for (int i = 0; i < ItemLoader.ItemCount; i++) {
 				testItem.SetDefaults(i);
-				if (testItem.useAmmo >= ItemLoader.ItemCount || testItem.ammo >= ItemLoader.ItemCount || testItem.useAmmo < 1 || testItem.ammo < 1)
+				if (testItem.useAmmo >= ItemLoader.ItemCount || testItem.ammo >= ItemLoader.ItemCount || testItem.useAmmo < 0 || testItem.ammo < 0)
 					continue; // Some mods misuse useAmmo
 				if (testItem.useAmmo > 0) {
 					useAmmoTypes.TryGetValue(testItem.useAmmo, out var currentCount);
@@ -345,6 +345,11 @@ namespace RecipeBrowser
 			}
 			var sortedUseAmmoTypes = from pair in useAmmoTypes orderby pair.Value descending select pair.Key;
 			var sortedAmmoTypes = from pair in ammoTypes orderby pair.Value descending select pair.Key;
+
+			foreach (int type in sortedUseAmmoTypes)
+				Main.instance.LoadItem(type);
+			foreach (int type in sortedAmmoTypes)
+				Main.instance.LoadItem(type);
 
 			var ammoFilters = sortedAmmoTypes.Select(ammoType => new Filter(Lang.GetItemNameValue(ammoType), x => x.ammo == ammoType, ResizeImage(TextureAssets.Item[ammoType], 24, 24))).ToList();
 			var useAmmoFilters = sortedUseAmmoTypes.Select(ammoType => new Filter(Lang.GetItemNameValue(ammoType), x => x.useAmmo == ammoType, ResizeImage(TextureAssets.Item[ammoType], 24, 24))).ToList();
