@@ -387,6 +387,8 @@ namespace RecipeBrowser
 				}
 				//Main.player[0].active = true;
 
+				// Tile code has changed, but this code isn't used anyway right now.
+				/*
 				// Fix Terraria Overhaul bug
 				if(Main.maxTilesY < 600 || Main.maxTilesX < 2100)
 				{
@@ -394,21 +396,23 @@ namespace RecipeBrowser
 					Main.maxTilesY = 2400;
 					Main.tile = new Tile[Main.maxTilesX + 1, Main.maxTilesY + 1];
 				}
-
+				*/
 				int oldMx = Main.maxTilesX;
 				Main.maxTilesX = 2100;
 				int oldMy = Main.maxTilesY;
 				Main.maxTilesY = 600;
+				/* Same as above
 				for (int x = 0; x < Main.maxTilesX; x++)
 				{
 					for (int y = 0; y < Main.maxTilesY; y++)
 					{
 						Main.tile[x, y] = new Tile();
-						Main.tile[x, y].type = 0;
+						Main.tile[x, y].TileType = 0;
 						if (y > Main.maxTilesY * 0.3f)
-							Main.tile[x, y].IsActive = true;
+							Main.tile[x, y].HasTile = true;
 					}
 				}
+				*/
 				Main.worldSurface = 200;
 				//Main.netMode = 1; // hope this doesn't do anything weird
 				NPC npc = new NPC();

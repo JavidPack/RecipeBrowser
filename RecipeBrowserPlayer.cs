@@ -99,9 +99,9 @@ namespace RecipeBrowser
 			{
 				for (int j = center.Y - 100; j < center.Y + 100; j++)
 				{
-					if (WorldGen.InWorld(i, j) && Main.tile[i, j] != null && !seenTiles[Main.tile[i, j].type])
+					if (WorldGen.InWorld(i, j) && Main.tile[i, j] != null && !seenTiles[Main.tile[i, j].TileType])
 					{
-						int Tile = Main.tile[i, j].type;
+						int Tile = Main.tile[i, j].TileType;
 						List<int> adjTiles = new List<int>();
 						adjTiles.Add(Tile);
 
