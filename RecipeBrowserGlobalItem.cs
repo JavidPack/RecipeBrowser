@@ -105,7 +105,7 @@ namespace RecipeBrowser
 			if (RecipeCatalogueUI.instance.hoveredIndex < 0) return;
 
 			var selectedModRecipe = Main.recipe[RecipeCatalogueUI.instance.hoveredIndex];
-			if (selectedModRecipe.Mod != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.IsTheSameAs(selectedModRecipe.createItem))
+			if (selectedModRecipe.Mod != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.type == selectedModRecipe.createItem.type)
 			{
 				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", "Recipe added by " + selectedModRecipe.Mod.DisplayName)
 				{
