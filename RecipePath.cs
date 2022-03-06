@@ -36,7 +36,7 @@ namespace RecipeBrowser
 		internal static bool extendedCraft = false;
 
 		internal static bool allowLoots = false;
-		internal static Dictionary<int, List<int>> loots; // seenBefore, killedBefore --> Damaged before? Keep track separately for non-banner npc?
+		// seenBefore, killedBefore --> Damaged before? Keep track separately for non-banner npc? Use BestiaryUICollectionInfo.UnlockState maybe
 
 		internal static bool allowMissingStations = false;
 
@@ -61,7 +61,6 @@ namespace RecipeBrowser
 			purchasable = null;
 			if (complete)
 			{
-				loots = null; // encountered handled separately, no need to refresh in-game
 				recipeDictionary = null;
 				allowLoots = false;
 				allowMissingStations = false;
@@ -157,20 +156,6 @@ namespace RecipeBrowser
 				// TODO: price/special currency.
 			}
 
-			if (loots == null && allowLoots)
-			{
-				loots = new Dictionary<int, List<int>>();
-				foreach (var lootInfo in LootCache.instance.lootInfos)
-				{
-					int itemid = lootInfo.Key.GetID();
-					if (itemid > 0)
-					{
-						List<int> npcs = lootInfo.Value.Select(x => x.GetID()).Where(x => x > 0).ToList();
-						if (npcs.Count > 0)
-							loots[itemid] = npcs;
-					}
-				}
-			}
 			//loots.Add(ItemID.Gel);
 			//loots.Add(ItemID.CopperBar);
 		}
@@ -390,16 +375,16 @@ namespace RecipeBrowser
 				}
 			}
 
-			if (allowLoots && loots != null) // multithread issue if allowLoots checked after.
+			if (allowLoots) // multithread issue if allowLoots checked after.
 			{
 				//if (VialbleIngredients.Intersect(loots).Any())
-				var lootable = ViableIngredients.Intersect(loots.Keys); // TODO recipe groups. --> For loop??
+				var lootable = ViableIngredients.Intersect(LootCache.instance.lootInfos.Keys); // TODO recipe groups. --> For loop??
 				if (lootable.Count() > 0)
 				{
 					bool encountered = false;
 
 					// Only checks 1 item in Group. Fix later.
-					var npcs = loots[lootable.First()];
+					var npcs = LootCache.instance.lootInfos[lootable.First()];
 					foreach (var npc in npcs) {
 						int bannerID = Item.NPCtoBanner(npc);
 						if (bannerID > 0) {
@@ -743,12 +728,12 @@ namespace RecipeBrowser
 
 			public override string ToString()
 			{
-				return $"Farm: {Lang.GetItemNameValue(itemid)} ({stack}) from {string.Join(", ", RecipePath.loots[itemid].Select(x => Lang.GetNPCNameValue(x)))}";
+				return $"Farm: {Lang.GetItemNameValue(itemid)} ({stack}) from {string.Join(", ", LootCache.instance.lootInfos[itemid].Select(x => Lang.GetNPCNameValue(x)))}";
 			}
 
 			public override string ToUITextString()
 			{
-				var npcs = RecipePath.loots[itemid]; // Only checks 1 item in Group. Fix later.
+				var npcs = LootCache.instance.lootInfos[itemid]; // Only checks 1 item in Group. Fix later.
 				List<int> encountered = new List<int>();
 				foreach (var npc in npcs)
 				{

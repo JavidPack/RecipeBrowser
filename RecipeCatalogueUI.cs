@@ -427,16 +427,13 @@ namespace RecipeBrowser
 			lootSourceGrid.Clear();
 			if (queryLootItem != null)
 			{
-				//var jsonitem = new JSONItem(queryLootItem.modItem?.mod.Name ?? "Terraria", Lang.GetItemNameValue(queryLootItem.type), queryLootItem.modItem != null ? 0 : queryLootItem.type);
-				var jsonitem = new JSONItem(queryLootItem.ModItem?.Mod.Name ?? "Terraria",
-					queryLootItem.ModItem?.Name ?? Lang.GetItemNameValue(queryLootItem.type),
-					queryLootItem.ModItem != null ? 0 : queryLootItem.type);
-				List<JSONNPC> npcsthatdropme;
-				if (LootCache.instance.lootInfos.TryGetValue(jsonitem, out npcsthatdropme))
+				int queryLootItemType = queryLootItem.type;
+				List<int> npcsthatdropme;
+				if (LootCache.instance.lootInfos.TryGetValue(queryLootItemType, out npcsthatdropme))
 				{
 					foreach (var dropper in npcsthatdropme)
 					{
-						int id = dropper.GetID();
+						int id = dropper;
 						if (id == 0) continue;
 						/*int id = dropper.id;
 						if (id == 0)

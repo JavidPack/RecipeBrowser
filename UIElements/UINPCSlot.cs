@@ -109,13 +109,13 @@ namespace RecipeBrowser.UIElements
 			{
 				foreach (var npc in kvp.Value)
 				{
-					if (npc.GetID() == this.npc.type)
+					if (npc == this.npc.type)
 					{
-						drops.Add(kvp.Key.GetID());
+						drops.Add(kvp.Key);
 					}
 				}
 			}
-			drops.Remove(0);
+			//drops.Remove(0);
 			return drops;
 		}
 

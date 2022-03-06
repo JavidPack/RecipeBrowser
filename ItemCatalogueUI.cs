@@ -248,7 +248,7 @@ namespace RecipeBrowser
 				{
 					//if (kvp.Key.id == 0 && kvp.Key.mod == "Terraria")
 					//	Console.WriteLine();
-					int id = kvp.Key.GetID();
+					int id = kvp.Key;
 					if (id > 0)
 						isLoot[id] = true;
 				}
