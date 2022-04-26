@@ -75,7 +75,7 @@ namespace RecipeBrowser.UIElements
 					Item itemIfNoSpace = Main.LocalPlayer.GetItem(Main.myPlayer, result, GetItemSettings.PickupItemFromWorld);
 					if (itemIfNoSpace.stack > 0)
 					{
-						Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetItemSource_Misc(ItemSourceID.PlayerDropItemCheck), itemIfNoSpace, itemIfNoSpace.stack);
+						Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetSource_Misc("PlayerDropItemCheck"), itemIfNoSpace, itemIfNoSpace.stack);
 					}
 				}
 				else

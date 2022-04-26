@@ -95,7 +95,7 @@ namespace RecipeBrowser
 					valueTooltip = new TooltipLine(Mod, "RecipeBrowserValue", Lang.tip[51].Value);
 					color = new Color((byte)(120f * mouseFade), (byte)(120f * mouseFade), (byte)(120f * mouseFade), Main.mouseTextColor);
 				}
-				valueTooltip.overrideColor = color;
+				valueTooltip.OverrideColor = color;
 
 				tooltips.Add(valueTooltip);
 			}
@@ -109,7 +109,7 @@ namespace RecipeBrowser
 			{
 				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", "Recipe added by " + selectedModRecipe.Mod.DisplayName)
 				{
-					overrideColor = Color.Goldenrod
+					OverrideColor = Color.Goldenrod
 				};
 				int index = tooltips.FindIndex(x => x.Name == "ItemName");
 				if (index == -1)
