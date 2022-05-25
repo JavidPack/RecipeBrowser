@@ -427,7 +427,7 @@ namespace RecipeBrowser
 				// TODO: Filter out tools from weapons. Separate belongs and doesn't belong predicates? How does inheriting work again? Other?
 				new Category("Weapons"/*, x=>x.damage>0*/, x=> false, smallWeapons) { //"Images/sortDamage"
 					subCategories = new List<Category>() {
-						new Category("Melee", x=>x.CountsAsClass(DamageClass.Melee), smallMelee),
+						new Category("Melee", x=>x.CountsAsClass(DamageClass.Melee) && !(x.pick>0 || x.axe>0 || x.hammer>0), smallMelee),
 						new Category("Yoyo", x=>ItemID.Sets.Yoyo[x.type], smallYoyo),
 						new Category("Magic", x=>x.CountsAsClass(DamageClass.Magic), smallMagic),
 						new Category("Ranged", x=>x.CountsAsClass(DamageClass.Ranged) && x.ammo == 0, smallRanged) // TODO and ammo no
@@ -516,12 +516,12 @@ namespace RecipeBrowser
 					filters = new List<Filter> { ammoFilter }
 					// TODO: Filters/Subcategories for all ammo types? // each click cycles?
 				},
-				new Category("Potions", x=>(x.UseSound != null && x.UseSound.Style == 3), smallPotions)
+				new Category("Potions", x=> (x.UseSound?.IsTheSameAs(SoundID.Item3) == true), smallPotions)
 				{
 					subCategories = new List<Category>() {
 						new Category("Health Potions", x=>x.healLife > 0, smallHealth) { sorts = new List<Sort>() { new Sort("Heal Life", smallHealth, (x,y)=>x.healLife.CompareTo(y.healLife)), } },
 						new Category("Mana Potions", x=>x.healMana > 0, smallMana) { sorts = new List<Sort>() { new Sort("Heal Mana", smallMana, (x,y)=>x.healMana.CompareTo(y.healMana)),   }},
-						new Category("Buff Potions", x=>(x.UseSound != null && x.UseSound.Style == 3) && x.buffType > 0, smallBuff),
+						new Category("Buff Potions", x=>(x.UseSound?.IsTheSameAs(SoundID.Item3) == true) && x.buffType > 0, smallBuff),
 						// Todo: Automatic other category?
 					}
 				},
