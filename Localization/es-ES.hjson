@@ -29,7 +29,11 @@ Mods: {
 		CraftUI: {
 			EmptyQuerySlotHint: Coloca un objeto
 			Calc: Calcular
-			CalcTooltip: Cambiar cálculo preventivo de la elaboración de objetos en Recetas
+			CalcTooltip:
+				'''
+				Cambia el cálculo preventivo de la elaboración de objetos en Recetas
+				Puede ocasionar lag
+				'''
 			Loot: Botín
 			LootTooltip: Permitir farmeo en la ruta de elaboración (Solo funciona para enemigos con estandartes)
 			Shop: Tienda
@@ -58,12 +62,12 @@ Mods: {
 		}
 
 		BestiaryUI: {
-			Encountered: Avistados
+			Encountered: Visto
 			ShowOnlyNPCKilledAlready: Mostrar solo NPCs asesinados
 			HasLoot: Con botín
 			ShowOnlyNPCWithLoot: Mostrar solo NPCs con botín
 			NewLoot: Nuevo botín
-			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar solo NPCs nunca avistados
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar solo NPCs nunca vistos
 			EmptyQuerySlotHint: Coloca un objeto
 		}
 	}
