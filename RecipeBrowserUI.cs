@@ -402,7 +402,6 @@ namespace RecipeBrowser
 			list.Width.Set(0, 1f);
 			list.Height.Set(0, 1f);
 			list.ListPadding = 5f;
-			list.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			favoritePanel.Append(list);
 			favoritePanel.AddDragTarget(list);
 			favoritePanel.AddDragTarget(list._innerList);
@@ -498,11 +497,6 @@ namespace RecipeBrowser
 			{
 				RecipeBrowserUI.instance.foundItems = (result as bool[]);
 			}
-		}
-
-		internal static void OnScrollWheel_FixHotbarScroll(UIScrollWheelEvent evt, UIElement listeningElement)
-		{
-			Main.LocalPlayer.ScrollHotbar(Terraria.GameInput.PlayerInput.ScrollWheelDelta / 120);
 		}
 	}
 

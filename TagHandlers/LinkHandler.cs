@@ -33,7 +33,8 @@ namespace RecipeBrowser.TagHandlers
 
 			public override void OnClick()
 			{
-				Process.Start(url);
+				//Process.Start(url);
+				Utils.OpenToURL(url);
 			}
 
 			public override Color GetVisibleColor()

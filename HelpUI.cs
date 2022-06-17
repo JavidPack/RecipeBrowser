@@ -237,6 +237,8 @@ namespace RecipeBrowser
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			if (IsMouseHovering)
+				Terraria.GameInput.PlayerInput.LockVanillaMouseScroll("RecipeBrowser/UIHorizontalGrid");
 			base.DrawSelf(spriteBatch);
 			this.Recalculate();
 		}

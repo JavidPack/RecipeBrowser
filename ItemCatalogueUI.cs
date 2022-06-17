@@ -130,7 +130,6 @@ namespace RecipeBrowser
 			itemGrid.Width.Set(-20, 1f);
 			itemGrid.Height.Set(0, 1f);
 			itemGrid.ListPadding = 2f;
-			itemGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			itemGridPanel.Append(itemGrid);
 
 			var itemGridScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);

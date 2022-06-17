@@ -151,11 +151,12 @@ namespace RecipeBrowser
 
 		internal static string GetTileName(int tile)
 		{
-			string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tile, 0));
+			int requiredTileStyle = Recipe.GetRequiredTileStyle(tile);
+			string tileName = Lang.GetMapObjectName(MapHelper.TileToLookup(tile, requiredTileStyle));
 			if (tileName == "")
 			{
 				if (tile < TileID.Count)
-					tileName = $"Tile {tile}";
+					tileName = TileID.Search.GetName(tile);// $"Tile {tile}";
 				else
 					tileName = Terraria.ModLoader.TileLoader.GetTile(tile).Name + " (err no entry)";
 			}

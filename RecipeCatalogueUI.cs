@@ -167,7 +167,6 @@ namespace RecipeBrowser
 			recipeGrid.Width.Set(-20f, 1f);
 			recipeGrid.Height.Set(0, 1f);
 			recipeGrid.ListPadding = 2f;
-			recipeGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			recipeGridPanel.Append(recipeGrid);
 
 			var lootItemsScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -196,14 +195,13 @@ namespace RecipeBrowser
 			lootSourceGrid.Width.Set(0, 1f);
 			lootSourceGrid.Height.Set(0, 1f);
 			lootSourceGrid.ListPadding = 2f;
-			lootSourceGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			lootSourcePanel.Append(lootSourceGrid);
 
 			var lootSourceScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
 			lootSourceScrollbar.SetView(100f, 1000f);
 			lootSourceScrollbar.Height.Set(0, 1f);
 			lootSourceScrollbar.Left.Set(-20, 1f);
-			lootSourcePanel.Append(lootSourceScrollbar);
+			//lootSourcePanel.Append(lootSourceScrollbar);
 			lootSourceGrid.SetScrollbar(lootSourceScrollbar);
 
 			// Tile Chooser
@@ -226,14 +224,14 @@ namespace RecipeBrowser
 			tileChooserGrid.Height.Set(-24, 1f);
 			tileChooserGrid.Top.Set(24, 0f);
 			tileChooserGrid.ListPadding = 2f;
-			tileChooserGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			tileChooserPanel.Append(tileChooserGrid);
 
 			var tileChooserScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
 			tileChooserScrollbar.SetView(100f, 1000f);
 			tileChooserScrollbar.Height.Set(0, 1f);
 			tileChooserScrollbar.Left.Set(-20, 1f);
-			tileChooserPanel.Append(tileChooserScrollbar);
+			// Appending grid after, setting width to 0, or just not appending seem to all work.
+			//tileChooserPanel.Append(tileChooserScrollbar);
 			tileChooserGrid.SetScrollbar(tileChooserScrollbar);
 
 			// needed? additionalDragTargets.Add(SharedUI.instance.sortsAndFiltersPanel);

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using ReLogic.Content;
 using Terraria;
 using Terraria.UI;
+using Terraria.GameInput;
 
 namespace RecipeBrowser
 {
@@ -205,6 +206,8 @@ namespace RecipeBrowser
 			{
 				this._innerList.Left.Set(-this._scrollbar.GetValue(), 0f);
 			}
+			if(IsMouseHovering)
+				PlayerInput.LockVanillaMouseScroll("RecipeBrowser/UIHorizontalGrid");
 			this.Recalculate();
 		}
 

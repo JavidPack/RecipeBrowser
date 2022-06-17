@@ -113,7 +113,6 @@ namespace RecipeBrowser
 				categoriesGrid.Width.Set(0, 1f);
 				categoriesGrid.Height.Set(26, 0f);
 				categoriesGrid.ListPadding = 2f;
-				categoriesGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 				categoriesGrid.drawArrows = true;
 
 				categoriesGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -122,7 +121,7 @@ namespace RecipeBrowser
 				categoriesGridScrollbar.Top.Set(0, 0f);
 				sortsAndFiltersPanel.Append(categoriesGridScrollbar);
 				categoriesGrid.SetScrollbar(categoriesGridScrollbar);
-				sortsAndFiltersPanel.Append(categoriesGrid);
+				sortsAndFiltersPanel.Append(categoriesGrid); // This is after so it gets the mouse events.
 			}
 
 			subCategorySortsFiltersGrid = new UIHorizontalGrid();
@@ -130,7 +129,6 @@ namespace RecipeBrowser
 			subCategorySortsFiltersGrid.Top.Set(26, 0f);
 			subCategorySortsFiltersGrid.Height.Set(26, 0f);
 			subCategorySortsFiltersGrid.ListPadding = 2f;
-			subCategorySortsFiltersGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			subCategorySortsFiltersGrid.drawArrows = true;
 
 			float oldRow2ViewPosition = lootGridScrollbar2?.ViewPosition ?? 0f;

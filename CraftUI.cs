@@ -171,11 +171,11 @@ namespace RecipeBrowser
 			craftPanel.Height.Set(-top - 16, 1f);
 			craftPanel.BackgroundColor = Color.DarkCyan;
 
+			// TODO: Fix vanilla UIList to properly capture scrollwheel
 			craftPathList = new UIList();
 			craftPathList.Width.Set(-24f, 1f);
 			craftPathList.Height.Set(0, 1f);
 			craftPathList.ListPadding = 6f;
-			craftPathList.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			craftPanel.Append(craftPathList);
 
 			var craftPathListScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);

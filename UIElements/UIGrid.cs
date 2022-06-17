@@ -210,6 +210,8 @@ namespace RecipeBrowser
 			{
 				this._innerList.Top.Set(-this._scrollbar.GetValue(), 0f);
 			}
+			if (IsMouseHovering)
+				Terraria.GameInput.PlayerInput.LockVanillaMouseScroll("RecipeBrowser/UIHorizontalGrid");
 			this.Recalculate();
 		}
 	}

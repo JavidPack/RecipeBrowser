@@ -60,7 +60,6 @@ namespace RecipeBrowser
 			npcGrid.Width.Set(-20, 1f);
 			npcGrid.Height.Set(0, 1f);
 			npcGrid.ListPadding = 2f;
-			npcGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			npcGridPanel.Append(npcGrid);
 
 			var npcGridScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -82,14 +81,13 @@ namespace RecipeBrowser
 			lootGrid.Width.Set(0, 1f);
 			lootGrid.Height.Set(0, 1f);
 			lootGrid.ListPadding = 2f;
-			lootGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			lootPanel.Append(lootGrid);
 
 			var lootGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
 			lootGridScrollbar.SetView(100f, 1000f);
 			lootGridScrollbar.Width.Set(0, 1f);
 			lootGridScrollbar.Top.Set(-20, 1f);
-			lootPanel.Append(lootGridScrollbar);
+			//lootPanel.Append(lootGridScrollbar);
 			lootGrid.SetScrollbar(lootGridScrollbar);
 
 			queryItem = new UIBestiaryQueryItemSlot(new Item());

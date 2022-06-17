@@ -31,14 +31,13 @@ namespace RecipeBrowser
 			craftingTilesGrid.Width.Set(0, 1f);
 			craftingTilesGrid.Height.Set(0, 1f);
 			craftingTilesGrid.ListPadding = 2f;
-			craftingTilesGrid.OnScrollWheel += RecipeBrowserUI.OnScrollWheel_FixHotbarScroll;
 			craftingPanel.Append(craftingTilesGrid);
 
 			var craftingTilesGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
 			craftingTilesGridScrollbar.SetView(100f, 1000f);
 			craftingTilesGridScrollbar.Width.Set(0, 1f);
 			craftingTilesGridScrollbar.Top.Set(-20, 1f);
-			craftingPanel.Append(craftingTilesGridScrollbar);
+			//craftingPanel.Append(craftingTilesGridScrollbar);
 			craftingTilesGrid.SetScrollbar(craftingTilesGridScrollbar);
 
 			//tileList = new List<UITileNoSlot>();
@@ -70,22 +69,17 @@ namespace RecipeBrowser
 				int row = 0;
 				int tileIndex = 0;
 				bool comma = false;
+				if(selectedRecipe.requiredTile.Count == 0) {
+					sb.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
+					sbTiles.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
+					comma = true;
+				}
+
 				while (tileIndex < selectedRecipe.requiredTile.Count)
 				{
 					int num63 = (tileIndex + 1) * 26;
 					if (selectedRecipe.requiredTile[tileIndex] == -1)
 					{
-						if (tileIndex == 0 &&
-							!selectedRecipe.HasCondition(Recipe.Condition.NearWater) &&
-							!selectedRecipe.HasCondition(Recipe.Condition.NearHoney) &&
-							!selectedRecipe.HasCondition(Recipe.Condition.NearLava))
-						{
-							// "None"
-							sb.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
-							sbTiles.Append($"{(comma ? ", " : "")}[c/{Utilities.textColor.Hex3()}:{Language.GetTextValue("LegacyInterface.23")}]");
-							comma = true;
-							break;
-						}
 						break;
 					}
 					else
@@ -103,24 +97,12 @@ namespace RecipeBrowser
 				}
 				// white if window not open?
 				int yAdjust = (row + 1) * 26;
-				if (selectedRecipe.HasCondition(Recipe.Condition.NearWater))
-				{
-					DoChatTag(sb, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
-					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
+				foreach (var condition in selectedRecipe.Conditions) {
+					bool state = condition.RecipeAvailable(selectedRecipe);
+					string description = condition.Description;
+					DoChatTag(sb, comma, state, description);
+					DoChatTag(sbTiles, comma, state, description);
 					yAdjust += 26;
-					comma = true;
-				}
-				if (selectedRecipe.HasCondition(Recipe.Condition.NearHoney))
-				{
-					DoChatTag(sb, comma, Main.LocalPlayer.adjHoney, Language.GetTextValue("LegacyInterface.58"));
-					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjHoney, Language.GetTextValue("LegacyInterface.58"));
-					yAdjust += 26;
-					comma = true;
-				}
-				if (selectedRecipe.HasCondition(Recipe.Condition.NearLava))
-				{
-					DoChatTag(sb, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
-					DoChatTag(sbTiles, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
 					comma = true;
 				}
 				float width = Terraria.UI.Chat.ChatManager.GetStringSize(FontAssets.MouseText.Value, sbTiles.ToString(), Vector2.One).X;
