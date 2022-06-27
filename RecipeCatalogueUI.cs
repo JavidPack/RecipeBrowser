@@ -589,7 +589,7 @@ namespace RecipeBrowser
 			if (!queryItem.item.IsAir)
 			{
 				int type = queryItem.item.type;
-				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any();
+				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any(); // Lesion item bug, they have the Wood group but don't have any wood in them
 				
 				if (!inGroup)
 				{
@@ -610,6 +610,10 @@ namespace RecipeBrowser
 			if (availableFilters != null)
 				foreach (var filter in SharedUI.instance.availableFilters)
 				{
+					if(!filter.button.selected && filter == SharedUI.instance.DisabledFilter) {
+						if(recipe.Disabled)
+							return false;
+					}
 					if (filter.button.selected)
 					{
 						// Extended craft problem.

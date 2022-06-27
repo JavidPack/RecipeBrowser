@@ -270,13 +270,14 @@ namespace RecipeBrowser
 		internal List<Filter> filters;
 		internal Filter CraftableFilter;
 		internal Filter ObtainableFilter;
+		internal Filter DisabledFilter;
 		internal List<Sort> sorts;
 
 		// Items whose textures are resized used during setup
 		// If they aren't loaded, some buttons doesn't have an icon
 		private int[] itemTexturePreload =
 		{
-			ItemID.MetalDetector, ItemID.SpellTome, ItemID.IronAnvil, ItemID.MythrilAnvil, ItemID.GoldBroadsword, ItemID.GoldenShower, ItemID.FlintlockPistol,
+			ItemID.MetalDetector, ItemID.SpellTome, ItemID.IronAnvil, ItemID.MythrilAnvil, ItemID.Blindfold, ItemID.GoldBroadsword, ItemID.GoldenShower, ItemID.FlintlockPistol,
 			ItemID.Shuriken, ItemID.SlimeStaff, ItemID.DD2LightningAuraT1Popper, ItemID.SilverHelmet, ItemID.SilverChainmail, ItemID.SilverGreaves,
 			ItemID.BunnyHood, ItemID.HerosHat, ItemID.GoldHelmet, ItemID.Sign, ItemID.IronAnvil, ItemID.PearlstoneBrickWall, ItemID.EoCShield,
 			ItemID.ZephyrFish, ItemID.FairyBell, ItemID.MechanicalSkull, ItemID.SlimySaddle, ItemID.AmethystHook, ItemID.OrangeDye, ItemID.BiomeHairDye,
@@ -307,11 +308,13 @@ namespace RecipeBrowser
 			Texture2D materialsIcon = Utilities.StackResizeImage(new[] { TextureAssets.Item[ItemID.SpellTome] }, 24, 24);
 			Texture2D craftableIcon = ResizeImage(TextureAssets.Item[ItemID.IronAnvil], 24, 24);
 			Texture2D extendedCraftIcon = ResizeImage(TextureAssets.Item[ItemID.MythrilAnvil], 24, 24);
+			Texture2D disabledIcon = ResizeImage(TextureAssets.Item[ItemID.Blindfold], 24, 24);
 			filters = new List<Filter>()
 			{
 				new Filter("Materials", x=>x.material, materialsIcon),
 				(CraftableFilter = new Filter("Craftable", x=>true, craftableIcon)),
 				(ObtainableFilter = new Filter("Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)", x=>true, extendedCraftIcon)),
+				(DisabledFilter = new Filter("Show recipes disabled by Mods", x=>true, disabledIcon)),
 			};
 
 			// TODOS: Vanity armor, grapple, cart, potions buffs

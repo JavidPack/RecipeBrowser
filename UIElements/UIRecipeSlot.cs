@@ -200,6 +200,12 @@ namespace RecipeBrowser.UIElements
 				spriteBatch.Draw(selectedBackgroundTexture.Value, vector2, null, Color.White * Main.essScale, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 		}
 
+		internal override void DrawAdditionalBadges(SpriteBatch spriteBatch, Vector2 vector2, float scale) {
+			base.DrawAdditionalBadges(spriteBatch, vector2, scale);
+			if (Main.recipe[index].Disabled)
+				ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, FontAssets.ItemStack.Value, "X", vector2 + new Vector2(32f, 32f) * scale, Color.LightSalmon, 0f, Vector2.Zero, new Vector2(0.7f));
+		}
+
 		public override void Update(GameTime gameTime)
 		{
 			base.Update(gameTime);
