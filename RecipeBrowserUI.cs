@@ -344,7 +344,7 @@ namespace RecipeBrowser
 		private string GetModFilterTooltip(bool increment)
 		{
 			modIndex = increment ? (modIndex + 1) % mods.Length : (mods.Length + modIndex - 1) % mods.Length;
-			return modIndex == 0 ? RBText("All") : mods[modIndex];
+			return modIndex == 0 ? RBText("All") : ModLoader.GetMod(mods[modIndex]).DisplayName;
 		}
 
 		internal void AllUpdateNeeded()
