@@ -31,6 +31,7 @@ namespace RecipeBrowser
 			craftingTilesGrid.Width.Set(0, 1f);
 			craftingTilesGrid.Height.Set(0, 1f);
 			craftingTilesGrid.ListPadding = 2f;
+			craftingTilesGrid.drawArrows = true;
 			craftingPanel.Append(craftingTilesGrid);
 
 			var craftingTilesGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);

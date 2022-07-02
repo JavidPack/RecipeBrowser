@@ -32,7 +32,7 @@ namespace RecipeBrowser.TagHandlers
 				if (npcType >= Terraria.ID.NPCID.Count)
 				{
 					ModNPC modNPC = NPCLoader.GetNPC(npcType);
-					Main.hoverItemName = Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.Mod.Name + "]" : "");
+					Main.hoverItemName = Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.Mod.DisplayName + "]" : "");
 				}
 				else
 				{

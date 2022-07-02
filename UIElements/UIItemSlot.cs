@@ -112,11 +112,11 @@ namespace RecipeBrowser.UIElements
 					{
 						// TODO, should only need 2 of these 3 I think
 						Main.HoverItem = item.Clone();
-						Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.ModItem.Mod.Name + "]" : "");
+						Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.ModItem.Mod.DisplayName + "]" : "");
 
 						//	Main.hoverItemName = this.item.name;
 						//	Main.toolTip = item.Clone();
-						Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.ModItem.Mod.Name + "]" : ""));
+						Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.ModItem.Mod.DisplayName + "]" : ""));
 
 						hoveredItem = Main.HoverItem;
 					}
