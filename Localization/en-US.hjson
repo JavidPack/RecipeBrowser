@@ -35,7 +35,7 @@ Mods: {
 				Can cause lag
 				'''
 			Loot: Loot
-			LootTooltip: Allow Farming in Craft Path (Only works for Enemies with Banners)
+			LootTooltip: Allow Farming in Craft Path (Unlocked enemies only)
 			Shop: Shop
 			ShopTooltip: Allow Buy-able items in Craft Path (Coming Soon)
 			MissingStations: Missing Stations

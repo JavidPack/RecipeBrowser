@@ -63,7 +63,7 @@ namespace RecipeBrowser
 			int top = 2;
 			int left = 50;
 
-			// Problem: Most bosses don't have banner....
+			// 1.3 used NPC.killCount/Banners, 1.4 now uses bestiary unlock state, handles killed, seen, talked to npcs. Tracked per world, synced in multiplayer.
 			UICheckbox lootables = new UICheckbox(RBText("Loot"), RBText("LootTooltip"));
 			lootables.Top.Set(top, 0f);
 			lootables.Left.Set(left, 0f);

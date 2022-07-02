@@ -231,13 +231,9 @@ namespace RecipeBrowser
 		{
 			if (EncounteredRadioButton.Selected)
 			{
-				int bannerID = Item.NPCtoBanner(slot.npc.BannerID());
-				if (bannerID > 0)
-				{
-					if (NPC.killCount[bannerID] <= 0)
-						return false;
+				if (!RecipePath.NPCUnlocked(slot.npc.netID)) {
+					return false;
 				}
-				else return false;
 			}
 
 			if (HasLootRadioButton.Selected)

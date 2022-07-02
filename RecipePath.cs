@@ -386,12 +386,9 @@ namespace RecipeBrowser
 					// Only checks 1 item in Group. Fix later.
 					var npcs = LootCache.instance.lootInfos[lootable.First()];
 					foreach (var npc in npcs) {
-						int bannerID = Item.NPCtoBanner(npc);
-						if (bannerID > 0) {
-							if (NPC.killCount[bannerID] > 0) {
-								encountered = true;
-								break;
-							}
+						if(NPCUnlocked(npc)) {
+							encountered = true;
+							break;
 						}
 					}
 
@@ -737,12 +734,11 @@ namespace RecipeBrowser
 				List<int> encountered = new List<int>();
 				foreach (var npc in npcs)
 				{
-					int bannerID = Item.NPCtoBanner(npc);
-					if (bannerID > 0)
-					{
-						if (NPC.killCount[bannerID] > 0)
-							encountered.Add(npc);
+					// Normally we only show loot from encountered npc
+					if (RecipePath.NPCUnlocked(npc)) {
+						encountered.Add(npc);
 					}
+					// TODO: icon for "and other unknown NPC"?
 				}
 				return $"[image/s0.8,v2,tFarm:RecipeBrowser/Images/sortDamage] {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(encountered.Select(x => $"[npc:{x}]"))}";
 

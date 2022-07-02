@@ -49,7 +49,9 @@ namespace RecipeBrowser
 					List<int> npcThatDropThisItem;
 					if (!LootCache.instance.lootInfos.TryGetValue(dropRateInfo.itemId, out npcThatDropThisItem))
 						LootCache.instance.lootInfos.Add(dropRateInfo.itemId, npcThatDropThisItem = new List<int>());
-					npcThatDropThisItem.Add(i);
+					if (!npcThatDropThisItem.Contains(i)) {
+						npcThatDropThisItem.Add(i); // Maybe change this to HashSet. 
+					}
 				}
 			}
 			return;
