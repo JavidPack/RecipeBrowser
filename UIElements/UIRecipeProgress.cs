@@ -28,21 +28,34 @@ namespace RecipeBrowser.UIElements
 			Append(create);
 			int x = (owner != Main.myPlayer ? 23 : 0);
 			x += (int)b.Width + 2;
+			int y = 0;
+			int maxX = x;
+			int maxRecipesPerRow = owner != Main.myPlayer ? 8: 6;
 			for (int j = 0; j < recipe.requiredItem.Count; j++)
 			{
 				Item item = new Item();
 				item.SetDefaults(recipe.requiredItem[j].type);
 				UITrackIngredientSlot ingredient =
 					new UITrackIngredientSlot(item, recipe.requiredItem[j].stack, recipe, j, owner, owner != Main.myPlayer ? .5f : 0.75f);
+				if (j % maxRecipesPerRow == 0 && j > 0) {
+					maxX = System.Math.Max(maxX, x);
+					x = (owner != Main.myPlayer ? 23 : 0);
+					x += (int)b.Width + 2;
+					y += (int)b.Height + 2;
+				}
 				x += (int)b.Width + 2;
 				ingredient.Left.Set(-x, 1f);
+				ingredient.Top.Set(y, 0f);
 
 				RecipeCatalogueUI.OverrideForGroups(recipe, ingredient.item);
 
 				Append(ingredient);
 			}
-			Height.Pixels = b.Height;
-			Width.Pixels = x + 12;
+			Height.Pixels = y + b.Height;
+			Width.Pixels = System.Math.Max(maxX, x) + 12;
+
+			// Center recipe result vertically. Feedback said top aligned is better.
+			//create.Top.Set(y / 2, 0f);
 		}
 
 		private bool updateNeeded;
