@@ -100,6 +100,8 @@ namespace RecipeBrowser
 				UIElements.UICheckbox.checkmarkTexture = Assets.Request<Texture2D>("UIElements/checkMark");
 				UIHorizontalGrid.moreLeftTexture = Assets.Request<Texture2D>("UIElements/MoreLeft");
 				UIHorizontalGrid.moreRightTexture = Assets.Request<Texture2D>("UIElements/MoreRight");
+				UIGrid.moreUpTexture = Assets.Request<Texture2D>("UIElements/MoreUp");
+				UIGrid.moreDownTexture = Assets.Request<Texture2D>("UIElements/MoreDown");
 				Utilities.tileTextures = new Dictionary<int, Texture2D>();
 
 				concurrentTaskHandlerToken = new CancellationTokenSource();
@@ -151,6 +153,8 @@ namespace RecipeBrowser
 			UIElements.UICheckbox.checkmarkTexture = null;
 			UIHorizontalGrid.moreLeftTexture = null;
 			UIHorizontalGrid.moreRightTexture = null;
+			UIGrid.moreUpTexture = null;
+			UIGrid.moreDownTexture = null;
 			Utilities.tileTextures = null;
 			ArmorSetFeatureHelper.Unload();
 			UIItemSlot.hoveredItem = null;

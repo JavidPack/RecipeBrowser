@@ -195,6 +195,7 @@ namespace RecipeBrowser
 			lootSourceGrid.Width.Set(0, 1f);
 			lootSourceGrid.Height.Set(0, 1f);
 			lootSourceGrid.ListPadding = 2f;
+			lootSourceGrid.drawArrows = true;
 			lootSourcePanel.Append(lootSourceGrid);
 
 			var lootSourceScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -224,6 +225,7 @@ namespace RecipeBrowser
 			tileChooserGrid.Height.Set(-24, 1f);
 			tileChooserGrid.Top.Set(24, 0f);
 			tileChooserGrid.ListPadding = 2f;
+			tileChooserGrid.drawArrows = true;
 			tileChooserPanel.Append(tileChooserGrid);
 
 			var tileChooserScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);

@@ -220,11 +220,13 @@ namespace RecipeBrowser
 				var inner = GetInnerDimensions().ToRectangle();
 				if (this._scrollbar.ViewPosition != 0)
 				{
-					spriteBatch.Draw(moreLeftTexture.Value, new Vector2(inner.X, inner.Y), Color.White * .5f);
+					int centeredY = inner.Y + inner.Height / 2 - moreLeftTexture.Height() / 2;
+					spriteBatch.Draw(moreLeftTexture.Value, new Vector2(inner.X, centeredY), Color.White * .5f);
 				}
-				if (this._scrollbar.ViewPosition < _innerListWidth - inner.Width)
+				if (this._scrollbar.ViewPosition < _innerListWidth - inner.Width - 1) // -1 due to odd width leading to 0.5 view position offset. 
 				{
-					spriteBatch.Draw(moreRightTexture.Value, new Vector2(inner.Right - moreRightTexture.Width(), inner.Y), Color.White * .5f);
+					int centeredY = inner.Y + inner.Height / 2 - moreRightTexture.Height() / 2;
+					spriteBatch.Draw(moreRightTexture.Value, new Vector2(inner.Right - moreRightTexture.Width(), centeredY), Color.White * .5f);
 				}
 			}
 		}

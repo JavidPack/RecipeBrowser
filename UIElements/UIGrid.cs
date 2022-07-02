@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -40,6 +41,9 @@ namespace RecipeBrowser
 		internal UIElement _innerList = new UIGrid.UIInnerList();
 		private float _innerListHeight;
 		public float ListPadding = 5f;
+
+		public static Asset<Texture2D> moreUpTexture;
+		public static Asset<Texture2D> moreDownTexture;
 
 		public int Count
 		{
@@ -213,6 +217,22 @@ namespace RecipeBrowser
 			if (IsMouseHovering)
 				Terraria.GameInput.PlayerInput.LockVanillaMouseScroll("RecipeBrowser/UIHorizontalGrid");
 			this.Recalculate();
+		}
+
+		public bool drawArrows;
+		protected override void DrawChildren(SpriteBatch spriteBatch) {
+			base.DrawChildren(spriteBatch);
+			if (drawArrows) {
+				var inner = GetInnerDimensions().ToRectangle();
+				if (this._scrollbar.ViewPosition != 0) {
+					int centeredX = inner.X + inner.Width / 2 - moreUpTexture.Width() / 2;
+					spriteBatch.Draw(moreUpTexture.Value, new Vector2(centeredX, inner.Y), Color.White * .5f);
+				}
+				if (this._scrollbar.ViewPosition < _innerListHeight - inner.Height) {
+					int centeredX = inner.X + inner.Width / 2 - moreUpTexture.Width() / 2;
+					spriteBatch.Draw(moreDownTexture.Value, new Vector2(centeredX, inner.Bottom - moreDownTexture.Height()), Color.White * .5f);
+				}
+			}
 		}
 	}
 }

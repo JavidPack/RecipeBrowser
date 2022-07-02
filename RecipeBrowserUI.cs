@@ -402,6 +402,7 @@ namespace RecipeBrowser
 			list.Width.Set(0, 1f);
 			list.Height.Set(0, 1f);
 			list.ListPadding = 5f;
+			list.drawArrows = true;
 			favoritePanel.Append(list);
 			favoritePanel.AddDragTarget(list);
 			favoritePanel.AddDragTarget(list._innerList);

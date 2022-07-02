@@ -81,6 +81,7 @@ namespace RecipeBrowser
 			lootGrid.Width.Set(0, 1f);
 			lootGrid.Height.Set(0, 1f);
 			lootGrid.ListPadding = 2f;
+			lootGrid.drawArrows = true;
 			lootPanel.Append(lootGrid);
 
 			var lootGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
