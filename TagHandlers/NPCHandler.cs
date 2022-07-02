@@ -17,13 +17,15 @@ namespace RecipeBrowser.TagHandlers
 		private class NPCSnippet : TextSnippet
 		{
 			private int npcType;
+			private int netID;
 			private bool head;
 
-			public NPCSnippet(int npctype, bool head = false)
+			public NPCSnippet(int netID, bool head = false)
 				: base("")
 			{
-				this.npcType = npctype;
+				this.netID = netID;
 				this.head = head;
+				npcType = ContentSamples.NpcsByNetId[netID].type;
 				//this.Color = ItemRarity.GetColor(item.rare);
 			}
 
@@ -36,7 +38,7 @@ namespace RecipeBrowser.TagHandlers
 				}
 				else
 				{
-					Main.hoverItemName = Lang.GetNPCNameValue(npcType);
+					Main.hoverItemName = Lang.GetNPCNameValue(netID);
 				}
 				//Main.HoverItem = this._item.Clone();
 				//Main.instance.MouseText(this._item.Name, this._item.rare, 0, -1, -1, -1, -1);
@@ -92,7 +94,14 @@ namespace RecipeBrowser.TagHandlers
 					//float inventoryScale = Main.inventoryScale;
 					//Main.inventoryScale = scale * num;
 					//if (Main.rand.NextBool())
-					Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight/2)/*- new Vector2(10f) * scale * num*/, rectangle, /*color*/ Color.White, 0, rectangle.Center(), scale, SpriteEffects.None, 0);
+
+					NPC npc = ContentSamples.NpcsByNetId[netID];
+					Color lighting = Color.White;
+					//Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, /*color*/ Color.White, 0, rectangle.Center(), scale, SpriteEffects.None, 0);
+					Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, npc.GetAlpha(lighting), 0, rectangle.Center(), scale, SpriteEffects.None, 0);
+					if (npc.color != default(Microsoft.Xna.Framework.Color)) {
+						Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, npc.GetColor(lighting), 0, rectangle.Center(), scale, SpriteEffects.None, 0);
+					}
 					//else
 					//	Main.spriteBatch.Draw(texture2D, position  /*- new Vector2(10f) * scale * num*/, rectangle, color, 0, Vector2.Zero, num, SpriteEffects.None, 0);
 					//ItemSlot.Draw(spriteBatch, ref this._item, 14, position - new Vector2(10f) * scale * num, Color.White);
@@ -114,8 +123,8 @@ namespace RecipeBrowser.TagHandlers
 
 		TextSnippet ITagHandler.Parse(string text, Color baseColor, string options)
 		{
-			int npcid;
-			if (!int.TryParse(text, out npcid) || npcid >= NPCLoader.NPCCount || npcid <= 0)
+			int netID;
+			if (!int.TryParse(text, out netID) || netID >= NPCLoader.NPCCount || netID <= NPCID.NegativeIDCount)
 			{
 				return new TextSnippet(text);
 			}
@@ -126,17 +135,17 @@ namespace RecipeBrowser.TagHandlers
 				if (options == "head")
 					head = true;
 			}
-			return new NPCTagHandler.NPCSnippet(npcid, head)
+			return new NPCTagHandler.NPCSnippet(netID, head)
 			{
-				Text = GenerateTag(npcid),
+				Text = GenerateTag(netID),
 				CheckForHover = true,
 				DeleteWhole = true
 			};
 		}
 
-		public static string GenerateTag(int npcID)
+		public static string GenerateTag(int netID)
 		{
-			return $"[npc:{npcID}]";
+			return $"[npc:{netID}]";
 		}
 	}
 }
