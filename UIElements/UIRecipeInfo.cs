@@ -14,7 +14,7 @@ namespace RecipeBrowser
 	{
 		// TODO: Fix order of ingredients to match recipe.
 		// TODO: Use Tile images here as well? Optional? // internal List<UITileNoSlot> tileList; 
-		internal UIHorizontalGrid craftingTilesGrid;
+		internal UIHorizontalGrid craftingIngredientsGrid;
 
 		public UIRecipeInfo()
 		{
@@ -27,19 +27,19 @@ namespace RecipeBrowser
 			craftingPanel.BackgroundColor = Color.CornflowerBlue;
 			Append(craftingPanel);
 
-			craftingTilesGrid = new UIHorizontalGrid();
-			craftingTilesGrid.Width.Set(0, 1f);
-			craftingTilesGrid.Height.Set(0, 1f);
-			craftingTilesGrid.ListPadding = 2f;
-			craftingTilesGrid.drawArrows = true;
-			craftingPanel.Append(craftingTilesGrid);
+			craftingIngredientsGrid = new UIHorizontalGrid();
+			craftingIngredientsGrid.Width.Set(0, 1f);
+			craftingIngredientsGrid.Height.Set(0, 1f);
+			craftingIngredientsGrid.ListPadding = 2f;
+			craftingIngredientsGrid.drawArrows = true;
+			craftingPanel.Append(craftingIngredientsGrid);
 
 			var craftingTilesGridScrollbar = new InvisibleFixedUIHorizontalScrollbar(RecipeBrowserUI.instance.userInterface);
 			craftingTilesGridScrollbar.SetView(100f, 1000f);
 			craftingTilesGridScrollbar.Width.Set(0, 1f);
 			craftingTilesGridScrollbar.Top.Set(-20, 1f);
 			//craftingPanel.Append(craftingTilesGridScrollbar);
-			craftingTilesGrid.SetScrollbar(craftingTilesGridScrollbar);
+			craftingIngredientsGrid.SetScrollbar(craftingTilesGridScrollbar);
 
 			//tileList = new List<UITileNoSlot>();
 		}

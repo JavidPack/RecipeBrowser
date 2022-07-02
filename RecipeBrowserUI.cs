@@ -451,7 +451,7 @@ namespace RecipeBrowser
 			scrollbar.SetView(100f, 1000f);
 			scrollbar.Height.Set(0, 1f);
 			scrollbar.Left.Set(-20, 1f);
-			favoritePanel.Append(scrollbar);
+			//favoritePanel.Append(scrollbar);
 			list.SetScrollbar(scrollbar);
 
 			Recipe.FindRecipes();

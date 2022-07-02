@@ -741,7 +741,7 @@ namespace RecipeBrowser
 		internal void SetRecipe(int index)
 		{
 			selectedIndex = -1;
-			recipeInfo.craftingTilesGrid.Clear();
+			recipeInfo.craftingIngredientsGrid.Clear();
 
 			foreach (var item in recipeSlots)
 			{
@@ -770,7 +770,7 @@ namespace RecipeBrowser
 				//recipeInfo.Append(ingredient);
 			}
 
-			recipeInfo.craftingTilesGrid.AddRange(ingredients); // order...
+			recipeInfo.craftingIngredientsGrid.AddRange(ingredients);
 			CraftUI.instance.SetRecipe(index);
 
 			//for (int i = 0; i < Recipe.maxRequirements; i++)
