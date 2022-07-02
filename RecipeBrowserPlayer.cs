@@ -222,22 +222,27 @@ namespace RecipeBrowser
 
 					if (!Main.HoverItem.IsAir)
 					{
-						RecipeBrowserUI.instance.ShowRecipeBrowser = true;
+						// Query item on "Any Iron Bar", should I uncheck "ignore recipe groups"?, can check _nameoverride to see.
+						bool shouldShowRecipeBrowser = true;
 						if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.RecipeCatalogue)
 						{
-							RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
+							if (Main.HoverItem.type == RecipeCatalogueUI.instance.queryItem.item?.type)
+								shouldShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
+							else
+								RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
 						}
 						else if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.Craft)
 						{
-							CraftUI.instance.SetItem(Main.HoverItem.type);
+							if (Main.HoverItem.type == CraftUI.instance.recipeResultItemSlot.item?.type)
+								shouldShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
+							else
+								CraftUI.instance.SetItem(Main.HoverItem.type);
 						}
 						else if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.ItemCatalogue)
 						{
-							ItemCatalogueUI.instance.itemGrid.Goto(delegate (UIElement element)
-							{
+							ItemCatalogueUI.instance.itemGrid.Goto(delegate (UIElement element) {
 								UIItemCatalogueItemSlot itemSlot = element as UIItemCatalogueItemSlot;
-								if (itemSlot != null && itemSlot.itemType == Main.HoverItem.type)
-								{
+								if (itemSlot != null && itemSlot.itemType == Main.HoverItem.type) {
 									ItemCatalogueUI.instance.SetItem(itemSlot);
 									return true;
 								}
@@ -246,8 +251,12 @@ namespace RecipeBrowser
 						}
 						else if (RecipeBrowserUI.instance.CurrentPanel == RecipeBrowserUI.Bestiary)
 						{
-							BestiaryUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
+							if (Main.HoverItem.type == BestiaryUI.instance.queryItem.item?.type)
+								shouldShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
+							else
+								BestiaryUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
 						}
+						RecipeBrowserUI.instance.ShowRecipeBrowser = shouldShowRecipeBrowser;
 					}
 				}
 				if (RecipeBrowser.instance.ToggleFavoritedPanelHotKey.JustPressed) {
