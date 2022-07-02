@@ -34,7 +34,8 @@ namespace RecipeBrowser.TagHandlers
 			public override void OnClick()
 			{
 				//Process.Start(url);
-				Utils.OpenToURL(url);
+				string realLink = "https://" + url;
+				Utils.OpenToURL(realLink);
 			}
 
 			public override Color GetVisibleColor()
@@ -50,6 +51,7 @@ namespace RecipeBrowser.TagHandlers
 
 		public static string GenerateTag(string url, string text)
 		{
+			// TODO: Make some sort of escape for ":" or fix Utils.OpenToURL needing https://
 			return $"[l/{url}:{text}]";
 		}
 	}
