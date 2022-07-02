@@ -15,15 +15,8 @@ namespace RecipeBrowser.UIElements
 		private int owner; // which player are we tracking the progress for.
 		Asset<Texture2D> playerBackGroundTexture;
 
-		static MethodInfo drawPlayerHeadMethodInfo;
-
 		public UIRecipeProgress(int index, Recipe recipe, int order, int owner)
 		{
-			if (drawPlayerHeadMethodInfo == null)
-			{
-				drawPlayerHeadMethodInfo = typeof(Main).GetMethod("DrawPlayerHead", BindingFlags.Instance | BindingFlags.NonPublic);
-			}
-
 			playerBackGroundTexture = ModContent.Request<Texture2D>("Terraria/Images/UI/PlayerBackground");
 			this.order = order;
 			this.owner = owner;
@@ -73,8 +66,7 @@ namespace RecipeBrowser.UIElements
 			{
 				Main.hoverItemName = Main.player[owner].name; //+ "'s Recipe";
 				var a = GetInnerDimensions().ToRectangle();
-				// protected void DrawPlayerHead(Player drawPlayer, float X, float Y, float Alpha = 1f, float Scale = 1f)
-				drawPlayerHeadMethodInfo.Invoke(Main.instance, new object[] { Main.player[owner], a.Right - 16, a.Y + 8, 1f, 1f });
+				Main.MapPlayerRenderer.DrawPlayerHead(Main.Camera, Main.player[owner], new Vector2(a.Right - 16, a.Y + 8), 1f, 1f, Color.White);
 			}
 		}
 	}
