@@ -139,6 +139,7 @@ namespace RecipeBrowser
 				}
 			}
 			RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
+			RecipeBrowserUI.instance.ShouldShowFavoritePanel = favoritedRecipes.Count > 0;
 			RecipeCatalogueUI.instance.updateNeeded = true;
 			if (RecipeCatalogueUI.instance.recipeSlots.Count > 0)
 			{
@@ -248,6 +249,10 @@ namespace RecipeBrowser
 							BestiaryUI.instance.queryItem.ReplaceWithFake(Main.HoverItem.type);
 						}
 					}
+				}
+				if (RecipeBrowser.instance.ToggleFavoritedPanelHotKey.JustPressed) {
+					RecipeBrowserUI.instance.ShouldShowFavoritePanel = !RecipeBrowserUI.instance.ShouldShowFavoritePanel;
+					RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 				}
 			}
 		}

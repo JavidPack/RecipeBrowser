@@ -51,6 +51,7 @@ namespace RecipeBrowser
 
 		internal string[] mods;
 
+		public bool ShouldShowFavoritePanel; // Will toggle on if an action intends to show it
 		private bool showFavoritePanel;
 
 		public bool ShowFavoritePanel
@@ -375,6 +376,7 @@ namespace RecipeBrowser
 			if (favorite)
 				localPlayerFavoritedRecipes.Add(index);
 			favoritePanelUpdateNeeded = true;
+			ShouldShowFavoritePanel = true;
 			RecipeCatalogueUI.instance.updateNeeded = true;
 		}
 
@@ -395,7 +397,9 @@ namespace RecipeBrowser
 				RecipeCatalogueUI.instance.recipeSlots[recipeIndex].favorited = true;
 			}
 
-			ShowFavoritePanel = localPlayerFavoritedRecipes.Count > 0; // TODO: checkbox for force this.
+			// TODO: checkbox for force this.
+			// Idea: Add eye button to toggle showing always, or showing only when inventory open.
+			ShowFavoritePanel = localPlayerFavoritedRecipes.Count > 0 && ShouldShowFavoritePanel;
 			favoritePanel.RemoveAllChildren();
 
 			UIGrid list = new UIGrid();

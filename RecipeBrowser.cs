@@ -38,6 +38,7 @@ namespace RecipeBrowser
 		internal static Mod itemChecklistInstance;
 		internal ModKeybind ToggleRecipeBrowserHotKey;
 		internal ModKeybind QueryHoveredItemHotKey;
+		internal ModKeybind ToggleFavoritedPanelHotKey;
 
 		//internal bool CheatSheetLoaded = false;
 		internal RecipeBrowserTool recipeBrowserTool;
@@ -80,6 +81,7 @@ namespace RecipeBrowser
 			*/
 			ToggleRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Recipe Browser", "OemCloseBrackets");
 			QueryHoveredItemHotKey = KeybindLoader.RegisterKeybind(this, "Query Hovered Item", "Mouse3");
+			ToggleFavoritedPanelHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Favorited Recipes Window", "F3");
 			/*
 				CheatSheetLoaded = false;
 			}
