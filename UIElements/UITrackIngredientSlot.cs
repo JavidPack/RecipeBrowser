@@ -1,7 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Text;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
+using Terraria.GameContent.UI.Chat;
+using Terraria.ID;
 using Terraria.UI;
 using Terraria.UI.Chat;
 
@@ -29,6 +34,13 @@ namespace RecipeBrowser.UIElements
 				Rectangle rectangle = dimensions.ToRectangle();
 				if (!item.IsAir)
 				{
+					if (IsMouseHovering)
+						if (Main.keyState.IsKeyDown(Main.FavoriteKey))
+							if (Main.drawingPlayerChat)
+								Main.cursorOverride = 2;
+							else
+								Main.cursorOverride = 3;
+
 					int count = CountItemGroups(Main.player[owner], recipe, item.type, targetStack > 999 ? targetStack : 999 ); // stopping at item.maxStack means you can't see if you can make multiple.
 					string progress = count + "/" + targetStack;
 					Color progressColor = count >= targetStack ? Color.LightGreen : Color.LightSalmon;
@@ -65,6 +77,31 @@ namespace RecipeBrowser.UIElements
 				}
 			}
 			return count >= stopCountingAt ? stopCountingAt : count;
+		}
+
+		public override void Click(UIMouseEvent evt) {
+			base.Click(evt);
+
+			if (Main.keyState.IsKeyDown(Main.FavoriteKey)) {
+				if (Main.drawingPlayerChat) {
+					if (ChatManager.AddChatText(FontAssets.MouseText.Value, ItemTagHandler.GenerateTag(item), Vector2.One)) {
+						SoundEngine.PlaySound(SoundID.MenuTick);
+					}
+				}
+				else {
+					bool found = false;
+					for (int i = 0; i < Recipe.numRecipes; i++) {
+						Recipe r = Main.recipe[i];
+						if (r.createItem.type == itemType) {
+							RecipeBrowserUI.instance.FavoriteChange(i, true);
+							found = true;
+						}
+					}
+					if (!found) {
+						Main.NewText("No recipe found for " + ItemTagHandler.GenerateTag(item));
+					}
+				}
+			}
 		}
 	}
 }
