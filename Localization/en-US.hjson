@@ -26,6 +26,12 @@ Mods: {
 			EmptyQuerySlotHint: Place item here
 		}
 
+		PinnedUI: {
+			Close: Close ({0})
+			ToggleHint: Press {0} to toggle
+			ToggleUnboundHint: Set hotkey to toggle 
+		}
+
 		CraftUI: {
 			EmptyQuerySlotHint: Place item here
 			Calc: Calc

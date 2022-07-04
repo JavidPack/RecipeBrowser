@@ -13,3 +13,9 @@ You can view extended crafting options in the Craft menu. Recipes that can be sa
 Also try out the Item Catalogue and Bestiary.
 
 There is an integrated Help in the Recipe Browser as well.
+
+[h1]Links[/h1]
+Source code hosted on [url=github.com/JavidPack/RecipeBrowser]GitHub[/url], collaboration welcome
+For questions or suggestions, come to my Discord: [url=discord.gg/w8Hcwby][img]https://discordapp.com/api/guilds/276235094622994433/widget.png?style=shield[/img][/url]
+Bug reports in the comments here will not be seen, come to Discord or Github to report issues.
+If you'd like to support my mods, I have a Patreon [url=www.patreon.com/jopojelly][img]https://i.imgur.com/xII2DwJ.png[/img][/url]

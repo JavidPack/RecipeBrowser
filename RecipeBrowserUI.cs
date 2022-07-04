@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.ModLoader.UI;
 
 namespace RecipeBrowser
 {
@@ -37,6 +38,8 @@ namespace RecipeBrowser
 		internal TabController tabController;
 		internal UIDragableElement mainPanel;
 		internal UIDragablePanel favoritePanel;
+		internal UIElements.UICycleImage HideUnlessInventoryToggle;
+		internal UIHoverImageButton closeFavoritePanelButton;
 		internal UIHoverImageButton closeButton;
 
 		//internal SharedUI sharedUI;
@@ -51,9 +54,10 @@ namespace RecipeBrowser
 
 		internal string[] mods;
 
-		public bool ShouldShowFavoritePanel; // Will toggle on if an action intends to show it
-		private bool showFavoritePanel;
+		public bool ForceShowFavoritePanel;
+		public bool ForceHideFavoritePanel; // Could save to config on exit world to preserve, but if users want that they should just not pin recipes.
 
+		private bool showFavoritePanel;
 		public bool ShowFavoritePanel
 		{
 			get { return showFavoritePanel; }
@@ -67,6 +71,11 @@ namespace RecipeBrowser
 				{
 					RemoveChild(favoritePanel);
 				}
+				if (value)
+					ForceHideFavoritePanel = false;
+				if (!value)
+					ForceShowFavoritePanel = false;
+
 				showFavoritePanel = value;
 			}
 		}
@@ -292,6 +301,24 @@ namespace RecipeBrowser
 
 			favoritePanel.Left.Set(config.FavoritedRecipePanelPosition.X, 0f);
 			favoritePanel.Top.Set(config.FavoritedRecipePanelPosition.Y, 0f);
+
+			string closeFavoritePanelButtonHoverText = string.Format(RBText("Close", "PinnedUI"), RBText("ToggleUnboundHint", "PinnedUI"));
+			closeFavoritePanelButton = new UIHoverImageButton(closeButtonTexture, closeFavoritePanelButtonHoverText);
+			closeFavoritePanelButton.OnClick += CloseFavoritePanelButtonClicked;
+			closeFavoritePanelButton.Top.Set(0, 0f);
+			closeFavoritePanelButton.Left.Set(-15, 1f);
+			favoritePanel.Append(closeFavoritePanelButton);
+
+			HideUnlessInventoryToggle = new UIElements.UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/TickOnOff", AssetRequestMode.ImmediateLoad), 2, new string[] { "Always show", "Show when inventory" }, 16, 12);
+			HideUnlessInventoryToggle.Top.Set(20, 0f);
+			HideUnlessInventoryToggle.Left.Set(-15, 1f);
+			HideUnlessInventoryToggle.CurrentState = config.OnlyShowPinnedWhileInInventory ? 1 : 0;
+			HideUnlessInventoryToggle.OnStateChanged += (s, e) => {
+				favoritePanelUpdateNeeded = true;
+				config.OnlyShowPinnedWhileInInventory = HideUnlessInventoryToggle.CurrentState == 1;
+				RecipeBrowserClientConfig.SaveConfig();
+			};
+			favoritePanel.Append(HideUnlessInventoryToggle);
 		}
 
 		//private void ItemChecklistRadioButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
@@ -368,6 +395,11 @@ namespace RecipeBrowser
 			recipeCatalogueUI.CloseButtonClicked();
 			bestiaryUI.CloseButtonClicked();
 		}
+		
+		internal void CloseFavoritePanelButtonClicked(UIMouseEvent evt, UIElement listeningElement) {
+			RecipeBrowserUI.instance.ForceHideFavoritePanel = true;
+			RecipeBrowserUI.instance.ShowFavoritePanel = false;
+		}
 
 		internal void FavoriteChange(int index, bool favorite)
 		{
@@ -376,13 +408,20 @@ namespace RecipeBrowser
 			if (favorite)
 				localPlayerFavoritedRecipes.Add(index);
 			favoritePanelUpdateNeeded = true;
-			ShouldShowFavoritePanel = true;
+			if (favorite) {
+				ShowFavoritePanel = true;
+			}
 			RecipeCatalogueUI.instance.updateNeeded = true;
 		}
 
+		internal bool lastMainPlayerInventory = false;
 		internal bool favoritePanelUpdateNeeded;
 		internal void UpdateFavoritedPanel()
 		{
+			if(HideUnlessInventoryToggle.CurrentState == 1 && lastMainPlayerInventory != Main.playerInventory && !ForceHideFavoritePanel/* && !ShouldShowFavoritePanel.HasValue*/) {
+				ShowFavoritePanel = Main.playerInventory;
+			}
+			lastMainPlayerInventory = Main.playerInventory;
 			if (!favoritePanelUpdateNeeded)
 				return;
 			favoritePanelUpdateNeeded = false;
@@ -397,13 +436,24 @@ namespace RecipeBrowser
 				RecipeCatalogueUI.instance.recipeSlots[recipeIndex].favorited = true;
 			}
 
-			// TODO: checkbox for force this.
-			// Idea: Add eye button to toggle showing always, or showing only when inventory open.
-			ShowFavoritePanel = localPlayerFavoritedRecipes.Count > 0 && ShouldShowFavoritePanel;
+			if(localPlayerFavoritedRecipes.Count == 0 && !ForceShowFavoritePanel) {
+				ShowFavoritePanel = false;
+				ForceHideFavoritePanel = true;
+			}
 			favoritePanel.RemoveAllChildren();
 
+			favoritePanel.Append(HideUnlessInventoryToggle);
+			favoritePanel.Append(closeFavoritePanelButton);
+			var keys = RecipeBrowser.instance.ToggleFavoritedPanelHotKey.GetAssignedKeys(); // todo, could make this dynamic
+			if (keys.Count != 0) {
+				closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), string.Format(RBText("ToggleHint", "PinnedUI"), string.Join(", ", keys)));
+			}
+			else {
+				closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), RBText("ToggleUnboundHint", "PinnedUI"));
+			}
+
 			UIGrid list = new UIGrid();
-			list.Width.Set(0, 1f);
+			list.Width.Set(-18, 1f);
 			list.Height.Set(0, 1f);
 			list.ListPadding = 5f;
 			list.drawArrows = true;
@@ -414,6 +464,8 @@ namespace RecipeBrowser
 			int height = 0;
 			int order = 1;
 
+			// TODO: support non-recipe paths, pin from Craft Path entries: Farm Item from Enemy X,Y,Z
+			// Support setting recipe to a desired count. (Alt click on ingredient that is required X times, the pinned recipe will be multiplied by X) Or scroll to increase? Buttons?
 			for (int i = 0; i < Main.maxPlayers; i++)
 			{
 				if (i != Main.myPlayer && Main.player[i].active)
@@ -447,8 +499,18 @@ namespace RecipeBrowser
 				width = Math.Max(width, (int)a.Width);
 				favoritePanel.AddDragTarget(s);
 			}
+			if(height == 0) {
+				UIText text = new UIText("No pinned recipes");
+				list.Add(text);
+				var a = text.GetInnerDimensions();
+				text.Recalculate();
+				a = text.GetInnerDimensions();
+				height += (int)(a.Height + list.ListPadding);
+				width = Math.Max(width, (int)a.Width + 20);
+				favoritePanel.AddDragTarget(text);
+			}
 			favoritePanel.Height.Pixels = height + favoritePanel.PaddingBottom + favoritePanel.PaddingTop - list.ListPadding;
-			favoritePanel.Width.Pixels = width;
+			favoritePanel.Width.Pixels = width + 18;
 			favoritePanel.Recalculate();
 
 			var scrollbar = new InvisibleFixedUIScrollbar(userInterface);

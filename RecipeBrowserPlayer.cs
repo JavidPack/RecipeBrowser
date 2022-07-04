@@ -139,7 +139,7 @@ namespace RecipeBrowser
 				}
 			}
 			RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
-			RecipeBrowserUI.instance.ShouldShowFavoritePanel = favoritedRecipes.Count > 0;
+			RecipeBrowserUI.instance.ShowFavoritePanel = favoritedRecipes.Count > 0 && RecipeBrowserUI.instance.HideUnlessInventoryToggle.CurrentState == 0;
 			RecipeCatalogueUI.instance.updateNeeded = true;
 			if (RecipeCatalogueUI.instance.recipeSlots.Count > 0)
 			{
@@ -260,7 +260,13 @@ namespace RecipeBrowser
 					}
 				}
 				if (RecipeBrowser.instance.ToggleFavoritedPanelHotKey.JustPressed) {
-					RecipeBrowserUI.instance.ShouldShowFavoritePanel = !RecipeBrowserUI.instance.ShouldShowFavoritePanel;
+					RecipeBrowserUI.instance.ShowFavoritePanel = !RecipeBrowserUI.instance.ShowFavoritePanel;
+					if (!RecipeBrowserUI.instance.ShowFavoritePanel)
+						RecipeBrowserUI.instance.ForceHideFavoritePanel = true;
+					else {
+						RecipeBrowserUI.instance.ForceShowFavoritePanel = true;
+					}
+
 					RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 				}
 			}
