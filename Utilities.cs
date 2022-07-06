@@ -9,6 +9,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.Map;
 using Terraria.ObjectData;
+using Terraria.ModLoader;
 
 namespace RecipeBrowser
 {
@@ -161,6 +162,38 @@ namespace RecipeBrowser
 					tileName = Terraria.ModLoader.TileLoader.GetTile(tile).Name + " (err no entry)";
 			}
 			return tileName;
+		}
+
+		internal static List<int> PopulateAdjTilesForTile(int Tile) {
+			List<int> adjTiles = new List<int>();
+			adjTiles.Add(Tile);
+
+			ModTile modTile = TileLoader.GetTile(Tile);
+			if (modTile != null) {
+				adjTiles.AddRange(modTile.AdjTiles);
+			}
+			if (Tile == 302)
+				adjTiles.Add(17);
+			if (Tile == 77)
+				adjTiles.Add(17);
+			if (Tile == 133) {
+				adjTiles.Add(17);
+				adjTiles.Add(77);
+			}
+			if (Tile == 134)
+				adjTiles.Add(16);
+			if (Tile == 354)
+				adjTiles.Add(14);
+			if (Tile == 469)
+				adjTiles.Add(14);
+			if (Tile == 487)
+				adjTiles.Add(14);
+			if (Tile == 355) {
+				adjTiles.Add(13);
+				adjTiles.Add(14);
+			}
+			// TODO: GlobalTile.AdjTiles support (no player object, reflection needed since private)
+			return adjTiles;
 		}
 
 		internal static Color textColor = Color.White; // new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor);

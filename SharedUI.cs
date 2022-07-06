@@ -275,6 +275,7 @@ namespace RecipeBrowser
 
 		// Items whose textures are resized used during setup
 		// If they aren't loaded, some buttons doesn't have an icon
+		// TODO: A better way to do this?
 		private int[] itemTexturePreload =
 		{
 			ItemID.MetalDetector, ItemID.SpellTome, ItemID.IronAnvil, ItemID.MythrilAnvil, ItemID.Blindfold, ItemID.GoldBroadsword, ItemID.GoldenShower, ItemID.FlintlockPistol,

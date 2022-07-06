@@ -9,6 +9,10 @@ using Terraria.UI;
 
 namespace RecipeBrowser
 {
+	// TODO:
+	// Button to open vanilla bestiary?
+	// Show vanilla bestiary elements?
+	// Reuse vanilla bestiary search and filters?
 	internal class BestiaryUI
 	{
 		internal static string RBText(string key, string category = "BestiaryUI") => RecipeBrowser.RBText(category, key);

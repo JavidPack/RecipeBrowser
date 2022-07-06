@@ -99,43 +99,19 @@ namespace RecipeBrowser
 			{
 				for (int j = center.Y - 100; j < center.Y + 100; j++)
 				{
-					if (WorldGen.InWorld(i, j) && Main.tile[i, j] != null && !seenTiles[Main.tile[i, j].TileType])
-					{
+					if (WorldGen.InWorld(i, j) && Main.tile[i, j] != null && !seenTiles[Main.tile[i, j].TileType]) {
 						int Tile = Main.tile[i, j].TileType;
-						List<int> adjTiles = new List<int>();
-						adjTiles.Add(Tile);
-
-						ModTile modTile = TileLoader.GetTile(Tile);
-						if (modTile != null)
-						{
-							adjTiles.AddRange(modTile.AdjTiles);
-						}
-						if (Tile == 302)
-							adjTiles.Add(17);
-						if (Tile == 77)
-							adjTiles.Add(17);
-						if (Tile == 133)
-						{
-							adjTiles.Add(17);
-							adjTiles.Add(77);
-						}
-						if (Tile == 134)
-							adjTiles.Add(16);
-						if (Tile == 354)
-							adjTiles.Add(14);
-						if (Tile == 469)
-							adjTiles.Add(14);
-						if (Tile == 355)
-						{
-							adjTiles.Add(13);
-							adjTiles.Add(14);
-						}
-						// TODO: GlobalTile.AdjTiles support (no player object, reflection needed since private)
-						foreach (var tile in adjTiles)
-						{
+						List<int> adjTiles = Utilities.PopulateAdjTilesForTile(Tile);
+						foreach (var tile in adjTiles) {
 							seenTiles[tile] = true;
 						}
 					}
+				}
+			}
+			// All crafting tile items in inventory also count as "seen"
+			foreach (var item in player.inventory) {
+				if (item.active) {
+					RecipeBrowserUI.instance.ItemReceived(item);
 				}
 			}
 			RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;

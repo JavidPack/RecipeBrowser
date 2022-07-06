@@ -36,7 +36,8 @@ namespace RecipeBrowser
 		{
 			LootCache.instance = new LootCache();
 			for (int i = -65; i < NPCLoader.NPCCount; i++) {
-				//npcid 0?
+				// Is npcid 0 a problem?
+				// Here we ignore global rules
 				List<IItemDropRule> dropRules = Main.ItemDropsDB.GetRulesForNPCID(i, false);
 
 				List<DropRateInfo> list = new List<DropRateInfo>();
@@ -54,6 +55,10 @@ namespace RecipeBrowser
 					}
 				}
 			}
+
+			// TODO: What should we do with globals? Maybe add an NPC icon indicating any NPC can drop the item?
+			// var globals = new GlobalLoot(Main.ItemDropsDB).Get();
+
 			return;
 		}
 	}

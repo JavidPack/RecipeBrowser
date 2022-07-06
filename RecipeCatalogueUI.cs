@@ -23,7 +23,7 @@ namespace RecipeBrowser
 		internal UIRecipeCatalogueQueryItemSlot queryItem;
 		internal UICheckbox TileLookupRadioButton;
 
-		internal Item queryLootItem;
+		internal Item queryLootItem; // Last clicked item ingredient/recipe result, will populate lootSourceGrid. 
 
 		private int tile = -1;
 		internal int Tile
@@ -686,6 +686,7 @@ namespace RecipeBrowser
 			}
 
 			//List<Item[]> sources = new List<Item[]>();
+			// TODO: Inefficient to calculate this repeatedly for each recipe.
 			HashSet<int> foundItems = new HashSet<int>();
 
 			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
@@ -754,6 +755,7 @@ namespace RecipeBrowser
 			recipeslot.selected = true;
 			selectedIndex = index;
 
+			// TODO: Should these just be TrackIngredientSlots? It might be nice to see what you have, or have in nearby chests
 			List<UIIngredientSlot> ingredients = new List<UIIngredientSlot>();
 			Recipe recipe = Main.recipe[index];
 			for (int i = 0; i < recipe.requiredItem.Count; i++)

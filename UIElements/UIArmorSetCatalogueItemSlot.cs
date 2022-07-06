@@ -287,6 +287,7 @@ namespace RecipeBrowser.UIElements
 						testPlayer.armor[1] = body;
 						testPlayer.armor[2] = leg;
 
+						// TODO: Vanity Set calculation somehow?
 						testPlayer.UpdateArmorSets(255);
 						if (testPlayer.setBonus != "") {
 							string fullSetBonus = testPlayer.setBonus;

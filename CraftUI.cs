@@ -135,6 +135,7 @@ namespace RecipeBrowser
 			mainPanel.Append(sourceBanksCheckbox);
 			left += (int)sourceBanksCheckbox.MinWidth.Pixels + 6;
 
+			// Need to point to chest on hovering over ingredient, or actually implement taking from chest. Nearby, or siphon remotely?
 			UICheckbox sourceChestsCheckbox = new UICheckbox(RBText("Chests"), RBText("ChestsTooltip"));
 			sourceChestsCheckbox.SetDisabled();
 			sourceChestsCheckbox.Top.Set(top, 0f);
@@ -219,6 +220,7 @@ namespace RecipeBrowser
 
 		internal void SetRecipe(int index)
 		{
+			// SetRecipe is more accessible than SetItem through the UI, but might not match the intended player usage. TODO: Option to not limit search to single recipe.
 			selectedIndexes.Clear();
 			selectedIndexes.Add(index);
 			Recipe recipe = Main.recipe[index];

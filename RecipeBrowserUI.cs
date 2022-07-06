@@ -444,12 +444,15 @@ namespace RecipeBrowser
 
 			favoritePanel.Append(HideUnlessInventoryToggle);
 			favoritePanel.Append(closeFavoritePanelButton);
-			var keys = RecipeBrowser.instance.ToggleFavoritedPanelHotKey.GetAssignedKeys(); // todo, could make this dynamic
-			if (keys.Count != 0) {
-				closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), string.Format(RBText("ToggleHint", "PinnedUI"), string.Join(", ", keys)));
-			}
-			else {
-				closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), RBText("ToggleUnboundHint", "PinnedUI"));
+			if (Main.GameUpdateCount > 0) {
+				// TODO: Could make this update via an IL edit or new tmod hook, AssignedKeysChanged
+				var keys = RecipeBrowser.instance.ToggleFavoritedPanelHotKey.GetAssignedKeys();
+				if (keys.Count != 0) {
+					closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), string.Format(RBText("ToggleHint", "PinnedUI"), string.Join(", ", keys)));
+				}
+				else {
+					closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), RBText("ToggleUnboundHint", "PinnedUI"));
+				}
 			}
 
 			UIGrid list = new UIGrid();
@@ -550,6 +553,13 @@ namespace RecipeBrowser
 			foreach (var recipeIndex in removes)
 			{
 				FavoriteChange(recipeIndex, false);
+			}
+
+			if (item.createTile > -1) {
+				List<int> adjTiles = Utilities.PopulateAdjTilesForTile(item.createTile);
+				foreach (var tile in adjTiles) {
+					RecipeBrowserPlayer.seenTiles[tile] = true;
+				}
 			}
 		}
 
