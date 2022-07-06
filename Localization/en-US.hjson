@@ -26,7 +26,7 @@ Mods: {
 			EmptyQuerySlotHint: Place item here
 		}
 
-		PinnedUI: {
+		FavoritedUI: {
 			Close: Close ({0})
 			ToggleHint: Press {0} to toggle
 			ToggleUnboundHint: Set hotkey to toggle 

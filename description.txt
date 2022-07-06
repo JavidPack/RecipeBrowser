@@ -4,7 +4,7 @@ Use the "Query Hovered Item" hotkey to quickly bring up the recipe browser with 
 
 Click on any Recipe to see details. Use categories and search filter to find the recipe you want.
 
-Alt click on a recipe to pin a recipe. You can toggle the visiblity of the pinned recipes with the "Toggle Favorited Recipes Window" hotkey.
+Alt click on a recipe to favorite a recipe. You can toggle the visiblity of the favorited recipes with the "Toggle Favorited Recipes Window" hotkey.
 
 Place an item in the slot to find related recipes.
 

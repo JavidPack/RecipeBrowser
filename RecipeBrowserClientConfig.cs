@@ -47,9 +47,9 @@ namespace RecipeBrowser
 		public Vector2 FavoritedRecipePanelPosition { get; set; }
 
 		[DefaultValue(true)]
-		[Label("Only Show Pinned While Inventory Open")]
-		[Tooltip("Automatically show and hide pinned recipes panel. This will automatically save, no need to adjust")]
-		public bool OnlyShowPinnedWhileInInventory { get; set; }
+		[Label("Only Show Favorited While Inventory Open")]
+		[Tooltip("Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust")]
+		public bool OnlyShowFavoritedWhileInInventory { get; set; }
 
 		internal static void SaveConfig() {
 			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.

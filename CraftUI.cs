@@ -108,7 +108,7 @@ namespace RecipeBrowser
 			top += 25;
 			left = 50;
 
-			// Option to skip some items? Hotbar? Starred?
+			// Option to skip some items? Hotbar? Favorited?
 			UICheckbox sourceInventoryCheckbox = new UICheckbox(RBText("Inventory"), "");
 			sourceInventoryCheckbox.SetDisabled();
 			sourceInventoryCheckbox.Top.Set(top, 0f);

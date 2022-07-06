@@ -416,6 +416,10 @@ namespace RecipeBrowser
 			// returning will result in Popping.
 		}
 
+		internal static bool NPCUnlocked(int npcid) {
+			return Main.BestiaryDB.FindEntryByNPCID(npcid).UIInfoProvider.GetEntryUICollectionInfo().UnlockState > Terraria.GameContent.Bestiary.BestiaryEntryUnlockState.NotKnownAtAll_0;
+		}
+
 		// TODO: Crafting Station requirements, IsAvailable
 		//private static void FindCraftPaths(List<CraftPath> paths, CraftPath inProgress, Recipe current, int recipeMultiple, Dictionary<int, int> haveItems, Dictionary<int, int> needItems)
 		//{

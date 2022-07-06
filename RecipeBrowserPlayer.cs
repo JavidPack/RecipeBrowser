@@ -126,7 +126,7 @@ namespace RecipeBrowser
 		// Called on other clients when a player leaves.
 		public override void PlayerDisconnect(Player player)
 		{
-			// When a player leaves, trigger an update to get rid of Starred Recipe entries.
+			// When a player leaves, trigger an update to get rid of Favorited Recipe entries.
 			if(!Main.dedServ)
 				RecipeBrowserUI.instance.favoritePanelUpdateNeeded = true;
 		}

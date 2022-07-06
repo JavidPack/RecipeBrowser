@@ -22,10 +22,10 @@ namespace RecipeBrowser
 {
 	// Magic storage: item checklist support?
 	// Loot cache manual reset button. Manually trigger recalculation
-	// TODO: Auto favorite items needed for starred recipes. And notify?
-	// TODO: Save starred recipes. Also, crafting check off starred last time, look into it.
+	// TODO: Auto favorite items needed for favorited recipes. And notify?
+	// TODO: Save favorited recipes. Also, crafting check off favorited last time, look into it.
 	// TODO: Hide Items, items not interested in crafting. Only show if query item is that item (so you can still know how to craft if needed in craft chain.)
-	// TODO: Star Loot
+	// TODO: Favorite Loot
 	// TODO: some sort of banner menu?
 	// TODO: Craft in UI for Multiple chests/banks/Magic Storage
 

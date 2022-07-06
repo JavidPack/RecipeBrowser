@@ -55,7 +55,7 @@ namespace RecipeBrowser
 		internal string[] mods;
 
 		public bool ForceShowFavoritePanel;
-		public bool ForceHideFavoritePanel; // Could save to config on exit world to preserve, but if users want that they should just not pin recipes.
+		public bool ForceHideFavoritePanel; // Could save to config on exit world to preserve, but if users want that they should just not favorite recipes.
 
 		private bool showFavoritePanel;
 		public bool ShowFavoritePanel
@@ -302,7 +302,7 @@ namespace RecipeBrowser
 			favoritePanel.Left.Set(config.FavoritedRecipePanelPosition.X, 0f);
 			favoritePanel.Top.Set(config.FavoritedRecipePanelPosition.Y, 0f);
 
-			string closeFavoritePanelButtonHoverText = string.Format(RBText("Close", "PinnedUI"), RBText("ToggleUnboundHint", "PinnedUI"));
+			string closeFavoritePanelButtonHoverText = string.Format(RBText("Close", "FavoritedUI"), RBText("ToggleUnboundHint", "FavoritedUI"));
 			closeFavoritePanelButton = new UIHoverImageButton(closeButtonTexture, closeFavoritePanelButtonHoverText);
 			closeFavoritePanelButton.OnClick += CloseFavoritePanelButtonClicked;
 			closeFavoritePanelButton.Top.Set(0, 0f);
@@ -312,10 +312,10 @@ namespace RecipeBrowser
 			HideUnlessInventoryToggle = new UIElements.UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/TickOnOff", AssetRequestMode.ImmediateLoad), 2, new string[] { "Always show", "Show when inventory" }, 16, 12);
 			HideUnlessInventoryToggle.Top.Set(20, 0f);
 			HideUnlessInventoryToggle.Left.Set(-15, 1f);
-			HideUnlessInventoryToggle.CurrentState = config.OnlyShowPinnedWhileInInventory ? 1 : 0;
+			HideUnlessInventoryToggle.CurrentState = config.OnlyShowFavoritedWhileInInventory ? 1 : 0;
 			HideUnlessInventoryToggle.OnStateChanged += (s, e) => {
 				favoritePanelUpdateNeeded = true;
-				config.OnlyShowPinnedWhileInInventory = HideUnlessInventoryToggle.CurrentState == 1;
+				config.OnlyShowFavoritedWhileInInventory = HideUnlessInventoryToggle.CurrentState == 1;
 				RecipeBrowserClientConfig.SaveConfig();
 			};
 			favoritePanel.Append(HideUnlessInventoryToggle);
@@ -448,10 +448,10 @@ namespace RecipeBrowser
 				// TODO: Could make this update via an IL edit or new tmod hook, AssignedKeysChanged
 				var keys = RecipeBrowser.instance.ToggleFavoritedPanelHotKey.GetAssignedKeys();
 				if (keys.Count != 0) {
-					closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), string.Format(RBText("ToggleHint", "PinnedUI"), string.Join(", ", keys)));
+					closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "FavoritedUI"), string.Format(RBText("ToggleHint", "FavoritedUI"), string.Join(", ", keys)));
 				}
 				else {
-					closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "PinnedUI"), RBText("ToggleUnboundHint", "PinnedUI"));
+					closeFavoritePanelButton.hoverText = string.Format(RBText("Close", "FavoritedUI"), RBText("ToggleUnboundHint", "FavoritedUI"));
 				}
 			}
 
@@ -467,13 +467,13 @@ namespace RecipeBrowser
 			int height = 0;
 			int order = 1;
 
-			// TODO: support non-recipe paths, pin from Craft Path entries: Farm Item from Enemy X,Y,Z
-			// Support setting recipe to a desired count. (Alt click on ingredient that is required X times, the pinned recipe will be multiplied by X) Or scroll to increase? Buttons?
+			// TODO: support non-recipe paths, favorite from Craft Path entries: Farm Item from Enemy X,Y,Z
+			// Support setting recipe to a desired count. (Alt click on ingredient that is required X times, the favorited recipe will be multiplied by X) Or scroll to increase? Buttons?
 			for (int i = 0; i < Main.maxPlayers; i++)
 			{
 				if (i != Main.myPlayer && Main.player[i].active)
 				{
-					foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes) // Collection was modified potential with receiving other player starred recipes?
+					foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes) // Collection was modified potential with receiving other player favorited recipes?
 					{
 						Recipe r = Main.recipe[recipeIndex];
 						UIRecipeProgress s = new UIRecipeProgress(recipeIndex, r, order, i);
@@ -503,7 +503,7 @@ namespace RecipeBrowser
 				favoritePanel.AddDragTarget(s);
 			}
 			if(height == 0) {
-				UIText text = new UIText("No pinned recipes");
+				UIText text = new UIText("No favorited recipes");
 				list.Add(text);
 				var a = text.GetInnerDimensions();
 				text.Recalculate();
