@@ -153,6 +153,10 @@ namespace RecipeBrowser
 
 		private int ItemGridSort(UIElement x, UIElement y)
 		{
+			if (x is UIPanel)
+				return -1;
+			if (y is UIPanel)
+				return 1;
 			UIItemCatalogueItemSlot a = x as UIItemCatalogueItemSlot;
 			UIItemCatalogueItemSlot b = y as UIItemCatalogueItemSlot;
 			if (a == null || b == null) {

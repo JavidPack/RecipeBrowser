@@ -494,6 +494,10 @@ namespace RecipeBrowser
 
 		private int ItemGridSort(UIElement x, UIElement y)
 		{
+			if (x is UIPanel)
+				return -1;
+			if (y is UIPanel)
+				return 1;
 			UIRecipeSlot a = x as UIRecipeSlot;
 			UIRecipeSlot b = y as UIRecipeSlot;
 			if (a.CompareToIgnoreIndex(b) == 0 && SharedUI.instance.SelectedSort != null)
