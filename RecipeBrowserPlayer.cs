@@ -121,6 +121,7 @@ namespace RecipeBrowser
 			{
 				RecipeBrowserUI.instance.UpdateFavoritedPanel();
 			}
+			SharedUI.instance.updateNeeded = true; // Added for creative mode filter hiding.
 		}
 
 		// Called on other clients when a player leaves.

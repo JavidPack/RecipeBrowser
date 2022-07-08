@@ -102,6 +102,10 @@ namespace RecipeBrowser
 		private void PopulateSortsAndFiltersPanel() {
 			var availableSorts = new List<Sort>(sorts);
 			availableFilters = new List<Filter>(filters);
+
+			if (!Main.GameModeInfo.IsJourneyMode)
+				availableFilters.Remove(SharedUI.instance.UnresearchedFilter);
+
 			//sortsAndFiltersPanel.RemoveAllChildren();
 			if (subCategorySortsFiltersGrid != null) {
 				sortsAndFiltersPanel.RemoveChild(subCategorySortsFiltersGrid);
@@ -271,6 +275,7 @@ namespace RecipeBrowser
 		internal Filter CraftableFilter;
 		internal Filter ObtainableFilter;
 		internal Filter DisabledFilter;
+		internal Filter UnresearchedFilter;
 		internal List<Sort> sorts;
 
 		// Items whose textures are resized used during setup
@@ -309,6 +314,7 @@ namespace RecipeBrowser
 			Texture2D materialsIcon = Utilities.StackResizeImage(new[] { TextureAssets.Item[ItemID.SpellTome] }, 24, 24);
 			Texture2D craftableIcon = ResizeImage(TextureAssets.Item[ItemID.IronAnvil], 24, 24);
 			Texture2D extendedCraftIcon = ResizeImage(TextureAssets.Item[ItemID.MythrilAnvil], 24, 24);
+			Texture2D unresearchedIcon = Utilities.StackResizeImage(new[] { Main.Assets.Request<Texture2D>("Images/UI/WorldCreation/IconDifficultyCreative") }, 24, 24);
 			Texture2D disabledIcon = ResizeImage(TextureAssets.Item[ItemID.Blindfold], 24, 24);
 			filters = new List<Filter>()
 			{
@@ -316,6 +322,10 @@ namespace RecipeBrowser
 				(CraftableFilter = new Filter("Craftable", x=>true, craftableIcon)),
 				(ObtainableFilter = new Filter("Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)", x=>true, extendedCraftIcon)),
 				(DisabledFilter = new Filter("Show recipes disabled by Mods", x=>true, disabledIcon)),
+				(UnresearchedFilter = new Filter("Unresearched", x=>{
+					Terraria.GameContent.Creative.CreativeUI.GetSacrificeCount(x.type, out bool fullyResearched);
+					return !fullyResearched;
+				}, unresearchedIcon)),
 			};
 
 			// TODOS: Vanity armor, grapple, cart, potions buffs

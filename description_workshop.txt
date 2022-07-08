@@ -1,21 +1,53 @@
-﻿Use the "Toggle Recipe Browser" hotkey to show/hide the recipe browser. (Assign it in the keybindings menu)
+﻿[img]https://imgur.com/p7Fv1Z6.gif[/img]
 
-Use the "Query Hovered Item" hotkey to quickly bring up the recipe browser with the hovered item. (Assign it in the keybindings menu, I suggest middle click)
+[h1]Recipe Browser![/h1]
+Recipe Browser is an indispensable mod for any player. It provides a service to the user that the Guide could only dream of providing. [img]https://i.imgur.com/420S4WA.gif[/img] With Recipe Browser, you have access to powerful tools to help you plan out what items you want to craft. You'll be able to quickly find items that you can craft with the items in your possession, even if it takes several intermediate crafting steps.
 
-Click on any Recipe to see details. Use categories and search filter to find the recipe you want.
+[h1]How to Use[/h1]
+To use, first you need to assign some hotkeys. Make sure to go into the Keybindings menu and assign hotkeys. The "Toggle Recipe Browser" hotkey is necessary, the other 2 are useful but somewhat optional. The "Query Hovered Item" hotkey streamlines checking recipes and the "Toggle Favorited Recipes Window" is useful when using the favorited recipes feature.
+[img]https://i.imgur.com/7LSLKtL.png[/img]
 
-Alt click on a recipe to favorite a recipe. You can toggle the visiblity of the favorited recipes with the "Toggle Favorited Recipes Window" hotkey.
+[h1]Basic Features[/h1]
+[img]https://i.imgur.com/wt2VPR0.png[/img]
+The main window consists of several tabs. You can click on the tabs to visit each tool. You can resize the window as well. The Help tab explains each tool in greater detail, be sure to check it out.
 
-Place an item in the slot to find related recipes.
+[h1]Recipes[/h1]
+This tool allows you to quickly explore all recipes in the game. You can place an item in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window to discover recipes you'd like to work towards. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
+[img]https://thumbs.gfycat.com/GloriousFluidFly-size_restricted.gif[/img]
 
-You can view extended crafting options in the Craft menu. Recipes that can be satisfied with multiple crafting steps will be here.
+[h1]Craft[/h1]
+This tool can be used to craft recipes, even recipes that require multiple steps to achieve! In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the yellow background can be crafted via multiple steps. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. See the Help tab for more information on this tool.
+[img]https://thumbs.gfycat.com/DescriptiveClosedKatydid-size_restricted.gif[/img]
 
-Also try out the Item Catalogue and Bestiary.
+[h1]Items[/h1]
+Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary.
 
-There is an integrated Help in the Recipe Browser as well.
+[h1]Bestiary[/h1]
+Here you can explore all NPC in the game. Use the filters to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item.
+
+[h1]Favorite[/h1]
+In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently.
+[img]https://i.imgur.com/gvG1FpY.png[/img]
+[img]https://thumbs.gfycat.com/SentimentalCreativeBinturong-size_restricted.gif[/img]
+
+[h1]Query Hovered Item[/h1]
+By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game.
+[img]https://thumbs.gfycat.com/ScholarlyOffensiveCommongonolek-size_restricted.gif[/img]
+
+[h1]Categories, Sub Categories, Sorts, and Filters[/h1]
+There are powerful sorting and filtering options. You can search for specific weapon types, find the most powerful pickaxe you can craft, and more. See the Help tab for more information.
+[img]https://i.imgur.com/cGlveJX.png[/img]
+
+[h2]Armor Set[/h2]
+The Armor Set category lets you view armor sets. Plan out which armor set you want to work towards that fits your playstyle!
+[img]https://thumbs.gfycat.com/SpotlessSolidAsiaticmouflon-size_restricted.gif[/img]
+
+[h1]Help[/h1]
+There are many more features in Recipe Browser, see the Help tab to read and learn more about the features of this mod.
 
 [h1]Links[/h1]
 Source code hosted on [url=github.com/JavidPack/RecipeBrowser]GitHub[/url], collaboration welcome
 For questions or suggestions, come to my Discord: [url=discord.gg/w8Hcwby][img]https://discordapp.com/api/guilds/276235094622994433/widget.png?style=shield[/img][/url]
 Bug reports in the comments here will not be seen, come to Discord or Github to report issues.
 If you'd like to support my mods, I have a Patreon [url=www.patreon.com/jopojelly][img]https://i.imgur.com/xII2DwJ.png[/img][/url]
+[url=https://steamcommunity.com/profiles/76561198025715866/myworkshopfiles/?appid=1281930]Check out all my mods[/url]
