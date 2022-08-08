@@ -404,7 +404,8 @@ namespace RecipeBrowser
 
 		internal void FavoriteChange(int index, bool favorite)
 		{
-			RecipeCatalogueUI.instance.recipeSlots[index].favorited = favorite;
+			if(Recipe.numRecipes == RecipeCatalogueUI.instance.recipeSlots.Count) // might not be initialized yet first time entering world.
+				RecipeCatalogueUI.instance.recipeSlots[index].favorited = favorite;
 			localPlayerFavoritedRecipes.RemoveAll(x => x == index);
 			if (favorite)
 				localPlayerFavoritedRecipes.Add(index);
