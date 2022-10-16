@@ -79,9 +79,9 @@ namespace RecipeBrowser
 			if (cheatSheet == null)
 			{
 			*/
-			ToggleRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Recipe Browser", "OemCloseBrackets");
-			QueryHoveredItemHotKey = KeybindLoader.RegisterKeybind(this, "Query Hovered Item", "Mouse3");
-			ToggleFavoritedPanelHotKey = KeybindLoader.RegisterKeybind(this, "Toggle Favorited Recipes Window", "F3");
+			ToggleRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "ToggleRecipeBrowser", "OemCloseBrackets");
+			QueryHoveredItemHotKey = KeybindLoader.RegisterKeybind(this, "QueryHoveredItem", "Mouse3");
+			ToggleFavoritedPanelHotKey = KeybindLoader.RegisterKeybind(this, "ToggleFavoritedRecipesWindow", "F3");
 			/*
 				CheatSheetLoaded = false;
 			}

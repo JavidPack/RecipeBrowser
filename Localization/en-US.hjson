@@ -16,6 +16,12 @@ Mods: {
 			InstallItemChecklistToUse: Install Item Checklist to use
 		}
 
+		Keybind: {
+			ToggleRecipeBrowser: Toggle Recipe Browser
+			QueryHoveredItem: Query Hovered Item
+			ToggleFavoritedRecipesWindow: Toggle Favorited Recipes Window
+		}
+
 		RecipeCatalogueUI: {
 			Tile: Tile
 			AllRecipes: All Recipes
