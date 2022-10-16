@@ -69,7 +69,7 @@ namespace RecipeBrowser.UIElements
 					// TODO: Alternate recipe.Create that takes from all sources.
 					result.position = Main.LocalPlayer.Center - result.Size; // needed for ItemText
 
-					RecipeLoader.OnCraft(result, recipe);
+					RecipeLoader.OnCraft(result, recipe, null); // There is no destination, I don't put on mouse, I directly pick up. Is this and next line going to cause issues?
 					ItemLoader.OnCreate(result, new RecipeCreationContext { recipe = recipe });
 
 					Item itemIfNoSpace = Main.LocalPlayer.GetItem(Main.myPlayer, result, GetItemSettings.PickupItemFromWorld);
