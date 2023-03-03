@@ -48,6 +48,8 @@ Mods: {
 				'''
 			Loot: Loot
 			LootTooltip: Allow Farming in Craft Path (Unlocked enemies only)
+			Bugnet: Bug
+			BugnetTooltip: Allow Bug Net capturing (Seen only)
 			Shop: Shop
 			ShopTooltip: Allow Buy-able items in Craft Path (Coming Soon)
 			MissingStations: Missing Stations

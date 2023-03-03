@@ -38,6 +38,11 @@ namespace RecipeBrowser
 		internal static bool allowLoots = false;
 		// seenBefore, killedBefore --> Damaged before? Keep track separately for non-banner npc? Use BestiaryUICollectionInfo.UnlockState maybe
 
+		internal static bool allowBugNetables = false;
+		internal static Dictionary<int, int> bugNetables; // Item to NPC mapping
+		//internal static Dictionary<int, int> bugNetablesSeen; // Item to NPC mapping, only seen NPC
+		// TODO: Lavaproof Bug Net
+
 		internal static bool allowMissingStations = false;
 
 		internal static bool allowPurchasable = false;
@@ -156,6 +161,15 @@ namespace RecipeBrowser
 				// TODO: price/special currency.
 			}
 
+			if (bugNetables == null && allowBugNetables) {
+				bugNetables = new Dictionary<int, int>();
+				for (int i = 1; i < ItemLoader.ItemCount; i++) {
+					Item testItem = ContentSamples.ItemsByType[i];
+					if (testItem.makeNPC > 0) {
+						bugNetables[i] = testItem.makeNPC;
+					}
+				}
+			}
 			//loots.Add(ItemID.Gel);
 			//loots.Add(ItemID.CopperBar);
 		}
@@ -400,6 +414,25 @@ namespace RecipeBrowser
 							inProgress.Print();
 						FindCraftPaths(paths, inProgress, token, single);
 						inProgress.Pop(current, lootItemNode);
+					}
+				}
+			}
+
+			if (allowBugNetables && bugNetables != null) {
+				var bugnetable = ViableIngredients.Intersect(bugNetables.Keys);
+
+				foreach (var bugItem in bugnetable) {
+					if (NPCUnlocked(bugNetables[bugItem])) {
+						CraftPath.BugNetItemNode lootItemNode = new CraftPath.BugNetItemNode(bugItem, neededStack, bugNetables[bugItem], current.ChildNumber, current.parent, current.craftPath);
+						inProgress.Push(current, lootItemNode);
+						if (RecipePathTester.print)
+							inProgress.Print();
+						FindCraftPaths(paths, inProgress, token, single);
+						inProgress.Pop(current, lootItemNode);
+						// TODO: Snail statue: do we want to show multiple paths for capturing "any snail"? Hide unseen npc in BugNetItemNode?
+						// Could change this to: Any Snail by capturing snail, glowsnail maybe? Do other nodes do similar, or is that not how I handle groups..?
+						// Hint at other missing npc, or keep them hidden unless cheat mode enabled?
+						break;
 					}
 				}
 			}
@@ -751,6 +784,27 @@ namespace RecipeBrowser
 				//return $"Farm: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(RecipePath.loots[itemid].Select(x => $"[npc:{x}]"))}";
 			}
 
+		}
+
+		internal class BugNetItemNode : CraftPathNode
+		{
+			// TODO: storeID
+			int itemid;
+			int stack;
+			int npcid;
+			public BugNetItemNode(int itemid, int stack, int npcid, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath) {
+				this.itemid = itemid;
+				this.stack = stack;
+				this.npcid = npcid;
+			}
+
+			public override string ToString() {
+				return $"Bug Net: {Lang.GetItemNameValue(itemid)} ({stack}) from {Lang.GetNPCNameValue(npcid)}";
+			}
+
+			public override string ToUITextString() {
+				return $"[image/s0.8,v2,tBug Net:RecipeBrowser/Images/bugNet] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} by capturing [npc:{npcid}]";
+			}
 		}
 
 		internal class UnfulfilledNode : CraftPathNode

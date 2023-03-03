@@ -76,6 +76,17 @@ namespace RecipeBrowser
 			mainPanel.Append(lootables);
 			left += (int)lootables.MinWidth.Pixels + 6;
 
+			UICheckbox bugnetables = new UICheckbox(RBText("Bugnet"), RBText("BugnetTooltip"));
+			bugnetables.Top.Set(top, 0f);
+			bugnetables.Left.Set(left, 0f);
+			bugnetables.Selected = RecipePath.allowBugNetables;
+			bugnetables.OnSelectedChanged += (s, e) => {
+				RecipeCatalogueUI.instance.InvalidateExtendedCraft();
+				RecipePath.allowBugNetables = bugnetables.Selected;
+			};
+			mainPanel.Append(bugnetables);
+			left += (int)bugnetables.MinWidth.Pixels + 6;
+
 			UICheckbox npcShopsCheckbox = new UICheckbox(RBText("Shop"), RBText("ShopTooltip"));
 			npcShopsCheckbox.SetDisabled(); // TODO: implement correctly
 			npcShopsCheckbox.Top.Set(top, 0f);
