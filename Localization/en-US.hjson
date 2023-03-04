@@ -50,6 +50,8 @@ Mods: {
 			LootTooltip: Allow Farming in Craft Path (Unlocked enemies only)
 			Bugnet: Bug
 			BugnetTooltip: Allow Bug Net capturing (Seen only)
+			Mineable: Mineable
+			MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
 			Shop: Shop
 			ShopTooltip: Allow Buy-able items in Craft Path (Coming Soon)
 			MissingStations: Missing Stations
@@ -77,7 +79,17 @@ Mods: {
 
 		BestiaryUI: {
 			Encountered: Encountered
-			ShowOnlyNPCKilledAlready: Show only NPC killed already
+			Unencountered: Unencountered
+			ShowOnlyNPCKilledAlready:
+				'''
+				Show only NPC killed already
+				(Right click to switch to not killed)
+				'''
+			ShowOnlyNPCNotKilled:
+				'''
+				Show only NPC not killed yet
+				(Right click to switch to killed)
+				'''
 			HasLoot: Has Loot
 			ShowOnlyNPCWithLoot: Show only NPC with Loot
 			NewLoot: New Loot

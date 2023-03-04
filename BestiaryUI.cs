@@ -28,6 +28,7 @@ namespace RecipeBrowser
 		internal UIPanel mainPanel;
 		internal UIBestiaryQueryItemSlot queryItem;
 		internal NewUITextBox npcNameFilter;
+		internal bool EncounteredRadioButtonIsUnencountered;
 		internal UICheckbox EncounteredRadioButton;
 		internal UICheckbox HasLootRadioButton;
 		internal UICheckbox NewLootOnlyRadioButton;
@@ -108,9 +109,22 @@ namespace RecipeBrowser
 			mainPanel.Append(npcNameFilter);
 
 			EncounteredRadioButton = new UICheckbox(RBText("Encountered"), RBText("ShowOnlyNPCKilledAlready"));
+			EncounteredRadioButton.TextOriginX = 0; // fixes issue with changing text later
 			EncounteredRadioButton.Top.Set(-40, 1f);
 			EncounteredRadioButton.Left.Set(6, .5f);
 			EncounteredRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
+			EncounteredRadioButton.OnRightClick += (a, b) => {
+				EncounteredRadioButtonIsUnencountered = !EncounteredRadioButtonIsUnencountered;
+				if (EncounteredRadioButtonIsUnencountered) {
+					EncounteredRadioButton.SetText("   " + RBText("Unencountered"));
+					EncounteredRadioButton.SetHoverText(RBText("ShowOnlyNPCNotKilled"));
+				}
+				else {
+					EncounteredRadioButton.SetText("   " + RBText("Encountered"));
+					EncounteredRadioButton.SetHoverText(RBText("ShowOnlyNPCKilledAlready"));
+				}
+				updateNeeded = true;
+			};
 			mainPanel.Append(EncounteredRadioButton);
 
 			HasLootRadioButton = new UICheckbox(RBText("HasLoot"), RBText("ShowOnlyNPCWithLoot"));
@@ -235,7 +249,7 @@ namespace RecipeBrowser
 		{
 			if (EncounteredRadioButton.Selected)
 			{
-				if (!RecipePath.NPCUnlocked(slot.npc.netID)) {
+				if (!EncounteredRadioButtonIsUnencountered == !RecipePath.NPCUnlocked(slot.npc.netID)) {
 					return false;
 				}
 			}

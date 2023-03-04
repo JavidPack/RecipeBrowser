@@ -76,6 +76,17 @@ namespace RecipeBrowser
 			mainPanel.Append(lootables);
 			left += (int)lootables.MinWidth.Pixels + 6;
 
+			UICheckbox mineables = new UICheckbox(RBText("Mineable"), RBText("MineableTooltip"));
+			mineables.Top.Set(top, 0f);
+			mineables.Left.Set(left, 0f);
+			mineables.Selected = RecipePath.allowLoots;
+			mineables.OnSelectedChanged += (s, e) => {
+				RecipeCatalogueUI.instance.InvalidateExtendedCraft();
+				RecipePath.allowMineables = mineables.Selected;
+			};
+			mainPanel.Append(mineables);
+			left += (int)mineables.MinWidth.Pixels + 6;
+
 			UICheckbox bugnetables = new UICheckbox(RBText("Bugnet"), RBText("BugnetTooltip"));
 			bugnetables.Top.Set(top, 0f);
 			bugnetables.Left.Set(left, 0f);

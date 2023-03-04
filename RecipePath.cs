@@ -26,6 +26,8 @@ namespace RecipeBrowser
 		internal static bool thousandExtra = false;
 	}
 
+	public readonly record struct TileTypeMinPickPair(int tileType, int minPick);
+
 	internal static class RecipePath
 	{
 		internal static bool sourceInventory = true;
@@ -37,6 +39,12 @@ namespace RecipeBrowser
 
 		internal static bool allowLoots = false;
 		// seenBefore, killedBefore --> Damaged before? Keep track separately for non-banner npc? Use BestiaryUICollectionInfo.UnlockState maybe
+
+		// Simplify logic by only doing terrain tiles.
+		internal static bool allowMineables = false;
+		internal static Dictionary<int, List<TileTypeMinPickPair>> mineables; // ItemID to List(TileID, minpick)....are there even any examples of 2 tiles dropping 1 item besides wood?
+		//internal static Dictionary<int, int> mineableWalls; // ItemID to WallIDs
+		internal static MethodInfo GetPickaxeDamageMethodInfo;
 
 		internal static bool allowBugNetables = false;
 		internal static Dictionary<int, int> bugNetables; // Item to NPC mapping
@@ -169,6 +177,58 @@ namespace RecipeBrowser
 						bugNetables[i] = testItem.makeNPC;
 					}
 				}
+			}
+
+			if (mineables == null && allowMineables) {
+				// should mineables include drops from grass and other tiles that break on swing? Main.tileCut
+				GetPickaxeDamageMethodInfo = typeof(Player).GetMethod("GetPickaxeDamage", BindingFlags.Instance | BindingFlags.NonPublic);
+				mineables = new Dictionary<int, List<TileTypeMinPickPair>>();
+				for (int i = 1; i < ItemLoader.ItemCount; i++) {
+					Item testItem = ContentSamples.ItemsByType[i];
+					// Want to tell user to mine Silver ore, not Silver bar. If user placed 1 silver bar, we'd want to forget that if mined so the recommendation is mine silver ore again. --> !Main.tileFrameImportant
+					// Tiles with different styles complicate things, and aren't usually ingredients, but just furniture. Also Bars tile would require tracking each tile+style pair, which would make seenTiles more complicated. Not really needed.
+					// Jungle Spores, for example, aren't covered by current logic.
+					if (testItem.createTile > -1 && !Main.tileFrameImportant[testItem.createTile]) {
+						// maybe only care about TileID.Sets.Ores?
+						if (Main.tileCut[testItem.createTile]) {
+							// Cobweb is in this category.
+							List<TileTypeMinPickPair> tileMinPickPairs;
+							if (!mineables.TryGetValue(i, out tileMinPickPairs))
+								mineables.Add(i, tileMinPickPairs = new List<TileTypeMinPickPair>());
+							tileMinPickPairs.Add(new(testItem.createTile, -1));
+						}
+						else {
+							Tile tile = Main.tile[0, 0];
+							tile.HasTile = true;
+							tile.TileType = (ushort)testItem.createTile;
+							for (int pickPower = 5; i < 300; pickPower += 5) {
+								int hitBufferIndex = Main.LocalPlayer.hitTile.HitObject(0, 0, 1);
+								// private int GetPickaxeDamage(int x, int y, int pickPower, int hitBufferIndex, Tile tileTarget)
+								int pickDamage = (int)GetPickaxeDamageMethodInfo.Invoke(Main.LocalPlayer, new object[] { 0, 0, pickPower, hitBufferIndex, tile });
+								if (pickDamage > 0) {
+									List<TileTypeMinPickPair> tileMinPickPairs;
+									if (!mineables.TryGetValue(i, out tileMinPickPairs))
+										mineables.Add(i, tileMinPickPairs = new List<TileTypeMinPickPair>());
+									tileMinPickPairs.Add(new(testItem.createTile, pickPower));
+									break;
+								}
+							}
+						}
+					}
+
+					// TODO: This probably should be a separate dictionary, but the value of the dictionary is currently unused anyway.
+					/*if (testItem.createWall > -1) {
+						List<int> tiles;
+						if (!mineables.TryGetValue(i, out tiles))
+							mineables.Add(i, tiles = new List<int>());
+						tiles.Add(testItem.createWall);
+						//mineables[i] = testItem.createTile;
+					}*/
+				}
+				// Trees don't currently count towards wood, maybe it should, manually?
+				//mineables.Add(ItemID.Wood, new List<int>() { TileID.Trees, TileID.WoodBlock });
+				//mineables.Add(ItemID.SilverOre, new List<int>() { TileID.Silver });
+				//mineables.Add(ItemID.Obsidian, new List<int>() { TileID.Obsidian });
 			}
 			//loots.Add(ItemID.Gel);
 			//loots.Add(ItemID.CopperBar);
@@ -414,6 +474,29 @@ namespace RecipeBrowser
 							inProgress.Print();
 						FindCraftPaths(paths, inProgress, token, single);
 						inProgress.Pop(current, lootItemNode);
+					}
+				}
+			}
+
+			if (allowMineables && mineables != null) {
+				int pickPower = Main.LocalPlayer.GetBestPickaxe()?.pick ?? -1; // if no pick in inventory, -1 should prevent all mining, except Main.tileCut results
+				var mineableItems = ViableIngredients.Intersect(mineables.Keys);
+				if (mineableItems.Count() > 0) {
+					foreach (var mineableItem in mineableItems) {
+						List<TileTypeMinPickPair> tileMinPickPairs = mineables[mineableItem];
+						foreach ((int tileType, int minPick) in tileMinPickPairs) {
+							if (!RecipeBrowserPlayer.seenTiles[tileType])
+								continue;
+							if (pickPower < minPick)
+								continue;
+
+							CraftPath.MineItemNode lootItemNode = new CraftPath.MineItemNode(mineableItem, neededStack, current.ChildNumber, current.parent, current.craftPath);
+							inProgress.Push(current, lootItemNode);
+							if (RecipePathTester.print)
+								inProgress.Print();
+							FindCraftPaths(paths, inProgress, token, single);
+							inProgress.Pop(current, lootItemNode);
+						}
 					}
 				}
 			}
@@ -784,6 +867,25 @@ namespace RecipeBrowser
 				//return $"Farm: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(RecipePath.loots[itemid].Select(x => $"[npc:{x}]"))}";
 			}
 
+		}
+
+		internal class MineItemNode : CraftPathNode
+		{
+			int itemid;
+			int stack;
+			public MineItemNode(int itemid, int stack, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath) {
+				this.itemid = itemid;
+				this.stack = stack;
+			}
+
+			public override string ToString() {
+				return $"Mine: {Lang.GetItemNameValue(itemid)} ({stack})";
+			}
+
+			public override string ToUITextString() {
+				// Pass in tile? make Tile chat tag? Probably not needed, tile and item sprites are similar enough.
+				return $"[image/s0.8,v2,tMine:RecipeBrowser/Images/sortPick] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from the world";
+			}
 		}
 
 		internal class BugNetItemNode : CraftPathNode
