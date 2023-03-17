@@ -16,6 +16,12 @@ Mods: {
 			InstallItemChecklistToUse: 安装[Item Checklist]可使用
 		}
 
+		Keybind: {
+			ToggleRecipeBrowser: 开关合成表
+			QueryHoveredItem: 查询当前光标悬浮的物品
+			ToggleFavoritedRecipesWindow: 开关收藏的合成窗口
+		}
+
 		RecipeCatalogueUI: {
 			Tile: 环境
 			AllRecipes: 全部配方
@@ -26,12 +32,26 @@ Mods: {
 			EmptyQuerySlotHint: 在此放置物品
 		}
 
+		FavoritedUI: {
+			Close: 关闭 ({0})
+			ToggleHint: 按{0}开关
+			ToggleUnboundHint: 设置快捷键以开关
+		}
+
 		CraftUI: {
-			EmptyQuerySlotHint: 在此放置物品
+			EmptyQuerySlotHint: 在此处放置物品
 			Calc: 计算
-			CalcTooltip: 在[合成配方]中切换优先扩展制作步骤的计算
+			CalcTooltip:
+				'''
+				在合成配方中切换优先扩展制作步骤的计算
+				可能会导致延迟
+				'''
 			Loot: 掉落
 			LootTooltip: 允许显示可掉落获得的物品 (仅拥有旗帜的生物)
+			Bugnet: 虫子
+			BugnetTooltip: 允许显示可由虫网捕获的虫子 (仅可见)
+			Mineable: 可挖掘
+			MineableTooltip: 允许显示可从世界中挖掘的物块处获得的物品 (使用最好的镐)
 			Shop: 商店
 			ShopTooltip: 允许显示可购买获得的物品 (即将推出)
 			MissingStations: 新制作站
@@ -59,9 +79,19 @@ Mods: {
 
 		BestiaryUI: {
 			Encountered: 曾击杀
-			ShowOnlyNPCKilledAlready: 仅显示曾击杀过的生物
+			Unencountered: 未遇到
+			ShowOnlyNPCKilledAlready: 
+				'''
+				只显示已被击杀的生物
+				(右键切换至未被击杀的生物)
+				'''
+			ShowOnlyNPCWithLoot: 
+				'''
+				只显示未被击杀的生物
+				(右键切换至已被击杀的生物)
+				'''
 			HasLoot: 含掉落物
-			ShowOnlyNPCWithLoot: 仅显示含有掉落物的生物
+			ShowOnlyNPCWithLoot: 仅显示曾获得过其掉落物的生物
 			NewLoot: 新掉落物
 			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示含有从未曾获得过其掉落物的生物
 			EmptyQuerySlotHint: 在此放置物品
