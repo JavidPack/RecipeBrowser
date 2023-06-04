@@ -91,10 +91,10 @@ namespace RecipeBrowser
 		}
 
 		// Only happens on local client/SP
-		public override void OnEnterWorld(Player player)
+		public override void OnEnterWorld()
 		{
 			seenTiles = new bool[TileLoader.TileCount];
-			Point center = player.Center.ToTileCoordinates();
+			Point center = Player.Center.ToTileCoordinates();
 			for (int i = center.X - 100; i < center.X + 100; i++)
 			{
 				for (int j = center.Y - 100; j < center.Y + 100; j++)
@@ -109,7 +109,7 @@ namespace RecipeBrowser
 				}
 			}
 			// All crafting tile items in inventory also count as "seen"
-			foreach (var item in player.inventory) {
+			foreach (var item in Player.inventory) {
 				if (item.active) {
 					RecipeBrowserUI.instance.ItemReceived(item);
 				}
@@ -125,7 +125,7 @@ namespace RecipeBrowser
 		}
 
 		// Called on other clients when a player leaves.
-		public override void PlayerDisconnect(Player player)
+		public override void PlayerDisconnect()
 		{
 			// When a player leaves, trigger an update to get rid of Favorited Recipe entries.
 			if(!Main.dedServ)
@@ -137,7 +137,7 @@ namespace RecipeBrowser
 			SendFavoritedRecipes(toWho, fromWho, true);
 		}
 
-		public override void clientClone(ModPlayer clientClone)
+		public override void CopyClientState(ModPlayer clientClone)
 		{
 			RecipeBrowserPlayer clone = clientClone as RecipeBrowserPlayer;
 			clone.favoritedRecipes.AddRange(favoritedRecipes);

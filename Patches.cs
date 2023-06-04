@@ -14,7 +14,7 @@ namespace RecipeBrowser
 
 			// This patch Invalidates the precomputed extended craft unless the reason for FindRecipes was just AdjTiles, since we ignore AdjTiles changes.
 			if(!Main.dedServ)
-				On.Terraria.Recipe.FindRecipes += (orig, canDelayCheck) =>
+				Terraria.On_Recipe.FindRecipes += (orig, canDelayCheck) =>
 				{
 					orig(canDelayCheck);
 
@@ -31,7 +31,7 @@ namespace RecipeBrowser
 				};
 
 			// This patch will call FindRecipes even if the player inventory is closed, keeping Craft tool buttons accurate.
-			On.Terraria.Player.AdjTiles += (orig, player) => {
+			Terraria.On_Player.AdjTiles += (orig, player) => {
 				AdjTilesActive = true;
 				orig(player);
 

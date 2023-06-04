@@ -119,7 +119,7 @@ namespace RecipeBrowser.UIElements
 			return drops;
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			clickIndicatorTime = ClickTime;
 			// Calculate
@@ -149,7 +149,7 @@ namespace RecipeBrowser.UIElements
 			}
 		}
 
-		public override void DoubleClick(UIMouseEvent evt)
+		public override void LeftDoubleClick(UIMouseEvent evt)
 		{
 			// Open up bestiary tab
 			// Large grid for npc

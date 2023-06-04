@@ -9,9 +9,9 @@ namespace RecipeBrowser.UIElements
 		{
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
-			base.Click(evt);
+			base.LeftClick(evt);
 			CraftUI.instance.SetItem(item.type);
 		}
 	}

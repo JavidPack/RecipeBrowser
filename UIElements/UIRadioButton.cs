@@ -36,7 +36,7 @@ namespace RecipeBrowser
 			}
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			if (disabled) return;
 			if (!partOfGroup)

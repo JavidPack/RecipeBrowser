@@ -79,8 +79,8 @@ namespace RecipeBrowser.UIElements
 			return count >= stopCountingAt ? stopCountingAt : count;
 		}
 
-		public override void Click(UIMouseEvent evt) {
-			base.Click(evt);
+		public override void LeftClick(UIMouseEvent evt) {
+			base.LeftClick(evt);
 
 			if (Main.keyState.IsKeyDown(Main.FavoriteKey)) {
 				if (Main.drawingPlayerChat) {

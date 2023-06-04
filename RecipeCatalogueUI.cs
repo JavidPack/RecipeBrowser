@@ -931,7 +931,7 @@ namespace RecipeBrowser
 			CraftUI.instance.craftPathsUpToDate = false;
 
 			if (SharedUI.instance.ObtainableFilter?.button.selected == true)
-				SharedUI.instance.ObtainableFilter.button.Click(new UIMouseEvent(null, Vector2.Zero));
+				SharedUI.instance.ObtainableFilter.button.LeftClick(new UIMouseEvent(null, Vector2.Zero));
 		}
 	}
 }

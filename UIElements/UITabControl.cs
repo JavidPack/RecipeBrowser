@@ -36,7 +36,7 @@ namespace RecipeBrowser
 			UIText text = new UIText(label, 0.85f);
 			text.Top.Set(0, 0f);
 			//text.HAlign = 1f;
-			text.OnClick += Text_OnClick;
+			text.OnLeftClick += Text_OnClick;
 			mainPanel.Append(text);
 			texts.Add(text);
 

@@ -185,7 +185,7 @@ namespace RecipeBrowser
 			button.Left.Set(10, 0);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
-			button.OnClick += (a, b) => tabController.SetPanel(RecipeCatalogue);
+			button.OnLeftClick += (a, b) => tabController.SetPanel(RecipeCatalogue);
 			button.BackgroundColor = RecipeCatalogueUI.color;
 
 			UIText text = new UIText(RBText("Recipes"), 0.85f);
@@ -200,7 +200,7 @@ namespace RecipeBrowser
 			button.Left.Set(85, 0);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
-			button.OnClick += (a, b) => { tabController.SetPanel(Craft); };
+			button.OnLeftClick += (a, b) => { tabController.SetPanel(Craft); };
 			button.BackgroundColor = CraftUI.color;
 
 			text = new UIText(RBText("Craft"), 0.85f);
@@ -215,7 +215,7 @@ namespace RecipeBrowser
 			button.Left.Set(160, 0);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
-			button.OnClick += (a, b) => { tabController.SetPanel(ItemCatalogue); itemCatalogueUI.updateNeeded = true; };
+			button.OnLeftClick += (a, b) => { tabController.SetPanel(ItemCatalogue); itemCatalogueUI.updateNeeded = true; };
 			button.BackgroundColor = ItemCatalogueUI.color;
 
 			text = new UIText(RBText("Items"), 0.85f);
@@ -230,7 +230,7 @@ namespace RecipeBrowser
 			button.Left.Set(235, 0);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
-			button.OnClick += (a, b) => tabController.SetPanel(Bestiary);
+			button.OnLeftClick += (a, b) => tabController.SetPanel(Bestiary);
 			button.BackgroundColor = BestiaryUI.color;
 
 			text = new UIText(RBText("Bestiary"), 0.85f);
@@ -245,7 +245,7 @@ namespace RecipeBrowser
 			button.Left.Set(-155, 1);
 			button.Width.Set(80, 0);
 			button.Height.Set(22, 0);
-			button.OnClick += (a, b) => tabController.SetPanel(Help);
+			button.OnLeftClick += (a, b) => tabController.SetPanel(Help);
 			button.BackgroundColor = HelpUI.color;
 
 			text = new UIText("Help", 0.85f);
@@ -269,14 +269,14 @@ namespace RecipeBrowser
 			var modFilterButton = new UIHoverImageButtonMod(filterModTexture, filterModColorableTexture, RBText("ModFilter") + ": " + RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
-			modFilterButton.OnClick += ModFilterButton_OnClick;
+			modFilterButton.OnLeftClick += ModFilterButton_OnClick;
 			modFilterButton.OnRightClick += ModFilterButton_OnRightClick;
 			modFilterButton.OnMiddleClick += ModFilterButton_OnMiddleClick;
 			button.Append(modFilterButton);
 
 			Asset<Texture2D> closeButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/closeButton", AssetRequestMode.ImmediateLoad);
 			closeButton = new UIHoverImageButton(closeButtonTexture, RBText("Close"));
-			closeButton.OnClick += CloseButtonClicked;
+			closeButton.OnLeftClick += CloseButtonClicked;
 			closeButton.Left.Set(-26, 1f);
 			closeButton.VAlign = 0.5f;
 			button.Append(closeButton);
@@ -305,7 +305,7 @@ namespace RecipeBrowser
 
 			string closeFavoritePanelButtonHoverText = string.Format(RBText("Close", "FavoritedUI"), RBText("ToggleUnboundHint", "FavoritedUI"));
 			closeFavoritePanelButton = new UIHoverImageButton(closeButtonTexture, closeFavoritePanelButtonHoverText);
-			closeFavoritePanelButton.OnClick += CloseFavoritePanelButtonClicked;
+			closeFavoritePanelButton.OnLeftClick += CloseFavoritePanelButtonClicked;
 			closeFavoritePanelButton.Top.Set(0, 0f);
 			closeFavoritePanelButton.Left.Set(-15, 1f);
 			favoritePanel.Append(closeFavoritePanelButton);

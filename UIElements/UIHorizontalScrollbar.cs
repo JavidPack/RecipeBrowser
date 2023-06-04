@@ -97,9 +97,9 @@ namespace RecipeBrowser.UIElements
 			this.DrawBar(spriteBatch, this._innerTexture.Value, handleRectangle, Color.White * ((this._isDragging || this._isHoveringOverHandle) ? 1f : 0.85f));
 		}
 
-		public override void MouseDown(UIMouseEvent evt)
+		public override void LeftMouseDown(UIMouseEvent evt)
 		{
-			base.MouseDown(evt);
+			base.LeftMouseDown(evt);
 			if (evt.Target == this)
 			{
 				Rectangle handleRectangle = this.GetHandleRectangle();
@@ -115,9 +115,9 @@ namespace RecipeBrowser.UIElements
 			}
 		}
 
-		public override void MouseUp(UIMouseEvent evt)
+		public override void LeftMouseUp(UIMouseEvent evt)
 		{
-			base.MouseUp(evt);
+			base.LeftMouseUp(evt);
 			this._isDragging = false;
 		}
 	}
@@ -139,11 +139,11 @@ namespace RecipeBrowser.UIElements
 			UserInterface.ActiveInstance = temp;
 		}
 
-		public override void MouseDown(UIMouseEvent evt)
+		public override void LeftMouseDown(UIMouseEvent evt)
 		{
 			UserInterface temp = UserInterface.ActiveInstance;
 			UserInterface.ActiveInstance = userInterface;
-			base.MouseDown(evt);
+			base.LeftMouseDown(evt);
 			UserInterface.ActiveInstance = temp;
 		}
 	}
@@ -162,11 +162,11 @@ namespace RecipeBrowser.UIElements
 			UserInterface.ActiveInstance = temp;
 		}
 
-		public override void MouseDown(UIMouseEvent evt)
+		public override void LeftMouseDown(UIMouseEvent evt)
 		{
 			UserInterface temp = UserInterface.ActiveInstance;
 			UserInterface.ActiveInstance = userInterface;
-			base.MouseDown(evt);
+			base.LeftMouseDown(evt);
 			UserInterface.ActiveInstance = temp;
 		}
 	}

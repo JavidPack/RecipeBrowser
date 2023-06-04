@@ -80,12 +80,12 @@ Mods: {
 		BestiaryUI: {
 			Encountered: 曾击杀
 			Unencountered: 未遇到
-			ShowOnlyNPCKilledAlready: 
+			ShowOnlyNPCKilledAlready:
 				'''
 				只显示已被击杀的生物
 				(右键切换至未被击杀的生物)
 				'''
-			ShowOnlyNPCWithLoot: 
+			ShowOnlyNPCNotKilled:
 				'''
 				只显示未被击杀的生物
 				(右键切换至已被击杀的生物)
@@ -95,6 +95,55 @@ Mods: {
 			NewLoot: 新掉落物
 			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示含有从未曾获得过其掉落物的生物
 			EmptyQuerySlotHint: 在此放置物品
+		}
+
+		Keybinds: {
+			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
+			// QueryHoveredItem.DisplayName: Query Hovered Item
+			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+		}
+
+		Configs: {
+			RecipeBrowserClientConfig: {
+				// DisplayName: Recipe Browser Client Config
+
+				ShowRecipeModSource: {
+					// Label: Show Recipe Mod Source
+					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+				}
+
+				ShowItemModSource: {
+					// Label: Show Item Mod Source
+					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+				}
+
+				ShowNPCModSource: {
+					// Label: Show NPC Mod Source
+					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+				}
+
+				// Headers.AutomaticSettings: Automatic Settings
+
+				RecipeBrowserSize: {
+					// Label: Recipe Browser Size
+					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				RecipeBrowserPosition: {
+					// Label: Recipe Browser Poisition
+					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				FavoritedRecipePanelPosition: {
+					// Label: Favorited Recipes Poisition
+					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+				}
+
+				OnlyShowFavoritedWhileInInventory: {
+					// Label: Only Show Favorited While Inventory Open
+					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+				}
+			}
 		}
 	}
 }

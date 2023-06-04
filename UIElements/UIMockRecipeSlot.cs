@@ -21,9 +21,9 @@ namespace RecipeBrowser.UIElements
 			this.slot = slot;
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
-			slot.Click(evt);
+			slot.LeftClick(evt);
 			if (!Main.keyState.IsKeyDown(Main.FavoriteKey))
 			{
 				if ((slot.craftPathCalculated || slot.craftPathsCalculated) && slot.craftPaths.Count > 0)

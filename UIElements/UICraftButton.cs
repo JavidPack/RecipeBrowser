@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -53,9 +54,9 @@ namespace RecipeBrowser.UIElements
 			}
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
-			base.Click(evt);
+			base.LeftClick(evt);
 			for (int i = 0; i < recipeNode.multiplier; i++)
 			{
 				Recipe.FindRecipes();
@@ -70,12 +71,13 @@ namespace RecipeBrowser.UIElements
 					result.position = Main.LocalPlayer.Center - result.Size; // needed for ItemText
 
 					RecipeLoader.OnCraft(result, recipe, null); // There is no destination, I don't put on mouse, I directly pick up. Is this and next line going to cause issues?
-					ItemLoader.OnCreate(result, new RecipeCreationContext { recipe = recipe });
+					// Duplicate call? I don't think this is needed:
+					// ItemLoader.OnCreate(result, new RecipeItemCreationContext { recipe = recipe });
 
 					Item itemIfNoSpace = Main.LocalPlayer.GetItem(Main.myPlayer, result, GetItemSettings.PickupItemFromWorld);
 					if (itemIfNoSpace.stack > 0)
 					{
-						Main.LocalPlayer.QuickSpawnClonedItem(Main.LocalPlayer.GetSource_Misc("PlayerDropItemCheck"), itemIfNoSpace, itemIfNoSpace.stack);
+						Main.LocalPlayer.QuickSpawnItem(Main.LocalPlayer.GetSource_Misc("PlayerDropItemCheck"), itemIfNoSpace, itemIfNoSpace.stack);
 					}
 				}
 				else

@@ -33,9 +33,9 @@ namespace RecipeBrowser.UIElements
 
 			var neededTiles = new HashSet<int>(path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().SelectMany(x => x.recipe.requiredTile));
 			neededTiles.Remove(-1);
-			var needWater = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Recipe.Condition.NearWater));
-			var needHoney = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Recipe.Condition.NearHoney));
-			var needLava = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Recipe.Condition.NearLava));
+			var needWater = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Condition.NearWater));
+			var needHoney = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Condition.NearHoney));
+			var needLava = path.root.GetAllChildrenPreOrder().OfType<CraftPath.RecipeNode>().Any(x => x.recipe.HasCondition(Condition.NearLava));
 
 			var missingTiles = neededTiles.Where(x => !Main.LocalPlayer.adjTile[x]);
 
@@ -126,9 +126,9 @@ namespace RecipeBrowser.UIElements
 				{
 					var neededTiles = new HashSet<int>(recipeNode.recipe.requiredTile);
 					neededTiles.Remove(-1);
-					var needWater = recipeNode.recipe.HasCondition(Recipe.Condition.NearWater);
-					var needHoney = recipeNode.recipe.HasCondition(Recipe.Condition.NearHoney);
-					var needLava = recipeNode.recipe.HasCondition(Recipe.Condition.NearLava);
+					var needWater = recipeNode.recipe.HasCondition(Condition.NearWater);
+					var needHoney = recipeNode.recipe.HasCondition(Condition.NearHoney);
+					var needLava = recipeNode.recipe.HasCondition(Condition.NearLava);
 
 					UIRecipeInfoRightAligned simpleRecipeInfo = new UIRecipeInfoRightAligned(neededTiles.ToList(), needWater, needHoney, needLava);
 					simpleRecipeInfo.Top.Set(top, 0);

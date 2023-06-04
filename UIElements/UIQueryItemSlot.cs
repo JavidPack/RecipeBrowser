@@ -34,7 +34,7 @@ namespace RecipeBrowser.UIElements
 			}
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			Player player = Main.LocalPlayer;
 			if (player.itemAnimation == 0 && player.itemTime == 0)

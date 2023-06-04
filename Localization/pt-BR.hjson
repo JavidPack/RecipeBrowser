@@ -16,6 +16,12 @@ Mods: {
 			InstallItemChecklistToUse: Instale Item Checklist para usar
 		}
 
+		Keybind: {
+			// ToggleRecipeBrowser: Toggle Recipe Browser
+			// QueryHoveredItem: Query Hovered Item
+			// ToggleFavoritedRecipesWindow: Toggle Favorited Recipes Window
+		}
+
 		RecipeCatalogueUI: {
 			Tile: Título
 			AllRecipes: Todas as receitas
@@ -24,6 +30,12 @@ Mods: {
 			ItemChecklistOnly: Somente pela Item Checklist
 			OnlyNewItemsMadeFromSeenItems: Somente Itens novos feitos com Itens Vistos
 			EmptyQuerySlotHint: Coloque o item aqui
+		}
+
+		FavoritedUI: {
+			// Close: Close ({0})
+			// ToggleHint: Press {0} to toggle
+			// ToggleUnboundHint: Set hotkey to toggle
 		}
 
 		CraftUI: {
@@ -36,6 +48,10 @@ Mods: {
 				'''
 			Loot: Espólio
 			LootTooltip: Permitir Farming no Caminho de Criação (Funciona apenas para Inimigos com Bandeiras)
+			// Bugnet: Bug
+			// BugnetTooltip: Allow Bug Net capturing (Seen only)
+			// Mineable: Mineable
+			// MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
 			Shop: Loja
 			ShopTooltip: Permitir itens Compráveis no Caminho de Criação (Em Breve)
 			MissingStations: Estações Ausentes
@@ -63,12 +79,67 @@ Mods: {
 
 		BestiaryUI: {
 			Encountered: Encontrado
+			// Unencountered: Unencountered
 			ShowOnlyNPCKilledAlready: Mostrar apenas NPCs já mortos
+			/* ShowOnlyNPCNotKilled:
+				'''
+				Show only NPC not killed yet
+				(Right click to switch to killed)
+				''' */
 			HasLoot: Tem Espólios
 			ShowOnlyNPCWithLoot: Mostrar apenas NPCs com Espólios
 			NewLoot: Espólios Novos
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar apenas NPCs com Espólios nunca vistos antes
 			EmptyQuerySlotHint: Coloque o item aqui
+		}
+
+		Keybinds: {
+			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
+			// QueryHoveredItem.DisplayName: Query Hovered Item
+			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+		}
+
+		Configs: {
+			RecipeBrowserClientConfig: {
+				// DisplayName: Recipe Browser Client Config
+
+				ShowRecipeModSource: {
+					// Label: Show Recipe Mod Source
+					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+				}
+
+				ShowItemModSource: {
+					// Label: Show Item Mod Source
+					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+				}
+
+				ShowNPCModSource: {
+					// Label: Show NPC Mod Source
+					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+				}
+
+				// Headers.AutomaticSettings: Automatic Settings
+
+				RecipeBrowserSize: {
+					// Label: Recipe Browser Size
+					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				RecipeBrowserPosition: {
+					// Label: Recipe Browser Poisition
+					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				FavoritedRecipePanelPosition: {
+					// Label: Favorited Recipes Poisition
+					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+				}
+
+				OnlyShowFavoritedWhileInInventory: {
+					// Label: Only Show Favorited While Inventory Open
+					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+				}
+			}
 		}
 	}
 }

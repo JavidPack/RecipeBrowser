@@ -60,10 +60,10 @@ namespace RecipeBrowser.UIElements
 			}
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			CurrentState = (currentState + 1) % states;
-			base.Click(evt);
+			base.LeftClick(evt);
 		}
 
 		public override void RightClick(UIMouseEvent evt)

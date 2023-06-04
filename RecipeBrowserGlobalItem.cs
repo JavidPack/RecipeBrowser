@@ -2,6 +2,7 @@
 using RecipeBrowser.UIElements;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace RecipeBrowser
@@ -9,7 +10,7 @@ namespace RecipeBrowser
 	internal class RecipeBrowserGlobalItem : GlobalItem
 	{
 		// OnPickup only called on LocalPlayer: I think
-		public override void OnCreate(Item item, ItemCreationContext context)
+		public override void OnCreated(Item item, ItemCreationContext context)
 		{
 			ItemReceived(item);
 		}

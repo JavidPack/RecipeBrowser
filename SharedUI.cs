@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using static RecipeBrowser.Utilities;
+using Terraria.WorldBuilding;
 
 namespace RecipeBrowser
 {
@@ -290,7 +291,7 @@ namespace RecipeBrowser
 			ItemID.FallenStarfish, ItemID.HermesBoots, ItemID.LeafWings, ItemID.Minecart, ItemID.HealingPotion, ItemID.ManaPotion, ItemID.RagePotion,
 			ItemID.AlphabetStatueA, ItemID.GoldChest, ItemID.PaintingMartiaLisa, ItemID.HeartStatue, ItemID.Wire, ItemID.PurificationPowder,
 			ItemID.Extractinator, ItemID.UnicornonaStick, ItemID.SilverHelmet, ItemID.BunnyHood, ItemID.ZephyrFish, ItemID.Sign, ItemID.FallenStarfish,
-			ItemID.HealingPotion, ItemID.OrangeDye, ItemID.Candelabra, ItemID.WoodenDoor, ItemID.WoodenChair, ItemID.PalmWoodTable, ItemID.ChineseLantern,
+			ItemID.HealingPotion, ItemID.OrangeDye, ItemID.Candelabra, ItemID.GrandfatherClock, ItemID.WoodenDoor, ItemID.WoodenChair, ItemID.PalmWoodTable, ItemID.ChineseLantern,
 			ItemID.RainbowTorch, ItemID.GoldBunny, ItemID.WoodenDoor, ItemID.WoodenChair, ItemID.PalmWoodTable, ItemID.ChineseLantern, ItemID.RainbowTorch
 		};
 
@@ -426,7 +427,7 @@ namespace RecipeBrowser
 			// Potions, other?
 			// should inherit children?
 			// should have other category?
-			if (WorldGen.statueList == null)
+			if (GenVars.statueList == null)
 				WorldGen.SetupStatueList();
 
 			var vanity = new MutuallyExclusiveFilter("Vanity", x => x.vanity, smallVanity);
@@ -488,7 +489,7 @@ namespace RecipeBrowser
 						new Category("Crafting Stations", x=>RecipeCatalogueUI.instance.craftingTiles.Contains(x.createTile), smallCraftingStation),
 						new Category("Containers", x=>x.createTile!=-1 && Main.tileContainer[x.createTile], smallContainer),
 						new Category("Wiring", x=>ItemID.Sets.SortingPriorityWiring[x.type] > -1, smallWiring),
-						new Category("Statues", x=>WorldGen.statueList.Any(point => point.X == x.createTile && point.Y == x.placeStyle), smallStatue),
+						new Category("Statues", x=>GenVars.statueList.Any(point => point.X == x.createTile && point.Y == x.placeStyle), smallStatue), // Alphabet statues not here, should they be included?
 						new Category("Doors", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsDoor.Contains(x.createTile), ResizeImage2424(TextureAssets.Item[ItemID.WoodenDoor])),
 						new Category("Chairs", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsChair.Contains(x.createTile), ResizeImage2424(TextureAssets.Item[ItemID.WoodenChair])),
 						new Category("Tables", x=> x.createTile > 0 && TileID.Sets.RoomNeeds.CountsAsTable.Contains(x.createTile), ResizeImage2424(TextureAssets.Item[ItemID.PalmWoodTable])),
@@ -679,7 +680,7 @@ namespace RecipeBrowser
 			this.belongs = belongs;
 
 			this.button = new UISilentImageButton(texture, name);
-			button.OnClick += (a, b) => {
+			button.OnLeftClick += (a, b) => {
 				button.selected = !button.selected;
 				ItemCatalogueUI.instance.updateNeeded = true;
 				RecipeCatalogueUI.instance.updateNeeded = true;
@@ -693,7 +694,7 @@ namespace RecipeBrowser
 		List<Filter> exclusives;
 
 		public MutuallyExclusiveFilter(string name, Predicate<Item> belongs, Texture2D texture) : base(name, belongs, texture) {
-			button.OnClick += (a, b) => {
+			button.OnLeftClick += (a, b) => {
 				if (button.selected) {
 					foreach (var item in exclusives) {
 						if (item != this)
@@ -719,7 +720,7 @@ namespace RecipeBrowser
 				return belongs(item) ^ right;
 			};
 			button = new UIBadgedSilentImageButton(texture, name + " (RMB)");
-			button.OnClick += (a, b) => {
+			button.OnLeftClick += (a, b) => {
 				button.selected = !button.selected;
 				ItemCatalogueUI.instance.updateNeeded = true;
 				RecipeCatalogueUI.instance.updateNeeded = true;
@@ -753,14 +754,14 @@ namespace RecipeBrowser
 			//CycleFilter needs SharedUI.instance.updateNeeded to update image, since each filter acts independently.
 
 			var firstButton = new UISilentImageButton(texture, name);
-			firstButton.OnClick += (a, b) => ButtonBehavior(true);
+			firstButton.OnLeftClick += (a, b) => ButtonBehavior(true);
 			firstButton.OnRightClick += (a, b) => ButtonBehavior(false);
 
 			buttons.Add(firstButton);
 
 			for (int i = 0; i < filters.Count; i++) {
 				var buttonOption = new UISilentImageButton(filters[i].texture, filters[i].name);
-				buttonOption.OnClick += (a, b) => ButtonBehavior(true);
+				buttonOption.OnLeftClick += (a, b) => ButtonBehavior(true);
 				buttonOption.OnRightClick += (a, b) => ButtonBehavior(false);
 				buttonOption.OnMiddleClick += (a, b) => ButtonBehavior(false, true);
 				buttons.Add(buttonOption);
@@ -790,7 +791,7 @@ namespace RecipeBrowser
 		public Sort(string hoverText, Texture2D texture, Func<Item, Item, int> sort) {
 			this.sort = sort;
 			button = new UISilentImageButton(texture, hoverText);
-			button.OnClick += (a, b) => {
+			button.OnLeftClick += (a, b) => {
 				SharedUI.instance.SelectedSort = this;
 			};
 		}
@@ -838,7 +839,7 @@ namespace RecipeBrowser
 			this.belongs = belongs;
 
 			this.button = new UISilentImageButton(texture, name);
-			button.OnClick += (a, b) => {
+			button.OnLeftClick += (a, b) => {
 				//Main.NewText("clicked on " + button.hoverText);
 				SharedUI.instance.SelectedCategory = this;
 			};

@@ -11,44 +11,30 @@ namespace RecipeBrowser
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
 		[DefaultValue(true)]
-		[Label("Show Recipe Mod Source")]
-		[Tooltip("Show which mod adds which recipe in the recipe catalog. Disable for immersion.")]
 		public bool ShowRecipeModSource { get; set; }
 
 		[DefaultValue(true)]
-		[Label("Show Item Mod Source")]
-		[Tooltip("Show which mod adds which item in the recipe catalog. Disable for immersion.")]
 		public bool ShowItemModSource { get; set; }
 
 		[DefaultValue(true)]
-		[Label("Show NPC Mod Source")]
-		[Tooltip("Show which mod adds which NPC in the bestiary. Disable for immersion.")]
 		public bool ShowNPCModSource { get; set; }
 
-		[Header("Automatic Settings")]
+		[Header("AutomaticSettings")]
 		// non-player specific stuff:
 
 		[DefaultValue(typeof(Vector2), "475, 350")]
 		[Range(0f, 1920f)]
-		[Label("Recipe Browser Size")]
-		[Tooltip("Size of the Recipe Browser UI. This will automatically save, no need to adjust")]
 		public Vector2 RecipeBrowserSize { get; set; }
 
 		[DefaultValue(typeof(Vector2), "400, 400")]
 		[Range(0f, 1920f)]
-		[Label("Recipe Browser Poisition")]
-		[Tooltip("Position of the Recipe Browser UI. This will automatically save, no need to adjust")]
 		public Vector2 RecipeBrowserPosition { get; set; }
 
 		[DefaultValue(typeof(Vector2), "-310, 90")]
 		[Range(-1920f, 0f)]
-		[Label("Favorited Recipes Poisition")]
-		[Tooltip("Position of the Favorited Recipes UI. This will automatically save, no need to adjust")]
 		public Vector2 FavoritedRecipePanelPosition { get; set; }
 
 		[DefaultValue(true)]
-		[Label("Only Show Favorited While Inventory Open")]
-		[Tooltip("Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust")]
 		public bool OnlyShowFavoritedWhileInInventory { get; set; }
 
 		internal static void SaveConfig() {

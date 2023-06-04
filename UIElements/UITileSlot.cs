@@ -31,7 +31,7 @@ namespace RecipeBrowser.UIElements
 			this.Height.Set(backgroundTexture.Height * scale, 0f);
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			//RecipeCatalogueUI.instance.ToggleTileChooser(false);
 			//RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);
@@ -43,7 +43,7 @@ namespace RecipeBrowser.UIElements
 				RecipeCatalogueUI.instance.Tile = tile;
 		}
 
-		public override void DoubleClick(UIMouseEvent evt)
+		public override void LeftDoubleClick(UIMouseEvent evt)
 		{
 			//RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(0);
 			//RecipeCatalogueUI.instance.Tile = tile;

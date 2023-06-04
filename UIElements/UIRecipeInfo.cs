@@ -99,8 +99,8 @@ namespace RecipeBrowser
 				// white if window not open?
 				int yAdjust = (row + 1) * 26;
 				foreach (var condition in selectedRecipe.Conditions) {
-					bool state = condition.RecipeAvailable(selectedRecipe);
-					string description = condition.Description;
+					bool state = condition.IsMet(); //.RecipeAvailable(selectedRecipe);
+					string description = condition.Description.Value;
 					DoChatTag(sb, comma, state, description);
 					DoChatTag(sbTiles, comma, state, description);
 					yAdjust += 26;

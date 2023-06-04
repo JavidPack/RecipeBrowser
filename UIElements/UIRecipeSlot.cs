@@ -42,7 +42,7 @@ namespace RecipeBrowser.UIElements
 			this.index = index;
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			if (Main.keyState.IsKeyDown(Main.FavoriteKey))
 			{
@@ -84,7 +84,7 @@ namespace RecipeBrowser.UIElements
 			// Idea: Glint the CraftUI tab if extended craft available?
 		}
 
-		public override void DoubleClick(UIMouseEvent evt)
+		public override void LeftDoubleClick(UIMouseEvent evt)
 		{
 			if (Main.keyState.IsKeyDown(Main.FavoriteKey))
 				return;

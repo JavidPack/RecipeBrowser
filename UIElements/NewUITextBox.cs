@@ -51,7 +51,7 @@ namespace RecipeBrowser
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
 
 			var closeButton = new UIHoverImageButton(CloseButtonTexture, "");
-			closeButton.OnClick += (a, b) => SetText("");
+			closeButton.OnLeftClick += (a, b) => SetText("");
 			closeButton.Left.Set(-20f, 1f);
 			//closeButton.Top.Set(0f, .5f);
 			closeButton.VAlign = 0.5f;
@@ -59,10 +59,10 @@ namespace RecipeBrowser
 			Append(closeButton);
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			Focus();
-			base.Click(evt);
+			base.LeftClick(evt);
 		}
 
 		public override void RightClick(UIMouseEvent evt)

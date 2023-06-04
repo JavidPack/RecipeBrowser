@@ -34,7 +34,7 @@ namespace RecipeBrowser
 	internal class RecipeBrowser : Mod
 	{
 		internal static RecipeBrowser instance;
-		internal static Dictionary<string, ModTranslation> translations; // reference to private field.
+		//internal static Dictionary<string, LocalizedText> translations; // reference to private field.
 		internal static Mod itemChecklistInstance;
 		internal ModKeybind ToggleRecipeBrowserHotKey;
 		internal ModKeybind QueryHoveredItemHotKey;
@@ -68,8 +68,8 @@ namespace RecipeBrowser
 			ChatManager.Register<TagHandlers.ItemHoverFixTagHandler>("itemhover");
 			//ChatManager.Register<TagHandlers.URLTagHandler>("u", "url");
 
-			FieldInfo translationsField = typeof(LocalizationLoader).GetField("translations", BindingFlags.Static | BindingFlags.NonPublic);
-			translations = (Dictionary<string, ModTranslation>)translationsField.GetValue(this);
+			//FieldInfo translationsField = typeof(LocalizationLoader).GetField("translations", BindingFlags.Static | BindingFlags.NonPublic);
+			//translations = (Dictionary<string, LocalizedText>)translationsField.GetValue(this);
 			
 			if (ModLoader.TryGetMod("ItemChecklist", out itemChecklistInstance) && itemChecklistInstance.Version < new Version(0, 2, 1))
 				itemChecklistInstance = null;
@@ -91,33 +91,15 @@ namespace RecipeBrowser
 				CheatSheetLoaded = true;
 			}
 			*/
-			if (!Main.dedServ /*&& !CheatSheetLoaded*/) {
-				recipeBrowserTool = new RecipeBrowserTool();
-				UIElements.UIRecipeSlot.favoritedBackgroundTexture = Assets.Request<Texture2D>("Images/FavoritedOverlay");
-				UIElements.UIRecipeSlot.selectedBackgroundTexture = Assets.Request<Texture2D>("Images/SelectedOverlay");
-				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftBackground");
-				UIElements.UIRecipeSlot.ableToCraftExtendedBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftExtendedBackground");
-				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftBackground");
-				UIElements.UICheckbox.checkboxTexture = Assets.Request<Texture2D>("UIElements/checkBox");
-				UIElements.UICheckbox.checkmarkTexture = Assets.Request<Texture2D>("UIElements/checkMark");
-				UIHorizontalGrid.moreLeftTexture = Assets.Request<Texture2D>("UIElements/MoreLeft");
-				UIHorizontalGrid.moreRightTexture = Assets.Request<Texture2D>("UIElements/MoreRight");
-				UIGrid.moreUpTexture = Assets.Request<Texture2D>("UIElements/MoreUp");
-				UIGrid.moreDownTexture = Assets.Request<Texture2D>("UIElements/MoreDown");
-				Utilities.tileTextures = new Dictionary<int, Texture2D>();
-
-				concurrentTaskHandlerToken = new CancellationTokenSource();
-				concurrentTaskHandler = Task.Run(() => ConcurrentTaskHandler());
-			}
 
 			Patches.Apply();
 		}
 
 		internal static string RBText(string category, string key)
 		{
-			return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
+			// return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
 			// This isn't good until after load....
-			// return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+			return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
 		}
 
 		public void PreSaveAndQuit() {
@@ -132,7 +114,7 @@ namespace RecipeBrowser
 				concurrentTaskHandler?.Wait();
 			}
 			instance = null;
-			translations = null;
+			//translations = null;
 			itemChecklistInstance = null;
 			LootCache.instance = null;
 			ToggleRecipeBrowserHotKey = null;
@@ -208,6 +190,23 @@ namespace RecipeBrowser
 		{
 			if (!Main.dedServ)
 			{
+				recipeBrowserTool = new RecipeBrowserTool();
+				UIElements.UIRecipeSlot.favoritedBackgroundTexture = Assets.Request<Texture2D>("Images/FavoritedOverlay");
+				UIElements.UIRecipeSlot.selectedBackgroundTexture = Assets.Request<Texture2D>("Images/SelectedOverlay");
+				UIElements.UIRecipeSlot.ableToCraftBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftBackground");
+				UIElements.UIRecipeSlot.ableToCraftExtendedBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftExtendedBackground");
+				UIElements.UIMockRecipeSlot.ableToCraftBackgroundTexture = Assets.Request<Texture2D>("Images/CanCraftBackground");
+				UIElements.UICheckbox.checkboxTexture = Assets.Request<Texture2D>("UIElements/checkBox");
+				UIElements.UICheckbox.checkmarkTexture = Assets.Request<Texture2D>("UIElements/checkMark");
+				UIHorizontalGrid.moreLeftTexture = Assets.Request<Texture2D>("UIElements/MoreLeft");
+				UIHorizontalGrid.moreRightTexture = Assets.Request<Texture2D>("UIElements/MoreRight");
+				UIGrid.moreUpTexture = Assets.Request<Texture2D>("UIElements/MoreUp");
+				UIGrid.moreDownTexture = Assets.Request<Texture2D>("UIElements/MoreDown");
+				Utilities.tileTextures = new Dictionary<int, Texture2D>();
+
+				concurrentTaskHandlerToken = new CancellationTokenSource();
+				concurrentTaskHandler = Task.Run(() => ConcurrentTaskHandler());
+
 				if (itemChecklistInstance != null)
 				{
 					itemChecklistInstance.Call(
@@ -215,15 +214,6 @@ namespace RecipeBrowser
 						(Action<int>)ItemChecklistItemFound
 					);
 				}
-			}
-		}
-
-		public override void PostAddRecipes()
-		{
-			if (!Main.dedServ)
-			{
-				LootCacheManager.Setup(this);
-				RecipeBrowserUI.instance.PostSetupContent();
 			}
 		}
 
@@ -370,7 +360,7 @@ namespace RecipeBrowser
 			return "Failure";
 		}
 
-		public override void AddRecipes()
+		/*public override void AddRecipes()
 		{
 			// Test crafting station display
 			//var recipe = new ModRecipe(this);
@@ -380,7 +370,7 @@ namespace RecipeBrowser
 			//recipe.needWater = true;
 			//recipe.SetResult(Terraria.ID.ItemID.PumpkinPie, 2);
 			//recipe.AddRecipe();
-		}
+		}*/
 	}
 
 	//static class Extensions

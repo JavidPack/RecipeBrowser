@@ -141,13 +141,13 @@ namespace RecipeBrowser.UIElements
 		{
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
 			ItemCatalogueUI.instance.SetItem(this);
 			CraftUI.instance.SetItem(this.item.type);
 		}
 
-		public override void DoubleClick(UIMouseEvent evt)
+		public override void LeftDoubleClick(UIMouseEvent evt)
 		{
 			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
 			RecipeCatalogueUI.instance.itemNameFilter.SetText("");
@@ -187,7 +187,7 @@ namespace RecipeBrowser.UIElements
 		{
 		}
 
-		public override void DoubleClick(UIMouseEvent evt)
+		public override void LeftDoubleClick(UIMouseEvent evt)
 		{
 			RecipeCatalogueUI.instance.itemDescriptionFilter.SetText("");
 			RecipeCatalogueUI.instance.itemNameFilter.SetText("");

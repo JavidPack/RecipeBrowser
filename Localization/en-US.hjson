@@ -35,7 +35,7 @@ Mods: {
 		FavoritedUI: {
 			Close: Close ({0})
 			ToggleHint: Press {0} to toggle
-			ToggleUnboundHint: Set hotkey to toggle 
+			ToggleUnboundHint: Set hotkey to toggle
 		}
 
 		CraftUI: {
@@ -95,6 +95,55 @@ Mods: {
 			NewLoot: New Loot
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Show only NPC with never before seen Loot
 			EmptyQuerySlotHint: Place item here
+		}
+
+		Keybinds: {
+			ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
+			QueryHoveredItem.DisplayName: Query Hovered Item
+			ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+		}
+
+		Configs: {
+			RecipeBrowserClientConfig: {
+				DisplayName: Recipe Browser Client Config
+
+				ShowRecipeModSource: {
+					Label: Show Recipe Mod Source
+					Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+				}
+
+				ShowItemModSource: {
+					Label: Show Item Mod Source
+					Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+				}
+
+				ShowNPCModSource: {
+					Label: Show NPC Mod Source
+					Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+				}
+
+				Headers.AutomaticSettings: Automatic Settings
+
+				RecipeBrowserSize: {
+					Label: Recipe Browser Size
+					Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				RecipeBrowserPosition: {
+					Label: Recipe Browser Poisition
+					Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				FavoritedRecipePanelPosition: {
+					Label: Favorited Recipes Poisition
+					Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+				}
+
+				OnlyShowFavoritedWhileInInventory: {
+					Label: Only Show Favorited While Inventory Open
+					Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+				}
+			}
 		}
 	}
 }

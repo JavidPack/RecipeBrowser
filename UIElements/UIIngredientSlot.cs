@@ -19,16 +19,16 @@ namespace RecipeBrowser.UIElements
 			this.order = order;
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
-			base.Click(evt);
+			base.LeftClick(evt);
 			//RecipeBrowserUI.instance.SetRecipe(index);
 			RecipeCatalogueUI.instance.queryLootItem = this.item;
 			RecipeCatalogueUI.instance.updateNeeded = true;
 			clickIndicatorTime = ClickTime;
 		}
 
-		public override void DoubleClick(UIMouseEvent evt)
+		public override void LeftDoubleClick(UIMouseEvent evt)
 		{
 			RecipeBrowserUI.instance.tabController.SetPanel(RecipeBrowserUI.RecipeCatalogue);
 			if (!RecipeBrowserUI.instance.ShowRecipeBrowser)

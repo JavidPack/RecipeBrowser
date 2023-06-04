@@ -20,5 +20,13 @@ namespace RecipeBrowser
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) => RecipeBrowser.instance.ModifyInterfaceLayers(layers);
 
 		public override void PreSaveAndQuit() => RecipeBrowser.instance.PreSaveAndQuit();
+
+		public override void PostAddRecipes()
+		{
+			if (!Main.dedServ) {
+				LootCacheManager.Setup(RecipeBrowser.instance);
+				RecipeBrowserUI.instance.PostSetupContent();
+			}
+		}
 	}
 }

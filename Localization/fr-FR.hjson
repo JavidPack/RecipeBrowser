@@ -2,6 +2,7 @@ Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
 			Recipes: Artisanat
+			// Craft: Craft
 			Items: Objets
 			Bestiary: Bestiaire
 			Close: Fermer
@@ -15,6 +16,12 @@ Mods: {
 			InstallItemChecklistToUse: Installer Item Checklist pour Utiliser
 		}
 
+		Keybind: {
+			// ToggleRecipeBrowser: Toggle Recipe Browser
+			// QueryHoveredItem: Query Hovered Item
+			// ToggleFavoritedRecipesWindow: Toggle Favorited Recipes Window
+		}
+
 		RecipeCatalogueUI: {
 			Tile: Bloc
 			AllRecipes: Toutes les Recettes
@@ -22,6 +29,42 @@ Mods: {
 			ClickToRefresh: Cliquer pour Rafraîchir
 			ItemChecklistOnly: Item Checklist Uniquement
 			OnlyNewItemsMadeFromSeenItems: Voir Uniquement les Nouveaux Objets Provenant d'Objets Déjà Vus
+			// EmptyQuerySlotHint: Place item here
+		}
+
+		FavoritedUI: {
+			// Close: Close ({0})
+			// ToggleHint: Press {0} to toggle
+			// ToggleUnboundHint: Set hotkey to toggle
+		}
+
+		CraftUI: {
+			// EmptyQuerySlotHint: Place item here
+			// Calc: Calc
+			/* CalcTooltip:
+				'''
+				Toggles Preemptive Extended Craft Calculation in Recipes
+				Can cause lag
+				''' */
+			// Loot: Loot
+			// LootTooltip: Allow Farming in Craft Path (Unlocked enemies only)
+			// Bugnet: Bug
+			// BugnetTooltip: Allow Bug Net capturing (Seen only)
+			// Mineable: Mineable
+			// MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
+			// Shop: Shop
+			// ShopTooltip: Allow Buy-able items in Craft Path (Coming Soon)
+			// MissingStations: Missing Stations
+			// MissingStationsTooltip: Allow Crafting Stations Never Encountered (Resets when you enter a world)
+			// Inventory: Inventory
+			// Banks: Banks
+			// BanksTooltip: Include Items from personal Piggy Bank, Safe, and Defenders Forge (Coming Soon)
+			// Chests: Chests
+			// ChestsTooltip: Include Items from Nearby Chests (Coming Soon)
+			// MagicStorage: Magic Storage
+			// MagicStorageTooltip: Include Items and Crafting Stations from Nearby Magic Storage (Coming Soon)
+			// BottomInstructions: RMB on Recipes to quickly visit this tab
+			// NoPathsFound: No Paths Found for this Recipe/Item
 		}
 
 		ItemCatalogueUI: {
@@ -36,11 +79,67 @@ Mods: {
 
 		BestiaryUI: {
 			Encountered: Rencontré
+			// Unencountered: Unencountered
 			ShowOnlyNPCKilledAlready: Voir Uniquement les Ennemis Déjà Vaincus
+			/* ShowOnlyNPCNotKilled:
+				'''
+				Show only NPC not killed yet
+				(Right click to switch to killed)
+				''' */
 			HasLoot: Possède du Butin
 			ShowOnlyNPCWithLoot: Voir Uniquement les Ennemis à Butin
 			NewLoot: Nouveau Butin
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Voir Uniquement les Ennemis avec du Butin Jamais Obtenu
+			// EmptyQuerySlotHint: Place item here
+		}
+
+		Keybinds: {
+			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
+			// QueryHoveredItem.DisplayName: Query Hovered Item
+			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+		}
+
+		Configs: {
+			RecipeBrowserClientConfig: {
+				// DisplayName: Recipe Browser Client Config
+
+				ShowRecipeModSource: {
+					// Label: Show Recipe Mod Source
+					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+				}
+
+				ShowItemModSource: {
+					// Label: Show Item Mod Source
+					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+				}
+
+				ShowNPCModSource: {
+					// Label: Show NPC Mod Source
+					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+				}
+
+				// Headers.AutomaticSettings: Automatic Settings
+
+				RecipeBrowserSize: {
+					// Label: Recipe Browser Size
+					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				RecipeBrowserPosition: {
+					// Label: Recipe Browser Poisition
+					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+				}
+
+				FavoritedRecipePanelPosition: {
+					// Label: Favorited Recipes Poisition
+					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+				}
+
+				OnlyShowFavoritedWhileInInventory: {
+					// Label: Only Show Favorited While Inventory Open
+					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+				}
+			}
 		}
 	}
 }

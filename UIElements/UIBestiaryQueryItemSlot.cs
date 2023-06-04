@@ -9,9 +9,9 @@ namespace RecipeBrowser.UIElements
 		{
 		}
 
-		public override void Click(UIMouseEvent evt)
+		public override void LeftClick(UIMouseEvent evt)
 		{
-			base.Click(evt);
+			base.LeftClick(evt);
 			//BestiaryUI.instance.queryLootItem = (item.type == 0) ? null : item;
 			ReplaceWithFake(item.type);
 			BestiaryUI.instance.updateNeeded = true;
