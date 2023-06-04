@@ -53,7 +53,7 @@ Mods: {
 			Mineable: 可挖掘
 			MineableTooltip: 允许显示可从世界中挖掘的物块处获得的物品 (使用最好的镐)
 			Shop: 商店
-			ShopTooltip: 允许显示可购买获得的物品 (Untranslated)
+			ShopTooltip: 允许显示可购买获得的物品 (仅商人可见)
 			MissingStations: 新制作站
 			MissingStationsTooltip: 允许显示从未曾遇到过的制作站 (进入新世界时将重置)
 			Inventory: 背包
@@ -98,50 +98,50 @@ Mods: {
 		}
 
 		Keybinds: {
-			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
-			// QueryHoveredItem.DisplayName: Query Hovered Item
-			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser.DisplayName: 开关合成表
+			QueryHoveredItem.DisplayName: 查询当前光标悬浮的物品
+			ToggleFavoritedRecipesWindow.DisplayName: 开关收藏的合成窗口
 		}
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				// DisplayName: Recipe Browser Client Config
+				DisplayName: 合成表客户端设置
 
 				ShowRecipeModSource: {
-					// Label: Show Recipe Mod Source
-					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+					Label: 显示合成表的模组来源
+					Tooltip: 显示合成表目录中的合成表由哪个模组添加. Disable for immersion.
 				}
 
 				ShowItemModSource: {
-					// Label: Show Item Mod Source
-					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+					Label: 显示物品的模组来源
+					Tooltip: 显示合成表目录中的物品由哪个模组添加. Disable for immersion.
 				}
 
 				ShowNPCModSource: {
-					// Label: Show NPC Mod Source
-					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+					Label: 显示NPC的模组来源
+					Tooltip: 显示图鉴中的NPC由哪个模组添加. Disable for immersion.
 				}
 
-				// Headers.AutomaticSettings: Automatic Settings
+				Headers.AutomaticSettings: 自动设置
 
 				RecipeBrowserSize: {
-					// Label: Recipe Browser Size
-					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: 合成表大小
+					Tooltip: 合成表UI的大小. 会自动保存, 无需调整
 				}
 
 				RecipeBrowserPosition: {
-					// Label: Recipe Browser Poisition
-					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: 合成表位置
+					Tooltip: 合成表UI的位置. 会自动保存, 无需调整
 				}
 
 				FavoritedRecipePanelPosition: {
-					// Label: Favorited Recipes Poisition
-					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+					Label: 收藏的合成窗口位置
+					Tooltip: 收藏的合成窗口UI的位置. 会自动保存, 无需调整
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
-					// Label: Only Show Favorited While Inventory Open
-					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+					Label: 仅在打开物品栏时显示收藏的合成窗口
+					Tooltip: 自动显示和隐藏收藏的合成表面板. 会自动保存, 无需调整
 				}
 			}
 		}
