@@ -99,7 +99,6 @@ namespace RecipeBrowser
 			left += (int)bugnetables.MinWidth.Pixels + 6;
 
 			UICheckbox npcShopsCheckbox = new UICheckbox(RBText("Shop"), RBText("ShopTooltip"));
-			npcShopsCheckbox.SetDisabled(); // TODO: implement correctly
 			npcShopsCheckbox.Top.Set(top, 0f);
 			npcShopsCheckbox.Left.Set(left, 0f);
 			npcShopsCheckbox.Selected = RecipePath.allowPurchasable;

@@ -53,7 +53,7 @@ Mods: {
 			Mineable: 可挖掘
 			MineableTooltip: 允许显示可从世界中挖掘的物块处获得的物品 (使用最好的镐)
 			Shop: 商店
-			ShopTooltip: 允许显示可购买获得的物品 (即将推出)
+			ShopTooltip: 允许显示可购买获得的物品 (Untranslated)
 			MissingStations: 新制作站
 			MissingStationsTooltip: 允许显示从未曾遇到过的制作站 (进入新世界时将重置)
 			Inventory: 背包

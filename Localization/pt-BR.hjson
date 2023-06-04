@@ -53,7 +53,7 @@ Mods: {
 			// Mineable: Mineable
 			// MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
 			Shop: Loja
-			ShopTooltip: Permitir itens Compráveis no Caminho de Criação (Em Breve)
+			ShopTooltip: Permitir itens Compráveis no Caminho de Criação (Untranslated)
 			MissingStations: Estações Ausentes
 			MissingStationsTooltip: Permitir Estações de Criação Nunca Encontradas (Redefinido quando você entra em um mundo)
 			Inventory: Inventário

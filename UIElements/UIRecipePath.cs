@@ -6,6 +6,7 @@ using System.Text;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 
 namespace RecipeBrowser.UIElements
 {
@@ -43,7 +44,10 @@ namespace RecipeBrowser.UIElements
 			sb.Append("Cost: ");
 			foreach (var data in totalItemCost)
 			{
-				sb.Append(ItemHoverFixTagHandler.GenerateTag(data.Key, data.Value));
+				if (data.Key == ItemID.CopperCoin) // Assuming Coins not used as ingredients, fix if problem.
+					sb.Append(CraftPath.BuyItemNode.GetTotalCostAsTags(data.Value));
+				else
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(data.Key, data.Value));
 			}
 
 			// Maybe have a summary tiles needed if Full Craft implemented
@@ -113,6 +117,9 @@ namespace RecipeBrowser.UIElements
 				{
 					totalItemCost.Adjust(item.Item1, item.Item2);
 				}
+			}
+			if(node is CraftPath.BuyItemNode buyItemNode) {
+				totalItemCost.Adjust(ItemID.CopperCoin, buyItemNode.TotalPrice);
 			}
 
 			if (sb.Length > 0)

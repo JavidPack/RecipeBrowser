@@ -35,6 +35,7 @@ namespace RecipeBrowser
 		internal UICheckbox CraftedRadioButton;
 		internal UICheckbox LootRadioButton;
 		internal UICheckbox UnobtainedRadioButton;
+		// TODO: Purchaseable checkbox.
 
 		public ItemCatalogueUI()
 		{

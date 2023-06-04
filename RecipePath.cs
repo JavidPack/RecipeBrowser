@@ -28,6 +28,8 @@ namespace RecipeBrowser
 
 	public readonly record struct TileTypeMinPickPair(int tileType, int minPick);
 
+	public record class ShopEntry(int npcType, NPCShop.Entry entry);
+
 	internal static class RecipePath
 	{
 		internal static bool sourceInventory = true;
@@ -53,8 +55,8 @@ namespace RecipeBrowser
 
 		internal static bool allowMissingStations = false;
 
-		internal static bool allowPurchasable = false;
-		internal static Dictionary<int, List<int>> purchasable;
+		internal static bool allowPurchasable = true;
+		internal static Dictionary<int, List<ShopEntry>> purchasable; // Map Item to shop entries (NPCType, NPCShop.Entry). For faster lookup.
 
 		// internal static HashSet<int> harvestable;
 
@@ -132,41 +134,17 @@ namespace RecipeBrowser
 			//	}
 			//}
 
-			// TODO: Travel Shop NPCLoader.SetupTravelShop()
-			// sometimes purchasable
 			if (purchasable == null && allowPurchasable)
 			{
-				// only current town NPC.
-				purchasable = new Dictionary<int, List<int>>();
-
-				FieldInfo shopToNPCField = typeof(NPCLoader).GetField("shopToNPC", BindingFlags.Static | BindingFlags.NonPublic);
-				int[] shopToNPC = (int[])shopToNPCField.GetValue(null);
-
-				for (int k = 0; k < 200; k++)
-				{
-					// Use the non-smartselect CanChat vanillaCanChat value
-					if (Main.npc[k].active && NPCLoader.CanChat(Main.npc[k], Main.npc[k].townNPC || Main.npc[k].type == 105 || Main.npc[k].type == 106 || Main.npc[k].type == 123 || Main.npc[k].type == 354 || Main.npc[k].type == 376 || Main.npc[k].type == 579 || Main.npc[k].type == 453))
-					{
-						int type = Main.npc[k].type;
-						int shop = Array.IndexOf(shopToNPC, type);
-						if (shop == -1)
-							shop = Main.MaxShopIDs - 1;
-
-						Main.instance.shop[shop].SetupShop(shop == Main.MaxShopIDs - 1 ? type : shop);
-
-						foreach (var item in Main.instance.shop[shop].item)
-						{
-							if (!item.IsAir)
-							{
-								List<int> shopList;
-								if (!purchasable.TryGetValue(item.type, out shopList))
-									purchasable.Add(item.type, shopList = new List<int>());
-								shopList.Add(type);
-							}
-						}
+				purchasable = new Dictionary<int, List<ShopEntry>>();
+				foreach (var shop in NPCShopDatabase.AllShops.OfType<NPCShop>()) {
+					foreach (var entry in shop.Entries) {
+						List<ShopEntry> shopList;
+						if (!purchasable.TryGetValue(entry.Item.type, out shopList))
+							purchasable.Add(entry.Item.type, shopList = new List<ShopEntry>());
+						shopList.Add(new ShopEntry(shop.NpcType, entry));
 					}
 				}
-				// TODO: price/special currency.
 			}
 
 			if (bugNetables == null && allowBugNetables) {
@@ -433,19 +411,45 @@ namespace RecipeBrowser
 			{
 				// TODO recipe groups.
 				var buyAble = ViableIngredients.Intersect(purchasable.Keys);
-				//if (ViableIngredients.Any(x => purchasable.Contains(x)))
 				if (buyAble.Count() > 0)
 				{
+					// TODO: Check conditions.
+					// TODO: Check NPC in world, if encountered before, show since respawn possible.
+					// TODO: Find NPC selling for the least.
+					// TODO: Support Custom currency
 					// TODO: If Can afford. 
+					// TODO: Auto-purchase button, like craft button.
 					// TODO: Take into account incomplete already owned items?
 					// UnfulfilledNode should probably be nested under HaveItemNode, or merged together.
 
-					CraftPath.BuyItemNode buyItemNode = new CraftPath.BuyItemNode(buyAble.First(), neededStack, current.ChildNumber, current.parent, current.craftPath);
-					inProgress.Push(current, buyItemNode);
-					if (RecipePathTester.print)
-						inProgress.Print();
-					FindCraftPaths(paths, inProgress, token, single);
-					inProgress.Pop(current, buyItemNode);
+					// Find first buyable item from ViableIngredients
+					foreach (var purchaseItem in buyAble) {
+						var shopEntries = purchasable[purchaseItem];
+						foreach (var shopEntry in shopEntries) {
+							// If TownNPC hasn't been seen, skip.
+							if (!RecipePath.NPCUnlocked(shopEntry.npcType))
+								continue;
+
+							// Toggleable? If support showing conditions, allow this to be toggleable.
+							if (!shopEntry.entry.ConditionsMet())
+								continue;
+
+							if (shopEntry.entry.Item.shopSpecialCurrency != -1)
+								continue; // Support later.
+
+							// Make a single entry for buying? (which price to show?)
+
+							int price = shopEntry.entry.Item.shopCustomPrice ?? shopEntry.entry.Item.value;
+
+							// just pass in ShopEntry instead?
+							CraftPath.BuyItemNode buyItemNode = new CraftPath.BuyItemNode(purchaseItem, neededStack, price, shopEntry.npcType, current.ChildNumber, current.parent, current.craftPath);
+							inProgress.Push(current, buyItemNode);
+							if (RecipePathTester.print)
+								inProgress.Print();
+							FindCraftPaths(paths, inProgress, token, single);
+							inProgress.Pop(current, buyItemNode);
+						}
+					}
 				}
 			}
 
@@ -791,10 +795,17 @@ namespace RecipeBrowser
 			// TODO: storeID
 			int itemid;
 			int stack;
-			public BuyItemNode(int itemid, int stack, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath)
+			int price;
+			int npcID;
+
+			internal int TotalPrice => price * stack;
+
+			public BuyItemNode(int itemid, int stack, int price, int npcID, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath)
 			{
 				this.itemid = itemid;
 				this.stack = stack;
+				this.price = price;
+				this.npcID = npcID;
 			}
 
 			internal override void ConsumeResources(CraftPath path)
@@ -828,7 +839,28 @@ namespace RecipeBrowser
 
 			public override string ToUITextString()
 			{
-				return $"[image:RecipeBrowser/Images/sortValue]: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(RecipePath.purchasable[itemid].Select(x => $"[npc/head:{x}]"))} for {ItemHoverFixTagHandler.GenerateTag(ItemID.SilverCoin, 3)}"; // TODO: TownNPC Head instead of 
+				// TODO: Show a UIRecipeInfoRightAligned for the ShopEntry Conditions. Also show small red x over currently dead Merchant.
+				return $"[image/tPurchase:RecipeBrowser/Images/sortValue]: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from [npc/head:{npcID}] for {GetTotalCostAsTags(price * stack)}";
+				// TODO: TownNPC Head instead of 
+				// Each NPC: return $"[image/tPurchase:RecipeBrowser/Images/sortValue]: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(RecipePath.purchasable2[itemid].Select(x => $"[npc/head:{x.npcType}]"))};";
+			}
+
+			internal static string GetTotalCostAsTags(int totalPrice) {
+				StringBuilder sb = new StringBuilder();
+				int platinum = totalPrice / 1000000;
+				int gold = (totalPrice % 1000000) / 10000;
+				int silver = (totalPrice % 10000) / 100;
+				int copper = totalPrice % 100;
+
+				if (platinum != 0)
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(ItemID.PlatinumCoin, platinum));
+				if (gold != 0)
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(ItemID.GoldCoin, gold));
+				if (silver != 0)
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(ItemID.SilverCoin, silver));
+				if (copper != 0)
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(ItemID.CopperCoin, copper));
+				return sb.ToString();
 			}
 		}
 

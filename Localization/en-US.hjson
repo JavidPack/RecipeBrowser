@@ -53,7 +53,7 @@ Mods: {
 			Mineable: Mineable
 			MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
 			Shop: Shop
-			ShopTooltip: Allow Buy-able items in Craft Path (Coming Soon)
+			ShopTooltip: Allow Buy-able items in Craft Path (Seen merchants only)
 			MissingStations: Missing Stations
 			MissingStationsTooltip: Allow Crafting Stations Never Encountered (Resets when you enter a world)
 			Inventory: Inventory
