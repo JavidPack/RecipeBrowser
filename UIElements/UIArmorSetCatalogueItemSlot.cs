@@ -114,7 +114,6 @@ namespace RecipeBrowser.UIElements
 					for (int i = 0; i < 10; i++) {
 						drawPlayer.dye[i] = Main.LocalPlayer.dye[i].Clone();
 					}
-					drawPlayer.UpdateDyes();
 				}
 				else {
 					for (int i = 0; i < 10; i++) {
@@ -122,6 +121,7 @@ namespace RecipeBrowser.UIElements
 						drawPlayer.dye[i].dye = 0;
 					}
 				}
+				drawPlayer.UpdateDyes();
 
 				if (accessories) {
 					for (int i = 0; i < 20; i++) {
