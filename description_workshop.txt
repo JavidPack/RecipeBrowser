@@ -5,7 +5,7 @@ Recipe Browser is an indispensable mod for any player. It provides a service to 
 
 [h1]How to Use[/h1]
 To use, first you need to assign some hotkeys. Make sure to go into the Keybindings menu and assign hotkeys. The "Toggle Recipe Browser" hotkey is necessary, the other 2 are useful but somewhat optional. The "Query Hovered Item" hotkey streamlines checking recipes and the "Toggle Favorited Recipes Window" is useful when using the favorited recipes feature.
-[img]https://i.imgur.com/7LSLKtL.png[/img]
+[img]https://i.imgur.com/Bv1TOPR.png[/img]
 
 [h1]Basic Features[/h1]
 [img]https://i.imgur.com/wt2VPR0.png[/img]
