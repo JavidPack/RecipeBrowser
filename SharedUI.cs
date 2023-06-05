@@ -324,8 +324,7 @@ namespace RecipeBrowser
 				(ObtainableFilter = new Filter("Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)", x=>true, extendedCraftIcon)),
 				(DisabledFilter = new Filter("Show recipes disabled by Mods", x=>true, disabledIcon)),
 				(UnresearchedFilter = new Filter("Unresearched", x=>{
-					Terraria.GameContent.Creative.CreativeUI.GetSacrificeCount(x.type, out bool fullyResearched);
-					return !fullyResearched;
+					return !RecipePath.ItemFullyResearched(x.type);
 				}, unresearchedIcon)),
 			};
 
@@ -367,6 +366,7 @@ namespace RecipeBrowser
 			var ammoFilters = sortedAmmoTypes.Select(ammoType => new Filter(Lang.GetItemNameValue(ammoType), x => x.ammo == ammoType, ResizeImage(TextureAssets.Item[ammoType], 24, 24))).ToList();
 			var useAmmoFilters = sortedUseAmmoTypes.Select(ammoType => new Filter(Lang.GetItemNameValue(ammoType), x => x.useAmmo == ammoType, ResizeImage(TextureAssets.Item[ammoType], 24, 24))).ToList();
 
+			// TODO: Filter Conditions CycleFilter: Graveyard, etc.
 			var ammoFilter = new CycleFilter("Cycle Ammo Types", "Images/sortAmmo", ammoFilters);
 			var useAmmoFilter = new CycleFilter("Cycle Used Ammo Types", "Images/sortAmmo", useAmmoFilters);
 
@@ -598,6 +598,7 @@ namespace RecipeBrowser
 				}
 			}
 
+			// Filter per mod instead of Mod filter? Expanding filter button?
 			foreach (var modCategory in RecipeBrowser.instance.modFilters) {
 				filters.Add(new Filter(modCategory.name, modCategory.belongs, modCategory.icon));
 			}

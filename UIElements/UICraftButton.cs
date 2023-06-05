@@ -42,6 +42,9 @@ namespace RecipeBrowser.UIElements
 				CalculatedStyle dimensions = base.GetDimensions();
 				spriteBatch.Draw(TextureAssets.Reforge[IsMouseHovering && ableToCraft ? 1 : 0].Value, dimensions.Position(), null, Color.White, 0, Vector2.Zero, 0.75f, SpriteEffects.None, 0);
 				ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, ableToCraft ? "✓" : "X", dimensions.Position() + new Vector2(14f, 10f), ableToCraft ? Utilities.yesColor : Color.LightSalmon, 0f, Vector2.Zero, new Vector2(0.7f));
+				if (IsMouseHovering) {
+					Main.hoverItemName = ableToCraft ? "Craft" : ""; // "Craft ingredients first"?
+				}
 			}
 		}
 

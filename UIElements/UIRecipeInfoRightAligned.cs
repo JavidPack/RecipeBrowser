@@ -12,12 +12,14 @@ namespace RecipeBrowser
 {
 	internal class UIRecipeInfoRightAligned : UIElement
 	{
+		Recipe recipe;
 		List<int> tiles;
 		bool needWater;
 		bool needHoney;
 		bool needLava;
-		public UIRecipeInfoRightAligned(List<int> tiles, bool needWater, bool needHoney, bool needLava)
+		public UIRecipeInfoRightAligned(Recipe recipe, List<int> tiles, bool needWater, bool needHoney, bool needLava)
 		{
+			this.recipe = recipe;
 			this.tiles = tiles;
 			this.needWater = needWater;
 			this.needHoney = needHoney;
@@ -50,6 +52,14 @@ namespace RecipeBrowser
 
 			bool comma = false;
 
+			foreach (var condition in recipe.Conditions) {
+				bool state = condition.IsMet();
+				string description = condition.Description.Value;
+				DoChatTag(sbTiles, comma, state, description);
+				comma = true;
+				// Idea: Instead of chat tag, make icons for each condition instead?
+			}
+			/*
 			if (needWater)
 			{
 				DoChatTag(sbTiles, comma, Main.LocalPlayer.adjWater, Language.GetTextValue("LegacyInterface.53"));
@@ -65,6 +75,7 @@ namespace RecipeBrowser
 				DoChatTag(sbTiles, comma, Main.LocalPlayer.adjLava, Language.GetTextValue("LegacyInterface.56"));
 				comma = true;
 			}
+			*/
 			string message = sbTiles.ToString();
 			float stringWidth = ChatManager.GetStringSize(FontAssets.MouseText.Value, message, Vector2.One).X;
 			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.MouseText.Value, message, new Vector2(positionX - stringWidth, positionY), Color.White, 0f, Vector2.Zero, Vector2.One, -1f, 2f);

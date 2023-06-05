@@ -139,6 +139,8 @@ namespace RecipeBrowser
 			UIHorizontalGrid.moreRightTexture = null;
 			UIGrid.moreUpTexture = null;
 			UIGrid.moreDownTexture = null;
+			UIJourneyDuplicateButton.duplicateOn = null;
+			UIJourneyDuplicateButton.duplicateOff = null;
 			Utilities.tileTextures = null;
 			ArmorSetFeatureHelper.Unload();
 			UIItemSlot.hoveredItem = null;
@@ -202,6 +204,8 @@ namespace RecipeBrowser
 				UIHorizontalGrid.moreRightTexture = Assets.Request<Texture2D>("UIElements/MoreRight");
 				UIGrid.moreUpTexture = Assets.Request<Texture2D>("UIElements/MoreUp");
 				UIGrid.moreDownTexture = Assets.Request<Texture2D>("UIElements/MoreDown");
+				UIJourneyDuplicateButton.duplicateOn = Assets.Request<Texture2D>("Images/duplicateOn");
+				UIJourneyDuplicateButton.duplicateOff = Assets.Request<Texture2D>("Images/duplicateOff");
 				Utilities.tileTextures = new Dictionary<int, Texture2D>();
 
 				concurrentTaskHandlerToken = new CancellationTokenSource();

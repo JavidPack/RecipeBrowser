@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using Terraria;
-using Terraria.GameContent.UI.Chat;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -532,12 +531,24 @@ namespace RecipeBrowser
 			// Statue
 			// Traveling Shop
 			// ItemChecklist? If not any of the others, I must have had it once before.
+			// Use item results of Shimmer transformation and decrafting (conditional?) in craft path calculations.
 
 			// returning will result in Popping.
 		}
 
 		internal static bool NPCUnlocked(int npcid) {
 			return Main.BestiaryDB.FindEntryByNPCID(npcid).UIInfoProvider.GetEntryUICollectionInfo().UnlockState > Terraria.GameContent.Bestiary.BestiaryEntryUnlockState.NotKnownAtAll_0;
+		}
+
+		internal static bool ItemFullyResearched(int itemID) {
+			// Call if (Main.GameModeInfo.IsJourneyMode) before calling. Not sure the behavior if called in normal modes
+			if (Main.LocalPlayerCreativeTracker.ItemSacrifices.TryGetSacrificeNumbers(itemID, out var amountWeHave, out var amountNeededTotal) && amountWeHave >= amountNeededTotal) {
+				return true;
+			}
+			return false;
+
+			// GetSacrificeCount doesn't work, it doesn't check alternate itemids
+			// Terraria.GameContent.Creative.CreativeUI.GetSacrificeCount(validItemID, out bool fullyResearched);
 		}
 
 		// TODO: Crafting Station requirements, IsAvailable
@@ -941,6 +952,24 @@ namespace RecipeBrowser
 			}
 		}
 
+		internal class JourneyDuplicateItemNode : CraftPathNode
+		{
+			internal int itemid;
+			internal int stack;
+			public JourneyDuplicateItemNode(int itemid, int stack, int ChildNumber, CraftPathNode parent, CraftPath craftPath) : base(ChildNumber, parent, craftPath) {
+				this.itemid = itemid;
+				this.stack = stack;
+			}
+
+			public override string ToString() {
+				return $"Duplicate: {Lang.GetItemNameValue(itemid)} ({stack})";
+			}
+
+			public override string ToUITextString() {
+				return $"[image/s0.8,v2,tDuplicate:RecipeBrowser/Images/duplicateOff] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack, null, true)}";
+			}
+		}
+
 		internal class UnfulfilledNode : CraftPathNode
 		{
 			internal RecipeGroup recipeGroup;
@@ -1094,6 +1123,14 @@ namespace RecipeBrowser
 							bool foundPartialItem = false;
 							foreach (var validItemID in RecipeGroup.recipeGroups[groupid].ValidItems)
 							{
+								if (Main.GameModeInfo.IsJourneyMode) {
+									if (RecipePath.ItemFullyResearched(validItemID)) {
+										children[i] = new JourneyDuplicateItemNode(validItemID, recipe.requiredItem[i].stack * multiplier, i, this, craftPath);
+										foundValidItem = true;
+										break;
+									}
+								}
+
 								if (craftPath.haveItems.ContainsKey(validItemID) && craftPath.haveItems[validItemID] >= recipe.requiredItem[i].stack * multiplier)
 								{
 									// Any Wood on left, Wood on Right problem. Wood could be consumed before Wood node, when ShadeWood would be better option.
@@ -1135,6 +1172,13 @@ namespace RecipeBrowser
 					// Does it make more sense to nest these, or add more children slots? Hm, Children match up to recipe ingredient index.... Make a BranchNode?
 					if (!itemIsRecipeGroupItem)
 					{
+						if (Main.GameModeInfo.IsJourneyMode) {
+							if (RecipePath.ItemFullyResearched(recipe.requiredItem[i].type)) {
+								children[i] = new JourneyDuplicateItemNode(recipe.requiredItem[i].type, recipe.requiredItem[i].stack * multiplier, i, this, craftPath);
+								continue;
+							}
+						}
+
 						// Recipe Groups can have stacks-size different inputs if needed. Ignore for now and handle: 10 wood needed, 9 wood held and 2 platforms held.
 
 						if (craftPath.haveItems.ContainsKey(recipe.requiredItem[i].type) && craftPath.haveItems[recipe.requiredItem[i].type] >= recipe.requiredItem[i].stack * multiplier)

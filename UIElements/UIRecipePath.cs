@@ -137,7 +137,7 @@ namespace RecipeBrowser.UIElements
 					var needHoney = recipeNode.recipe.HasCondition(Condition.NearHoney);
 					var needLava = recipeNode.recipe.HasCondition(Condition.NearLava);
 
-					UIRecipeInfoRightAligned simpleRecipeInfo = new UIRecipeInfoRightAligned(neededTiles.ToList(), needWater, needHoney, needLava);
+					UIRecipeInfoRightAligned simpleRecipeInfo = new UIRecipeInfoRightAligned(recipeNode.recipe, neededTiles.ToList(), needWater, needHoney, needLava);
 					simpleRecipeInfo.Top.Set(top, 0);
 					simpleRecipeInfo.Left.Set(-30, 1f);
 					Append(simpleRecipeInfo);
@@ -146,6 +146,12 @@ namespace RecipeBrowser.UIElements
 					craftButton.Top.Set(top, 0);
 					craftButton.Left.Set(-26, 1f);
 					Append(craftButton);
+				}
+				if (node is CraftPath.JourneyDuplicateItemNode duplicationNode) {
+					UIJourneyDuplicateButton duplicationButton = new UIJourneyDuplicateButton(duplicationNode);
+					duplicationButton.Top.Set(top, 0);
+					duplicationButton.Left.Set(-26, 1f);
+					Append(duplicationButton);
 				}
 				top += verticalSpace;
 			}
