@@ -1,10 +1,10 @@
 Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
-			Recipes: Рецепты
-			// Craft: Craft
-			Items: Предметы
-			Bestiary: Мобы
+			Recipes: Рецепт
+			Craft: Крафт
+			Items: Предмет
+			Bestiary: Моб
 			Close: Закрыть
 			All: Все
 			ModFilter: Фильтр модов
@@ -17,54 +17,54 @@ Mods: {
 		}
 
 		Keybind: {
-			// ToggleRecipeBrowser: Toggle Recipe Browser
-			// QueryHoveredItem: Query Hovered Item
-			// ToggleFavoritedRecipesWindow: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser: Открыть браузер рецептов
+			QueryHoveredItem: Отобразить рецепт наведенного предмета
+			ToggleFavoritedRecipesWindow: Включить окно избранных рецептов
 		}
 
 		RecipeCatalogueUI: {
-			Tile: Тайл
+			Tile: Вид
 			AllRecipes: Все рецепты
 			NearbyChests: Ближайшие сундуки
 			ClickToRefresh: Нажмите чтобы обновить
 			ItemChecklistOnly: Только Item Checklist
 			OnlyNewItemsMadeFromSeenItems: Только новые предметы из полученных предметов
-			// EmptyQuerySlotHint: Place item here
+			EmptyQuerySlotHint: Положите предмет сюда
 		}
 
 		FavoritedUI: {
-			// Close: Close ({0})
-			// ToggleHint: Press {0} to toggle
-			// ToggleUnboundHint: Set hotkey to toggle
+			Close: Закрыть ({0})
+			ToggleHint: Нажмите {0} ,чтобы открыть
+			ToggleUnboundHint: Установите горячую клавишу для переключения
 		}
 
 		CraftUI: {
-			// EmptyQuerySlotHint: Place item here
-			// Calc: Calc
-			/* CalcTooltip:
+			EmptyQuerySlotHint: Положите предмет сюда
+			Calc: Расчет
+			CalcTooltip:
 				'''
-				Toggles Preemptive Extended Craft Calculation in Recipes
-				Can cause lag
-				''' */
-			// Loot: Loot
-			// LootTooltip: Allow Farming in Craft Path (Unlocked enemies only)
-			// Bugnet: Bug
-			// BugnetTooltip: Allow Bug Net capturing (Seen only)
-			// Mineable: Mineable
-			// MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
-			// Shop: Shop
-			// ShopTooltip: Allow Buy-able items in Craft Path (Seen merchants only)
-			// MissingStations: Missing Stations
-			// MissingStationsTooltip: Allow Crafting Stations Never Encountered (Resets when you enter a world)
-			// Inventory: Inventory
-			// Banks: Banks
-			// BanksTooltip: Include Items from personal Piggy Bank, Safe, and Defenders Forge (Coming Soon)
-			// Chests: Chests
-			// ChestsTooltip: Include Items from Nearby Chests (Coming Soon)
-			// MagicStorage: Magic Storage
-			// MagicStorageTooltip: Include Items and Crafting Stations from Nearby Magic Storage (Coming Soon)
-			// BottomInstructions: RMB on Recipes to quickly visit this tab
-			// NoPathsFound: No Paths Found for this Recipe/Item
+				Переключает расширенный расчёт крафта в рецептах
+				Может вызвать зависание
+				'''
+			Loot: Лут
+			LootTooltip: Показать лут с мобов (Только разблокированные мобы)
+			Bugnet: Жуки
+			BugnetTooltip: Показать ловимых насекомых (Только просмотр)
+			Mineable: Добыча
+			MineableTooltip: Показать предметы, собранные с руды в мире (Используя лучшую кирку)
+			Shop: Обмен
+			ShopTooltip: Показать покупаемые предметы (Только торговцы)
+			MissingStations: Отсутствующие станции
+			MissingStationsTooltip: Показать создание станций, которых никогда не было (Сбрасывается при входе в мир)
+			Inventory: Инвентарь
+			Banks: Банк
+			BanksTooltip: Показать предметы из свиньи-копилки, сейфа и кузницы защитника (Скоро...)
+			Chests: Сундук
+			ChestsTooltip: Показать предметы из ближайший сундуков (Скоро...)
+			MagicStorage: Magic Storage
+			MagicStorageTooltip: Показать предметы и ремесленные станции из ближайшего магического хранилища (Скоро...)
+			BottomInstructions: ПКМ на Рецепты, чтобы быстро перейти в эту вкладку
+			NoPathsFound: Пути к этому рецепту/предмету не найдены
 		}
 
 		ItemCatalogueUI: {
@@ -79,65 +79,65 @@ Mods: {
 
 		BestiaryUI: {
 			Encountered: Встречено
-			// Unencountered: Unencountered
+			Unencountered: Невстречены
 			ShowOnlyNPCKilledAlready: Показывать только убитых мобов
-			/* ShowOnlyNPCNotKilled:
+			ShowOnlyNPCNotKilled:
 				'''
-				Show only NPC not killed yet
-				(Right click to switch to killed)
-				''' */
+				Показать только еще не убитых NPC
+				(Нажмите ПКМ, чтобы переключиться на уже убитых)
+				'''
 			HasLoot: Лут
 			ShowOnlyNPCWithLoot: Показывать только мобов с лутом
 			NewLoot: Новый лут
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Показывать только мобов, с которых ни разу не получен лут
-			// EmptyQuerySlotHint: Place item here
+			EmptyQuerySlotHint: Положите предмет сюда
 		}
 
 		Keybinds: {
-			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
-			// QueryHoveredItem.DisplayName: Query Hovered Item
-			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser.DisplayName: Открыть браузер рецептов
+			QueryHoveredItem.DisplayName: Отобразить рецепт наведенного предмета
+			ToggleFavoritedRecipesWindow.DisplayName: Включить окно избранных рецептов
 		}
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				// DisplayName: Recipe Browser Client Config
+				DisplayName: Конфигурация клиента браузера рецептов
 
 				ShowRecipeModSource: {
-					// Label: Show Recipe Mod Source
-					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+					Label: Показать модификацию, которая добавляет рецепт
+					Tooltip: Показать, какой мод добавляет рецепт в каталог рецептов. Отключить для погружения.
 				}
 
 				ShowItemModSource: {
-					// Label: Show Item Mod Source
-					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+					Label: Показать модификацию, которая добавляет предмет
+					Tooltip: Показать, какой мод добавляет предмет в каталог рецептов. Отключить для погружения.
 				}
 
 				ShowNPCModSource: {
-					// Label: Show NPC Mod Source
-					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+					Label: Показать модификацию, которая добавляет NPC
+					Tooltip: Показать, какой мод добавляет NPC в каталог рецептов. Отключить для погружения.
 				}
 
-				// Headers.AutomaticSettings: Automatic Settings
+				Headers.AutomaticSettings: Автоматические настройки
 
 				RecipeBrowserSize: {
-					// Label: Recipe Browser Size
-					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: Размер браузера рецептов
+					Tooltip: Размер пользовательского интерфейса браузера рецептов. Это автоматически настраивается, нет необходимости менять.
 				}
 
 				RecipeBrowserPosition: {
-					// Label: Recipe Browser Poisition
-					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: Расположение браузера рецептов
+					Tooltip: Положение пользовательского интерфейса браузера рецептов. Это автоматически настраивается, нет необходимости менять.
 				}
 
 				FavoritedRecipePanelPosition: {
-					// Label: Favorited Recipes Poisition
-					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+					Label: Расположение избранных рецептов
+					Tooltip: Положение пользовательского интерфейса избранных рецептов. Это автоматически настраивается, нет необходимости менять.
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
-					// Label: Only Show Favorited While Inventory Open
-					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+					Label: Показывать избранные рецепты только при открытом инвентаре
+					Tooltip: Автоматически показывается/скрывается панель избранных рецептов. Это автоматически настраивается, нет необходимости менять.
 				}
 			}
 		}
