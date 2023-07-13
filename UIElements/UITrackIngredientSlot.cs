@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Chat;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
 
@@ -57,26 +59,52 @@ namespace RecipeBrowser.UIElements
 			{
 				return 0;
 			}
-			for (int i = 0; i <= 58; i++)
+
+			count += CountItemsInInventory(player.inventory.Take(58), recipe, type);
+			
+			if (player.useVoidBag() && player.chest != -5)
+				count += CountItemsInInventory(player.bank4.item.Take(40), recipe, type);
+
+			if (player.chest != -1)
 			{
-				if (!player.inventory[i].IsAir)
+				var currentInventory = player.chest switch
 				{
-					int current = player.inventory[i].type;
-					if (recipe.AcceptedByItemGroups(current, item.type))
-					{
-						count += player.inventory[i].stack;
-					}
-					else if (current == type)
-					{
-						count += player.inventory[i].stack;
-					}
-					//if (count >= stopCountingAt)
-					//{
-					//	return stopCountingAt;
-					//}
+					> -1 => Main.chest[player.chest].item,
+					-2 => player.bank.item,
+					-3 => player.bank2.item,
+					-4 => player.bank3.item,
+					-5 => player.bank4.item,
+					_ => null
+				};
+
+				if (currentInventory != null)
+					count += CountItemsInInventory(currentInventory.Take(40), recipe, type);
+			}
+
+			foreach (var (items, _) in PlayerLoader.GetModdedCraftingMaterials(Main.LocalPlayer))
+			{
+				count += CountItemsInInventory(items, recipe, type);
+			}
+			
+			return count >= stopCountingAt ? stopCountingAt : count;
+		}
+
+		private int CountItemsInInventory(IEnumerable<Item> items, Recipe recipe, int type)
+		{
+			int count = 0;
+			foreach (var currentItem in from i in items where !i.IsAir select i)
+			{
+				if (recipe.AcceptedByItemGroups(currentItem.type, item.type))
+				{
+					count += currentItem.stack;
+				}
+				else if (currentItem.type == type)
+				{
+					count += currentItem.stack;
 				}
 			}
-			return count >= stopCountingAt ? stopCountingAt : count;
+
+			return count;
 		}
 
 		public override void LeftClick(UIMouseEvent evt) {
