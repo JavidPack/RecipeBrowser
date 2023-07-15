@@ -18,14 +18,14 @@ Mods: {
 
 		Keybind: {
 			ToggleRecipeBrowser: Открыть браузер рецептов
-			QueryHoveredItem: Показать рецепт для выбранного предмета
+			QueryHoveredItem: Показать рецепт для предмета
 			ToggleFavoritedRecipesWindow: Включить окно избранных рецептов
 		}
 
 		RecipeCatalogueUI: {
 			Tile: Вид
 			AllRecipes: Все рецепты
-			NearbyChests: Инвентарь/Ближайшие хранилища
+			NearbyChests: Инвентарь / Ближайшие хранилища
 			ClickToRefresh: Нажмите, чтобы обновить
 			ItemChecklistOnly: Мод "Item Checklist"
 			OnlyNewItemsMadeFromSeenItems: Только новые предметы, созданные из разблокированных предметов.
