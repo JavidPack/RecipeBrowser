@@ -18,7 +18,7 @@ Mods: {
 
 		Keybind: {
 			ToggleRecipeBrowser: Открыть браузер рецептов
-			QueryHoveredItem: Показать рецепт для предмета
+			QueryHoveredItem: Показать рецепт предмета
 			ToggleFavoritedRecipesWindow: Включить окно избранных рецептов
 		}
 
