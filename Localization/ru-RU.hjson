@@ -2,7 +2,7 @@ Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
 			Recipes: Рецепт
-			Craft: Крафт
+			Craft: Ремесло
 			Items: Предмет
 			Bestiary: Враги
 			Close: Закрыть
