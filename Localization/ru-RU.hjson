@@ -1,10 +1,10 @@
 Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
-			Recipes: Рецепт
+			Recipes: Рецепты
 			Craft: Крафт
-			Items: Предмет
-			Bestiary: Моб
+			Items: Предметы
+			Bestiary: Мобы
 			Close: Закрыть
 			All: Все
 			ModFilter: Фильтр модов
@@ -48,7 +48,7 @@ Mods: {
 				'''
 			Loot: Лут
 			LootTooltip: Отображать лут с мобов (Только разблокированные мобы)
-			Bugnet: Жуки
+			Bugnet: Сачок
 			BugnetTooltip: Отображать насекомых, которых можно поймать с помощью сачка (Только разблокированные)
 			Mineable: Добыча
 			MineableTooltip: Отображать предметы, которые можно добыть из руды в мире (С использованием лучшей кирки)
