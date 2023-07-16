@@ -101,7 +101,7 @@ Mods: {
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				DisplayName: Конфигурация
+				DisplayName: Конфигурация игрока
 
 				ShowRecipeModSource: {
 					Label: Отобразить модификацию, которая добавляет рецепт
