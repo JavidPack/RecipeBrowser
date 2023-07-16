@@ -1,10 +1,10 @@
 Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
-			Recipes: Рецепты
+			Recipes: Рецепт
 			Craft: Крафт
-			Items: Предметы
-			Bestiary: Мобы
+			Items: Предмет
+			Bestiary: Враги
 			Close: Закрыть
 			All: Все
 			ModFilter: Фильтр модов
@@ -101,7 +101,7 @@ Mods: {
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				DisplayName: Конфигурация клиента браузера рецептов
+				DisplayName: Конфигурация
 
 				ShowRecipeModSource: {
 					Label: Отобразить модификацию, которая добавляет рецепт
