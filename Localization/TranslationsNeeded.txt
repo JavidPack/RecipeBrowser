@@ -1,8 +1,9 @@
-zh-Hans 21
-ru-RU 21
-pt-BR 21
-pl-PL 21
-it-IT 21
-fr-FR 21
-es-ES 21
-de-DE 21
+en-US, 80/80, 100%, missing 0
+de-DE, 28/80, 35%, missing 52
+it-IT, 28/80, 35%, missing 52
+fr-FR, 28/80, 35%, missing 52
+es-ES, 49/80, 61%, missing 31
+ru-RU, 80/80, 100%, missing 0
+zh-Hans, 80/80, 100%, missing 0
+pt-BR, 49/80, 61%, missing 31
+pl-PL, 28/80, 35%, missing 52
