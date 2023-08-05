@@ -40,7 +40,7 @@ Mods: {
 
 		CraftUI: {
 			EmptyQuerySlotHint: Положите предмет сюда
-			Calc:  Расчёт
+			Calc: Расчёт
 			CalcTooltip:
 				'''
 				Переключает расширенный расчёт крафта в рецептах
