@@ -128,10 +128,10 @@ namespace RecipeBrowser.UIElements
 			{
 				// annoying click. Main.NewText(hoveredSnippet);
 				textSnippets[hoveredSnippet].OnHover();
-				//if (Main.mouseLeft && Main.mouseLeftRelease)
-				//{
-				//	textSnippets[hoveredSnippet].OnClick();
-				//}
+				if (Main.mouseLeft && Main.mouseLeftRelease)
+				{
+					textSnippets[hoveredSnippet].OnClick();
+				}
 			}
 		}
 	}

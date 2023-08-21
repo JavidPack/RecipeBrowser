@@ -256,6 +256,18 @@ namespace RecipeBrowser
 					InterfaceScaleType.UI)
 				);
 			}
+
+			int interfaceLogic4Index = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Interface Logic 4"));
+			if (interfaceLogic4Index != -1) {
+				layers.Insert(interfaceLogic4Index + 1, new LegacyGameInterfaceLayer(
+					"RecipeBrowser: Arrow",
+					delegate {
+						RecipeBrowserUI.instance.HandleArrow();
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+			}
 		}
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)

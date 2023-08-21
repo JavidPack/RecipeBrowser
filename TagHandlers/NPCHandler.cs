@@ -42,6 +42,15 @@ namespace RecipeBrowser.TagHandlers
 				}
 				//Main.HoverItem = this._item.Clone();
 				//Main.instance.MouseText(this._item.Name, this._item.rare, 0, -1, -1, -1, -1);
+
+				RecipeBrowserUI.instance.npcArrow = NPC.FindFirstNPC(npcType);
+			}
+
+			public override void OnClick() {
+				base.OnClick();
+
+				if(RecipeBrowserUI.instance.npcArrow != -1)
+					Main.Pings.Add(Main.npc[RecipeBrowserUI.instance.npcArrow].Center / 16);
 			}
 
 			public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = default(Vector2), Color color = default(Color), float scale = 1f)

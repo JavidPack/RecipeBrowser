@@ -12,6 +12,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.ModLoader.UI;
+using Terraria.GameContent;
 
 namespace RecipeBrowser
 {
@@ -576,6 +577,28 @@ namespace RecipeBrowser
 			{
 				RecipeBrowserUI.instance.foundItems = (result as bool[]);
 			}
+		}
+
+		internal int npcArrow = -1;
+		public void HandleArrow() {
+			// Copied over npc locating arrows from Census, changed arrow from starting at player to starting at cursor
+			if(npcArrow != -1) {
+				var npc = Main.npc[npcArrow];
+				Terraria.GameInput.PlayerInput.SetZoom_World();
+				Vector2 playerCenter = Main.MouseWorld;
+				Terraria.GameInput.PlayerInput.SetZoom_UI();
+				var vector = npc.Center - playerCenter;
+				var distance = vector.Length();
+				if (distance > 40) {
+					var offset = Vector2.Normalize(vector) * Math.Min(40, distance - 20);
+					float rotation = vector.ToRotation() + (float)(3 * Math.PI / 4);
+					var drawPosition = Main.MouseScreen + offset;
+					float fade = Math.Min(1f, (distance - 20) / 40);
+
+					Main.spriteBatch.Draw(TextureAssets.Cursors[0].Value, drawPosition, null, new Color(173, 255, 47, 255) * fade, rotation, TextureAssets.Cursors[1].Value.Size() / 2, new Vector2(1.5f), SpriteEffects.None, 0);
+				}
+			}
+			npcArrow = -1;
 		}
 	}
 
