@@ -140,6 +140,7 @@ namespace RecipeBrowser
 		public override void CopyClientState(ModPlayer clientClone)
 		{
 			RecipeBrowserPlayer clone = clientClone as RecipeBrowserPlayer;
+			clone.favoritedRecipes.Clear();
 			clone.favoritedRecipes.AddRange(favoritedRecipes);
 		}
 
