@@ -145,6 +145,9 @@ namespace RecipeBrowser.UIElements
 		{
 			ItemCatalogueUI.instance.SetItem(this);
 			CraftUI.instance.SetItem(this.item.type);
+
+			// TODO: Would it be useful in the RecipeCatalogueUI to show grab bag drops?
+			ItemCatalogueUI.instance.PopulateItemDropViewerPanel(item.type);
 		}
 
 		public override void LeftDoubleClick(UIMouseEvent evt)

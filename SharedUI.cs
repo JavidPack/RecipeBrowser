@@ -15,6 +15,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using static RecipeBrowser.Utilities;
 using Terraria.WorldBuilding;
+using Terraria.GameContent.ItemDropRules;
 
 namespace RecipeBrowser
 {
@@ -292,7 +293,8 @@ namespace RecipeBrowser
 			ItemID.AlphabetStatueA, ItemID.GoldChest, ItemID.PaintingMartiaLisa, ItemID.HeartStatue, ItemID.Wire, ItemID.PurificationPowder,
 			ItemID.Extractinator, ItemID.UnicornonaStick, ItemID.SilverHelmet, ItemID.BunnyHood, ItemID.ZephyrFish, ItemID.Sign, ItemID.FallenStarfish,
 			ItemID.HealingPotion, ItemID.OrangeDye, ItemID.Candelabra, ItemID.GrandfatherClock, ItemID.WoodenDoor, ItemID.WoodenChair, ItemID.PalmWoodTable, ItemID.ChineseLantern,
-			ItemID.RainbowTorch, ItemID.GoldBunny, ItemID.WoodenDoor, ItemID.WoodenChair, ItemID.PalmWoodTable, ItemID.ChineseLantern, ItemID.RainbowTorch
+			ItemID.RainbowTorch, ItemID.GoldBunny, ItemID.WoodenDoor, ItemID.WoodenChair, ItemID.PalmWoodTable, ItemID.ChineseLantern, ItemID.RainbowTorch,
+			ItemID.KingSlimeBossBag, ItemID.WoodenCrate, ItemID.WoodenCrateHard, ItemID.EyeOfCthulhuBossBag, ItemID.PlanteraBossBag, ItemID.HerbBag
 		};
 
 		private void SetupSortsAndCategories() {
@@ -407,6 +409,7 @@ namespace RecipeBrowser
 			Texture2D smallStatue = ResizeImage(TextureAssets.Item[ItemID.HeartStatue], 24, 24);
 			Texture2D smallWiring = ResizeImage(TextureAssets.Item[ItemID.Wire], 24, 24);
 			Texture2D smallConsumables = ResizeImage(TextureAssets.Item[ItemID.PurificationPowder], 24, 24);
+			Texture2D smallGrabBags = ResizeImage(TextureAssets.Item[ItemID.KingSlimeBossBag], 24, 24);
 			Texture2D smallExtractinator = ResizeImage(TextureAssets.Item[ItemID.Extractinator], 24, 24);
 			Texture2D smallOther = ResizeImage(TextureAssets.Item[ItemID.UnicornonaStick], 24, 24);
 
@@ -573,6 +576,20 @@ namespace RecipeBrowser
 						new Category("Captured NPC", x=>x.makeNPC != 0, ResizeImage2424(TextureAssets.Item[ItemID.GoldBunny])),
 					}
 				},
+				new Category("Grab Bags", x=> Main.ItemDropsDB.GetRulesForItemID(x.type).Any(), smallGrabBags){
+					subCategories = new List<Category>() {
+						new Category("Fishing Crate (Pre-Hardmode)", x=>ItemID.Sets.IsFishingCrate[x.type] && !ItemID.Sets.IsFishingCrateHardmode[x.type], ResizeImage2424(TextureAssets.Item[ItemID.WoodenCrate])),
+						new Category("Fishing Crate (Hardmode)", x=>ItemID.Sets.IsFishingCrateHardmode[x.type], ResizeImage2424(TextureAssets.Item[ItemID.WoodenCrateHard])),
+						new Category("Boss Bag (Pre-Hardmode)", x=>ItemID.Sets.BossBag[x.type] && ItemID.Sets.PreHardmodeLikeBossBag[x.type] && x.type != ItemID.QueenSlimeBossBag, ResizeImage2424(TextureAssets.Item[ItemID.EyeOfCthulhuBossBag])),
+						new Category("Boss Bag (Hardmode)", x=>ItemID.Sets.BossBag[x.type] && !ItemID.Sets.PreHardmodeLikeBossBag[x.type] || x.type == ItemID.QueenSlimeBossBag, ResizeImage2424(TextureAssets.Item[ItemID.PlanteraBossBag])),
+						new Category("Other", x => Main.ItemDropsDB.GetRulesForItemID(x.type).Any() && !ItemID.Sets.BossBag[x.type] && !ItemID.Sets.IsFishingCrate[x.type], ResizeImage2424(TextureAssets.Item[ItemID.HerbBag])),
+						// TODO: need to document or streamline "Other" subcategories. Automatically derive from parent belongs?
+						// TODO: Golden Lock Box is from Dungeon Crate, but no way for user to know that from UI. Could mention if an item comes from a non-NPC source somehow.
+					},
+					sorts = new List<Sort>() {
+						new Sort("Expected Value", "Images/sortValue", (x,y)=> ExpectedValue(x.type).CompareTo(ExpectedValue(y.type))),
+					},
+				},
 				new Category("Fishing"/*, x=> x.fishingPole > 0 || x.bait>0|| x.questItem*/, x=>false, smallFishing){
 					subCategories = new List<Category>() {
 						new Category("Poles", x=>x.fishingPole > 0, "Images/sortFish") {sorts = new List<Sort>() { new Sort("Pole Power", "Images/sortFish", (x,y)=>x.fishingPole.CompareTo(y.fishingPole)), } },
@@ -651,6 +668,43 @@ namespace RecipeBrowser
 			if (type > ProjectileID.Count)
 				return ProjectileLoader.GetProjectile(type).GrappleRange();
 			return 0;
+		}
+
+		internal static bool ShouldShowItemDrop(DropRateInfo dropRateInfo) {
+			bool result = true;
+			if (dropRateInfo.conditions != null && dropRateInfo.conditions.Count > 0) {
+				for (int i = 0; i < dropRateInfo.conditions.Count; i++) {
+					if (!dropRateInfo.conditions[i].CanShowItemDropInUI()) {
+						result = false;
+						break;
+					}
+				}
+			}
+
+			return result;
+		}
+
+		private int ExpectedValue(int type) {
+			// Could cache for performance, but need to see how drop conditions being later satisfied would affect things. We wouldn't want to cache a value that would later be inaccurate.
+			int expectedValue = 0;
+
+			// ItemDropViewer
+			List<IItemDropRule> dropRules = Main.ItemDropsDB.GetRulesForItemID(type);
+			List<DropRateInfo> list = new List<DropRateInfo>();
+			DropRateInfoChainFeed ratesInfo = new DropRateInfoChainFeed(1f);
+			foreach (IItemDropRule item in dropRules) {
+				item.ReportDroprates(list, ratesInfo);
+			}
+
+			foreach (DropRateInfo dropRateInfo in list) {
+				bool flag = ShouldShowItemDrop(dropRateInfo);
+				if (!flag)
+					continue;
+
+				// TODO: Does dropRate already take care of if an item can't drop in specific world conditions? I think not, ShouldShowItem does I think.
+				expectedValue += (int)((dropRateInfo.stackMin + dropRateInfo.stackMax) / 2f * dropRateInfo.dropRate * ContentSamples.ItemsByType[dropRateInfo.itemId].value * 0.2f);
+			}
+			return expectedValue;
 		}
 
 		private bool BelongsInOther(Item item) {

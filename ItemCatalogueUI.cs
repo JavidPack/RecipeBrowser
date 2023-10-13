@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Terraria;
+using Terraria.GameContent.Bestiary;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
@@ -24,6 +26,11 @@ namespace RecipeBrowser
 		internal UIPanel mainPanel;
 		internal UIPanel itemGridPanel;
 		internal UIGrid itemGrid;
+
+		const int ItemDropViewerWidth = 230;
+		internal UIPanel itemDropViewerPanel;
+		internal UIGrid itemDropViewerGrid;
+
 		internal bool updateNeeded;
 		internal int slowUpdateNeeded;
 		internal NewUITextBox itemNameFilter;
@@ -140,6 +147,29 @@ namespace RecipeBrowser
 			itemGridPanel.Append(itemGridScrollbar);
 			itemGrid.SetScrollbar(itemGridScrollbar);
 
+			// Bag Drop Viewer
+			itemDropViewerPanel = new UIPanel();
+			itemDropViewerPanel.SetPadding(6);
+			itemDropViewerPanel.Top.Pixels = 60;
+			itemDropViewerPanel.Width.Set(ItemDropViewerWidth, 0f);
+			itemDropViewerPanel.Height.Set(-76, 1f);
+			itemDropViewerPanel.Left.Set(-ItemDropViewerWidth, 1f);
+			itemDropViewerPanel.BackgroundColor = Color.CornflowerBlue;
+
+			itemDropViewerGrid = new UIGrid();
+			itemDropViewerGrid.Width.Set(0, 1f);
+			itemDropViewerGrid.Height.Set(0, 1f);
+			itemDropViewerGrid.ListPadding = 2f;
+			itemDropViewerGrid.drawArrows = true;
+			itemDropViewerGrid.alternateSort = ItemDropViewerGridSort; 
+			itemDropViewerPanel.Append(itemDropViewerGrid);
+
+			var itemDropViewerScrollbar = new InvisibleFixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
+			itemDropViewerScrollbar.SetView(100f, 1000f);
+			itemDropViewerScrollbar.Height.Set(0, 1f);
+			itemDropViewerScrollbar.Left.Set(-20, 1f);
+			itemDropViewerGrid.SetScrollbar(itemDropViewerScrollbar);
+
 			//"2x LMB: View Recipes  ---  2x RMB: See dropping NPCs"
 			UIText text = new UIText(RBText("BottomInstructions"), 0.85f);
 			text.Top.Set(-14, 1f);
@@ -168,6 +198,11 @@ namespace RecipeBrowser
 			if (SharedUI.instance.SelectedSort != null)
 				return SharedUI.instance.SelectedSort.sort(a.item, b.item);
 			return a.itemType.CompareTo(b.itemType);
+		}
+
+		private int ItemDropViewerGridSort(UIElement x, UIElement y) {
+			// Works since uniqueID is in creation order, but will need to be updated later if filters are implemented.
+			return x.UniqueId.CompareTo(y.UniqueId);
 		}
 
 		private void UnobtainedRadioButton_OnSelectedChanged(object sender, EventArgs e)
@@ -401,6 +436,58 @@ namespace RecipeBrowser
 				sb.Append(toolTip.GetLine(j) + "\n");
 			}
 			return sb.ToString().ToLower();
+		}
+
+		internal void ToggleItemDropViewer(bool show) {
+			if (show) {
+				itemGridPanel.Width.Set(-ItemDropViewerWidth - 2, 1f);
+				mainPanel.Append(itemDropViewerPanel);
+			}
+			else {
+				itemGridPanel.Width.Set(0, 1f);
+				mainPanel.RemoveChild(itemDropViewerPanel);
+			}
+			itemGridPanel.Recalculate();
+		}
+
+		internal void PopulateItemDropViewerPanel(int type) {
+			// ItemDropViewer
+			List<IItemDropRule> dropRules = Main.ItemDropsDB.GetRulesForItemID(type);
+			List<DropRateInfo> list = new List<DropRateInfo>();
+			DropRateInfoChainFeed ratesInfo = new DropRateInfoChainFeed(1f);
+			foreach (IItemDropRule item in dropRules) {
+				item.ReportDroprates(list, ratesInfo);
+			}
+
+			itemDropViewerGrid.Clear();
+			ToggleItemDropViewer(list.Any());
+
+			int expectedValue = 0;
+			var expectedValueText = new UIText("Expected Value: ?"); // Move above the grid maybe?
+			expectedValueText.SetPadding(6);
+			itemDropViewerGrid.Add(expectedValueText);
+
+			foreach (DropRateInfo dropRateInfo in list) {
+				// Main.NewText($"{ItemHoverFixTagHandler.GenerateTag(dropRateInfo.itemId, 1)} {dropRateInfo.stackMin}-{dropRateInfo.stackMax}, {dropRateInfo.dropRate:P2}");
+
+				var infoElement = new ItemDropBestiaryInfoElement(dropRateInfo);
+				bool flag = SharedUI.ShouldShowItemDrop(dropRateInfo);
+				var info = new BestiaryUICollectionInfo();
+				info.UnlockState = BestiaryEntryUnlockState.CanShowDropsWithDropRates_4;
+				info.OwnerEntry = null; // shouldn't error, I think
+
+				var element = new UIBestiaryInfoItemLine(dropRateInfo, info);
+				if (!flag)
+					element.BackgroundColor = Color.Red;
+				else {
+					expectedValue += (int)((dropRateInfo.stackMin + dropRateInfo.stackMax) / 2f * dropRateInfo.dropRate * ContentSamples.ItemsByType[dropRateInfo.itemId].value * 0.2f);
+				}
+
+				itemDropViewerGrid.Add(element);
+			}
+			if (expectedValue > 1000000)
+				expectedValue = expectedValue - expectedValue % 100; // only room for 3, so get rid of copper coins if platinum.
+			expectedValueText.SetText("Expected Value: " + CraftPath.BuyItemNode.GetTotalCostAsTags(expectedValue));
 		}
 	}
 
