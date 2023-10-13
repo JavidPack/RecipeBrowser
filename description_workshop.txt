@@ -13,11 +13,11 @@ The main window consists of several tabs. You can click on the tabs to visit eac
 
 [h1]Recipes[/h1]
 This tool allows you to quickly explore all recipes in the game. You can place an item in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window to discover recipes you'd like to work towards. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
-[img]https://thumbs.gfycat.com/GloriousFluidFly-size_restricted.gif[/img]
+[img]https://cdn.discordapp.com/attachments/556368563942981643/1157897646032298016/RecipeToolGuide-size_restricted.gif[/img]
 
 [h1]Craft[/h1]
 This tool can be used to craft recipes, even recipes that require multiple steps to achieve! In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the yellow background can be crafted via multiple steps. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. See the Help tab for more information on this tool.
-[img]https://thumbs.gfycat.com/DescriptiveClosedKatydid-size_restricted.gif[/img]
+[img]https://cdn.discordapp.com/attachments/556368563942981643/1157897604596768798/CraftToolGuide-size_restricted.gif[/img]
 
 [h1]Items[/h1]
 Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary.
@@ -28,11 +28,11 @@ Here you can explore all NPC in the game. Use the filters to find what you want.
 [h1]Favorite[/h1]
 In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently.
 [img]https://i.imgur.com/gvG1FpY.png[/img]
-[img]https://thumbs.gfycat.com/SentimentalCreativeBinturong-size_restricted.gif[/img]
+[img]https://cdn.discordapp.com/attachments/556368563942981643/1157897619616583794/FavoriteRecipesGuide-size_restricted.gif[/img]
 
 [h1]Query Hovered Item[/h1]
 By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game.
-[img]https://thumbs.gfycat.com/ScholarlyOffensiveCommongonolek-size_restricted.gif[/img]
+[img]https://cdn.discordapp.com/attachments/556368563942981643/1157897630458859560/QueryHoveredItem-size_restricted.gif[/img]
 
 [h1]Categories, Sub Categories, Sorts, and Filters[/h1]
 There are powerful sorting and filtering options. You can search for specific weapon types, find the most powerful pickaxe you can craft, and more. See the Help tab for more information.
@@ -40,7 +40,7 @@ There are powerful sorting and filtering options. You can search for specific we
 
 [h2]Armor Set[/h2]
 The Armor Set category lets you view armor sets. Plan out which armor set you want to work towards that fits your playstyle!
-[img]https://thumbs.gfycat.com/SpotlessSolidAsiaticmouflon-size_restricted.gif[/img]
+[img]https://cdn.discordapp.com/attachments/556368563942981643/1157897588155101204/ArmorSet-size_restricted.gif[/img]
 
 [h1]Help[/h1]
 There are many more features in Recipe Browser, see the Help tab to read and learn more about the features of this mod.
@@ -51,3 +51,4 @@ For questions or suggestions, come to my Discord: [url=discord.gg/w8Hcwby][img]h
 Bug reports in the comments here will not be seen, come to Discord or Github to report issues.
 If you'd like to support my mods, I have a Patreon [url=www.patreon.com/jopojelly][img]https://i.imgur.com/xII2DwJ.png[/img][/url]
 [url=https://steamcommunity.com/profiles/76561198025715866/myworkshopfiles/?appid=1281930]Check out all my mods[/url]
+[quote=tModLoader]Developed By jopojelly[/quote]
