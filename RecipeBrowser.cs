@@ -37,6 +37,7 @@ namespace RecipeBrowser
 		//internal static Dictionary<string, LocalizedText> translations; // reference to private field.
 		internal static Mod itemChecklistInstance;
 		internal ModKeybind ToggleRecipeBrowserHotKey;
+		internal ModKeybind CloseRecipeBrowserHotKey;
 		internal ModKeybind QueryHoveredItemHotKey;
 		internal ModKeybind ToggleFavoritedPanelHotKey;
 
@@ -80,6 +81,7 @@ namespace RecipeBrowser
 			{
 			*/
 			ToggleRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "ToggleRecipeBrowser", "OemCloseBrackets");
+			CloseRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "CloseRecipeBrowser", "Esc");
 			QueryHoveredItemHotKey = KeybindLoader.RegisterKeybind(this, "QueryHoveredItem", "Mouse3");
 			ToggleFavoritedPanelHotKey = KeybindLoader.RegisterKeybind(this, "ToggleFavoritedRecipesWindow", "F3");
 			/*
@@ -118,6 +120,7 @@ namespace RecipeBrowser
 			itemChecklistInstance = null;
 			LootCache.instance = null;
 			ToggleRecipeBrowserHotKey = null;
+			CloseRecipeBrowserHotKey = null;
 			QueryHoveredItemHotKey = null;
 			RecipeBrowserUI.instance = null;
 			RecipeCatalogueUI.instance = null;
