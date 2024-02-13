@@ -2,7 +2,7 @@ Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
 			Recipes: Przepisy
-			// Craft: Craft
+			Craft: wytwórz
 			Items: Przedmioty
 			Bestiary: Bestiariusz
 			Close: Zamknij
@@ -17,9 +17,9 @@ Mods: {
 		}
 
 		Keybind: {
-			// ToggleRecipeBrowser: Toggle Recipe Browser
-			// QueryHoveredItem: Query Hovered Item
-			// ToggleFavoritedRecipesWindow: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser: Przełącz przeglądarkę receptur
+			QueryHoveredItem: Zapytaj o najechany przedmiot
+			ToggleFavoritedRecipesWindow: Przełącz na okno ulubionych receptur
 		}
 
 		RecipeCatalogueUI: {
@@ -29,42 +29,42 @@ Mods: {
 			ClickToRefresh: Kliknij aby odświeżyć
 			ItemChecklistOnly: Tylko przedmioty z 'Item Checklist'
 			OnlyNewItemsMadeFromSeenItems: Tylko nowe przedmioty, zrobione z napotkanych przedmiotów
-			// EmptyQuerySlotHint: Place item here
+			EmptyQuerySlotHint: Umieść tutaj przedmiot
 		}
 
 		FavoritedUI: {
-			// Close: Close ({0})
-			// ToggleHint: Press {0} to toggle
-			// ToggleUnboundHint: Set hotkey to toggle
+			Close: Zamknij ({0})
+			ToggleHint: Naciśnij {0}, aby przełączyć
+			ToggleUnboundHint: Ustaw skrót klawiszowy do przełączania
 		}
 
 		CraftUI: {
-			// EmptyQuerySlotHint: Place item here
-			// Calc: Calc
-			/* CalcTooltip:
+			EmptyQuerySlotHint: Umieść tutaj przedmiot
+			Calc: Obliczać
+			CalcTooltip:
 				'''
-				Toggles Preemptive Extended Craft Calculation in Recipes
-				Can cause lag
-				''' */
-			// Loot: Loot
-			// LootTooltip: Allow Farming in Craft Path (Unlocked enemies only)
-			// Bugnet: Bug
-			// BugnetTooltip: Allow Bug Net capturing (Seen only)
-			// Mineable: Mineable
-			// MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
-			// Shop: Shop
-			// ShopTooltip: Allow Buy-able items in Craft Path (Seen merchants only)
-			// MissingStations: Missing Stations
-			// MissingStationsTooltip: Allow Crafting Stations Never Encountered (Resets when you enter a world)
-			// Inventory: Inventory
-			// Banks: Banks
-			// BanksTooltip: Include Items from personal Piggy Bank, Safe, and Defenders Forge (Coming Soon)
-			// Chests: Chests
-			// ChestsTooltip: Include Items from Nearby Chests (Coming Soon)
-			// MagicStorage: Magic Storage
-			// MagicStorageTooltip: Include Items and Crafting Stations from Nearby Magic Storage (Coming Soon)
-			// BottomInstructions: RMB on Recipes to quickly visit this tab
-			// NoPathsFound: No Paths Found for this Recipe/Item
+				Włącza rozszerzone obliczenia wstępne w recepturach
+				Może powodować opóźnienia
+				'''
+			Loot: Łup
+			LootTooltip: Pozwól na farmienie na ścieżce rzemieślniczej (tylko odblokowani wrogowie)
+			Bugnet: Sieć na robaki
+			BugnetTooltip: Pozwól na złapanie robaków (widziane tylko)
+			Mineable: Wydobywalne
+			MineableTooltip: Pozwól na wydobywanie przedmiotów z bloków na świecie (używając najlepszego kilofa)
+			Shop: Sklep
+			ShopTooltip: Pozwól na kupowanie przedmiotów na ścieżce rzemieślniczej (widziani kupcy tylko)
+			MissingStations: Brakujące stacje rzemieślnicze
+			MissingStationsTooltip: Pozwól na tworzenie stacji rzemieślniczych nigdy nie napotkanych (resetuje się po wejściu do świata)
+			Inventory: Ekwipunek
+			Banks: Banki
+			BanksTooltip: Obejmuje przedmioty z własnej skarbonki, sejfu i kuźni obrońców (wkrótce)
+			Chests: Skrzynie
+			ChestsTooltip: Obejmuje przedmioty z pobliskich skrzyń (wkrótce)
+			MagicStorage: Magazyn magiczny
+			MagicStorageTooltip: Obejmuje przedmioty i stacje rzemieślnicze z pobliskiego magazynu magicznego (wkrótce)
+			BottomInstructions: RMB na Przepisach, aby szybko odwiedzić tę kartę
+			NoPathsFound: Nie znaleziono ścieżek dla tej receptury/przedmiotu
 		}
 
 		ItemCatalogueUI: {
@@ -79,65 +79,65 @@ Mods: {
 
 		BestiaryUI: {
 			Encountered: Napotkane
-			// Unencountered: Unencountered
+			Unencountered: Nienapotkane
 			ShowOnlyNPCKilledAlready: Pokaż tylko pokonanych NPC
-			/* ShowOnlyNPCNotKilled:
+			ShowOnlyNPCNotKilled:
 				'''
-				Show only NPC not killed yet
-				(Right click to switch to killed)
-				''' */
+				Pokaż tylko NPC, które jeszcze nie zostały pokonane
+				(Kliknij prawym przyciskiem myszy, aby przełączyć na pokonane)
+				'''
 			HasLoot: Ma łup
 			ShowOnlyNPCWithLoot: Pokaż tylko NPC z Łupem
 			NewLoot: Nowy Łup
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Pokaż NPC z wcześniej nie widzianym łupem
-			// EmptyQuerySlotHint: Place item here
+			EmptyQuerySlotHint: Umieść tutaj przedmiot
 		}
 
 		Keybinds: {
-			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
-			// QueryHoveredItem.DisplayName: Query Hovered Item
-			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser.DisplayName: Przełącz przeglądarkę receptur
+			QueryHoveredItem.DisplayName: Zapytaj o najechany przedmiot
+			ToggleFavoritedRecipesWindow.DisplayName: Przełącz okno ulubionych receptur
 		}
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				// DisplayName: Recipe Browser Client Config
+				DisplayName: Konfiguracja klienta przeglądarki receptur
 
 				ShowRecipeModSource: {
-					// Label: Show Recipe Mod Source
-					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+					Label: Pokaż Źródło Moda Receptur
+					Tooltip: Pokaż, który mod dodaje jaką recepturę w katalogu receptur. Wyłącz, aby pochłonąć się w grze.
 				}
 
 				ShowItemModSource: {
-					// Label: Show Item Mod Source
-					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+					Label: Pokaż Źródło Moda Przedmiotów
+					Tooltip: Pokaż, który mod dodaje jaki przedmiot w katalogu receptur. Wyłącz, aby pochłonąć się w grze.
 				}
 
 				ShowNPCModSource: {
-					// Label: Show NPC Mod Source
-					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+					Label: Pokaż Źródło Moda NPC
+					Tooltip: Pokaż, który mod dodaje jakiego NPC w bestiariuszu. Wyłącz, aby pochłonąć się w grze.
 				}
 
-				// Headers.AutomaticSettings: Automatic Settings
+				Headers.AutomaticSettings: Automatyczne Ustawienia
 
 				RecipeBrowserSize: {
-					// Label: Recipe Browser Size
-					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: Rozmiar Przeglądarki Receptur
+					Tooltip: Rozmiar interfejsu użytkownika przeglądarki receptur. Zostanie automatycznie zapisany, nie trzeba dostosowywać
 				}
 
 				RecipeBrowserPosition: {
-					// Label: Recipe Browser Poisition
-					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: Pozycja Przeglądarki Receptur
+					Tooltip: Pozycja interfejsu użytkownika przeglądarki receptur. Zostanie automatycznie zapisana, nie trzeba dostosowywać
 				}
 
 				FavoritedRecipePanelPosition: {
-					// Label: Favorited Recipes Poisition
-					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+					Label: Pozycja Panelu Ulubionych Receptur
+					Tooltip: Pozycja interfejsu użytkownika panelu ulubionych receptur. Zostanie automatycznie zapisana, nie trzeba dostosowywać
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
-					// Label: Only Show Favorited While Inventory Open
-					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+					Label: Pokaż Tylko Ulubione Podczas Otwartego Ekwipunku
+					Tooltip: Automatycznie pokazuj i ukrywaj panel ulubionych receptur. Zostanie automatycznie zapisane, nie trzeba dostosowywać
 				}
 			}
 		}
