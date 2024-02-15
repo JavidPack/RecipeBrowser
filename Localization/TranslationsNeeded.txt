@@ -6,4 +6,4 @@ es-ES, 49/80, 61%, missing 31
 ru-RU, 80/80, 100%, missing 0
 zh-Hans, 80/80, 100%, missing 0
 pt-BR, 49/80, 61%, missing 31
-pl-PL, 28/80, 35%, missing 52
+pl-PL, 80/80, 100%, missing 0
