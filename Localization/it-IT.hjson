@@ -2,7 +2,7 @@ Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
 			Recipes: Ricette
-			// Craft: Craft
+			Craft: Creare
 			Items: Oggetti
 			Bestiary: Bestiario
 			Close: Chiudi
