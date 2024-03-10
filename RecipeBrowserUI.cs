@@ -249,7 +249,7 @@ namespace RecipeBrowser
 			button.OnLeftClick += (a, b) => tabController.SetPanel(Help);
 			button.BackgroundColor = HelpUI.color;
 
-			text = new UIText("Help", 0.85f);
+			text = new UIText(RBText("Help"), 0.85f);
 			text.HAlign = 0.5f;
 			text.VAlign = 0.5f;
 			button.Append(text);
@@ -311,7 +311,7 @@ namespace RecipeBrowser
 			closeFavoritePanelButton.Left.Set(-15, 1f);
 			favoritePanel.Append(closeFavoritePanelButton);
 
-			HideUnlessInventoryToggle = new UIElements.UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/TickOnOff", AssetRequestMode.ImmediateLoad), 2, new string[] { "Always show", "Show when inventory" }, 16, 12);
+			HideUnlessInventoryToggle = new UIElements.UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/TickOnOff", AssetRequestMode.ImmediateLoad), 2, new string[] { RBText("AlwaysShow", "FavoritedUI"), RBText("ShowWhenInventory", "FavoritedUI") }, 16, 12);
 			HideUnlessInventoryToggle.Top.Set(20, 0f);
 			HideUnlessInventoryToggle.Left.Set(-15, 1f);
 			HideUnlessInventoryToggle.CurrentState = config.OnlyShowFavoritedWhileInInventory ? 1 : 0;

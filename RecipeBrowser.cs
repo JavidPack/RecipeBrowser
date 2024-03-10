@@ -102,6 +102,10 @@ namespace RecipeBrowser
 			return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
 		}
 
+		internal static LocalizedText RBLocalizedText(string category, string key) {
+			return Language.GetText($"Mods.RecipeBrowser.{category}.{key}");
+		}
+
 		public void PreSaveAndQuit() {
 			RecipeBrowserUI.instance.CloseButtonClicked(null, null);
 			RecipeBrowserUI.instance.ShowRecipeBrowser = false;

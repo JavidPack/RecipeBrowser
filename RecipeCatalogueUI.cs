@@ -213,7 +213,7 @@ namespace RecipeBrowser
 			tileChooserPanel.Height.Set(-50 - 120, 1f);
 			tileChooserPanel.BackgroundColor = Color.CornflowerBlue;
 
-			uniqueCheckbox = new UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("Images/uniqueTile") /* Thanks MiningdiamondsVIII */, 2, new string[] { "Show inherited recipes", "Show unique recipes" }, 36, 20);
+			uniqueCheckbox = new UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("Images/uniqueTile") /* Thanks MiningdiamondsVIII */, 2, new string[] { RBText("ShowInheritedRecipes"), RBText("ShowUniqueRecipes") }, 36, 20);
 			uniqueCheckbox.Top.Set(0, 0f);
 			uniqueCheckbox.Left.Set(1, 0f);
 			uniqueCheckbox.CurrentState = 1;
