@@ -111,7 +111,7 @@ Mods: {
 			/* Recipes:
 				'''
 				[c/{0}:Recipes]
-				    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:Item Checklist Only] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
+				    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
 				''' */
 			/* Craft:
 				'''
@@ -126,7 +126,7 @@ Mods: {
 			/* Bestiary:
 				'''
 				[c/{0}:Bestiary]
-				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:Item Checklist only]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
+				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
 				''' */
 			/* Borders:
 				'''
@@ -149,6 +149,7 @@ Mods: {
 				[c/{0}:Query Hovered Item]
 				    By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game. Depending on the last panel you were on, the behavior changes. The Recipe tool will populate the query slot, the Craft tool will display options to craft the item, the Item tool will scroll and select the item, and the Bestiary tool will populate the loot query slot. Using the hotkey a 2nd time on the same item will conveniently close the tool.
 				''' */
+			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
 			/* CategoriesSubCategoriesSortsAndFilters:
 				'''
 				[c/{0}:Categories, Sub Categories, Sorts, and Filters]
