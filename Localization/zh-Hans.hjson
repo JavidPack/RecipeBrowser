@@ -5,7 +5,7 @@ Mods: {
 			Craft: 制作步骤
 			Items: 物品图鉴
 			Bestiary: 生物图鉴
-			// Help: Help
+			Help: 帮助
 			Close: 关闭
 			All: 全部
 			ModFilter: 模组
@@ -31,16 +31,16 @@ Mods: {
 			ItemChecklistOnly: 仅Item Checklist
 			OnlyNewItemsMadeFromSeenItems: 仅显示曾获得过其材料但从未曾合成过的新物品
 			EmptyQuerySlotHint: 在此放置物品
-			// ShowInheritedRecipes: Show inherited recipes
-			// ShowUniqueRecipes: Show unique recipes
+			ShowInheritedRecipes: 显示继承合成表
+			ShowUniqueRecipes: 显示独有合成表
 		}
 
 		FavoritedUI: {
 			Close: 关闭 ({0})
 			ToggleHint: 按{0}开关
 			ToggleUnboundHint: 设置快捷键以开关
-			// AlwaysShow: Always show
-			// ShowWhenInventory: Show when inventory
+			AlwaysShow: 永远显示
+			ShowWhenInventory: 仅在打开物品栏时显示
 		}
 
 		CraftUI: {
@@ -103,64 +103,64 @@ Mods: {
 		}
 
 		HelpUI: {
-			/* JumbledText:
+			JumbledText:
 				'''
-				[c/{0}:Jumbled Text?]
-				    If the text below looks wrong, you'll need to disable Terraria Overhaul to fix it.
-				''' */
-			/* Recipes:
+				[c/{0}:文本错乱?]
+				    如果下方的文本看起来不对劲, 你需要Terraria Overhaul来使其正常.
 				'''
-				[c/{0}:Recipes]
-				    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
-				''' */
-			/* Craft:
+			Recipes:
 				'''
-				[c/{0}:Craft]
+				[c/{0}:合成表]
+				    在查询栏中放入物品以查找与该物品有关的合成表. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近箱子选项会使合成表只显示你当前拥有的材料能够合成的合成表. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将合成表限制为仅显示你见过的物品制作出你未见过的物品的合成表. 物块复选框会排列出经常需要的制作站列表. 点击物块会将合成表限制为仅显示使用该制作站的合成表. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有合成表选项可决定是否显示继承合成表. 例如: 地狱熔炉继承了熔炉的所有合成表, 但有着独有的狱石锭合成表. 底部会列出所选物品的制作站和合成状态. 如果玩家能够合成, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问生物图鉴. 双击合成表或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的设为收藏部分.
+				'''
+			Craft:
+				'''
+				[c/{0}:制作]
 				    This tool can be used to craft recipes. In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] background can be crafted via multiple steps. You can also left click on items in the Items tool and then visit this tool. This tool shows extended crafting options. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. [c/{1}:✓], [c/{2}:X], and [c/{3}:?] icons over the tiles indicate if you are near the crafting station, not near it, or have never seen the station. Use the [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] button to craft individual steps. By default the Recipes tool won't automatically calculate multiple step crafting unless the Calc checkbox is checked. You can also use the Extended Craftable filter to quickly view all extended crafting options. Note that you may experience some lag with this feature.
-				''' */
-			/* Items:
 				'''
-				[c/{0}:Items]
+			Items:
+				'''
+				[c/{0}:物品]
 				    Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary. The Unobtained option shows only items not collected yet with [c/{1}:Item Checklist].
-				''' */
-			/* Bestiary:
 				'''
-				[c/{0}:Bestiary]
+			Bestiary:
+				'''
+				[c/{0}:生物图鉴]
 				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
-				''' */
-			/* Borders:
 				'''
-				[c/{0}:Borders]
-				    Sometimes items will display with different borders, here is what they mean:
-				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] This Recipe is Favorited, read Favorite section below.
-				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] This Recipe/Item/NPC is Selected. Information shown relates to this thing.
-				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] This Recipe can currently be crafted. Click on it to open the crafting menu directly.
-				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] This Recipe can currently be crafted via multiple steps. Right Click on it to open the Craft tool to view crafting options.
-				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Item Checklist integration:] These items use the most recent new item you have collected.
-				''' */
-			/* Favorite:
+			Borders:
 				'''
-				[c/{0}:Favorite]
+				[c/{0}:边框]
+				    物品在某些时候会显示不同的边框, 其含义如下:
+				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] 该合成表已设为收藏, 详见下方的设为收藏部分.
+				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] 已选择R该合成表/物品/NPC. 显示的信息与此相关
+				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] 合成表当前可以进行合成. 点击它可以直接打开制作菜单.
+				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] 合成表当前可以通过多个步骤进行合成. 右键它可以打开制作工具以查看制作选项.
+				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Item Checklist整合:] 这些物品使用你最近搜集的新物品.
+				'''
+			Favorite:
+				'''
+				[c/{0}:设为收藏]
 				    In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently. Item counts shown correspond to the player who favorited the recipe.
 				[image:RecipeBrowser/Images/Help/mpFavorited]
-				''' */
-			/* QueryHoveredItem:
 				'''
-				[c/{0}:Query Hovered Item]
+			QueryHoveredItem:
+				'''
+				[c/{0}:查询光标悬浮的物品]
 				    By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game. Depending on the last panel you were on, the behavior changes. The Recipe tool will populate the query slot, the Craft tool will display options to craft the item, the Item tool will scroll and select the item, and the Bestiary tool will populate the loot query slot. Using the hotkey a 2nd time on the same item will conveniently close the tool.
-				''' */
-			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
-			/* CategoriesSubCategoriesSortsAndFilters:
 				'''
-				[c/{0}:Categories, Sub Categories, Sorts, and Filters]
+			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
+			CategoriesSubCategoriesSortsAndFilters:
+				'''
+				[c/{0}:分类, 子分类, 排序和筛选]
 				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/Images/filterMod] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
-				''' */
-			/* ItemChecklistIntegration:
 				'''
-				[c/{0}:Item Checklist Integration]
+			ItemChecklistIntegration:
+				'''
+				[c/{0}:Item Checklist整合]
 				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist video].
-				''' */
+				'''
 		}
 
 		Keybinds: {
@@ -175,17 +175,17 @@ Mods: {
 
 				ShowRecipeModSource: {
 					Label: 显示合成表的模组来源
-					Tooltip: 显示合成表目录中的合成表由哪个模组添加. Disable for immersion.
+					Tooltip: 显示合成表目录中的合成表由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				ShowItemModSource: {
 					Label: 显示物品的模组来源
-					Tooltip: 显示合成表目录中的物品由哪个模组添加. Disable for immersion.
+					Tooltip: 显示合成表目录中的物品由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				ShowNPCModSource: {
 					Label: 显示NPC的模组来源
-					Tooltip: 显示图鉴中的NPC由哪个模组添加. Disable for immersion.
+					Tooltip: 显示图鉴中的NPC由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				Headers.AutomaticSettings: 自动设置
