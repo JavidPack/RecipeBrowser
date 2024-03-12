@@ -106,7 +106,7 @@ Mods: {
 			JumbledText:
 				'''
 				[c/{0}:文本错乱?]
-				    如果下方的文本看起来不对劲, 你需要Terraria Overhaul来使其正常.
+				    如果下方的文本看起来不对劲, 你需要禁用Terraria Overhaul来使其正常.
 				'''
 			Recipes:
 				'''
