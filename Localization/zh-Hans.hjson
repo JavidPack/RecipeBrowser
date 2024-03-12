@@ -111,7 +111,7 @@ Mods: {
 			Recipes:
 				'''
 				[c/{0}:合成表]
-				    在查询栏中放入物品以查找与该物品有关的合成表. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近箱子选项会使合成表只显示你当前拥有的材料能够合成的合成表. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将合成表限制为仅显示你见过的物品制作出你未见过的物品的合成表. 物块复选框会排列出经常需要的制作站列表. 点击物块会将合成表限制为仅显示使用该制作站的合成表. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有合成表选项可决定是否显示继承合成表. 例如: 地狱熔炉继承了熔炉的所有合成表, 但有着独有的狱石锭合成表. 底部会列出所选物品的制作站和合成状态. 如果玩家能够合成, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问生物图鉴. 双击合成表或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的设为收藏部分.
+				    在查询栏中放入物品以查找与该物品有关的合成表. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近箱子选项会使合成表只显示你当前拥有的材料能够合成的合成表. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将合成表限制为仅显示你见过的物品制作出的你未见过的物品的合成表. 物块复选框会排列出经常需要的制作站列表. 点击物块会将合成表限制为仅显示使用该制作站的合成表. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有合成表选项可决定是否显示继承合成表. 例如: 地狱熔炉继承了熔炉的所有合成表, 但有着独有的狱石锭合成表. 底部会列出所选物品的制作站和合成状态. 如果玩家能够合成, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问生物图鉴. 双击合成表或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的设为收藏部分.
 				'''
 			Craft:
 				'''
@@ -121,12 +121,12 @@ Mods: {
 			Items:
 				'''
 				[c/{0}:物品]
-				    Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary. The Unobtained option shows only items not collected yet with [c/{1}:Item Checklist].
+				   你可以在此探查游戏中的所有物品. 使用筛选和排序来查找你所需的事物. 双击物品会跳转到合成表面板中对其进行查询. 右键双击物品会跳转到生物图鉴面板中对其进行查询. 未获得选项会仅显示[c/{1}:Item Checklist]中尚未收集的物品.
 				'''
 			Bestiary:
 				'''
 				[c/{0}:生物图鉴]
-				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
+				   你可以在此探查游戏中的所有NPC. 使用筛选和排序来查找你所需的事物. 点击NPC会显示该NPC的战利品. 将物品放置在查询栏中会筛选网络, 仅显示掉落所查询物品的NPC. 双击物品会跳转到合成表面板中对其进行查询. 右键物品会将其填充到查询栏中, 适合查找掉落相同物品的NPC. 新掉落物 ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) 选项会显示尚未收集其掉落物品的NPC, 适合了解哪些NPC仍在隐藏有价值的战利品.
 				'''
 			Borders:
 				'''
@@ -141,25 +141,25 @@ Mods: {
 			Favorite:
 				'''
 				[c/{0}:设为收藏]
-				    In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently. Item counts shown correspond to the player who favorited the recipe.
+				    在合成表面板中, 你可以通过Alt+左键来将一个合成表设为收藏. 屏幕上会出现收藏面板. 该面板会帮助你跟进材料的收集进度. 在多人游戏中, 其他玩家收藏的合成表也会出现在收藏面板中. 你可以跟进其他玩家的收集进度并进行高效合作. Item counts shown correspond to the player who favorited the recipe.
 				[image:RecipeBrowser/Images/Help/mpFavorited]
 				'''
 			QueryHoveredItem:
 				'''
 				[c/{0}:查询光标悬浮的物品]
-				    By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game. Depending on the last panel you were on, the behavior changes. The Recipe tool will populate the query slot, the Craft tool will display options to craft the item, the Item tool will scroll and select the item, and the Bestiary tool will populate the loot query slot. Using the hotkey a 2nd time on the same item will conveniently close the tool.
+				    通过在按键绑定菜单中分配热键, 你可以使用此功能快速查询物品. 在游戏中的任何地方, 只要你的光标悬浮在物品上, 都可以随时使用此功能. 根据你之前所在的最后一个面板, 功能表现会有所不同. 合成表工具将填充查询栏，制作工具将显示制作该物品的选项, 物品工具将滚动并选中该物品, 而生物图鉴工具将填充掉落物查询栏. 如果对同一物品再次使用热键则会快速关闭工具.
 				'''
 			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
 			CategoriesSubCategoriesSortsAndFilters:
 				'''
-				[c/{0}:分类, 子分类, 排序和筛选]
-				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/Images/filterMod] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
+				[c/{0}:种类, 子类, 排序和筛选]
+				    合成表和物品面板都有多种方法来筛选和排序物品和合成表. 你可以输入物品说明和物品名称并使用[image:RecipeBrowser/Images/filterMod]按钮来筛选源Mod. 你也可以通过点击种类, 例如[image:RecipeBrowser/Images/Help/Item_2430] 和[image:RecipeBrowser/Images/Help/Item_54]来筛选. 某些种类具有子类. 你同样会注意到第二行有着各种排序, 比如[image:RecipeBrowser/Images/sortValue]和[image:RecipeBrowser/Images/sortAZ]. 同样也有筛选, 例如[image:RecipeBrowser/Images/Help/Item_531]. 许多排序和筛选功能仅在特定的分类中可见. 一些筛选功能, 如弹药筛选, 会循环显示多个选项. 对于这些筛选功能, 可使用左键和右键来向前和向后, 中键以清除筛选.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
 				'''
 			ItemChecklistIntegration:
 				'''
 				[c/{0}:Item Checklist整合]
-				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist video].
+				    通过Item Checklist, 你可以浏览范围限制在从已收集过的物品中制作的从未获得过的新物品. 这有助于你专注于当前游戏阶段的物品. Item Checklist同样会影响物品和生物图鉴工具. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist视频].
 				'''
 		}
 
@@ -175,17 +175,17 @@ Mods: {
 
 				ShowRecipeModSource: {
 					Label: 显示合成表的模组来源
-					Tooltip: 显示合成表目录中的合成表由哪个模组添加. 沉浸式体验请禁用.
+					Tooltip: 显示合成表目录中的合成表由哪个模组添加. Disable for immersion.
 				}
 
 				ShowItemModSource: {
 					Label: 显示物品的模组来源
-					Tooltip: 显示合成表目录中的物品由哪个模组添加. 沉浸式体验请禁用.
+					Tooltip: 显示合成表目录中的物品由哪个模组添加. Disable for immersion.
 				}
 
 				ShowNPCModSource: {
 					Label: 显示NPC的模组来源
-					Tooltip: 显示图鉴中的NPC由哪个模组添加. 沉浸式体验请禁用.
+					Tooltip: 显示图鉴中的NPC由哪个模组添加. Disable for immersion.
 				}
 
 				Headers.AutomaticSettings: 自动设置
