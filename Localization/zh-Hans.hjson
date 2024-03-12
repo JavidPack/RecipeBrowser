@@ -59,8 +59,8 @@ Mods: {
 			MineableTooltip: 允许显示可从世界中挖掘的物块处获得的物品 (使用最好的镐)
 			Shop: 商店
 			ShopTooltip: 允许显示可购买获得的物品 (仅商人可见)
-			MissingStations: 新制作站
-			MissingStationsTooltip: 允许显示从未曾遇到过的制作站 (进入新世界时将重置)
+			MissingStations: 缺失制作站
+			MissingStationsTooltip: 允许显示尚未遇到过的制作站 (进入新世界时将重置)
 			Inventory: 背包
 			Banks: 移动存储箱
 			BanksTooltip: 包括个人的猪猪储蓄罐,保险箱,守卫者熔炉中的物品 (即将推出)
@@ -116,7 +116,7 @@ Mods: {
 			Craft:
 				'''
 				[c/{0}:制作]
-				    This tool can be used to craft recipes. In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] background can be crafted via multiple steps. You can also left click on items in the Items tool and then visit this tool. This tool shows extended crafting options. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. [c/{1}:✓], [c/{2}:X], and [c/{3}:?] icons over the tiles indicate if you are near the crafting station, not near it, or have never seen the station. Use the [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] button to craft individual steps. By default the Recipes tool won't automatically calculate multiple step crafting unless the Calc checkbox is checked. You can also use the Extended Craftable filter to quickly view all extended crafting options. Note that you may experience some lag with this feature.
+				    该工具可用于制作合成表. 在合成表工具中, 右键任意物品以跳转到该工具面板. 该工具可用于制作合成表. 在合成表工具中, 右键任意物品以跳转到该工具面板. 具有[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] 背景的合成表具有多个制作步骤. 你也可以通过左键物品工具中的物品跳转到该工具面板. 该工具会显示扩展制作选项. 例如, 如果你有金矿和铁矿并点击了金表的合成表, 该工具会向你展示制作金锭和铁锭所需的多个步骤, 然后是制作链条, 最后是金表本身。你也可以通过启用掉落选项来将敌人掉落物加入到步骤中. 只需找到敌人并将其杀死并其掉落材料即可. 默认情况下, 你看到的所有制作站都可以用于扩展制作路径. 如果你启用了缺失制作站选项, 未遇到的制作站也会被扩展显示. [c/{1}:✓], [c/{2}:X] 和 [c/{3}:?] 图标分别表示: 你在该制作站附近|你未在该制作站附近|你尚未遇到过该制作站. 使用[image/s0.7:RecipeBrowser/Images/Help/CraftIcon]按钮进行各个步骤的快速制作. 默认情况下, 除非选中计算复选框, 否则合成表工具不会自动计算多步骤制作. 你也可以使用扩展可制作来快速查看所有扩展的制作选项. 请注意, 使用此功能可能会出现一些滞后.
 				'''
 			Items:
 				'''
@@ -126,7 +126,7 @@ Mods: {
 			Bestiary:
 				'''
 				[c/{0}:生物图鉴]
-				   你可以在此探查游戏中的所有NPC. 使用筛选和排序来查找你所需的事物. 点击NPC会显示该NPC的战利品. 将物品放置在查询栏中会筛选网络, 仅显示掉落所查询物品的NPC. 双击物品会跳转到合成表面板中对其进行查询. 右键物品会将其填充到查询栏中, 适合查找掉落相同物品的NPC. 新掉落物 ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) 选项会显示尚未收集其掉落物品的NPC, 适合了解哪些NPC仍在隐藏有价值的战利品.
+				   你可以在此探查游戏中的所有NPC. 使用筛选和排序来查找你所需的事物. 点击NPC会显示该NPC的掉落物. 将物品放置在查询栏中会筛选网络, 仅显示掉落所查询物品的NPC. 双击物品会跳转到合成表面板中对其进行查询. 右键物品会将其填充到查询栏中, 适合查找掉落相同物品的NPC. 新掉落物 ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) 选项会显示尚未收集其掉落物品的NPC, 适合了解哪些NPC仍在隐藏有价值的掉落物.
 				'''
 			Borders:
 				'''
@@ -141,7 +141,7 @@ Mods: {
 			Favorite:
 				'''
 				[c/{0}:设为收藏]
-				    在合成表面板中, 你可以通过Alt+左键来将一个合成表设为收藏. 屏幕上会出现收藏面板. 该面板会帮助你跟进材料的收集进度. 在多人游戏中, 其他玩家收藏的合成表也会出现在收藏面板中. 你可以跟进其他玩家的收集进度并进行高效合作. Item counts shown correspond to the player who favorited the recipe.
+				    在合成表面板中, 你可以通过Alt+左键来将一个合成表设为收藏. 屏幕上会出现收藏面板. 该面板会帮助你跟进材料的收集进度. 在多人游戏中, 其他玩家收藏的合成表也会出现在收藏面板中. 你可以跟进其他玩家的收集进度并进行高效合作. 显示的物品数量对应于将合成表设为收藏的玩家.
 				[image:RecipeBrowser/Images/Help/mpFavorited]
 				'''
 			QueryHoveredItem:
@@ -175,17 +175,17 @@ Mods: {
 
 				ShowRecipeModSource: {
 					Label: 显示合成表的模组来源
-					Tooltip: 显示合成表目录中的合成表由哪个模组添加. Disable for immersion.
+					Tooltip: 显示合成表目录中的合成表由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				ShowItemModSource: {
 					Label: 显示物品的模组来源
-					Tooltip: 显示合成表目录中的物品由哪个模组添加. Disable for immersion.
+					Tooltip: 显示合成表目录中的物品由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				ShowNPCModSource: {
 					Label: 显示NPC的模组来源
-					Tooltip: 显示图鉴中的NPC由哪个模组添加. Disable for immersion.
+					Tooltip: 显示图鉴中的NPC由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				Headers.AutomaticSettings: 自动设置
