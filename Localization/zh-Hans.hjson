@@ -154,7 +154,7 @@ Mods: {
 				'''
 				[c/{0}:种类, 子类, 排序和筛选]
 				    配方和物品面板都有多种方法来筛选和排序物品和配方. 你可以输入工具提示和物品名称并使用[image:RecipeBrowser/Images/filterMod]按钮来筛选源Mod. 你也可以通过点击种类, 例如[image:RecipeBrowser/Images/Help/Item_2430] 和[image:RecipeBrowser/Images/Help/Item_54]来筛选. 某些种类具有子类. 你同样会注意到第二行有着各种排序, 比如[image:RecipeBrowser/Images/sortValue]和[image:RecipeBrowser/Images/sortAZ]. 同样也有筛选, 例如[image:RecipeBrowser/Images/Help/Item_531]. 许多排序和筛选功能仅在特定的分类中可见. 一些筛选功能, 如弹药筛选, 会循环显示多个选项. 对于这些筛选功能, 可使用左键和右键来向前和向后, 中键以清除筛选.
-				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
+				[image:RecipeBrowser/Images/Help/sortsExplanation_zh-Hans]
 				'''
 			ItemChecklistIntegration:
 				'''
