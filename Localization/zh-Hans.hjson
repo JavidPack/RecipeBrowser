@@ -1,11 +1,11 @@
 Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
-			Recipes: 合成配方
-			Craft: 制作步骤
-			Items: 物品图鉴
-			Bestiary: 生物图鉴
-			// Help: Help
+			Recipes: 配方
+			Craft: 制作
+			Items: 物品
+			Bestiary: 怪物图鉴
+			Help: 帮助
 			Close: 关闭
 			All: 全部
 			ModFilter: 模组
@@ -13,160 +13,160 @@ Mods: {
 
 		Common: {
 			FilterByName: 搜索名称
-			FilterByTooltip: 搜索提示
-			InstallItemChecklistToUse: 安装[Item Checklist]可使用
+			FilterByTooltip: 搜索工具提示
+			InstallItemChecklistToUse: 安装Item Checklist后可使用
 		}
 
 		Keybind: {
 			ToggleRecipeBrowser: 开关合成表
 			QueryHoveredItem: 查询当前光标悬浮的物品
-			ToggleFavoritedRecipesWindow: 开关收藏的合成窗口
+			ToggleFavoritedRecipesWindow: 开关收藏的配方窗口
 		}
 
 		RecipeCatalogueUI: {
-			Tile: 环境
+			Tile: 物块
 			AllRecipes: 全部配方
-			NearbyChests: 附近箱子
+			NearbyChests: 附近宝箱
 			ClickToRefresh: 点击刷新
 			ItemChecklistOnly: 仅Item Checklist
-			OnlyNewItemsMadeFromSeenItems: 仅显示曾获得过其材料但从未曾合成过的新物品
+			OnlyNewItemsMadeFromSeenItems: 仅显示曾遇见过的物品合成的新物品
 			EmptyQuerySlotHint: 在此放置物品
-			// ShowInheritedRecipes: Show inherited recipes
-			// ShowUniqueRecipes: Show unique recipes
+			ShowInheritedRecipes: 显示继承配方
+			ShowUniqueRecipes: 显示独有配方
 		}
 
 		FavoritedUI: {
 			Close: 关闭 ({0})
 			ToggleHint: 按{0}开关
 			ToggleUnboundHint: 设置快捷键以开关
-			// AlwaysShow: Always show
-			// ShowWhenInventory: Show when inventory
+			AlwaysShow: 永远显示
+			ShowWhenInventory: 仅在打开物品栏时显示
 		}
 
 		CraftUI: {
-			EmptyQuerySlotHint: 在此处放置物品
+			EmptyQuerySlotHint: 在此放置物品
 			Calc: 计算
 			CalcTooltip:
 				'''
-				在合成配方中切换优先扩展制作步骤的计算
+				开关配方的优先扩展制作步骤计算
 				可能会导致延迟
 				'''
-			Loot: 掉落
-			LootTooltip: 允许显示可掉落获得的物品 (仅拥有旗帜的生物)
+			Loot: 掉落物
+			LootTooltip: 允许显示制作路线中可通过刷资源获得的物品 (仅拥有旗帜的生物)
 			Bugnet: 虫子
-			BugnetTooltip: 允许显示可由虫网捕获的虫子 (仅可见)
+			BugnetTooltip: 允许显示可由虫网捕获的虫子 (仅遇见过)
 			Mineable: 可挖掘
 			MineableTooltip: 允许显示可从世界中挖掘的物块处获得的物品 (使用最好的镐)
 			Shop: 商店
-			ShopTooltip: 允许显示可购买获得的物品 (仅商人可见)
-			MissingStations: 新制作站
-			MissingStationsTooltip: 允许显示从未曾遇到过的制作站 (进入新世界时将重置)
-			Inventory: 背包
+			ShopTooltip: 允许显示制作路线中可通过购买获得的物品 (仅遇见过的商人)
+			MissingStations: 缺失制作站
+			MissingStationsTooltip: 允许显示未曾遇见过的制作站 (进入新世界时重置)
+			Inventory: 物品栏
 			Banks: 移动存储箱
-			BanksTooltip: 包括个人的猪猪储蓄罐,保险箱,守卫者熔炉中的物品 (即将推出)
-			Chests: 箱子
-			ChestsTooltip: 包括附近箱子中的物品 (即将推出)
+			BanksTooltip: 包括个人的猪猪储蓄罐、保险箱和守卫者熔炉中的物品 (即将推出)
+			Chests: 宝箱
+			ChestsTooltip: 包括附近宝箱中的物品 (即将推出)
 			MagicStorage: 魔法储存
-			MagicStorageTooltip: 包括附近[魔法储存]中的物品和制作站 (即将推出)
-			BottomInstructions: 在[合成配方]中右键快速访问此面板
-			NoPathsFound: 没有找到该配方/物品的制作步骤
+			MagicStorageTooltip: 包括附近的魔法储存中的物品和制作站 (即将推出)
+			BottomInstructions: 在配方中右键以快速跳转至该面板
+			NoPathsFound: 没有找到该配方/物品的制作路线
 		}
 
 		ItemCatalogueUI: {
-			Crafted: 可合成
-			OnlyShowCraftedItems: 仅显示可合成的物品
+			Crafted: 可制作
+			OnlyShowCraftedItems: 仅显示可制作的物品
 			Loot: 掉落物
 			ShowOnlyLootItems: 仅显示掉落物
 			Unobtained: 未获得
-			OnlyUnobtainedItems: 仅显示从未曾获得的物品
-			BottomInstructions: 双击左键: 查看合成  ---  双击右键: 查看掉落
+			OnlyUnobtainedItems: 仅显示从未曾获得过的物品
+			BottomInstructions: 双击左键: 查看配方  ---  双击右键: 查看掉落
 		}
 
 		BestiaryUI: {
-			Encountered: 曾击杀
-			Unencountered: 未遇到
+			Encountered: 曾遇见过
+			Unencountered: 未曾遇见过
 			ShowOnlyNPCKilledAlready:
 				'''
-				只显示已被击杀的生物
+				仅显示已被击杀的生物
 				(右键切换至未被击杀的生物)
 				'''
 			ShowOnlyNPCNotKilled:
 				'''
-				只显示未被击杀的生物
+				仅显示未被击杀的生物
 				(右键切换至已被击杀的生物)
 				'''
 			HasLoot: 含掉落物
-			ShowOnlyNPCWithLoot: 仅显示曾获得过其掉落物的生物
+			ShowOnlyNPCWithLoot: 仅显示具有掉落物的NPC
 			NewLoot: 新掉落物
-			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示含有从未曾获得过其掉落物的生物
+			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示有着未曾获得过其掉落物的NPC
 			EmptyQuerySlotHint: 在此放置物品
 		}
 
 		HelpUI: {
-			/* JumbledText:
+			JumbledText:
 				'''
-				[c/{0}:Jumbled Text?]
-				    If the text below looks wrong, you'll need to disable Terraria Overhaul to fix it.
-				''' */
-			/* Recipes:
+				[c/{0}:文本错乱?]
+				    如果下方的文本看起来不对劲, 你需要禁用Terraria Overhaul来使其正常.
 				'''
-				[c/{0}:Recipes]
-				    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
-				''' */
-			/* Craft:
+			Recipes:
 				'''
-				[c/{0}:Craft]
-				    This tool can be used to craft recipes. In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] background can be crafted via multiple steps. You can also left click on items in the Items tool and then visit this tool. This tool shows extended crafting options. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. [c/{1}:✓], [c/{2}:X], and [c/{3}:?] icons over the tiles indicate if you are near the crafting station, not near it, or have never seen the station. Use the [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] button to craft individual steps. By default the Recipes tool won't automatically calculate multiple step crafting unless the Calc checkbox is checked. You can also use the Extended Craftable filter to quickly view all extended crafting options. Note that you may experience some lag with this feature.
-				''' */
-			/* Items:
+				[c/{0}:配方]
+				    在查询栏中放入物品以查找与该物品有关的配方. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击物块会将配方限制为仅显示使用该制作站的配方. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示继承配方. 例如: 地狱熔炉继承了熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.
 				'''
-				[c/{0}:Items]
-				    Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary. The Unobtained option shows only items not collected yet with [c/{1}:Item Checklist].
-				''' */
-			/* Bestiary:
+			Craft:
 				'''
-				[c/{0}:Bestiary]
-				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
-				''' */
-			/* Borders:
+				[c/{0}:制作]
+				    该工具可用于制作配方. 在配方工具中, 右键任意物品以跳转到该工具面板. 具有[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground]背景的配方有多个制作步骤. 你也可以通过左键物品工具中的物品跳转到该工具面板. 该工具会显示扩展制作选项. 例如, 如果你有金矿和铁矿并点击了金表的配方, 该工具会向你展示制作金锭和铁锭所需的多个步骤, 然后是制作链条, 最后是金表本身。你也可以通过启用掉落物选项来将敌人掉落物加入到步骤中. 只需找到敌人并将其杀死并获得其掉落材料即可. 默认情况下, 你看到的所有制作站都可以用于扩展制作路径. 如果你启用了缺失制作站选项, 未曾遇见过的制作站也会被扩展显示. [c/{1}:✓], [c/{2}:X] 和 [c/{3}:?] 图标分别表示: 你在该制作站附近|你未在该制作站附近|你 未曾遇见过该制作站. 使用[image/s0.7:RecipeBrowser/Images/Help/CraftIcon]按钮进行各个步骤的快速制作. 默认情况下, 除非选中计算复选框, 否则配方工具不会自动计算多步骤制作. 你也可以使用扩展可制作来快速查看所有扩展的制作选项. 请注意, 使用此功能可能会出现一些滞后.
 				'''
-				[c/{0}:Borders]
-				    Sometimes items will display with different borders, here is what they mean:
-				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] This Recipe is Favorited, read Favorite section below.
-				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] This Recipe/Item/NPC is Selected. Information shown relates to this thing.
-				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] This Recipe can currently be crafted. Click on it to open the crafting menu directly.
-				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] This Recipe can currently be crafted via multiple steps. Right Click on it to open the Craft tool to view crafting options.
-				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Item Checklist integration:] These items use the most recent new item you have collected.
-				''' */
-			/* Favorite:
+			Items:
 				'''
-				[c/{0}:Favorite]
-				    In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently. Item counts shown correspond to the player who favorited the recipe.
+				[c/{0}:物品]
+				    你可以在此探查游戏中的所有物品. 使用筛选和排序来查找你所需的事物. 双击物品会跳转到配方面板中对其进行查询. 右键双击物品会跳转到怪物图鉴面板中对其进行查询. 未获得选项会仅显示[c/{1}:Item Checklist]中尚未收集的物品.
+				'''
+			Bestiary:
+				'''
+				[c/{0}:怪物图鉴]
+				    你可以在此探查游戏中的所有NPC. 使用筛选和排序来查找你所需的事物. 点击NPC会显示该NPC的掉落物. 将物品放置在查询栏中会筛选网络, 仅显示掉落所查询物品的NPC. 双击物品会跳转到配方面板中对其进行查询. 右键物品会将其填充到查询栏中, 适合查找掉落相同物品的NPC. 新掉落物 ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) 选项会显示尚未收集其掉落物品的NPC, 适合了解哪些NPC仍在隐藏有价值的掉落物.
+				'''
+			Borders:
+				'''
+				[c/{0}:边框]
+				    物品在某些时候会显示不同的边框, 其含义如下:
+				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] 已收藏该配方, 详见下方的收藏部分.
+				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] 已选择该配方/物品/NPC. 显示的信息与此相关
+				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] 当前可以制作该配方. 点击它可以直接打开制作菜单.
+				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] 当前可以通过多个步骤制作该配方. 右键它可以打开制作工具以查看制作选项.
+				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Item Checklist整合:] 这些物品使用你最近搜集的新物品.
+				'''
+			Favorite:
+				'''
+				[c/{0}:收藏]
+				    在合成表面板中, 你可以通过Alt+左键来收藏配方. 屏幕上会出现收藏面板. 该面板会帮助你跟进材料的收集进度. 在多人游戏中, 其他玩家收藏的合成表也会出现在收藏面板中. 你可以跟进其他玩家的收集进度并进行高效合作. 显示的物品数量与收藏了配方的玩家对应.
 				[image:RecipeBrowser/Images/Help/mpFavorited]
-				''' */
-			/* QueryHoveredItem:
 				'''
-				[c/{0}:Query Hovered Item]
-				    By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game. Depending on the last panel you were on, the behavior changes. The Recipe tool will populate the query slot, the Craft tool will display options to craft the item, the Item tool will scroll and select the item, and the Bestiary tool will populate the loot query slot. Using the hotkey a 2nd time on the same item will conveniently close the tool.
-				''' */
+			QueryHoveredItem:
+				'''
+				[c/{0}:查询光标悬浮的物品]
+				    通过在按键绑定菜单中分配热键, 你可以使用此功能快速查询物品. 在游戏中的任何地方, 只要你的光标悬浮在物品上, 都可以随时使用此功能. 根据你之前所在的最后一个面板, 功能表现会有所不同. 配方工具将填充查询栏，制作工具将显示制作该物品的选项, 物品工具将滚动并选中该物品, 而怪物图鉴工具将填充掉落物查询栏. 如果对同一物品再次使用热键则会快速关闭工具.
+				'''
 			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
-			/* CategoriesSubCategoriesSortsAndFilters:
+			CategoriesSubCategoriesSortsAndFilters:
 				'''
-				[c/{0}:Categories, Sub Categories, Sorts, and Filters]
-				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/Images/filterMod] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
+				[c/{0}:种类, 子类, 排序和筛选]
+				    配方和物品面板都有多种方法来筛选和排序物品和配方. 你可以输入工具提示和物品名称并使用[image:RecipeBrowser/Images/filterMod]按钮来筛选源Mod. 你也可以通过点击种类, 例如[image:RecipeBrowser/Images/Help/Item_2430] 和[image:RecipeBrowser/Images/Help/Item_54]来筛选. 某些种类具有子类. 你同样会注意到第二行有着各种排序, 比如[image:RecipeBrowser/Images/sortValue]和[image:RecipeBrowser/Images/sortAZ]. 同样也有筛选, 例如[image:RecipeBrowser/Images/Help/Item_531]. 许多排序和筛选功能仅在特定的分类中可见. 一些筛选功能, 如弹药筛选, 会循环显示多个选项. 对于这些筛选功能, 可使用左键和右键来向前和向后, 中键以清除筛选.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
-				''' */
-			/* ItemChecklistIntegration:
 				'''
-				[c/{0}:Item Checklist Integration]
-				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist video].
-				''' */
+			ItemChecklistIntegration:
+				'''
+				[c/{0}:Item Checklist整合]
+				    通过Item Checklist, 你可以浏览范围限制在从已收集过的物品中制作的从未获得过的新物品. 这有助于你专注于当前游戏阶段的物品. Item Checklist同样会影响物品和怪物图鉴工具. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist视频].
+				'''
 		}
 
 		Keybinds: {
 			ToggleRecipeBrowser.DisplayName: 开关合成表
 			QueryHoveredItem.DisplayName: 查询当前光标悬浮的物品
-			ToggleFavoritedRecipesWindow.DisplayName: 开关收藏的合成窗口
+			ToggleFavoritedRecipesWindow.DisplayName: 开关收藏的配方窗口
 		}
 
 		Configs: {
@@ -174,18 +174,18 @@ Mods: {
 				DisplayName: 合成表客户端设置
 
 				ShowRecipeModSource: {
-					Label: 显示合成表的模组来源
-					Tooltip: 显示合成表目录中的合成表由哪个模组添加. Disable for immersion.
+					Label: 显示配方的模组来源
+					Tooltip: 显示配方目录中的配方由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				ShowItemModSource: {
 					Label: 显示物品的模组来源
-					Tooltip: 显示合成表目录中的物品由哪个模组添加. Disable for immersion.
+					Tooltip: 显示配方目录中的物品由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				ShowNPCModSource: {
 					Label: 显示NPC的模组来源
-					Tooltip: 显示图鉴中的NPC由哪个模组添加. Disable for immersion.
+					Tooltip: 显示图鉴中的NPC由哪个模组添加. 沉浸式体验请禁用.
 				}
 
 				Headers.AutomaticSettings: 自动设置
@@ -201,13 +201,13 @@ Mods: {
 				}
 
 				FavoritedRecipePanelPosition: {
-					Label: 收藏的合成窗口位置
-					Tooltip: 收藏的合成窗口UI的位置. 会自动保存, 无需调整
+					Label: 收藏的配方窗口位置
+					Tooltip: 收藏的窗口窗口UI的位置. 会自动保存, 无需调整
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
-					Label: 仅在打开物品栏时显示收藏的合成窗口
-					Tooltip: 自动显示和隐藏收藏的合成表面板. 会自动保存, 无需调整
+					Label: 仅在打开物品栏时显示收藏的配方窗口
+					Tooltip: 自动显示和隐藏收藏的配方面板. 会自动保存, 无需调整
 				}
 			}
 		}
