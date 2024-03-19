@@ -47,7 +47,7 @@ namespace RecipeBrowser.UIElements
 				}
 				if (!item.IsAir)
 				{
-					Main.instance.LoadItem(this.item.type);
+					Utilities.LoadItem(item.type);
 					Texture2D itemTexture = TextureAssets.Item[this.item.type].Value;
 					Rectangle rectangle2 = Main.itemAnimations[item.type]?.GetFrame(itemTexture) ?? itemTexture.Frame();
 					Color newColor = Color.White;

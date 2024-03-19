@@ -62,7 +62,7 @@ namespace RecipeBrowser.TagHandlers
 				Rectangle rectangle = new Rectangle();
 				if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 				{
-					Main.instance.LoadNPC(npcType);
+					Utilities.LoadNPC(npcType);
 					texture2D = TextureAssets.Npc[npcType].Value;
 					rectangle = new Rectangle(0, (texture2D.Height / Main.npcFrameCount[npcType]) * 0, texture2D.Width, texture2D.Height / Main.npcFrameCount[npcType]);
 

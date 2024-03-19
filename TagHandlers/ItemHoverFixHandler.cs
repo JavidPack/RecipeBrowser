@@ -58,7 +58,7 @@ namespace RecipeBrowser.TagHandlers
 				float num2 = 1f;
 				if (Main.netMode != NetmodeID.Server && !Main.dedServ)
 				{
-					Main.instance.LoadItem(this._item.type);
+					Utilities.LoadItem(_item.type);
 					Texture2D texture2D = TextureAssets.Item[this._item.type].Value;
 					Rectangle rectangle;
 					if (Main.itemAnimations[this._item.type] != null)

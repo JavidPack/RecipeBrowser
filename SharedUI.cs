@@ -299,7 +299,7 @@ namespace RecipeBrowser
 
 		private void SetupSortsAndCategories() {
 			foreach (int type in itemTexturePreload)
-				Main.instance.LoadItem(type);
+				Main.instance.LoadItem(type); // needs ImmediateLoad. Could do this setup in Load if determined to be slow.
 
 			//Texture2D terrariaSort = ResizeImage(Main.inventorySortTexture[1], 24, 24);
 			Texture2D rarity = ResizeImage(TextureAssets.Item[ItemID.MetalDetector], 24, 24);

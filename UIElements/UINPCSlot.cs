@@ -46,7 +46,7 @@ namespace RecipeBrowser.UIElements
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			Main.instance.LoadNPC(npcType);
+			Utilities.LoadNPC(npcType);
 			Texture2D npcTexture = TextureAssets.Npc[npcType].Value;
 
 			if (++frameTimer > frameDelay)
