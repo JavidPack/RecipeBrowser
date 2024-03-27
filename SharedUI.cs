@@ -372,13 +372,15 @@ namespace RecipeBrowser
 			var ammoFilter = new CycleFilter("Cycle Ammo Types", "Images/sortAmmo", ammoFilters);
 			var useAmmoFilter = new CycleFilter("Cycle Used Ammo Types", "Images/sortAmmo", useAmmoFilters);
 
-			Texture2D smallMelee = ResizeImage(TextureAssets.Item[ItemID.GoldBroadsword], 24, 24);
+            Texture2D smallTrueMelee = ResizeImage(TextureAssets.Item[ItemID.TrueExcalibur], 24, 24);
+            Texture2D smallMelee = ResizeImage(TextureAssets.Item[ItemID.GoldBroadsword], 24, 24);
 			Texture2D smallYoyo = ResizeImage(TextureAssets.Item[Main.rand.Next(yoyos)], 24, 24); //Main.rand.Next(ItemID.Sets.Yoyo) ItemID.Yelets
 			Texture2D smallMagic = ResizeImage(TextureAssets.Item[ItemID.GoldenShower], 24, 24);
 			Texture2D smallRanged = ResizeImage(TextureAssets.Item[ItemID.FlintlockPistol], 24, 24);
 			Texture2D smallThrown = ResizeImage(TextureAssets.Item[ItemID.Shuriken], 24, 24);
 			Texture2D smallSummon = ResizeImage(TextureAssets.Item[ItemID.SlimeStaff], 24, 24);
-			Texture2D smallSentry = ResizeImage(TextureAssets.Item[ItemID.DD2LightningAuraT1Popper], 24, 24);
+            Texture2D smallWhip = ResizeImage(TextureAssets.Item[ItemID.BlandWhip], 24, 24);
+            Texture2D smallSentry = ResizeImage(TextureAssets.Item[ItemID.DD2LightningAuraT1Popper], 24, 24);
 			Texture2D smallHead = ResizeImage(TextureAssets.Item[ItemID.SilverHelmet], 24, 24);
 			Texture2D smallBody = ResizeImage(TextureAssets.Item[ItemID.SilverChainmail], 24, 24);
 			Texture2D smallLegs = ResizeImage(TextureAssets.Item[ItemID.SilverGreaves], 24, 24);
@@ -438,12 +440,8 @@ namespace RecipeBrowser
 			vanity.SetExclusions(new List<Filter>() { vanity, armor });
 			armor.SetExclusions(new List<Filter>() { vanity, armor });
 
-			categories = new List<Category>() {
-				new Category("All", x=> true, smallAll),
-				// TODO: Filter out tools from weapons. Separate belongs and doesn't belong predicates? How does inheriting work again? Other?
-				new Category("Weapons"/*, x=>x.damage>0*/, x=> false, smallWeapons) { //"Images/sortDamage"
-					subCategories = new List<Category>() {
-						new Category("Melee", x=>x.CountsAsClass(DamageClass.Melee) && !(x.pick>0 || x.axe>0 || x.hammer>0), smallMelee),
+			List<Category> generateWeaponSubcategories(){
+				List<Category> weaponSubcategories = new List<Category>() {
 						new Category("Yoyo", x=>ItemID.Sets.Yoyo[x.type], smallYoyo),
 						new Category("Magic", x=>x.CountsAsClass(DamageClass.Magic), smallMagic),
 						new Category("Ranged", x=>x.CountsAsClass(DamageClass.Ranged) && x.ammo == 0, smallRanged) // TODO and ammo no
@@ -452,9 +450,28 @@ namespace RecipeBrowser
 							filters = new List<Filter> { useAmmoFilter }
 						},
 						new Category("Throwing", x=>x.CountsAsClass(DamageClass.Throwing), smallThrown),
-						new Category("Summon", x=>x.CountsAsClass(DamageClass.Summon) && !x.sentry, smallSummon),
+						new Category("Summon", x=>x.CountsAsClass(DamageClass.Summon) && x.DamageType.ToString() != "Terraria.ModLoader.SummonMeleeSpeedDamageClass" && !x.sentry, smallSummon),
+						new Category("Whips", x=>x.CountsAsClass(DamageClass.Summon) && x.DamageType.ToString() == "Terraria.ModLoader.SummonMeleeSpeedDamageClass" && !x.sentry, smallWhip),
 						new Category("Sentry", x=>x.CountsAsClass(DamageClass.Summon) && x.sentry, smallSentry),
-					},
+				 };
+				
+				/* Calamity True Melee Integration */
+                if (ModLoader.HasMod("CalamityMod")) {
+					Func<Item, bool> isTrueMelee = x => x.DamageType.ToString() == "CalamityMod.TrueMeleeDamageClass" || x.DamageType.ToString() == "CalamityMod.TrueMeleeNoSpeedDamageClass";
+                    weaponSubcategories.Insert(0, new Category("Melee", x => x.CountsAsClass(DamageClass.Melee) && !isTrueMelee(x) && !(x.pick > 0 || x.axe > 0 || x.hammer > 0), smallMelee));
+                    weaponSubcategories.Insert(0, new Category("True Melee [Calamity]", x => x.CountsAsClass(DamageClass.Melee) && isTrueMelee(x) && !(x.pick > 0 || x.axe > 0 || x.hammer > 0), smallTrueMelee));
+				} else
+				{
+                    weaponSubcategories.Insert(0, new Category("Melee", x => x.CountsAsClass(DamageClass.Melee) && !(x.pick > 0 || x.axe > 0 || x.hammer > 0), smallMelee));
+                }
+				return weaponSubcategories;
+            }
+
+            categories = new List<Category>() {
+				new Category("All", x=> true, smallAll),
+				// TODO: Filter out tools from weapons. Separate belongs and doesn't belong predicates? How does inheriting work again? Other?
+				new Category("Weapons"/*, x=>x.damage>0*/, x=> false, smallWeapons) { //"Images/sortDamage"
+					subCategories = generateWeaponSubcategories(),
 					sorts = new List<Sort>() { new Sort("Damage", "Images/sortDamage", (x,y)=>x.damage.CompareTo(y.damage)), },
 				},
 				new Category("Tools"/*,x=>x.pick>0||x.axe>0||x.hammer>0*/, x=>false, smallTools) {
