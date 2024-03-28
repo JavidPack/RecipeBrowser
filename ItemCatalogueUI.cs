@@ -8,6 +8,7 @@ using System.Text;
 using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
+using Terraria.GameContent.UI;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
 using Terraria.ID;
@@ -190,6 +191,18 @@ namespace RecipeBrowser
 				return 1;
 			UIItemCatalogueItemSlot a = x as UIItemCatalogueItemSlot;
 			UIItemCatalogueItemSlot b = y as UIItemCatalogueItemSlot;
+			if(x is Delimiter delimiter && b != null) {
+				//return Math.Abs(b.item.rare).CompareTo(Math.Abs(delimiter.order));
+				return (Math.Abs(delimiter.order) - 0.5f).CompareTo(Math.Abs(b.item.rare));
+			}
+			if (y is Delimiter delimiter2 && a != null) {
+				// TODO: separate -11, -12, -13 between 11 and 12
+				return Math.Abs((float)a.item.rare).CompareTo(Math.Abs(delimiter2.order) - 0.5f);
+				//return Math.Abs(delimiter2.order).CompareTo(Math.Abs(a.item.rare));
+			}
+			if(x is Delimiter d1 && y is Delimiter d2) {
+				return d1.order.CompareTo(d2.order);
+			}
 			if (a == null || b == null) {
 				return x.UniqueId.CompareTo(y.UniqueId);
 			}
@@ -311,6 +324,21 @@ namespace RecipeBrowser
 					itemGrid._innerList.Append(slot);
 				}
 			}
+
+			//if(SharedUI.instance.SelectedSort)
+			{
+				for (int i = 0; i < RarityLoader.RarityCount; i++) {
+					Delimiter delimiter = new Delimiter(i, "Rare " + i); 
+					// rarity name too?
+					// Filter/Ignore missing delimiters? (A-Z might be too much with only a few results.)
+					// Toggle delimiters button somewhere maybe?
+					delimiter.TextColor = ItemRarity.GetColor(i);
+					delimiter.Width.Set(0, 1f);
+					itemGrid._items.Add(delimiter); // ?
+					itemGrid._innerList.Append(delimiter); // ?
+				}
+			}
+
 			itemGrid.UpdateOrder();
 			itemGrid._innerList.Recalculate();
 		}
@@ -507,6 +535,15 @@ namespace RecipeBrowser
 		public override void RecalculateChildren()
 		{
 			base.RecalculateChildren();
+		}
+	}
+
+	// Make this prettier, taller, left justified?
+	internal class Delimiter : UIText
+	{
+		public int order;
+		public Delimiter(int order, string text, float textScale = 1, bool large = false) : base(text, textScale, large) {
+			this.order = order;
 		}
 	}
 }
