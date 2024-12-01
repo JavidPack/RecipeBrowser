@@ -3,7 +3,7 @@ de-DE, 28/95, 29%, missing 67
 it-IT, 28/95, 29%, missing 67
 fr-FR, 28/95, 29%, missing 67
 es-ES, 49/95, 52%, missing 46
-ru-RU, 90/95, 95%, missing 5
+ru-RU, 95/95, 100%, missing 0
 zh-Hans, 95/95, 100%, missing 0
 pt-BR, 95/95, 100%, missing 0
 pl-PL, 80/95, 84%, missing 15
