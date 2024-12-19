@@ -159,7 +159,7 @@ Mods: {
 			ItemChecklistIntegration:
 				'''
 				[c/{0}:Item Checklist整合]
-				    通过Item Checklist, 你可以浏览范围限制在从已收集过的物品中制作的从未获得过的新物品. 这有助于你专注于当前游戏阶段的物品. Item Checklist同样会影响物品和怪物图鉴工具. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist视频].
+				    通过Item Checklist, 你可以浏览范围限制在从已收集过的物品中制作的从未获得过的新物品. 这有助于你专注于当前游戏阶段的物品. Item Checklist同样会影响物品和怪物图鉴工具. [l/github.com/user-attachments/assets/714db9bf-75dd-41b1-b603-10d266c53908:Item Checklist视频].
 				'''
 		}
 
