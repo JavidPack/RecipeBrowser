@@ -25,10 +25,10 @@ Mods: {
 
 		RecipeCatalogueUI: {
 			Tile: St.
-			AllRecipes: Toutes les Recettes
-			NearbyChests: Coffres à Proximité
-			ClickToRefresh: Cliquer pour Rafraîchir
-			ItemChecklistOnly: Item Checklist Uniquement
+			AllRecipes: Toutes les recettes
+			NearbyChests: Coffres à proximité
+			ClickToRefresh: Cliquer pour rafraîchir
+			ItemChecklistOnly: Item Checklist uniquement
 			OnlyNewItemsMadeFromSeenItems: Uniquement les nouveaux objets fabriqués à partir d'objets vus
 			EmptyQuerySlotHint: Placer un objet ici
 			ShowInheritedRecipes: Afficher les recettes héritées
@@ -45,7 +45,7 @@ Mods: {
 
 		CraftUI: {
 			EmptyQuerySlotHint: Placer un objet ici
-			// Calc: Calc
+			Calc: Calc
 			CalcTooltip:
 				'''
 				Active le calcul préemptif de l'artisanat étendu dans les recettes
@@ -67,7 +67,7 @@ Mods: {
 				'''
 			Inventory: Inventaire
 			Banks: Banques
-			BanksTooltip: 
+			BanksTooltip:
 				'''
 				Prendre en compte les objets des Tirelire,
 				coffre-fort et Forge des défenseurs (à venir)
@@ -75,7 +75,7 @@ Mods: {
 			Chests: Coffres
 			ChestsTooltip: Prendre en compte les objets des coffres à proximité (à venir)
 			MagicStorage: Stockage magique
-			MagicStorageTooltip: 
+			MagicStorageTooltip:
 				'''
 				Prendre en compte les objets et les stations d'artisanat 
 				des stockages magique à proximité (à venir)
@@ -105,9 +105,9 @@ Mods: {
 			ShowOnlyNPCNotKilled:
 				'''
 				Afficher uniquement les PNJ non-rencontrés
-				(Clic droit pour passer les rencontrés)
+				(Clic droit pour afficher les rencontrés)
 				'''
-			HasLoot: A du butin
+			HasLoot: Butin
 			ShowOnlyNPCWithLoot: Afficher uniquement les PNJ avec du butin
 			NewLoot: Nouveau Butin
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Afficher uniquement les PNJ qui lâchent des objets qui n'ont jamais été obtenus
@@ -124,15 +124,15 @@ Mods: {
 				'''
 				[c/{0}:Recettes]
 				    Placez un objet dans l'emplacement supérieur gauche pour voir sa recette et/ou les objets fabriqués à partir de celui-ci. En utilisant les filtres juste à droite, vous pouvez trier ce que vous voulez voir dans ce menu. Le filtre Coffres à Proximité affiche uniquement les recettes des éléments à votre portée. Le filtre [c/{1}:"{$RecipeCatalogueUI.ItemChecklistOnly}"] (disponible uniquement si le mod correspondant est installé) affiche uniquement les éléments non reçus précédemment qui peuvent être créés à partir de ceux déjà reçus.
-					L'option "St." à gauche ouvre un petit menu des stations d'artisanat', classées selon les besoins les plus fréquents ; cliquer sur une station affichera uniquement les recettes pour lesquelles elle est nécessaire. L'option [image:RecipeBrowser/Images/Help/uniqueTile] vous permet de basculer entre des recettes uniques et héritées : le Hellforge, par exemple, hérite de la plupart des recettes du four ordinaire (fusion de minerais pré-Hardmode), mais a également ses propres recettes.
-					Les matériaux et la station requis pour créer la recette que vous sélectionnez seront affichés dans le champ tout en bas du menu. Si le nom d'une station est affiché en orange, cette station n'est pas à proximité ; s'il est vert, au contraire, elle l'est. Le champ de droite répertorie les créatures qui lâchent l'objet sélectionné, le cas échéant. Double-cliquez sur une créature dans ce champ pour accéder à sa page dans le menu des créatures.
-					Double-clique gauche sur une recette ou un élément du menu, il se déplacera vers la cellule principale en haut et les recettes avec sa participation seront affichées dans le champ - cela peut être utilisé pour naviguer facilement et rapidement dans les arbres de recettes. Cliquer sur une recette tout en maintenant Alt l'ajoutera à vos favoris - pour plus de détails, consultez la section « Recettes préférées ».
+				L'option "St." à gauche ouvre un petit menu des stations d'artisanat', classées selon les besoins les plus fréquents ; cliquer sur une station affichera uniquement les recettes pour lesquelles elle est nécessaire. L'option [image:RecipeBrowser/Images/Help/uniqueTile] vous permet de basculer entre des recettes uniques et héritées : le Hellforge, par exemple, hérite de la plupart des recettes du four ordinaire (fusion de minerais pré-Hardmode), mais a également ses propres recettes.
+				Les matériaux et la station requis pour créer la recette que vous sélectionnez seront affichés dans le champ tout en bas du menu. Si le nom d'une station est affiché en orange, cette station n'est pas à proximité ; s'il est vert, au contraire, elle l'est. Le champ de droite répertorie les créatures qui lâchent l'objet sélectionné, le cas échéant. Double-cliquez sur une créature dans ce champ pour accéder à sa page dans le menu des créatures.
+				Double-clique gauche sur une recette ou un élément du menu, il se déplacera vers la cellule principale en haut et les recettes avec sa participation seront affichées dans le champ - cela peut être utilisé pour naviguer facilement et rapidement dans les arbres de recettes. Cliquer sur une recette tout en maintenant Alt l'ajoutera à vos favoris - pour plus de détails, consultez la section « Recettes préférées ».
 				'''
 			Craft:
 				'''
 				[c/{0}:Artisanat]
 				    Dans ce menu, vous pourrez voir toutes les branches disponibles pour créer des objets à partir des objets de votre inventaire. Un clic droit sur un élément du menu de recettes vous amènera à sa page dans ce menu. Si l'option Calculer est activée, les recettes dont la création nécessite plusieurs étapes auront un arrière-plan comme celui-ci: [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground]. Par exemple, si vous possédez de l'or et du minerai de fer, le menu vous montrera toutes les étapes de la recette que vous pouvez suivre pour créer une montre en or.
-					En haut du menu se trouvent des filtres que vous pouvez activer si, par exemple, vous souhaitez voir des recettes impliquant des stations que vous n'avez pas actuellement. L'icône [c/{1}: ✓] à côté d'une station signifie que vous en êtes maintenant à proximité, [c/{3}:?] signifie que vous en étiez près auparavant et [c/{2}:X] signifie que vous n'avez pas été près d'elle une seule fois au cours de la session de jeu en cours. Vous pouvez cliquer sur le bouton [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] pour fabriquer rapidement un objet si toutes les conditions sont remplies.
+				En haut du menu se trouvent des filtres que vous pouvez activer si, par exemple, vous souhaitez voir des recettes impliquant des stations que vous n'avez pas actuellement. L'icône [c/{1}: ✓] à côté d'une station signifie que vous en êtes maintenant à proximité, [c/{3}:?] signifie que vous en étiez près auparavant et [c/{2}:X] signifie que vous n'avez pas été près d'elle une seule fois au cours de la session de jeu en cours. Vous pouvez cliquer sur le bouton [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] pour fabriquer rapidement un objet si toutes les conditions sont remplies.
 				'''
 			Items:
 				'''
@@ -148,17 +148,17 @@ Mods: {
 				'''
 				[c/{0}:Bordures]
 				    Parfois, les éléments s'affichent avec des bordures différentes, voici ce qu'elles signifient:
-					[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] Cette recette est marquée comme favorite, lisez la section Favoris ci-dessous.
-					[image/s0.5:RecipeBrowser/Images/SelectedOverlay] Cet objet/recette/PNJ est sélectionné. Les informations affichées se rapportent à cet élément.
-					[image/s0.5:RecipeBrowser/Images/CanCraftBackground] Cette recette peut actuellement être fabriquée. Cliquez dessus pour ouvrir directement le menu Artisanat.
-					[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] Cette recette peut actuellement être élaborée en plusieurs étapes. Faites un clic droit dessus pour ouvrir l'outil Artisanat et afficher les options de fabrication.
-					[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Intégration de Item Checklist:] Ces éléments utilisent le nouvel élément le plus récent que vous avez collecté.
+				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] Cette recette est marquée comme favorite, lisez la section Favoris ci-dessous.
+				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] Cet objet/recette/PNJ est sélectionné. Les informations affichées se rapportent à cet élément.
+				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] Cette recette peut actuellement être fabriquée. Cliquez dessus pour ouvrir directement le menu Artisanat.
+				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] Cette recette peut actuellement être élaborée en plusieurs étapes. Faites un clic droit dessus pour ouvrir l'outil Artisanat et afficher les options de fabrication.
+				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Intégration de Item Checklist:] Ces éléments utilisent le nouvel élément le plus récent que vous avez collecté.
 				'''
 			Favorite:
 				'''
 				[c/{0}:Favoris]
 				    Dans le menu Recette, vous pouvez mettre vos recettes en favoris en cliquant dessus tout en maintenant Alt. Si vous avez des recettes favorites, le panneau des favoris apparaîtra à l'écran. Ce panneau vous aidera à suivre les progrès vers la collecte de tous les ingrédients. En multijoueur, les recettes préférées des autres joueurs apparaîtront également dans le panneau des favoris. Vous pouvez suivre les progrès des autres joueurs et coopérer efficacement. Le nombre d'articles affichés correspond au joueur qui a mis la recette en favori.
-					[image:RecipeBrowser/Images/Help/mpFavorited]
+				[image:RecipeBrowser/Images/Help/mpFavorited]
 				'''
 			QueryHoveredItem:
 				'''
@@ -169,8 +169,9 @@ Mods: {
 			CategoriesSubCategoriesSortsAndFilters:
 				'''
 				[c/{0}:Catégories, sous-catégories, tris et filtres]
-				    Les menu Recette et Objet proposent tous deux de nombreuses façons de filtrer et de trier les objets et les recettes. Vous pouvez rechercher des élements à partir de leur description ou leur nom et utiliser le bouton [image:RecipeBrowser/Images/filterMod] pour filtrer par mod. Vous pouvez également cliquer sur des catégories telles que [image:RecipeBrowser/Images/Help/Item_2430] et [image:RecipeBrowser/Images/Help/Item_54] pour filtrer par catégorie. Certaines catégories ont des sous-catégories. Vous remarquerez également sur la 2ème ligne divers tris tels que [image:RecipeBrowser/Images/sortValue] et [image:RecipeBrowser/Images/sortAZ]. Il existe également des filtres comme [image:RecipeBrowser/Images/Help/Item_531]. De nombreux tris et filtres ne sont visibles que dans des catégories spécifiques. Certains filtres, comme le filtre de munitions, proposeront de nombreuses options. Pour ces filtres, utilisez les clics gauche et droit pour avancer et reculer, et le clic du milieu pour effacer le filtre.
-					[image:RecipeBrowser/Images/Help/sortsExplanation_fr-FR]
+				    Les menu Recette et Objet proposent tous deux de nombreuses façons de filtrer et de trier les objets et les recettes. Vous pouvez rechercher des élements à partir de leur description ou leur nom et utiliser le bouton [image:RecipeBrowser/Images/filterMod] pour filtrer par mod. Vous pouvez également cliquer sur des catégories telles que [image:RecipeBrowser/Images/Help/Item_2430] et [image:RecipeBrowser/Images/Help/Item_54] pour filtrer par catégorie. Certaines catégories ont des sous-catégories. Vous remarquerez également sur la 2ème ligne divers tris tels que [image:RecipeBrowser/Images/sortValue] et [image:RecipeBrowser/Images/sortAZ].
+				Il existe également des filtres comme [image:RecipeBrowser/Images/Help/Item_531]. De nombreux tris et filtres ne sont visibles que dans des catégories spécifiques. Certains filtres, comme le filtre de munitions, proposeront de nombreuses options. Pour ces filtres, utilisez les clics gauche et droit pour avancer et reculer, et le clic du milieu pour effacer le filtre.
+				[image:RecipeBrowser/Images/Help/sortsExplanation_fr-FR]
 				'''
 			ItemChecklistIntegration:
 				'''
@@ -187,7 +188,7 @@ Mods: {
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				DisplayName: Configuration du navigateur de recettes
+				DisplayName: Configuration principale
 
 				ShowRecipeModSource: {
 					Label: Afficher la source de la recette
