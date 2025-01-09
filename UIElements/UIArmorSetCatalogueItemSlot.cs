@@ -7,6 +7,8 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
+using Terraria.ID;
+using System.Threading;
 
 namespace RecipeBrowser.UIElements
 {
@@ -76,7 +78,7 @@ namespace RecipeBrowser.UIElements
 					this.Height.Set(defaultBackgroundTexture.Height() * 4.6f * scale, 0f); // 50 heigh
 				else
 					this.Height.Set(defaultBackgroundTexture.Height() * 1.6f * scale, 0f);
-
+				
 				needsUpdate = false;
 			}
 
@@ -197,11 +199,20 @@ namespace RecipeBrowser.UIElements
 	{
 		internal static List<Tuple<Item, Item, Item, string, int>> sets;
 		internal static List<UIArmorSetCatalogueItemSlot> armorSetSlots;
+		internal static Mutex armorSetSlotsMutex = new Mutex();
+		internal static bool hasCalculated = false;
+		internal static bool hasStarted = false;
 		internal const string ArmorSetsHoverTest = "Armor Sets\n(Warning: May take many seconds to calculate)";
 
 		internal static void Unload() {
 			sets = null;
+
+			while (!armorSetSlotsMutex.WaitOne(100)) { }
 			armorSetSlots = null;
+			armorSetSlotsMutex.ReleaseMutex();
+
+			hasCalculated = false;
+			hasStarted = false;
 			UIArmorSetCatalogueItemSlot.drawPlayer = null;
 		}
 
@@ -214,10 +225,16 @@ namespace RecipeBrowser.UIElements
 
 			var showItemsCheckbox = new UICheckbox("Show Items", "Display the items that make up the set");
 			showItemsCheckbox.Selected = UIArmorSetCatalogueItemSlot.showItems;
-			showItemsCheckbox.OnSelectedChanged += (s, e) => {
+			showItemsCheckbox.OnSelectedChanged += (s, e) =>
+			{
 				UIArmorSetCatalogueItemSlot.showItems = showItemsCheckbox.Selected;
-				foreach (var item in armorSetSlots) {
-					item.needsUpdate = true;
+				if (armorSetSlots != null && armorSetSlotsMutex.WaitOne(10))		//we can't be clogging up main thread waiting for this
+				{
+					foreach (var item in armorSetSlots)
+					{
+						item.needsUpdate = true;
+					}
+					armorSetSlotsMutex.ReleaseMutex();
 				}
 			};
 			showItemsCheckbox.Left.Set(0, 0);
@@ -255,6 +272,7 @@ namespace RecipeBrowser.UIElements
 		}
 
 		internal static void CalculateArmorSets() {
+			hasStarted = true;
 			//new Category("Head", x => x.headSlot != -1, smallHead),
 			//new Category("Body", x => x.bodySlot != -1, smallBody),
 			//new Category("Legs", x => x.legSlot != -1, smallLegs),
@@ -263,23 +281,29 @@ namespace RecipeBrowser.UIElements
 			List<Item> Heads = new List<Item>();
 			List<Item> Bodys = new List<Item>();
 			List<Item> Legs = new List<Item>();
+			
+			// go thru all items and get all the armor pieces into their respective arrays
 			for (int type = 1; type < ItemLoader.ItemCount; type++) {
 				Item item = new Item();
 				item.SetDefaults(type, false);
-				if (item.type == 0)
-					continue;
 
-				if (item.headSlot != -1)
+				
+				if (item.type == ItemID.None)      
+                    continue;
+
+				if (item.headSlot != -1)			
 					Heads.Add(item);
-				if (item.bodySlot != -1)
+				if (item.bodySlot != -1)			
 					Bodys.Add(item);
-				if (item.legSlot != -1)
+				if (item.legSlot != -1)				
 					Legs.Add(item);
 			}
-			sets = new List<Tuple<Item, Item, Item, string, int>>();
+
+			sets = new List<Tuple<Item, Item, Item, string, int>>();	
 			foreach (var head in Heads) {
 				foreach (var body in Bodys) {
 					foreach (var leg in Legs) {
+						
 						testPlayer.statDefense = Player.DefenseStat.Default;
 						testPlayer.head = head.headSlot;
 						testPlayer.body = body.bodySlot;
@@ -348,12 +372,19 @@ namespace RecipeBrowser.UIElements
 			// Check Head/Body, Head/Legs, etc?
 
 			armorSetSlots = new List<UIArmorSetCatalogueItemSlot>();
-			if (armorSetSlots.Count == 0) {
-				foreach (var set in sets) {
+			while (!armorSetSlotsMutex.WaitOne(1000)) { }     //acquire mutex
+
+			if (armorSetSlots.Count == 0)
+			{
+				foreach (var set in sets)
+				{
 					var slot = new UIArmorSetCatalogueItemSlot(set);
 					armorSetSlots.Add(slot);
 				}
 			}
+			armorSetSlotsMutex.ReleaseMutex();			     //release mutex
+			hasCalculated = true;
+			
 		}
 	}
 }

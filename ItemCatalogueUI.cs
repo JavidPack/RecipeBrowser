@@ -11,6 +11,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using System.Threading.Tasks;
 
 namespace RecipeBrowser
 {
@@ -243,7 +244,7 @@ namespace RecipeBrowser
 			updateNeeded = true;
 		}
 
-		internal void Update()
+		internal async void Update()
 		{
 			// TODO: investigate why this Update is slower than RecipeCatalogueUI
 
@@ -296,10 +297,18 @@ namespace RecipeBrowser
 			List<UIItemCatalogueItemSlot> slotsToUse = itemSlots;
 
 			if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
-				if (ArmorSetFeatureHelper.armorSetSlots == null)
-					ArmorSetFeatureHelper.CalculateArmorSets();
-				slotsToUse = ArmorSetFeatureHelper.armorSetSlots.Cast<UIItemCatalogueItemSlot>().ToList();
-				ArmorSetFeatureHelper.AppendSpecialUI(itemGrid);
+				if (!(ArmorSetFeatureHelper.hasCalculated) && !(ArmorSetFeatureHelper.hasStarted))
+					await Task.Run(() => ArmorSetFeatureHelper.CalculateArmorSets());           
+				if (ArmorSetFeatureHelper.hasCalculated && ArmorSetFeatureHelper.armorSetSlotsMutex.WaitOne(10))
+				{
+					slotsToUse = ArmorSetFeatureHelper.armorSetSlots.Cast<UIItemCatalogueItemSlot>().ToList();
+					ArmorSetFeatureHelper.armorSetSlotsMutex.ReleaseMutex();
+
+                    ArmorSetFeatureHelper.AppendSpecialUI(itemGrid);
+                }
+				else
+					slotsToUse = new List<UIItemCatalogueItemSlot>(); //empty
+				
 			}
 
 			foreach (var slot in slotsToUse)
