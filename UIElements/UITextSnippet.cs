@@ -20,6 +20,10 @@ namespace RecipeBrowser.UIElements
 		private Vector2 _textSize = Vector2.Zero;
 		private bool _isLarge;
 		private Color _color = Color.White;
+		
+		private TextSnippet[] _cachedSnippets;
+
+		private string _lastTextParsed;
 
 		public string Text
 		{
@@ -118,19 +122,26 @@ namespace RecipeBrowser.UIElements
 			if (IsMouseHovering)
 				Main.hoverItemName = HoverText;
 
+			// This ensures that the text is parsed only once per frame, and only when it needs to be.
+			if (Text != _lastTextParsed)
+			{
+				// Main.NewText($"_lastTextParsed: {_lastTextParsed} != Text: {Text}");
+				_lastTextParsed = Text;
+				_cachedSnippets = ChatManager.ParseMessage(Text, Color.White).ToArray();
+				ChatManager.ConvertNormalSnippets(_cachedSnippets);
+			}
+
 			var font = _isLarge ? FontAssets.DeathText : FontAssets.MouseText;
 			int hoveredSnippet = -1;
-			TextSnippet[] textSnippets = ChatManager.ParseMessage(Text, Color.White).ToArray();
-			ChatManager.ConvertNormalSnippets(textSnippets);
 
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, font.Value, textSnippets, pos, 0f, Vector2.Zero, new Vector2(_textScale), out hoveredSnippet);
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, font.Value, _cachedSnippets, pos, 0f, Vector2.Zero, new Vector2(_textScale), out hoveredSnippet);
 			if (hoveredSnippet > -1)
 			{
 				// annoying click. Main.NewText(hoveredSnippet);
-				textSnippets[hoveredSnippet].OnHover();
+				_cachedSnippets[hoveredSnippet].OnHover();
 				if (Main.mouseLeft && Main.mouseLeftRelease)
 				{
-					textSnippets[hoveredSnippet].OnClick();
+					_cachedSnippets[hoveredSnippet].OnClick();
 				}
 			}
 		}
