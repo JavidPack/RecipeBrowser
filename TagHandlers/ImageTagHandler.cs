@@ -28,6 +28,7 @@ namespace RecipeBrowser.TagHandlers {
 		/// A custom <see cref="TextSnippet"/> that displays the given texture as an image instead of text.
 		/// </summary>
 		private class ImageTagSnippet : TextSnippet {
+			private static Dictionary<string, Asset<Texture2D>> _textureCache = new Dictionary<string, Asset<Texture2D>>();
 			private string Tooltip { get; }
 			private Asset<Texture2D> Texture { get; }
 			public int VerticalOffset { get; }
@@ -44,12 +45,15 @@ namespace RecipeBrowser.TagHandlers {
 				Tooltip = tooltip;
 				VerticalOffset = vOffset;
 
-				if (ModContent.HasAsset(texturePath)) {
-					Texture = ModContent.Request<Texture2D>(texturePath);
-				} else {
-					ModContent.GetInstance<RecipeBrowser>().Logger.Warn($"ImageTagSnippet: Texture not found: {texturePath}");
-					RecurrentErrorLogger.MaybeLog($"ImageTagSnippet: Texture not found: {texturePath}");
+				if (!_textureCache.TryGetValue(texturePath, out Asset<Texture2D> texture)) {
+					if (ModContent.HasAsset(texturePath)) {
+						texture = ModContent.Request<Texture2D>(texturePath);
+						_textureCache[texturePath] = texture;
+					} else {
+						RecurrentErrorLogger.MaybeLog($"ImageTagSnippet: Texture not found: {texturePath}");
+					}
 				}
+				Texture = texture;
 			}
 
 			/// <summary>
