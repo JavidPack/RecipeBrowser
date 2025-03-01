@@ -61,7 +61,6 @@ namespace RecipeBrowser.TagHandlers {
 			/// </summary>
 			public override void OnHover() {
 				if (!string.IsNullOrWhiteSpace(Tooltip)) {
-					// TODO: This might lead to conflicts between tooltips, which would make the tooltip flicker. Make sure to handle this case.
 					UICommon.TooltipMouseText(Tooltip);
 				}
 			}
@@ -198,6 +197,7 @@ namespace RecipeBrowser.TagHandlers {
 			try {
 				return new ImageTagSnippet(text, tagOptions.Tooltip, tagOptions.Scale, tagOptions.VerticalOffset);
 			} catch {
+				RecurrentErrorLogger.MaybeLog($"ImageTagHandler: Failed to create image snippet for {text}");
 				return new TextSnippet(text);
 			}
 		}
