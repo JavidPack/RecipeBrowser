@@ -87,7 +87,6 @@ namespace RecipeBrowser.TagHandlers {
 
 				size = textureSize;
 
-				// TODO: Its not clear why this comparison is done and what it is supposed to do.
 				if (!justCheckingString && color != Color.Black) {
 					spriteBatch.Draw(Texture.Value, position + new Vector2(0, VerticalOffset), null, color, 0f, Vector2.Zero, Scale, SpriteEffects.None, 0f);
 				}
@@ -130,8 +129,8 @@ namespace RecipeBrowser.TagHandlers {
 
 			string[] pairs = options.Split(',');
 			foreach (string pair in pairs) {
-				// TODO: Two characters are always expected, maybe add some logging or error handling.
 				if (pair.Length < 2) {
+					RecurrentErrorLogger.MaybeLog($"ImageTagHandler: Invalid option pair: {pair}");
 					continue;
 				}
 
