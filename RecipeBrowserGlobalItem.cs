@@ -3,6 +3,7 @@ using RecipeBrowser.UIElements;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace RecipeBrowser
@@ -110,7 +111,7 @@ namespace RecipeBrowser
 			var selectedModRecipe = Main.recipe[RecipeCatalogueUI.instance.hoveredIndex];
 			if (selectedModRecipe.Mod != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.type == selectedModRecipe.createItem.type)
 			{
-				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", RBText("RecipeAddedBy") + " " + selectedModRecipe.Mod.DisplayName)
+				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", Language.GetTextValue("Mods.RecipeBrowser.RecipeBrowserUI.RecipeAddedBy", selectedModRecipe.Mod.DisplayName))
 				{
 					OverrideColor = Color.Goldenrod
 				};

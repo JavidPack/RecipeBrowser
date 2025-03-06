@@ -8,11 +8,14 @@ Mods: {
 			Help: Aide
 			Close: Fermer
 			All: Voir tout
-			// filterMod: Images/filterMod
-			// filterModColorable: Images/filterModColorable
 			ModFilter: Filtre par modules
 			// NoFavoritedRecipes: No favorited recipes
-			// RecipeAddedBy: Recipe added by
+			// RecipeAddedBy: Recipe added by {0}
+		}
+
+		ImagePaths: {
+			// FilterMod: Images/filterMod
+			// FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
@@ -331,7 +334,7 @@ Mods: {
 			CategoriesSubCategoriesSortsAndFilters:
 				'''
 				[c/{0}:Catégories, sous-catégories, tris et filtres]
-				    Les menu Recette et Objet proposent tous deux de nombreuses façons de filtrer et de trier les objets et les recettes. Vous pouvez rechercher des élements à partir de leur description ou leur nom et utiliser le bouton [image:RecipeBrowser/Images/filterMod] pour filtrer par mod. Vous pouvez également cliquer sur des catégories telles que [image:RecipeBrowser/Images/Help/Item_2430] et [image:RecipeBrowser/Images/Help/Item_54] pour filtrer par catégorie. Certaines catégories ont des sous-catégories. Vous remarquerez également sur la 2ème ligne divers tris tels que [image:RecipeBrowser/Images/sortValue] et [image:RecipeBrowser/Images/sortAZ].
+				    Les menu Recette et Objet proposent tous deux de nombreuses façons de filtrer et de trier les objets et les recettes. Vous pouvez rechercher des élements à partir de leur description ou leur nom et utiliser le bouton [image:RecipeBrowser/{ImagePaths.FilterMod}] pour filtrer par mod. Vous pouvez également cliquer sur des catégories telles que [image:RecipeBrowser/Images/Help/Item_2430] et [image:RecipeBrowser/Images/Help/Item_54] pour filtrer par catégorie. Certaines catégories ont des sous-catégories. Vous remarquerez également sur la 2ème ligne divers tris tels que [image:RecipeBrowser/Images/sortValue] et [image:RecipeBrowser/Images/sortAZ].
 				Il existe également des filtres comme [image:RecipeBrowser/Images/Help/Item_531]. De nombreux tris et filtres ne sont visibles que dans des catégories spécifiques. Certains filtres, comme le filtre de munitions, proposeront de nombreuses options. Pour ces filtres, utilisez les clics gauche et droit pour avancer et reculer, et le clic du milieu pour effacer le filtre.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_fr-FR]
 				'''

@@ -8,11 +8,14 @@ Mods: {
 			Help: Ajuda
 			Close: Fechar
 			All: Todos
-			// filterMod: Images/filterMod
-			// filterModColorable: Images/filterModColorable
 			ModFilter: Filtro de Mods
 			// NoFavoritedRecipes: No favorited recipes
-			// RecipeAddedBy: Recipe added by
+			// RecipeAddedBy: Recipe added by {0}
+		}
+
+		ImagePaths: {
+			// FilterMod: Images/filterMod
+			// FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
@@ -311,7 +314,7 @@ Mods: {
 			CategoriesSubCategoriesSortsAndFilters:
 				'''
 				[c/{0}:Categorias, subcategorias, tipos e filtros]
-				    Os painéis de receita e itens têm muitas maneiras de filtrar e classificar os itens e receitas. Você pode digitar para pesquisar dicas de ferramentas e nomes de itens e usar o [image:RecipeBrowser/Images/filterMod] botão para filtrar pela fonte do mod. Você também pode clicar nas categorias como [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] para filtrar por categoria. Algumas categorias possuem sub-categorias. Você também notará na segunda linha vários tipos, como [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. Também existem filtros como [image:RecipeBrowser/Images/Help/Item_531]. Muitos tipos e filtros são visíveis apenas em categorias específicas. Alguns filtros, como o filtro de munição, vão percorrer por muitas opções. Para esses filtros, use o clique esquerdo e direito para avançar e voltar e o clique no meio para limpar o filtro.
+				    Os painéis de receita e itens têm muitas maneiras de filtrar e classificar os itens e receitas. Você pode digitar para pesquisar dicas de ferramentas e nomes de itens e usar o [image:RecipeBrowser/{ImagePaths.FilterMod}] botão para filtrar pela fonte do mod. Você também pode clicar nas categorias como [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] para filtrar por categoria. Algumas categorias possuem sub-categorias. Você também notará na segunda linha vários tipos, como [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. Também existem filtros como [image:RecipeBrowser/Images/Help/Item_531]. Muitos tipos e filtros são visíveis apenas em categorias específicas. Alguns filtros, como o filtro de munição, vão percorrer por muitas opções. Para esses filtros, use o clique esquerdo e direito para avançar e voltar e o clique no meio para limpar o filtro.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_pt-BR]
 				'''
 			ItemChecklistIntegration:

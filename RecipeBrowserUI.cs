@@ -265,8 +265,8 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			Asset<Texture2D> filterModTexture = RecipeBrowser.instance.Assets.Request<Texture2D>(RBText("filterMod"), AssetRequestMode.ImmediateLoad);
-			Asset<Texture2D> filterModColorableTexture = RecipeBrowser.instance.Assets.Request<Texture2D>(RBText("filterModColorable"), AssetRequestMode.ImmediateLoad);
+			Asset<Texture2D> filterModTexture = RecipeBrowser.instance.Assets.Request<Texture2D>(RBText("FilterMod", "ImagePaths"), AssetRequestMode.ImmediateLoad);
+			Asset<Texture2D> filterModColorableTexture = RecipeBrowser.instance.Assets.Request<Texture2D>(RBText("FilterModColorable", "ImagePaths"), AssetRequestMode.ImmediateLoad);
 			var modFilterButton = new UIHoverImageButtonMod(filterModTexture, filterModColorableTexture, RBText("ModFilter") + ": " + RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
