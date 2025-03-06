@@ -28,37 +28,32 @@ namespace RecipeBrowser.UIElements
 		internal static bool animate;
 		internal static bool accessories;
 		internal static bool showItems = true;
-		public UIArmorSetCatalogueItemSlot(Tuple<Item, Item, Item, string, int> set, float scale = 0.75f) : base(set.Item1 != null ? set.Item1 : set.Item2, scale)
-		{
+		public UIArmorSetCatalogueItemSlot(Tuple<Item, Item, Item, string, int> set, float scale = 0.75f) : base(set.Item1 != null ? set.Item1 : set.Item2, scale) {
 			this.set = set;
 			this.compareItem = set.Item1 != null ? set.Item1 : set.Item2;
 
 			this.Width.Set(defaultBackgroundTexture.Width() * scale, 0f);
 			this.Height.Set(defaultBackgroundTexture.Height() * 4.6f * scale, 0f); // 50 heigh
 
-			if (set.Item1 != null)
-			{
+			if (set.Item1 != null) {
 				Item item = new Item();
 				item.SetDefaults(set.Item1.type, false);
 				headSlot = new UIItemCatalogueItemSlot(item, scale);
 				headSlot.Top.Set(60, 0);
 			}
-			if (set.Item2 != null)
-			{
+			if (set.Item2 != null) {
 				Item item = new Item();
 				item.SetDefaults(set.Item2.type, false);
 				bodySlot = new UIItemCatalogueItemSlot(item, scale);
 				bodySlot.Top.Set(100, 0);
 			}
-			if (set.Item3 != null)
-			{
+			if (set.Item3 != null) {
 				Item item = new Item();
 				item.SetDefaults(set.Item3.type, false);
 				legsSlot = new UIItemCatalogueItemSlot(item, scale);
 				legsSlot.Top.Set(140, 0);
 			}
-			if (showItems)
-			{
+			if (showItems) {
 				if (headSlot != null)
 					UICommon.AddOrRemoveChild(this, headSlot, showItems);
 				if (bodySlot != null)
@@ -73,8 +68,7 @@ namespace RecipeBrowser.UIElements
 		{
 			base.Update(gameTime);
 
-			if (needsUpdate)
-			{
+			if (needsUpdate) {
 				if (headSlot != null)
 					UICommon.AddOrRemoveChild(this, headSlot, showItems);
 				if (bodySlot != null)
@@ -82,7 +76,7 @@ namespace RecipeBrowser.UIElements
 				if (legsSlot != null)
 					UICommon.AddOrRemoveChild(this, legsSlot, showItems);
 
-				if (showItems)
+				if(showItems)
 					this.Height.Set(defaultBackgroundTexture.Height() * 4.6f * scale, 0f); // 50 heigh
 				else
 					this.Height.Set(defaultBackgroundTexture.Height() * 1.6f * scale, 0f);
@@ -90,8 +84,7 @@ namespace RecipeBrowser.UIElements
 				needsUpdate = false;
 			}
 
-			if (Main.GameUpdateCount != lastUpdate)
-			{
+			if (Main.GameUpdateCount != lastUpdate) {
 				lastUpdate = Main.GameUpdateCount;
 				if (drawPlayer == null)
 					drawPlayer = new Player();
@@ -121,36 +114,28 @@ namespace RecipeBrowser.UIElements
 				drawPlayer.balloon = -1;
 				drawPlayer.wings = -1;
 
-				if (useDye)
-				{
-					for (int i = 0; i < 10; i++)
-					{
+				if (useDye) {
+					for (int i = 0; i < 10; i++) {
 						drawPlayer.dye[i] = Main.LocalPlayer.dye[i].Clone();
 					}
 				}
-				else
-				{
-					for (int i = 0; i < 10; i++)
-					{
+				else {
+					for (int i = 0; i < 10; i++) {
 						drawPlayer.dye[i].TurnToAir();
 						drawPlayer.dye[i].dye = 0;
 					}
 				}
 				drawPlayer.UpdateDyes();
 
-				if (accessories)
-				{
-					for (int i = 0; i < 20; i++)
-					{
+				if (accessories) {
+					for (int i = 0; i < 20; i++) {
 						drawPlayer.armor[i] = Main.LocalPlayer.armor[i].Clone();
 						if (i < 10)
 							drawPlayer.hideVisibleAccessory[i] = Main.LocalPlayer.hideVisibleAccessory[i];
 					}
 				}
-				else
-				{
-					for (int i = 0; i < 20; i++)
-					{
+				else {
+					for (int i = 0; i < 20; i++) {
 						drawPlayer.armor[i].TurnToAir();
 						if (i < 10)
 							drawPlayer.hideVisibleAccessory[i] = true;
@@ -160,16 +145,14 @@ namespace RecipeBrowser.UIElements
 				drawPlayer.PlayerFrame();
 				drawPlayer.socialIgnoreLight = true;
 
-				if (animate)
-				{
+				if (animate) {
 					drawPlayer.bodyFrame = Main.LocalPlayer.bodyFrame;
 					drawPlayer.legFrame = Main.LocalPlayer.legFrame;
 				}
 			}
 		}
 
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
+		protected override void DrawSelf(SpriteBatch spriteBatch) {
 			//base.DrawSelf(spriteBatch);
 
 			if (drawPlayer == null)
@@ -195,19 +178,16 @@ namespace RecipeBrowser.UIElements
 			drawPlayer.Bottom = Main.screenPosition + center + new Vector2(0, 15);
 
 			//Main.gameMenu = true;
-			try
-			{
+			try {
 				Main.PlayerRenderer.DrawPlayer(Main.Camera, drawPlayer, drawPlayer.position, drawPlayer.fullRotation, drawPlayer.fullRotationOrigin, 0f);
 				UseImmediateMode = true;
 			}
-			catch (Exception)
-			{
+			catch (Exception) {
 				drawError = true;
 			}
 			//Main.gameMenu = false;
 
-			if (IsMouseHovering)
-			{
+			if (IsMouseHovering) {
 				//Main.HoverItem = item.Clone();
 				UICommon.TooltipMouseText(set.Item4 + "\n" + Language.GetTextValue("Mods.RecipeBrowser.UIArmorSetCatalogue.TotalSetDefense", set.Item5));
 
@@ -221,20 +201,17 @@ namespace RecipeBrowser.UIElements
 	{
 		internal static string RBText(string key, string category = "UIArmorSetCatalogue") => RecipeBrowser.RBText(category, key);
 
-
 		internal static List<Tuple<Item, Item, Item, string, int>> sets;
 		internal static List<UIArmorSetCatalogueItemSlot> armorSetSlots;
 		internal static string ArmorSetsHoverTest = Language.GetTextValue("Mods.RecipeBrowser.UIArmorSetCatalogue.ArmorSets");
 
-		internal static void Unload()
-		{
+		internal static void Unload() {
 			sets = null;
 			armorSetSlots = null;
 			UIArmorSetCatalogueItemSlot.drawPlayer = null;
 		}
 
-		internal static void AppendSpecialUI(UIGrid itemGrid)
-		{
+		internal static void AppendSpecialUI(UIGrid itemGrid) {
 			var panel = new UIPanel();
 			panel.Width.Percent = 1f;
 			panel.Height.Set(100, 0f);
@@ -245,8 +222,7 @@ namespace RecipeBrowser.UIElements
 			showItemsCheckbox.Selected = UIArmorSetCatalogueItemSlot.showItems;
 			showItemsCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.showItems = showItemsCheckbox.Selected;
-				foreach (var item in armorSetSlots)
-				{
+				foreach (var item in armorSetSlots) {
 					item.needsUpdate = true;
 				}
 			};
@@ -284,8 +260,7 @@ namespace RecipeBrowser.UIElements
 			itemGrid._innerList.Append(panel);
 		}
 
-		internal static void CalculateArmorSets()
-		{
+		internal static void CalculateArmorSets() {
 			//new Category("Head", x => x.headSlot != -1, smallHead),
 			//new Category("Body", x => x.bodySlot != -1, smallBody),
 			//new Category("Legs", x => x.legSlot != -1, smallLegs),
@@ -294,8 +269,7 @@ namespace RecipeBrowser.UIElements
 			List<Item> Heads = new List<Item>();
 			List<Item> Bodys = new List<Item>();
 			List<Item> Legs = new List<Item>();
-			for (int type = 1; type < ItemLoader.ItemCount; type++)
-			{
+			for (int type = 1; type < ItemLoader.ItemCount; type++) {
 				Item item = new Item();
 				item.SetDefaults(type, false);
 				if (item.type == 0)
@@ -309,12 +283,9 @@ namespace RecipeBrowser.UIElements
 					Legs.Add(item);
 			}
 			sets = new List<Tuple<Item, Item, Item, string, int>>();
-			foreach (var head in Heads)
-			{
-				foreach (var body in Bodys)
-				{
-					foreach (var leg in Legs)
-					{
+			foreach (var head in Heads) {
+				foreach (var body in Bodys) {
+					foreach (var leg in Legs) {
 						testPlayer.statDefense = Player.DefenseStat.Default;
 						testPlayer.head = head.headSlot;
 						testPlayer.body = body.bodySlot;
@@ -325,8 +296,7 @@ namespace RecipeBrowser.UIElements
 
 						// TODO: Vanity Set calculation somehow?
 						testPlayer.UpdateArmorSets(255);
-						if (testPlayer.setBonus != "")
-						{
+						if (testPlayer.setBonus != "") {
 							string fullSetBonus = testPlayer.setBonus;
 							int fullDefenseBonus = testPlayer.statDefense;
 
@@ -358,26 +328,22 @@ namespace RecipeBrowser.UIElements
 							int noBodyDefenseBonus = testPlayer.statDefense;
 							string noBodySetBonus = testPlayer.setBonus;
 
-							if (noLegSetBonus != "")
-							{
+							if (noLegSetBonus != "") {
 								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, body, null, noLegSetBonus, head.defense + body.defense + noLegsDefenseBonus);
 								if (!sets.Contains(tupleToAdd))
 									sets.Add(tupleToAdd);
 							}
-							else if (noHeadSetBonus != "")
-							{
+							else if (noHeadSetBonus != "") {
 								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(null, body, leg, noHeadSetBonus, body.defense + leg.defense + noHeadDefenseBonus);
 								if (!sets.Contains(tupleToAdd))
 									sets.Add(tupleToAdd);
 							}
-							else if (noBodySetBonus != "")
-							{
+							else if (noBodySetBonus != "") {
 								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, null, leg, noBodySetBonus, head.defense + leg.defense + noBodyDefenseBonus);
 								if (!sets.Contains(tupleToAdd))
 									sets.Add(tupleToAdd);
 							}
-							else
-							{
+							else {
 								sets.Add(new Tuple<Item, Item, Item, string, int>(head, body, leg, fullSetBonus, head.defense + body.defense + leg.defense + fullDefenseBonus));
 							}
 						}
@@ -388,10 +354,8 @@ namespace RecipeBrowser.UIElements
 			// Check Head/Body, Head/Legs, etc?
 
 			armorSetSlots = new List<UIArmorSetCatalogueItemSlot>();
-			if (armorSetSlots.Count == 0)
-			{
-				foreach (var set in sets)
-				{
+			if (armorSetSlots.Count == 0) {
+				foreach (var set in sets) {
 					var slot = new UIArmorSetCatalogueItemSlot(set);
 					armorSetSlots.Add(slot);
 				}

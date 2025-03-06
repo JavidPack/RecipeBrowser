@@ -16,7 +16,7 @@ using Terraria.UI;
 using static RecipeBrowser.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.GameContent.ItemDropRules;
- 
+
 namespace RecipeBrowser
 {
 	class SharedUI
@@ -33,13 +33,10 @@ namespace RecipeBrowser
 		internal InvisibleFixedUIHorizontalScrollbar lootGridScrollbar2;
 
 		private Sort selectedSort;
-		internal Sort SelectedSort
-		{
+		internal Sort SelectedSort {
 			get { return selectedSort; }
-			set
-			{
-				if (selectedSort != value)
-				{
+			set {
+				if (selectedSort != value) {
 					updateNeeded = true;
 					RecipeCatalogueUI.instance.updateNeeded = true;
 					ItemCatalogueUI.instance.updateNeeded = true;
@@ -49,13 +46,10 @@ namespace RecipeBrowser
 		}
 
 		private Category selectedCategory;
-		internal Category SelectedCategory
-		{
+		internal Category SelectedCategory {
 			get { return selectedCategory; }
-			set
-			{
-				if (selectedCategory != value)
-				{
+			set {
+				if (selectedCategory != value) {
 					updateNeeded = true;
 					RecipeCatalogueUI.instance.updateNeeded = true;
 					ItemCatalogueUI.instance.updateNeeded = true;
@@ -68,13 +62,11 @@ namespace RecipeBrowser
 			}
 		}
 
-		public SharedUI()
-		{
+		public SharedUI() {
 			instance = this;
 		}
 
-		internal void Initialize()
-		{
+		internal void Initialize() {
 			// Sorts
 			// Filters: Categories?
 			// Craft and Loot Badges as well!
@@ -98,14 +90,12 @@ namespace RecipeBrowser
 			updateNeeded = true;
 		}
 
-		internal void Update()
-		{
+		internal void Update() {
 			if (!updateNeeded) { return; }
 			updateNeeded = false;
 
 			// Delay this so we can integrate mod categories.
-			if (sorts == null)
-			{
+			if (sorts == null) {
 				SetupSortsAndCategories();
 			}
 
@@ -113,8 +103,7 @@ namespace RecipeBrowser
 		}
 
 		internal List<Filter> availableFilters;
-		private void PopulateSortsAndFiltersPanel()
-		{
+		private void PopulateSortsAndFiltersPanel() {
 			var availableSorts = new List<Sort>(sorts);
 			availableSorts.RemoveAll(x => !x.sortAvailable?.Invoke() ?? false);
 			availableFilters = new List<Filter>(filters);
@@ -123,14 +112,12 @@ namespace RecipeBrowser
 				availableFilters.Remove(SharedUI.instance.UnresearchedFilter);
 
 			//sortsAndFiltersPanel.RemoveAllChildren();
-			if (subCategorySortsFiltersGrid != null)
-			{
+			if (subCategorySortsFiltersGrid != null) {
 				sortsAndFiltersPanel.RemoveChild(subCategorySortsFiltersGrid);
 				sortsAndFiltersPanel.RemoveChild(lootGridScrollbar2);
 			}
 
-			if (categoriesGrid == null)
-			{
+			if (categoriesGrid == null) {
 				categoriesGrid = new UIHorizontalGrid();
 				categoriesGrid.Width.Set(0, 1f);
 				categoriesGrid.Height.Set(26, 0f);
@@ -177,18 +164,15 @@ namespace RecipeBrowser
 			var visibleCategories = new List<Category>();
 			var visibleSubCategories = new List<Category>();
 			int left = 0;
-			foreach (var category in categories)
-			{
+			foreach (var category in categories) {
 				category.button.selected = false;
 				visibleCategories.Add(category);
 				bool meOrChildSelected = SelectedCategory == category;
-				foreach (var subcategory in category.subCategories)
-				{
+				foreach (var subcategory in category.subCategories) {
 					subcategory.button.selected = false;
 					meOrChildSelected |= subcategory == SelectedCategory;
 				}
-				if (meOrChildSelected)
-				{
+				if (meOrChildSelected) {
 					visibleSubCategories.AddRange(category.subCategories);
 					category.button.selected = true;
 				}
@@ -198,8 +182,7 @@ namespace RecipeBrowser
 
 			float oldTopRowViewPosition = categoriesGridScrollbar?.ViewPosition ?? 0f;
 			categoriesGrid.Clear();
-			foreach (var category in visibleCategories)
-			{
+			foreach (var category in visibleCategories) {
 				var container = new UISortableElement(++count);
 				container.Width.Set(24, 0);
 				container.Height.Set(24, 0);
@@ -217,8 +200,7 @@ namespace RecipeBrowser
 			//spacer.Width.Set(0, 1);
 			//sortsAndFiltersPanelGrid2.Add(spacer);
 
-			foreach (var category in visibleSubCategories)
-			{
+			foreach (var category in visibleSubCategories) {
 				var container = new UISortableElement(++count);
 				container.Width.Set(24, 0);
 				container.Height.Set(24, 0);
@@ -227,8 +209,7 @@ namespace RecipeBrowser
 				left += 26;
 			}
 
-			if (visibleSubCategories.Count > 0)
-			{
+			if (visibleSubCategories.Count > 0) {
 				var container2 = new UISortableElement(++count);
 				container2.Width.Set(24, 0);
 				container2.Height.Set(24, 0);
@@ -240,16 +221,14 @@ namespace RecipeBrowser
 			}
 
 			// add to sorts and filters here
-			if (SelectedCategory != null)
-			{
+			if (SelectedCategory != null) {
 				SelectedCategory.button.selected = true;
 				SelectedCategory.ParentAddToSorts(availableSorts);
 				SelectedCategory.ParentAddToFilters(availableFilters);
 			}
 
 			left = 0;
-			foreach (var sort in availableSorts)
-			{
+			foreach (var sort in availableSorts) {
 				sort.button.selected = false;
 				if (SelectedSort == sort) // TODO: SelectedSort no longwe valid
 					sort.button.selected = true;
@@ -265,15 +244,13 @@ namespace RecipeBrowser
 				//sortsAndFiltersPanel.Append(sort.button);
 				left += 26;
 			}
-			if (!availableSorts.Contains(SharedUI.instance.SelectedSort))
-			{
+			if (!availableSorts.Contains(SharedUI.instance.SelectedSort)) {
 				availableSorts[0].button.selected = true;
 				SharedUI.instance.SelectedSort = availableSorts[0];
 				updateNeeded = false;
 			}
 
-			if (availableFilters.Count > 0)
-			{
+			if (availableFilters.Count > 0) {
 				var container2 = new UISortableElement(++count);
 				container2.Width.Set(24, 0);
 				container2.Height.Set(24, 0);
@@ -282,8 +259,7 @@ namespace RecipeBrowser
 				container2.Append(image);
 				subCategorySortsFiltersGrid.Add(container2);
 
-				foreach (var item in availableFilters)
-				{
+				foreach (var item in availableFilters) {
 					var container = new UISortableElement(++count);
 					container.Width.Set(24, 0);
 					container.Height.Set(24, 0);
@@ -324,8 +300,7 @@ namespace RecipeBrowser
 			ItemID.KingSlimeBossBag, ItemID.WoodenCrate, ItemID.WoodenCrateHard, ItemID.EyeOfCthulhuBossBag, ItemID.PlanteraBossBag, ItemID.HerbBag
 		};
 
-		private void SetupSortsAndCategories()
-		{
+		private void SetupSortsAndCategories() {
 			foreach (int type in itemTexturePreload)
 				Main.instance.LoadItem(type); // needs ImmediateLoad. Could do this setup in Load if determined to be slow.
 
@@ -369,10 +344,8 @@ namespace RecipeBrowser
 			// 24x24 pixels
 
 			var yoyos = new List<int>();
-			for (int i = 0; i < ItemID.Sets.Yoyo.Length; ++i)
-			{
-				if (ItemID.Sets.Yoyo[i])
-				{
+			for (int i = 0; i < ItemID.Sets.Yoyo.Length; ++i) {
+				if (ItemID.Sets.Yoyo[i]) {
 					Main.instance.LoadItem(i);
 					yoyos.Add(i);
 				}
@@ -381,18 +354,15 @@ namespace RecipeBrowser
 			var useAmmoTypes = new Dictionary<int, int>();
 			var ammoTypes = new Dictionary<int, int>();
 			var testItem = new Item();
-			for (int i = 0; i < ItemLoader.ItemCount; i++)
-			{
+			for (int i = 0; i < ItemLoader.ItemCount; i++) {
 				testItem.SetDefaults(i);
 				if (testItem.useAmmo >= ItemLoader.ItemCount || testItem.ammo >= ItemLoader.ItemCount || testItem.useAmmo < 0 || testItem.ammo < 0)
 					continue; // Some mods misuse useAmmo
-				if (testItem.useAmmo > 0)
-				{
+				if (testItem.useAmmo > 0) {
 					useAmmoTypes.TryGetValue(testItem.useAmmo, out var currentCount);
 					useAmmoTypes[testItem.useAmmo] = currentCount + 1;
 				}
-				if (testItem.ammo > 0)
-				{
+				if (testItem.ammo > 0) {
 					ammoTypes.TryGetValue(testItem.ammo, out var currentCount);
 					ammoTypes[testItem.ammo] = currentCount + 1;
 				}
@@ -651,19 +621,14 @@ namespace RecipeBrowser
 				new Category(RBText("Other"), x=>BelongsInOther(x), smallOther),
 			};
 
-			foreach (var modCategory in RecipeBrowser.instance.modCategories)
-			{
-				if (string.IsNullOrEmpty(modCategory.parent))
-				{
+			foreach (var modCategory in RecipeBrowser.instance.modCategories) {
+				if (string.IsNullOrEmpty(modCategory.parent)) {
 					categories.Insert(categories.Count - 2, new Category(modCategory.name, modCategory.belongs, modCategory.icon));
 				}
-				else
-				{
+				else {
 					bool placed = false;
-					foreach (var item in categories)
-					{
-						if (item.name == modCategory.parent)
-						{
+					foreach (var item in categories) {
+						if (item.name == modCategory.parent) {
 							item.subCategories.Add(new Category(modCategory.name, modCategory.belongs, modCategory.icon));
 							placed = true;
 						}
@@ -674,26 +639,19 @@ namespace RecipeBrowser
 			}
 
 			// Filter per mod instead of Mod filter? Expanding filter button?
-			foreach (var modFilter in RecipeBrowser.instance.modFilters)
-			{
-				if (string.IsNullOrEmpty(modFilter.parent))
-				{
+			foreach (var modFilter in RecipeBrowser.instance.modFilters) {
+				if (string.IsNullOrEmpty(modFilter.parent)) {
 					filters.Add(new Filter(modFilter.name, modFilter.belongs, modFilter.icon));
 				}
-				else
-				{
+				else {
 					bool placed = false;
-					foreach (var item in categories)
-					{
-						if (item.name == modFilter.parent)
-						{
+					foreach (var item in categories) {
+						if (item.name == modFilter.parent) {
 							item.filters.Add(new Filter(modFilter.name, modFilter.belongs, modFilter.icon));
 							placed = true;
 						}
-						foreach (var subCategory in item.subCategories)
-						{
-							if (subCategory.name == modFilter.parent)
-							{
+						foreach (var subCategory in item.subCategories) {
+							if (subCategory.name == modFilter.parent) {
 								subCategory.filters.Add(new Filter(modFilter.name, modFilter.belongs, modFilter.icon));
 								placed = true;
 							}
@@ -704,10 +662,8 @@ namespace RecipeBrowser
 				}
 			}
 
-			foreach (var parent in categories)
-			{
-				foreach (var child in parent.subCategories)
-				{
+			foreach (var parent in categories) {
+				foreach (var child in parent.subCategories) {
 					child.parent = parent; // 3 levels?
 				}
 			}
@@ -715,8 +671,7 @@ namespace RecipeBrowser
 			SelectedCategory = categories[0];
 		}
 
-		private int ByCreativeSortingId(Item x, Item y)
-		{
+		private int ByCreativeSortingId(Item x, Item y) {
 			ContentSamples.CreativeHelper.ItemGroupAndOrderInGroup itemGroupAndOrderInGroup = ContentSamples.ItemCreativeSortingId[x.type];
 			ContentSamples.CreativeHelper.ItemGroupAndOrderInGroup itemGroupAndOrderInGroup2 = ContentSamples.ItemCreativeSortingId[y.type];
 			int num = itemGroupAndOrderInGroup.Group.CompareTo(itemGroupAndOrderInGroup2.Group);
@@ -731,8 +686,7 @@ namespace RecipeBrowser
 		}
 
 		// TODO: Update with new 1.4 values.
-		Dictionary<int, float> vanillaGrappleRanges = new Dictionary<int, float>()
-		{
+		Dictionary<int, float> vanillaGrappleRanges = new Dictionary<int, float>() {
 			[13] = 300f,
 			[32] = 400f,
 			[73] = 440f,
@@ -764,8 +718,7 @@ namespace RecipeBrowser
 			[235] = 450f,
 		};
 
-		private float GrappleRange(int type)
-		{
+		private float GrappleRange(int type) {
 			if (vanillaGrappleRanges.ContainsKey(type))
 				return vanillaGrappleRanges[type];
 			if (type > ProjectileID.Count)
@@ -773,15 +726,11 @@ namespace RecipeBrowser
 			return 0;
 		}
 
-		internal static bool ShouldShowItemDrop(DropRateInfo dropRateInfo)
-		{
+		internal static bool ShouldShowItemDrop(DropRateInfo dropRateInfo) {
 			bool result = true;
-			if (dropRateInfo.conditions != null && dropRateInfo.conditions.Count > 0)
-			{
-				for (int i = 0; i < dropRateInfo.conditions.Count; i++)
-				{
-					if (!dropRateInfo.conditions[i].CanShowItemDropInUI())
-					{
+			if (dropRateInfo.conditions != null && dropRateInfo.conditions.Count > 0) {
+				for (int i = 0; i < dropRateInfo.conditions.Count; i++) {
+					if (!dropRateInfo.conditions[i].CanShowItemDropInUI()) {
 						result = false;
 						break;
 					}
@@ -791,8 +740,7 @@ namespace RecipeBrowser
 			return result;
 		}
 
-		private int ExpectedValue(int type)
-		{
+		private int ExpectedValue(int type) {
 			// Could cache for performance, but need to see how drop conditions being later satisfied would affect things. We wouldn't want to cache a value that would later be inaccurate.
 			int expectedValue = 0;
 
@@ -800,13 +748,11 @@ namespace RecipeBrowser
 			List<IItemDropRule> dropRules = Main.ItemDropsDB.GetRulesForItemID(type);
 			List<DropRateInfo> list = new List<DropRateInfo>();
 			DropRateInfoChainFeed ratesInfo = new DropRateInfoChainFeed(1f);
-			foreach (IItemDropRule item in dropRules)
-			{
+			foreach (IItemDropRule item in dropRules) {
 				item.ReportDroprates(list, ratesInfo);
 			}
 
-			foreach (DropRateInfo dropRateInfo in list)
-			{
+			foreach (DropRateInfo dropRateInfo in list) {
 				bool flag = ShouldShowItemDrop(dropRateInfo);
 				if (!flag)
 					continue;
@@ -817,11 +763,9 @@ namespace RecipeBrowser
 			return expectedValue;
 		}
 
-		private bool BelongsInOther(Item item)
-		{
+		private bool BelongsInOther(Item item) {
 			var cats = categories.Skip(1).Take(categories.Count - 2);
-			foreach (var category in cats)
-			{
+			foreach (var category in cats) {
 				if (category.name == ArmorSetFeatureHelper.ArmorSetsHoverTest)
 					continue;
 				if (category.BelongsRecursive(item))
@@ -841,8 +785,7 @@ namespace RecipeBrowser
 		internal Asset<Texture2D> texture;
 		//internal Category parent;
 
-		public Filter(string name, Predicate<Item> belongs, Asset<Texture2D> texture)
-		{
+		public Filter(string name, Predicate<Item> belongs, Asset<Texture2D> texture) {
 			this.name = name;
 			this.texture = texture;
 			subCategories = new List<Category>();
@@ -863,13 +806,10 @@ namespace RecipeBrowser
 	{
 		List<Filter> exclusives;
 
-		public MutuallyExclusiveFilter(string name, Predicate<Item> belongs, Asset<Texture2D> texture) : base(name, belongs, texture)
-		{
+		public MutuallyExclusiveFilter(string name, Predicate<Item> belongs, Asset<Texture2D> texture) : base(name, belongs, texture) {
 			button.OnLeftClick += (a, b) => {
-				if (button.selected)
-				{
-					foreach (var item in exclusives)
-					{
+				if (button.selected) {
+					foreach (var item in exclusives) {
 						if (item != this)
 							item.button.selected = false;
 					}
@@ -877,8 +817,7 @@ namespace RecipeBrowser
 			};
 		}
 
-		internal void SetExclusions(List<Filter> exclusives)
-		{
+		internal void SetExclusions(List<Filter> exclusives) {
 			this.exclusives = exclusives;
 		}
 	}
@@ -888,8 +827,7 @@ namespace RecipeBrowser
 	{
 		bool right;
 		string other;
-		public DoubleFilter(string name, string other, Asset<Texture2D> texture, Predicate<Item> belongs) : base(name, belongs, texture)
-		{
+		public DoubleFilter(string name, string other, Asset<Texture2D> texture, Predicate<Item> belongs) : base(name, belongs, texture) {
 			this.other = other;
 			this.belongs = (item) => {
 				return belongs(item) ^ right;
@@ -918,12 +856,10 @@ namespace RecipeBrowser
 		List<UISilentImageButton> buttons = new List<UISilentImageButton>();
 
 		public CycleFilter(string name, string textureFileName, List<Filter> filters) :
-			this(name, RecipeBrowser.instance.Assets.Request<Texture2D>(textureFileName, AssetRequestMode.ImmediateLoad), filters)
-		{
+			this(name, RecipeBrowser.instance.Assets.Request<Texture2D>(textureFileName, AssetRequestMode.ImmediateLoad), filters) {
 		}
 
-		public CycleFilter(string name, Asset<Texture2D> texture, List<Filter> filters) : base(name, (item) => false, texture)
-		{
+		public CycleFilter(string name, Asset<Texture2D> texture, List<Filter> filters) : base(name, (item) => false, texture) {
 			this.filters = filters;
 			this.belongs = (item) => {
 				return index == 0 ? true : filters[index - 1].belongs(item);
@@ -936,8 +872,7 @@ namespace RecipeBrowser
 
 			buttons.Add(firstButton);
 
-			for (int i = 0; i < filters.Count; i++)
-			{
+			for (int i = 0; i < filters.Count; i++) {
 				var buttonOption = new UISilentImageButton(filters[i].texture, filters[i].name);
 				buttonOption.OnLeftClick += (a, b) => ButtonBehavior(true);
 				buttonOption.OnRightClick += (a, b) => ButtonBehavior(false);
@@ -947,8 +882,7 @@ namespace RecipeBrowser
 
 			button = buttons[0];
 
-			void ButtonBehavior(bool increment, bool zero = false)
-			{
+			void ButtonBehavior(bool increment, bool zero = false) {
 				button.selected = false;
 
 				index = zero ? 0 : (increment ? (index + 1) % buttons.Count : (buttons.Count + index - 1) % buttons.Count);
@@ -969,8 +903,7 @@ namespace RecipeBrowser
 		internal Func<bool> sortAvailable;
 		internal UISilentImageButton button;
 
-		public Sort(string hoverText, Asset<Texture2D> texture, Func<Item, Item, int> sort)
-		{
+		public Sort(string hoverText, Asset<Texture2D> texture, Func<Item, Item, int> sort) {
 			this.sort = sort;
 			button = new UISilentImageButton(texture, hoverText);
 			button.OnLeftClick += (a, b) => {
@@ -979,8 +912,7 @@ namespace RecipeBrowser
 		}
 
 		public Sort(string hoverText, string textureFileName, Func<Item, Item, int> sort) :
-			this(hoverText, RecipeBrowser.instance.Assets.Request<Texture2D>(textureFileName, AssetRequestMode.ImmediateLoad), sort)
-		{
+			this(hoverText, RecipeBrowser.instance.Assets.Request<Texture2D>(textureFileName, AssetRequestMode.ImmediateLoad), sort) {
 		}
 	}
 
@@ -991,8 +923,7 @@ namespace RecipeBrowser
 		internal string parent;
 		internal Asset<Texture2D> icon;
 		internal Predicate<Item> belongs;
-		public ModCategory(string name, string parent, Asset<Texture2D> icon, Predicate<Item> belongs)
-		{
+		public ModCategory(string name, string parent, Asset<Texture2D> icon, Predicate<Item> belongs) {
 			this.name = name;
 			this.parent = parent;
 			this.icon = icon;
@@ -1014,8 +945,7 @@ namespace RecipeBrowser
 		internal Category parent;
 		// Pass in other Category to exclude?
 
-		public Category(string name, Predicate<Item> belongs, Asset<Texture2D> texture = null)
-		{
+		public Category(string name, Predicate<Item> belongs, Asset<Texture2D> texture = null) {
 			if (texture == null)
 				texture = RecipeBrowser.instance.Assets.Request<Texture2D>("Images/sortAmmo", AssetRequestMode.ImmediateLoad);
 			this.name = name;
@@ -1033,26 +963,22 @@ namespace RecipeBrowser
 		}
 
 		public Category(string name, Predicate<Item> belongs, string textureFileName) :
-			this(name, belongs, RecipeBrowser.instance.Assets.Request<Texture2D>(textureFileName, AssetRequestMode.ImmediateLoad))
-		{
+			this(name, belongs, RecipeBrowser.instance.Assets.Request<Texture2D>(textureFileName, AssetRequestMode.ImmediateLoad)) {
 		}
 
-		internal bool BelongsRecursive(Item item)
-		{
+		internal bool BelongsRecursive(Item item) {
 			if (belongs(item))
 				return true;
 			return subCategories.Any(x => x.belongs(item));
 		}
 
-		internal void ParentAddToSorts(List<Sort> availableSorts)
-		{
+		internal void ParentAddToSorts(List<Sort> availableSorts) {
 			if (parent != null)
 				parent.ParentAddToSorts(availableSorts);
 			availableSorts.AddRange(sorts);
 		}
 
-		internal void ParentAddToFilters(List<Filter> availableFilters)
-		{
+		internal void ParentAddToFilters(List<Filter> availableFilters) {
 			if (parent != null)
 				parent.ParentAddToFilters(availableFilters);
 			availableFilters.AddRange(filters);
