@@ -9,10 +9,10 @@ namespace RecipeBrowser
 {
 	internal class RecipeBrowserGlobalItem : GlobalItem
 	{
-        internal static string RBText(string key, string category = "RecipeBrowserUI") => RecipeBrowser.RBText(category, key);
+		internal static string RBText(string key, string category = "RecipeBrowserUI") => RecipeBrowser.RBText(category, key);
         
 		// OnPickup only called on LocalPlayer: I think
-        public override void OnCreated(Item item, ItemCreationContext context)
+		public override void OnCreated(Item item, ItemCreationContext context)
 		{
 			ItemReceived(item);
 		}
