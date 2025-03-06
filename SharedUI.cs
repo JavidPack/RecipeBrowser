@@ -16,7 +16,7 @@ using Terraria.UI;
 using static RecipeBrowser.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.GameContent.ItemDropRules;
-
+ 
 namespace RecipeBrowser
 {
     class SharedUI

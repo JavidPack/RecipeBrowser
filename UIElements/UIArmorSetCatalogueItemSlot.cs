@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
 
-namespace RecipeBrowser.UIElements
+namespace RecipeBrowser.UIElements 
 {
     internal class UIArmorSetCatalogueItemSlot : UIItemCatalogueItemSlot
     {
