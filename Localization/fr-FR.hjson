@@ -237,8 +237,7 @@ Mods: {
 			Unobtained: Non obtenu
 			OnlyUnobtainedItems: Afficher uniquement les objets non obtenus
 			BottomInstructions: 2x LMB: Voir les Recettes  ---  2x RMB: Voir les Ennemis à Butin
-			// ExpectedValue: Expected Value:
-			// ExpectedValueUnknown: Expected Value: ?
+			// ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

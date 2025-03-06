@@ -225,8 +225,7 @@ Mods: {
 			Unobtained: Niezdobyte
 			OnlyUnobtainedItems: " Tylko niezdobyte przedmioty"
 			BottomInstructions: 2x LPM: Zobacz przepisy  ---  2x RMB: Zobacz NPC z szansą na łup
-			// ExpectedValue: Expected Value:
-			// ExpectedValueUnknown: Expected Value: ?
+			// ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

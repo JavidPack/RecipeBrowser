@@ -225,8 +225,7 @@ Mods: {
 			Unobtained: 未获得
 			OnlyUnobtainedItems: 仅显示从未曾获得过的物品
 			BottomInstructions: 双击左键: 查看配方  ---  双击右键: 查看掉落
-			// ExpectedValue: Expected Value:
-			// ExpectedValueUnknown: Expected Value: ?
+			// ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

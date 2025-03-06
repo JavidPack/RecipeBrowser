@@ -225,8 +225,7 @@ Mods: {
 			Unobtained: Nicht erhalten
 			OnlyUnobtainedItems: Nur nicht erhaltene Gegenstände
 			BottomInstructions: 2x LMB: Siehe Rezepte  ---  2x RMB: Siehe fallen lassende NPC
-			// ExpectedValue: Expected Value:
-			// ExpectedValueUnknown: Expected Value: ?
+			// ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

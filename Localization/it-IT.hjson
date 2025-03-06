@@ -225,8 +225,7 @@ Mods: {
 			Unobtained: Non ottenuti
 			OnlyUnobtainedItems: Solo oggetti non ottenuti
 			BottomInstructions: 2x tasto sinistro: Vedi Ricette  ---  2x tasto destro: Vedi PNG che lo lasciano cadere
-			// ExpectedValue: Expected Value:
-			// ExpectedValueUnknown: Expected Value: ?
+			// ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

@@ -225,8 +225,7 @@ Mods: {
 			Unobtained: Não obtido
 			OnlyUnobtainedItems: Somente itens não obtidos
 			BottomInstructions: 2x Botão direito do mouse: Ver Receitas  ---  2x Botão direito do mouse: Ver NPCs que soltam
-			// ExpectedValue: Expected Value:
-			// ExpectedValueUnknown: Expected Value: ?
+			// ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

@@ -225,8 +225,7 @@ Mods: {
 			Unobtained: Unobtained
 			OnlyUnobtainedItems: Only unobtained items
 			BottomInstructions: 2x LMB: View Recipes  ---  2x RMB: See dropping NPCs
-			ExpectedValue: Expected Value:
-			ExpectedValueUnknown: Expected Value: ?
+			ExpectedValue: Expected Value: {0}
 		}
 
 		UIArmorSetCatalogue: {

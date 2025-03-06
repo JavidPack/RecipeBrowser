@@ -92,11 +92,13 @@ namespace RecipeBrowser
 			Patches.Apply();
 		}
 
-		internal static string RBText(string category, string key)
+		internal static string RBText(string category, string key, params object[] args)
 		{
 			// return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
 			// This isn't good until after load....
-			return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+			if(args == null || args.Length == 0)
+				return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+			return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}", args);
 		}
 
 		internal static LocalizedText RBLocalizedText(string category, string key) {

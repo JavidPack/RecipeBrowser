@@ -16,7 +16,7 @@ namespace RecipeBrowser
 {
 	internal class ItemCatalogueUI
 	{
-		internal static string RBText(string key, string category = "ItemCatalogueUI") => RecipeBrowser.RBText(category, key);
+		internal static string RBText(string key, string category = "ItemCatalogueUI", params object[] args) => RecipeBrowser.RBText(category, key, args);
 
 		internal static ItemCatalogueUI instance;
 		internal static Color color = Color.DarkGreen;
@@ -473,7 +473,7 @@ namespace RecipeBrowser
 			ToggleItemDropViewer(list.Any());
 
 			int expectedValue = 0;
-			var expectedValueText = new UIText(RBText("ExpectedValueUnknown")); // Move above the grid maybe?
+			var expectedValueText = new UIText(RBText("ExpectedValue", args: "?")); // Move above the grid maybe?
 			expectedValueText.SetPadding(6);
 			itemDropViewerGrid.Add(expectedValueText);
 
@@ -497,7 +497,7 @@ namespace RecipeBrowser
 			}
 			if (expectedValue > 1000000)
 				expectedValue = expectedValue - expectedValue % 100; // only room for 3, so get rid of copper coins if platinum.
-			expectedValueText.SetText(RBText("ExpectedValue") + " "+ CraftPath.BuyItemNode.GetTotalCostAsTags(expectedValue));
+			expectedValueText.SetText(RBText("ExpectedValue", args: CraftPath.BuyItemNode.GetTotalCostAsTags(expectedValue)));
 		}
 	}
 

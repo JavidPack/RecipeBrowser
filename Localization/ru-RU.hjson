@@ -233,8 +233,7 @@ Mods: {
 			Unobtained: Неполуч.
 			OnlyUnobtainedItems: Показывать только ранее не полученные предметы
 			BottomInstructions: Двойное ЛКМ: показать рецепты  --  Двойное ПКМ: показать, с кого выпадает
-			ExpectedValue: Стоимость ≈
-			ExpectedValueUnknown: Стоимость ≈ ?
+			ExpectedValue: Стоимость ≈ {0}
 		}
 
 		UIArmorSetCatalogue: {
