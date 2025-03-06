@@ -7,7 +7,7 @@ Mods: {
 			Bestiary: Bestiary
 			Help: Help
 			Close: Close
-			All: All
+			All: Allgv
 			filterMod: Images/filterMod
 			filterModColorable: Images/filterModColorable
 			ModFilter: Mod Filter
@@ -39,7 +39,7 @@ Mods: {
 			ShowUniqueRecipes: Show unique recipes
 		}
 
-		RecipeCatalogueFiltres: {
+		RecipeCatalogueFilters: {
 			RecipeOrder: Recipe Order
 			CreativeSort: Creative Sort
 			ItemID: Item ID

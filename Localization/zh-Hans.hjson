@@ -39,7 +39,7 @@ Mods: {
 			ShowUniqueRecipes: 显示独有配方
 		}
 
-		RecipeCatalogueFiltres: {
+		RecipeCatalogueFilters: {
 			// RecipeOrder: Recipe Order
 			// CreativeSort: Creative Sort
 			// ItemID: Item ID

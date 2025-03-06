@@ -39,7 +39,7 @@ Mods: {
 			ShowUniqueRecipes: Показывать уникальные рецепты станции
 		}
 
-		RecipeCatalogueFiltres: {
+		RecipeCatalogueFilters: {
 			RecipeOrder: Как в меню рецептов
 			CreativeSort: Как в меню дублирования
 			ItemID: Сортировать по ID

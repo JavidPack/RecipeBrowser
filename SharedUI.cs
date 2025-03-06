@@ -21,7 +21,7 @@ namespace RecipeBrowser
 {
 	class SharedUI
 	{
-		internal static string RBText(string key, string category = "RecipeCatalogueFiltres") => RecipeBrowser.RBText(category, key);
+		internal static string RBText(string key, string category = "RecipeCatalogueFilters") => RecipeBrowser.RBText(category, key);
 
 		internal static SharedUI instance;
 		internal bool updateNeeded;

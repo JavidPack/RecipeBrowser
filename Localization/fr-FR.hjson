@@ -39,7 +39,7 @@ Mods: {
 			ShowUniqueRecipes: Afficher des recettes uniques
 		}
 
-		RecipeCatalogueFiltres: {
+		RecipeCatalogueFilters: {
 			// RecipeOrder: Recipe Order
 			// CreativeSort: Creative Sort
 			// ItemID: Item ID
