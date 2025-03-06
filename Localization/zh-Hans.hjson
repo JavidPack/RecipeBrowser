@@ -9,14 +9,14 @@ Mods: {
 			Close: 关闭
 			All: 全部
 			ModFilter: 模组
-			// NoFavoritedRecipes: No favorited recipes
-			// RecipeAddedBy: Recipe added by {0}
+			NoFavoritedRecipes: 无收藏配方
+			RecipeAddedBy: 该配方由{0}添加
 		}
 
 		# These are image paths, do not localize unless you make your own version of these png files in your language.
 		ImagePaths: {
-			// FilterMod: Images/filterMod
-			// FilterModColorable: Images/filterModColorable
+			FilterMod: Images/filterMod
+			FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
@@ -44,141 +44,151 @@ Mods: {
 		}
 
 		RecipeCatalogueFilters: {
-			// RecipeOrder: Recipe Order
-			// CreativeSort: Creative Sort
-			// ItemID: Item ID
-			// Value: Value
-			// Alphabetical: Alphabetical
-			// Rarity: Rarity
-			// Materials: Materials
-			// Craftable: Craftable
-			// ExtendedCraftable: Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)
-			// DisabledRecipes: Show recipes disabled by Mods
-			// Unresearched: Unresearched
-			// All: All
+			RecipeOrder: 合成顺序
+			CreativeSort: 默认排序
+			ItemID: 物品内部ID
+			Value: 价值
+			Alphabetical: 按字母顺序
+			Rarity: 稀有度
+			Materials: 材料
+			Craftable: 可合成的
+			ExtendedCraftable: 继承配方(在合成配方中右键访问此面板,自动禁用以防延迟)
+			DisabledRecipes: 显示被其他Mod禁用的配方
+			Unresearched: 未研究
+			All: 全部
 
 			Weapons: {
-				// Name: Weapons
-				// Melee: Melee
-				// Yoyo: Yoyo
-				// Magic: Magic
-				// Ranged: Ranged
-				// UseAmmoType: Use Ammo Type
-				// Throwing: Throwing
-				// Summon: Summon
-				// Whip: Whip
-				// Sentry: Sentry
-				// CycleUsedAmmoTypes: Cycle Used Ammo Types
+				Name: 武器
+				Melee: 近战
+				Yoyo: 悠悠球
+				Magic: 魔法
+				Ranged: 远程
+				UseAmmoType: 使用弹药类型
+				Throwing: 投掷
+				Summon: 仆从
+				Whip: 鞭子
+				Sentry: 哨兵
+				CycleUsedAmmoTypes: 切换使用弹药类型
 			}
 
-			// Damage: Damage
+			Damage: 伤害
 
 			Tools: {
-				// Name: Tools
-				// Pickaxes: Pickaxes
-				// PickPower: Pick Power
-				// Axes: Axes
-				// AxePower: Axe Power
-				// Hammers: Hammers
-				// HammerPower: Hammer Power
+				Name: 工具
+				Pickaxes: 镐
+				PickPower: 镐力
+				Axes: 斧
+				AxePower: 斧力
+				Hammers: 锤
+				HammerPower: 锤力
 			}
 
 			Armor: {
-				// Name: Armor and Vanity
-				// Head: Head
-				// Body: Body
-				// Legs: Legs
-				// Defense: Defense
-				// Vanity: Vanity
-				// ArmorOnly: Armor
-				// TotalDefense: Total Defense
+				Name: 盔甲和时装
+				Head: 头部
+				Body: 躯干
+				Legs: 护腿
+				Defense: 防御
+				Vanity: 时装
+				ArmorOnly: 护甲
+				TotalDefense: 套装总防御
 			}
 
 			Tiles: {
-				// Name: Tiles
-				// CraftingStations: Crafting Stations
-				// Containers: Containers
-				// Wiring: Wiring
-				// Statues: Statues
-				// Doors: Doors
-				// Chairs: Chairs
-				// Tables: Tables
-				// LightSources: Light Sources
-				// Torches: Torches
-				// PlaceTile: Place Tile
+				Name: 物块
+				CraftingStations: 合成站
+				Containers: 箱子
+				Wiring: 电路
+				Statues: 雕像
+				Doors: 门
+				Chairs: 椅子
+				Tables: 桌子
+				LightSources: 照明
+				Torches: 火把
+				PlaceTile: 对应放置的物块ID
 			}
 
-			// Walls: Walls
-			// Accessories: Accessories
-			// Wings: Wings
+			Walls: 背景墙
+			Accessories: 饰品
+			Wings: 翅膀
 
 			Ammo: {
-				// Name: Ammo
-				// AmmoType: Ammo Type
-				// CycleAmmoTypes: Cycle Ammo Types
+				Name: 弹药
+				AmmoType: 弹药类型
+				CycleAmmoTypes: 切换弹药类型
 			}
 
 			Potions: {
-				// Name: Potions and food
-				// HealthPotions: Health Potions
-				// HealLife: Heal Life
-				// ManaPotions: Mana Potions
-				// HealMana: Heal Mana
-				// BuffPotions: Buff Potions
-				// Food: Food
+				Name: 药水和食物
+				HealthPotions: 治疗药水
+				HealLife: 治疗量
+				ManaPotions: 魔力药水
+				HealMana: 回魔量
+				BuffPotions: 实用药水
+				Food: 食物
 			}
 
-			// Expert: Expert
-			// Master: Master
+			Expert: 专家独有
+			Master: 大师独有
 
 			Pets: {
-				// Name: Pets
-				// CommonPets: Pets
-				// LightPets: Light Pets
+				Name: 宠物
+				CommonPets: 宠物
+				LightPets: 照明宠物
 			}
 
-			// Mounts: Mounts
-			// Carts: Carts
-			// Hooks: Hooks
-			// GrappleRange: Grapple Range
+			Mounts: 坐骑
+			Carts: 矿车
+			Hooks: 抓钩
+			GrappleRange: 抓钩长度
 
 			Dyes: {
-				// Name: Dyes
-				// CommonDyes: Dyes
-				// HairDyes: Hair Dyes
+				Name: 染料
+				CommonDyes: 染料
+				HairDyes: 染发剂
 			}
 
 			BossSummons: {
-				// Name: Boss Summons
-				// ProgressionOrder: Progression Order
+				Name: Boss召唤物
+				ProgressionOrder: 进程顺序
 			}
 
 			Consumables: {
-				// Name: Consumables
-				// CapturedNPC: Captured NPC
+				Name: 消耗品
+				CapturedNPC: 捕获的生物
+				Have: 拥有
+				Buy: 买
+				from: 从
+				for: 给
+				Mine: 挖掘
+				Place: 在世界中
+				BugNet: 虫网
+				ByCapturing: 通过捕捉
+				Duplicate: 复制
+				Need: 需要
 			}
 
 			GrabBags: {
-				// Name: Grab Bags
-				// FishingCrate: Fishing Crate (Pre-Hardmode)
-				// FishingCrateHardmode: Fishing Crate (Hardmode)
-				// BossBag: Boss Bag (Pre-Hardmode)
-				// BossBagHardmode: Boss Bag (Hardmode)
-				// ExpectedValue: Expected Value
+				Name: 摸彩袋
+				FishingCrate: 宝匣 (困难模式前)
+				FishingCrateHardmode: 宝匣 (困难模式)
+				BossBag: 宝藏袋 (困难模式前)
+				BossBagHardmode: 宝藏袋 (困难模式)
+				ExpectedValue: 期望价值
 			}
 
 			Fishing: {
-				// Name: Fishing
-				// Poles: Poles
-				// PolePower: Pole Power
-				// Bait: Bait
-				// BaitPower: Bait Power
-				// Bobbers: Bobbers
-				// QuestFish: Quest Fish
+				Name: 钓鱼
+				Poles: 钓竿
+				PolePower: 渔力
+				Bait: 诱饵
+				BaitPower: 鱼饵力
+				Bobbers: 浮标
+				QuestFish: 任务鱼
 			}
 
-			// Extractinator: Extractinator
-			// Other: Other
+			Extractinator: 提炼机
+			Other: 其他
 		}
 
 		FavoritedUI: {
@@ -216,6 +226,11 @@ Mods: {
 			MagicStorageTooltip: 包括附近的魔法储存中的物品和制作站 (即将推出)
 			BottomInstructions: 在配方中右键以快速跳转至该面板
 			NoPathsFound: 没有找到该配方/物品的制作路线
+			Craft: 合成
+			Duplicate: 复制
+			Missing: 缺少
+			Unseen: 未找到
+			Cost: 统计:
 		}
 
 		ItemCatalogueUI: {
@@ -226,24 +241,25 @@ Mods: {
 			Unobtained: 未获得
 			OnlyUnobtainedItems: 仅显示从未曾获得过的物品
 			BottomInstructions: 双击左键: 查看配方  ---  双击右键: 查看掉落
-			// ExpectedValue: Expected Value: {0}
+			ExpectedValue: 预期价值: {0}
 		}
 
 		UIArmorSetCatalogue: {
-			// TotalSetDefense: Total Set Defense: {0}
-			/* ArmorSets:
+			TotalSetDefense: 套装总防御: {0}
+			ArmorSets:
 				'''
-				Armor Sets
-				(Warning: May take many seconds to calculate)
-				''' */
-			// ShowItems: Show Items
-			// ShowItemsTooltip: Display the items that make up the set
-			// UseDye: Use Dye
-			// UseDyeTooltip: Draw armor sets with currently equipped dye
-			// Animate: Animate
-			// AnimateTooltip: Mimic player animation
-			// Accessories: Accessories
-			// AccessoriesTooltip: Visualize with current accessories
+				套装效果
+				(警告: 可能会导致延迟)
+				'''
+			ShowItems: 显示物品
+			ShowItemsTooltip: 隐藏套装物品
+			UseDye: 启用染料
+			UseDyeTooltip: 根据当前装备的染料显示盔甲
+			Animate: 追踪动作
+			AnimateTooltip: 根据玩家当前的动作显示盔甲
+			Accessories: 混搭饰品
+			AccessoriesTooltip: 根据当前装备的饰品显示盔甲
+			LoadText: 正在计算配方
 		}
 
 		BestiaryUI: {
@@ -264,7 +280,7 @@ Mods: {
 			NewLoot: 新掉落物
 			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示有着未曾获得过其掉落物的NPC
 			EmptyQuerySlotHint: 在此放置物品
-			// NPCDrops: "{0} drops:"
+			NPCDrops: "{0}掉落:"
 		}
 
 		HelpUI: {
@@ -332,6 +348,7 @@ Mods: {
 			ToggleRecipeBrowser.DisplayName: 开关合成表
 			QueryHoveredItem.DisplayName: 查询当前光标悬浮的物品
 			ToggleFavoritedRecipesWindow.DisplayName: 开关收藏的配方窗口
+			RMB: 右键
 		}
 
 		Configs: {
@@ -376,5 +393,11 @@ Mods: {
 				}
 			}
 		}
+
+		Warning: 因为背包中物品已经满了，所以您留在合成表中的该物品已经丢失:
+		MainText: 这是怎么发生的？
+		TotalDefense: 总防御
+		PrintingCraftPath: 输出合成树
+		Error: (无条目)
 	}
 }

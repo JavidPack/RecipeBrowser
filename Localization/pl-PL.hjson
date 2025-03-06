@@ -156,6 +156,16 @@ Mods: {
 			Consumables: {
 				// Name: Consumables
 				// CapturedNPC: Captured NPC
+				// Have: Have
+				// Buy: Buy
+				// from: from
+				// for: for
+				// Mine: Mine
+				// Place: from the world
+				// BugNet: Bug Net
+				// ByCapturing: by capturing
+				// Duplicate: Duplicate
+				// Need: Need
 			}
 
 			GrabBags: {
@@ -216,6 +226,11 @@ Mods: {
 			MagicStorageTooltip: Obejmuje przedmioty i stacje rzemieślnicze z pobliskiego magazynu magicznego (wkrótce)
 			BottomInstructions: RMB na Przepisach, aby szybko odwiedzić tę kartę
 			NoPathsFound: Nie znaleziono ścieżek dla tej receptury/przedmiotu
+			// Craft: Craft
+			// Duplicate: Duplicate
+			// Missing: Missing
+			// Unseen: Unseen
+			// Cost: Cost:
 		}
 
 		ItemCatalogueUI: {
@@ -244,6 +259,7 @@ Mods: {
 			// AnimateTooltip: Mimic player animation
 			// Accessories: Accessories
 			// AccessoriesTooltip: Visualize with current accessories
+			// LoadText: recipes remain to be calculated
 		}
 
 		BestiaryUI: {
@@ -328,6 +344,7 @@ Mods: {
 			ToggleRecipeBrowser.DisplayName: Przełącz przeglądarkę receptur
 			QueryHoveredItem.DisplayName: Zapytaj o najechany przedmiot
 			ToggleFavoritedRecipesWindow.DisplayName: Przełącz okno ulubionych receptur
+			// RMB: (RMB)
 		}
 
 		Configs: {
@@ -372,5 +389,11 @@ Mods: {
 				}
 			}
 		}
+
+		// Warning: You left an item in the recipe browser with a full inventory and have lost the item:
+		// MainText: How is this happening?
+		// TotalDefense: Total Defense
+		// PrintingCraftPath: Printing CraftPath
+		// Error: (err no entry)
 	}
 }

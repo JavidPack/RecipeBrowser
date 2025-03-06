@@ -156,6 +156,16 @@ Mods: {
 			Consumables: {
 				// Name: Consumables
 				// CapturedNPC: Captured NPC
+				// Have: Have
+				// Buy: Buy
+				// from: from
+				// for: for
+				// Mine: Mine
+				// Place: from the world
+				// BugNet: Bug Net
+				// ByCapturing: by capturing
+				// Duplicate: Duplicate
+				// Need: Need
 			}
 
 			GrabBags: {
@@ -228,6 +238,11 @@ Mods: {
 				'''
 			BottomInstructions: Clic droit sur une recette pour accéder à cet onglet
 			NoPathsFound: L'arbre de fabrication de cet objet est manquant ou indisponible
+			// Craft: Craft
+			// Duplicate: Duplicate
+			// Missing: Missing
+			// Unseen: Unseen
+			// Cost: Cost:
 		}
 
 		ItemCatalogueUI: {
@@ -256,6 +271,7 @@ Mods: {
 			// AnimateTooltip: Mimic player animation
 			// Accessories: Accessories
 			// AccessoriesTooltip: Visualize with current accessories
+			// LoadText: recipes remain to be calculated
 		}
 
 		BestiaryUI: {
@@ -349,6 +365,7 @@ Mods: {
 			ToggleRecipeBrowser.DisplayName: Ouvrir le navigateur de recettes
 			QueryHoveredItem.DisplayName: Interroger l'élément survolé
 			ToggleFavoritedRecipesWindow.DisplayName: Ouvrir les recettes favorites
+			// RMB: (RMB)
 		}
 
 		Configs: {
@@ -393,5 +410,11 @@ Mods: {
 				}
 			}
 		}
+
+		// Warning: You left an item in the recipe browser with a full inventory and have lost the item:
+		// MainText: How is this happening?
+		// TotalDefense: Total Defense
+		// PrintingCraftPath: Printing CraftPath
+		// Error: (err no entry)
 	}
 }
