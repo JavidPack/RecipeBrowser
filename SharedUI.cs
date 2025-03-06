@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System;
@@ -766,7 +766,7 @@ namespace RecipeBrowser
 		private bool BelongsInOther(Item item) {
 			var cats = categories.Skip(1).Take(categories.Count - 2);
 			foreach (var category in cats) {
-				if (category.name == ArmorSetFeatureHelper.ArmorSetsHoverTest)
+				if(category.name == ArmorSetFeatureHelper.ArmorSetsHoverTest)
 					continue;
 				if (category.BelongsRecursive(item))
 					return false;

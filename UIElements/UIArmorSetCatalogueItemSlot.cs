@@ -64,8 +64,7 @@ namespace RecipeBrowser.UIElements
 		}
 
 		private static uint lastUpdate;
-		public override void Update(GameTime gameTime)
-		{
+		public override void Update(GameTime gameTime) {
 			base.Update(gameTime);
 
 			if (needsUpdate) {
