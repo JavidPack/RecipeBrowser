@@ -78,11 +78,11 @@ Mods: {
 
 			Tools: {
 				Name: Инструменты
-				Head: Кирки
+				Pickaxes: Кирки
 				PickPower: Сортировать по мощности кирки
-				Body: Топоры
+				Axes: Топоры
 				AxePower: Сортировать по мощности топора
-				Legs: Молоты
+				Hammers: Молоты
 				HammerPower: Сортировать по мощности молота
 			}
 

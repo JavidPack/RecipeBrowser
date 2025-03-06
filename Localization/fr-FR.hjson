@@ -74,11 +74,11 @@ Mods: {
 
 			Tools: {
 				// Name: Tools
-				// Head: Pickaxes
+				// Pickaxes: Pickaxes
 				// PickPower: Pick Power
-				// Body: Axes
+				// Axes: Axes
 				// AxePower: Axe Power
-				// Legs: Hammers
+				// Hammers: Hammers
 				// HammerPower: Hammer Power
 			}
 
