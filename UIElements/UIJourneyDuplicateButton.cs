@@ -2,10 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
-using Terraria.ModLoader;
+using Terraria.Localization;
 using Terraria.UI;
-using Terraria.UI.Chat;
 using Terraria.ID;
 using ReLogic.Content;
 using Terraria.DataStructures;
@@ -33,7 +31,7 @@ namespace RecipeBrowser.UIElements
 			if (IsMouseHovering) {
 				//Main.hoverItemName = ableToDuplicate ? "Duplicate" : "";
 				if (ableToDuplicate)
-					Terraria.ModLoader.UI.UICommon.TooltipMouseText("Duplicate");
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(Language.GetTextValue("Mods.RecipeBrowser.CraftUI.Duplicate"));
 			}
 		}
 

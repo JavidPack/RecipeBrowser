@@ -4,6 +4,7 @@ using ReLogic.Content;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
 
@@ -71,9 +72,10 @@ namespace RecipeBrowser.UIElements
 					Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverText);
 			}
 
+			string LoadText = Terraria.Localization.Language.GetTextValue("Mods.RecipeBrowser.UIArmorSetCatalogue.LoadText");
 			if (this == SharedUI.instance.ObtainableFilter.button && IsMouseHovering) {
 				if(RecipeBrowser.instance.concurrentTasks.Count > 0)
-					Terraria.ModLoader.UI.UICommon.TooltipMouseText($"{hoverText}\n{RecipeBrowser.instance.concurrentTasks.Count} recipes remain to be calculated");
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText($"{hoverText}\n{RecipeBrowser.instance.concurrentTasks.Count} {LoadText}");
 				//spriteBatch.DrawString(FontAssets.MouseText.Value, UISystem.Instance.concurrentTasks.Count + "", dimensions.Position(), Color.White);
 			}
 		}

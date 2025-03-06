@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.Localization;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -45,7 +46,7 @@ namespace RecipeBrowser.UIElements
 				if (IsMouseHovering) {
 					// Main.hoverItemName = ableToCraft ? "Craft" : ""; // "Craft ingredients first"?
 					if (ableToCraft)
-						Terraria.ModLoader.UI.UICommon.TooltipMouseText("Craft");
+						Terraria.ModLoader.UI.UICommon.TooltipMouseText(Language.GetTextValue("Mods.RecipeBrowser.CraftUI.Craft"));
 				}
 			}
 		}

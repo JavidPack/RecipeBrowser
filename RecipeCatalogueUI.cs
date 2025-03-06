@@ -552,7 +552,7 @@ namespace RecipeBrowser
 				}
 				else
 				{
-					Main.NewText("How is this happening??");
+					Main.NewText(Language.GetTextValue("Mods.RecipeBrowser.MainText"));
 				}
 			}
 

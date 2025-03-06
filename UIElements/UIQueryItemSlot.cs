@@ -10,6 +10,7 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace RecipeBrowser.UIElements
 {
@@ -83,7 +84,7 @@ namespace RecipeBrowser.UIElements
 					else
 					{
 						// TODO: Detect PreSaveAndQuit only.
-						RecipeBrowser.instance.Logger.Warn("You left an item in the recipe browser with a full inventory and have lost the item: " + item2.Name);
+						RecipeBrowser.instance.Logger.Warn(Language.GetTextValue("Mods.RecipeBrowser.Warning") + item2.Name);
 					}
 				}
 				item = new Item();

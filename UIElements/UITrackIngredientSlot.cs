@@ -98,7 +98,7 @@ namespace RecipeBrowser.UIElements
 						}
 					}
 					if (!found) {
-						Main.NewText("No recipe found for " + ItemTagHandler.GenerateTag(item));
+						Main.NewText(Terraria.Localization.Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueFilters.FavoritedUI.NotFoundRecipe") + ItemTagHandler.GenerateTag(item));
 					}
 				}
 			}

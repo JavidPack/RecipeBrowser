@@ -633,8 +633,10 @@ namespace RecipeBrowser
 							placed = true;
 						}
 					}
+					
+					string TextParent = $"Parent '{modCategory.parent}' for '{modCategory.name}' category not found. The category will not show up in-game";
 					if (!placed)
-						RecipeBrowser.instance.Logger.Warn($"Parent '{modCategory.parent}' for '{modCategory.name}' category not found. The category will not show up in-game");
+						RecipeBrowser.instance.Logger.Warn(TextParent);
 				}
 			}
 
@@ -828,11 +830,12 @@ namespace RecipeBrowser
 		bool right;
 		string other;
 		public DoubleFilter(string name, string other, Asset<Texture2D> texture, Predicate<Item> belongs) : base(name, belongs, texture) {
+			string RMB = Language.GetTextValue("Mods.RecipeBrowser.Key.RMB");
 			this.other = other;
 			this.belongs = (item) => {
 				return belongs(item) ^ right;
 			};
-			button = new UIBadgedSilentImageButton(texture, name + " (RMB)");
+			button = new UIBadgedSilentImageButton(texture, name + " "+RMB);
 			button.OnLeftClick += (a, b) => {
 				button.selected = !button.selected;
 				ItemCatalogueUI.instance.updateNeeded = true;
@@ -842,7 +845,7 @@ namespace RecipeBrowser
 			button.OnRightClick += (a, b) => {
 				right = !right;
 				(button as UIBadgedSilentImageButton).drawX = right;
-				button.hoverText = (right ? other : name) + " (RMB)";
+				button.hoverText = (right ? other : name) + " "+RMB;
 				ItemCatalogueUI.instance.updateNeeded = true;
 				RecipeCatalogueUI.instance.updateNeeded = true;
 			};
