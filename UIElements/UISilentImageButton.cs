@@ -4,7 +4,6 @@ using ReLogic.Content;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.GameContent;
-using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
 

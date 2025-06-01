@@ -41,7 +41,7 @@ Mods: {
 			EmptyQuerySlotHint: Place item here
 			ShowInheritedRecipes: Show inherited recipes
 			ShowUniqueRecipes: Show unique recipes
-			NoTileEntry: (err no entry)
+			NoTileEntry: " (err no entry)"
 		}
 
 		RecipeCatalogueFilters: {
@@ -222,8 +222,8 @@ Mods: {
 			NoPathsFound: No Paths Found for this Recipe/Item
 			Craft: Craft
 			Duplicate: Duplicate
-			Missing: Missing
-			Unseen: Unseen
+			Missing: "Missing "
+			Unseen: "Unseen "
 			Cost: "Cost: "
 			Have: Have
 			Buy: Buy

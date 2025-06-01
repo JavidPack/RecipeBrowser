@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.Localization;
 using Terraria.UI;
 using Terraria.ID;
 using ReLogic.Content;
