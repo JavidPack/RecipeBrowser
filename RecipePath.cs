@@ -927,7 +927,7 @@ namespace RecipeBrowser
 
 			public override string ToUITextString() {
 				// Pass in tile? make Tile chat tag? Probably not needed, tile and item sprites are similar enough.
-				return $"[image/s0.8,v2,tMine:RecipeBrowser/Images/sortPick] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} {CraftUI.RBText("Place")}";
+				return $"[image/s0.8,v2,tMine:RecipeBrowser/Images/sortPick] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} {CraftUI.RBText("FromTheWorld")}";
 			}
 		}
 
@@ -948,7 +948,7 @@ namespace RecipeBrowser
 			}
 
 			public override string ToUITextString() {
-				return $"[image/s0.8,v2,tBug Net:RecipeBrowser/Images/bugNet] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)}  {CraftUI.RBText("ByCapturing")}[npc:{npcid}]";
+				return $"[image/s0.8,v2,tBug Net:RecipeBrowser/Images/bugNet] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} {CraftUI.RBText("ByCapturing")} [npc:{npcid}]";
 			}
 		}
 

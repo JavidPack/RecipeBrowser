@@ -58,6 +58,7 @@ Mods: {
 			Unresearched: Unresearched
 			All: All
 			RMB: (RMB)
+			RecipesRemainToBeCalculated: recipes remain to be calculated
 
 			Weapons: {
 				Name: Weapons
@@ -189,6 +190,7 @@ Mods: {
 			ToggleUnboundHint: Set hotkey to toggle
 			AlwaysShow: Always show
 			ShowWhenInventory: Show when inventory
+			NoRecipeFoundFor: "No recipe found for "
 		}
 
 		CraftUI: {
@@ -222,13 +224,13 @@ Mods: {
 			Duplicate: Duplicate
 			Missing: Missing
 			Unseen: Unseen
-			Cost: Cost:
+			Cost: "Cost: "
 			Have: Have
 			Buy: Buy
 			From: from
 			For: for
 			Mine: Mine
-			Place: from the world
+			FromTheWorld: from the world
 			BugNet: Bug Net
 			ByCapturing: by capturing
 			Duplicate: Duplicate
@@ -261,7 +263,6 @@ Mods: {
 			AnimateTooltip: Mimic player animation
 			Accessories: Accessories
 			AccessoriesTooltip: Visualize with current accessories
-			LoadText: recipes remain to be calculated
 		}
 
 		BestiaryUI: {

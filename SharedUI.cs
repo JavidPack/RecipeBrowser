@@ -634,9 +634,8 @@ namespace RecipeBrowser
 						}
 					}
 					
-					string TextParent = $"Parent '{modCategory.parent}' for '{modCategory.name}' category not found. The category will not show up in-game";
 					if (!placed)
-						RecipeBrowser.instance.Logger.Warn(TextParent);
+						RecipeBrowser.instance.Logger.Warn($"Parent '{modCategory.parent}' for '{modCategory.name}' category not found. The category will not show up in-game");
 				}
 			}
 

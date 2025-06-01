@@ -31,7 +31,7 @@ namespace RecipeBrowser.UIElements
 			if (IsMouseHovering) {
 				//Main.hoverItemName = ableToDuplicate ? "Duplicate" : "";
 				if (ableToDuplicate)
-					Terraria.ModLoader.UI.UICommon.TooltipMouseText(Language.GetTextValue("Mods.RecipeBrowser.CraftUI.Duplicate"));
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(CraftUI.RBText("Duplicate"));
 			}
 		}
 

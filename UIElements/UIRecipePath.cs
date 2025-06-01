@@ -42,7 +42,7 @@ namespace RecipeBrowser.UIElements
 			var missingTiles = neededTiles.Where(x => !Main.LocalPlayer.adjTile[x]);
 
 			StringBuilder sb = new StringBuilder();
-			sb.Append(Language.GetTextValue("Mods.RecipeBrowser.CraftUI.Cost"));
+			sb.Append(CraftUI.RBText("Cost"));
 			foreach (var data in totalItemCost)
 			{
 				if (data.Key == ItemID.CopperCoin) // Assuming Coins not used as ingredients, fix if problem.
