@@ -192,7 +192,7 @@ namespace RecipeBrowser
 			if (a == null || b == null) {
 				return x.UniqueId.CompareTo(y.UniqueId);
 			}
-			if (SharedUI.instance.SelectedSort.button.hoverText == Terraria.Localization.Language.GetTextValue("Mods.RecipeBrowser.TotalDefense") && x is UIArmorSetCatalogueItemSlot armorA && y is UIArmorSetCatalogueItemSlot armorB)
+			if (SharedUI.instance.SelectedSort.button.hoverText == SharedUI.RBText("Armor.TotalDefense") && x is UIArmorSetCatalogueItemSlot armorA && y is UIArmorSetCatalogueItemSlot armorB)
 				return armorA.set.Item5.CompareTo(armorB.set.Item5); // Total Hack
 			if (SharedUI.instance.SelectedSort != null)
 				return SharedUI.instance.SelectedSort.sort(a.item, b.item);

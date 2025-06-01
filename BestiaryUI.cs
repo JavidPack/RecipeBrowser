@@ -282,7 +282,7 @@ namespace RecipeBrowser
 				}
 				else
 				{
-					Main.NewText(Terraria.Localization.Language.GetTextValue("Mods.RecipeBrowser.MainText"));
+					Main.NewText("How is this happening?");
 				}
 			}
 

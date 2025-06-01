@@ -84,7 +84,7 @@ namespace RecipeBrowser.UIElements
 					else
 					{
 						// TODO: Detect PreSaveAndQuit only.
-						RecipeBrowser.instance.Logger.Warn(Language.GetTextValue("Mods.RecipeBrowser.Warning") + item2.Name);
+						RecipeBrowser.instance.Logger.Warn(Language.GetTextValue("Mods.RecipeBrowser.ItemLostInQuerySlotWarning") + item2.Name);
 					}
 				}
 				item = new Item();
