@@ -226,7 +226,7 @@ Mods: {
 			// Unseen: "Unseen "
 			// Cost: "Cost: "
 			// Have: Have
-			// Buy: Buy
+			// Purchase: Purchase
 			// From: from
 			// For: for
 			// Mine: Mine
@@ -234,6 +234,7 @@ Mods: {
 			// BugNet: Bug Net
 			// ByCapturing: by capturing
 			// Need: Need
+			// Farm: Farm
 		}
 
 		ItemCatalogueUI: {

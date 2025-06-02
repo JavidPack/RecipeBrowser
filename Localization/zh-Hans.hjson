@@ -226,7 +226,7 @@ Mods: {
 			Unseen: 未找到
 			Cost: 统计:
 			Have: 拥有
-			Buy: 买
+			Purchase: 买
 			From: 从
 			For: 给
 			Mine: 挖掘
@@ -234,6 +234,7 @@ Mods: {
 			BugNet: 虫网
 			ByCapturing: 通过捕捉
 			Need: 需要
+			// Farm: Farm
 		}
 
 		ItemCatalogueUI: {
