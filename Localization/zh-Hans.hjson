@@ -41,6 +41,7 @@ Mods: {
 			EmptyQuerySlotHint: 在此放置物品
 			ShowInheritedRecipes: 显示继承配方
 			ShowUniqueRecipes: 显示独有配方
+			NoTileEntry: " (无条目)"
 		}
 
 		RecipeCatalogueFilters: {
@@ -56,6 +57,8 @@ Mods: {
 			DisabledRecipes: 显示被其他Mod禁用的配方
 			Unresearched: 未研究
 			All: 全部
+			RMB: (右键)
+			RecipesRemainToBeCalculated: 正在计算配方
 
 			Weapons: {
 				Name: 武器
@@ -156,16 +159,6 @@ Mods: {
 			Consumables: {
 				Name: 消耗品
 				CapturedNPC: 捕获的生物
-				Have: 拥有
-				Buy: 买
-				from: 从
-				for: 给
-				Mine: 挖掘
-				Place: 在世界中
-				BugNet: 虫网
-				ByCapturing: 通过捕捉
-				Duplicate: 复制
-				Need: 需要
 			}
 
 			GrabBags: {
@@ -197,6 +190,7 @@ Mods: {
 			ToggleUnboundHint: 设置快捷键以开关
 			AlwaysShow: 永远显示
 			ShowWhenInventory: 仅在打开物品栏时显示
+			// NoRecipeFoundFor: "No recipe found for "
 		}
 
 		CraftUI: {
@@ -231,6 +225,15 @@ Mods: {
 			Missing: 缺少
 			Unseen: 未找到
 			Cost: 统计:
+			Have: 拥有
+			Buy: 买
+			From: 从
+			For: 给
+			Mine: 挖掘
+			FromTheWorld: 在世界中
+			BugNet: 虫网
+			ByCapturing: 通过捕捉
+			Need: 需要
 		}
 
 		ItemCatalogueUI: {
@@ -259,7 +262,6 @@ Mods: {
 			AnimateTooltip: 根据玩家当前的动作显示盔甲
 			Accessories: 混搭饰品
 			AccessoriesTooltip: 根据当前装备的饰品显示盔甲
-			LoadText: 正在计算配方
 		}
 
 		BestiaryUI: {
@@ -348,7 +350,6 @@ Mods: {
 			ToggleRecipeBrowser.DisplayName: 开关合成表
 			QueryHoveredItem.DisplayName: 查询当前光标悬浮的物品
 			ToggleFavoritedRecipesWindow.DisplayName: 开关收藏的配方窗口
-			RMB: 右键
 		}
 
 		Configs: {
@@ -394,10 +395,6 @@ Mods: {
 			}
 		}
 
-		Warning: 因为背包中物品已经满了，所以您留在合成表中的该物品已经丢失:
-		MainText: 这是怎么发生的？
-		TotalDefense: 总防御
-		PrintingCraftPath: 输出合成树
-		Error: (无条目)
+		ItemLostInQuerySlotWarning: "因为背包中物品已经满了，所以您留在合成表中的该物品已经丢失: "
 	}
 }

@@ -41,6 +41,7 @@ Mods: {
 			EmptyQuerySlotHint: Поместите предмет сюда
 			ShowInheritedRecipes: Показывать унаследованные рецепты станции
 			ShowUniqueRecipes: Показывать уникальные рецепты станции
+			// NoTileEntry: " (err no entry)"
 		}
 
 		RecipeCatalogueFilters: {
@@ -60,6 +61,8 @@ Mods: {
 			DisabledRecipes: Показывать рецепты, удалённые модами
 			Unresearched: Показать только неиследованные предметы
 			All: Все предметы
+			// RMB: (RMB)
+			// RecipesRemainToBeCalculated: recipes remain to be calculated
 
 			Weapons: {
 				Name: Оружие
@@ -160,16 +163,6 @@ Mods: {
 			Consumables: {
 				Name: Расходуемое
 				CapturedNPC: Предметы, призывающие существ
-				// Have: Have
-				// Buy: Buy
-				// from: from
-				// for: for
-				// Mine: Mine
-				// Place: from the world
-				// BugNet: Bug Net
-				// ByCapturing: by capturing
-				// Duplicate: Duplicate
-				// Need: Need
 			}
 
 			GrabBags: {
@@ -201,6 +194,7 @@ Mods: {
 			ToggleUnboundHint: установите горячую клавишу
 			AlwaysShow: Показывать всегда
 			ShowWhenInventory: Показывать при открытом инвентаре
+			// NoRecipeFoundFor: "No recipe found for "
 		}
 
 		CraftUI: {
@@ -236,9 +230,18 @@ Mods: {
 			NoPathsFound: Ветка создания для этого предмета отсутствует или недоступна
 			// Craft: Craft
 			// Duplicate: Duplicate
-			// Missing: Missing
-			// Unseen: Unseen
-			// Cost: Cost:
+			// Missing: "Missing "
+			// Unseen: "Unseen "
+			// Cost: "Cost: "
+			// Have: Have
+			// Buy: Buy
+			// From: from
+			// For: for
+			// Mine: Mine
+			// FromTheWorld: from the world
+			// BugNet: Bug Net
+			// ByCapturing: by capturing
+			// Need: Need
 		}
 
 		ItemCatalogueUI: {
@@ -267,7 +270,6 @@ Mods: {
 			AnimateTooltip: Имитация анимации движений игрока
 			Accessories: Аксессуары
 			AccessoriesTooltip: Показывает комплекты брони с видимыми на вас сейчас аксессуарами
-			// LoadText: recipes remain to be calculated
 		}
 
 		BestiaryUI: {
@@ -365,7 +367,6 @@ Mods: {
 			ToggleRecipeBrowser.DisplayName: Открыть браузер рецептов
 			QueryHoveredItem.DisplayName: Посмотреть информацию о предмете
 			ToggleFavoritedRecipesWindow.DisplayName: Вкл./Выкл. окно с избранными рецептами
-			// RMB: (RMB)
 		}
 
 		Configs: {
@@ -411,10 +412,6 @@ Mods: {
 			}
 		}
 
-		// Warning: You left an item in the recipe browser with a full inventory and have lost the item:
-		// MainText: How is this happening?
-		// TotalDefense: Total Defense
-		// PrintingCraftPath: Printing CraftPath
-		// Error: (err no entry)
+		// ItemLostInQuerySlotWarning: "You left an item in the recipe browser with a full inventory and have lost the item: "
 	}
 }

@@ -41,6 +41,7 @@ Mods: {
 			EmptyQuerySlotHint: Coloca aquí un objeto
 			// ShowInheritedRecipes: Show inherited recipes
 			// ShowUniqueRecipes: Show unique recipes
+			// NoTileEntry: " (err no entry)"
 		}
 
 		RecipeCatalogueFilters: {
@@ -56,6 +57,8 @@ Mods: {
 			// DisabledRecipes: Show recipes disabled by Mods
 			// Unresearched: Unresearched
 			// All: All
+			// RMB: (RMB)
+			// RecipesRemainToBeCalculated: recipes remain to be calculated
 
 			Weapons: {
 				// Name: Weapons
@@ -156,16 +159,6 @@ Mods: {
 			Consumables: {
 				// Name: Consumables
 				// CapturedNPC: Captured NPC
-				// Have: Have
-				// Buy: Buy
-				// from: from
-				// for: for
-				// Mine: Mine
-				// Place: from the world
-				// BugNet: Bug Net
-				// ByCapturing: by capturing
-				// Duplicate: Duplicate
-				// Need: Need
 			}
 
 			GrabBags: {
@@ -197,6 +190,7 @@ Mods: {
 			// ToggleUnboundHint: Set hotkey to toggle
 			// AlwaysShow: Always show
 			// ShowWhenInventory: Show when inventory
+			// NoRecipeFoundFor: "No recipe found for "
 		}
 
 		CraftUI: {
@@ -228,9 +222,18 @@ Mods: {
 			NoPathsFound: No se han encontrado rutas para esta Receta/Objeto
 			// Craft: Craft
 			// Duplicate: Duplicate
-			// Missing: Missing
-			// Unseen: Unseen
-			// Cost: Cost:
+			// Missing: "Missing "
+			// Unseen: "Unseen "
+			// Cost: "Cost: "
+			// Have: Have
+			// Buy: Buy
+			// From: from
+			// For: for
+			// Mine: Mine
+			// FromTheWorld: from the world
+			// BugNet: Bug Net
+			// ByCapturing: by capturing
+			// Need: Need
 		}
 
 		ItemCatalogueUI: {
@@ -259,7 +262,6 @@ Mods: {
 			// AnimateTooltip: Mimic player animation
 			// Accessories: Accessories
 			// AccessoriesTooltip: Visualize with current accessories
-			// LoadText: recipes remain to be calculated
 		}
 
 		BestiaryUI: {
@@ -344,7 +346,6 @@ Mods: {
 			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
 			// QueryHoveredItem.DisplayName: Query Hovered Item
 			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
-			// RMB: (RMB)
 		}
 
 		Configs: {
@@ -390,10 +391,6 @@ Mods: {
 			}
 		}
 
-		// Warning: You left an item in the recipe browser with a full inventory and have lost the item:
-		// MainText: How is this happening?
-		// TotalDefense: Total Defense
-		// PrintingCraftPath: Printing CraftPath
-		// Error: (err no entry)
+		// ItemLostInQuerySlotWarning: "You left an item in the recipe browser with a full inventory and have lost the item: "
 	}
 }

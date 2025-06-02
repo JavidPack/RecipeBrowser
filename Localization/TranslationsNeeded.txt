@@ -1,4 +1,4 @@
-en-US, 227/227, 100%, missing 0
+en-US, 224/227, 99%, missing 3
 de-DE, 28/227, 12%, missing 199
 it-IT, 28/227, 12%, missing 199
 fr-FR, 95/227, 42%, missing 132
