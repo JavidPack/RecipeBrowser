@@ -190,7 +190,7 @@ Mods: {
 			ToggleUnboundHint: 设置快捷键以开关
 			AlwaysShow: 永远显示
 			ShowWhenInventory: 仅在打开物品栏时显示
-			// NoRecipeFoundFor: "No recipe found for "
+			NoRecipeFoundFor: "未找到配方"
 		}
 
 		CraftUI: {
@@ -227,14 +227,14 @@ Mods: {
 			Cost: 统计:
 			Have: 拥有
 			Purchase: 买
-			From: 从
+			From: 来自
 			For: 给
 			Mine: 挖掘
 			FromTheWorld: 在世界中
 			BugNet: 虫网
 			ByCapturing: 通过捕捉
 			Need: 需要
-			// Farm: Farm
+			Farm: 种植
 		}
 
 		ItemCatalogueUI: {
