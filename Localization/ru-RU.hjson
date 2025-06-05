@@ -10,7 +10,7 @@ Mods: {
 			All: все
 			ModFilter: Фильтр модов
 			NoFavoritedRecipes: Нет избранных рецептов
-			RecipeAddedBy: Рецепт из: {0}
+			RecipeAddedBy: Рецепт из {0}
 		}
 
 		# These are image paths, do not localize unless you make your own version of these png files in your language.
@@ -41,7 +41,7 @@ Mods: {
 			EmptyQuerySlotHint: Поместите предмет сюда
 			ShowInheritedRecipes: Показывать унаследованные рецепты станции
 			ShowUniqueRecipes: Показывать уникальные рецепты станции
-			// NoTileEntry: " (err no entry)"
+			NoTileEntry: " (ошибка, запись не найдена)"
 		}
 
 		RecipeCatalogueFilters: {
@@ -61,8 +61,8 @@ Mods: {
 			DisabledRecipes: Показывать рецепты, удалённые модами
 			Unresearched: Показать только неиследованные предметы
 			All: Все предметы
-			// RMB: (RMB)
-			// RecipesRemainToBeCalculated: recipes remain to be calculated
+			RMB: (ПКМ)
+			RecipesRemainToBeCalculated: рецепты ещё требуется расчитать
 
 			Weapons: {
 				Name: Оружие
@@ -135,8 +135,8 @@ Mods: {
 				Food: Еда и напитки
 			}
 
-			Expert: Предметы режима Эксперта
-			Master: Предметы режима Мастера
+			Expert: Предметы режима эксперта
+			Master: Предметы режима мастера
 
 			Pets: {
 				Name: Питомцы
@@ -194,7 +194,7 @@ Mods: {
 			ToggleUnboundHint: установите горячую клавишу
 			AlwaysShow: Показывать всегда
 			ShowWhenInventory: Показывать при открытом инвентаре
-			// NoRecipeFoundFor: "No recipe found for "
+			NoRecipeFoundFor: "Не найден рецепт для: "
 		}
 
 		CraftUI: {
@@ -228,21 +228,21 @@ Mods: {
 			MagicStorageTooltip: Учитывать предметы и станции из ближайшего магического хранилища (в разработке)
 			BottomInstructions: Нажмите ПКМ по рецепту, чтобы перейти в это меню
 			NoPathsFound: Ветка создания для этого предмета отсутствует или недоступна
-			// Craft: Craft
-			// Duplicate: Duplicate
-			// Missing: "Missing "
-			// Unseen: "Unseen "
-			// Cost: "Cost: "
-			// Have: Have
-			// Purchase: Purchase
-			// From: from
-			// For: for
-			// Mine: Mine
-			// FromTheWorld: from the world
-			// BugNet: Bug Net
-			// ByCapturing: by capturing
-			// Need: Need
-			// Farm: Farm
+			Craft: Создать
+			Duplicate: Дубликат
+			Missing: "Отсутствует поблизости: "
+			Unseen: "Не встречалась ранее: "
+			Cost: "Стоимость: "
+			Have: Имеется
+			Purchase: Покупка
+			From: от
+			For: за
+			Mine: Добыча
+			FromTheWorld: , добыв в мире
+			BugNet: Сачок
+			ByCapturing: , поймав сачком
+			Need: Требуется
+			Farm: Добыча
 		}
 
 		ItemCatalogueUI: {
@@ -252,7 +252,7 @@ Mods: {
 			ShowOnlyLootItems: Показывать только предметы, выпадающие с существ
 			Unobtained: Неполуч.
 			OnlyUnobtainedItems: Показывать только ранее не полученные предметы
-			BottomInstructions: Двойное ЛКМ: показать рецепты  --  Двойное ПКМ: показать, с кого выпадает
+			BottomInstructions: Двойное ЛКМ: показать рецепты / Двойное ПКМ: показать, с кого выпадает
 			ExpectedValue: Стоимость ≈ {0}
 		}
 
@@ -413,6 +413,6 @@ Mods: {
 			}
 		}
 
-		// ItemLostInQuerySlotWarning: "You left an item in the recipe browser with a full inventory and have lost the item: "
+		ItemLostInQuerySlotWarning: "Вы оставили предмет в браузере рецептов, имея заполненный инвентарь, и потеряли его: "
 	}
 }
