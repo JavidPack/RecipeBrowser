@@ -104,8 +104,8 @@ Mods: {
 			Tiles: {
 				Name: Размещаемое
 				CraftingStations: Странции для создания
-				// Furniture: "{$CreativePowers.TabFurniture}"
-				// Blocks: "{$CreativePowers.TabBlocks}"
+				Furniture: "{$CreativePowers.TabFurniture}"
+				Blocks: "{$CreativePowers.TabBlocks}"
 				Containers: Хранилища
 				Wiring: Проводка
 				Statues: Статуи
@@ -115,8 +115,8 @@ Mods: {
 				LightSources: Источники света
 				Torches: Факелы
 				PlaceTile: Сортировать по способу размещения
-				// Solid: Solid
-				// NonSolid: Background
+				Solid: Полноценные
+				NonSolid: Фоновые
 			}
 
 			Walls: Стены
@@ -194,13 +194,13 @@ Mods: {
 
 		FavoritedUI: {
 			Close: Скрыть ({0})
-			ToggleHint: нажмите {0} для быстрого вкл./выкл.
+			ToggleHint: нажмите {0} для быстрого переключения
 			ToggleUnboundHint: установите горячую клавишу
 			AlwaysShow: Показывать всегда
 			ShowWhenInventory: Показывать при открытом инвентаре
-			// ShowOtherPlayersFavorited: Show all other players' favorited recipes
-			// ShowTeammatesFavorited: Show teammates' favorited recipes only (if on team)
-			// HideOtherPlayersFavorited: Hide other players' favorited recipes
+			ShowOtherPlayersFavorited: Показывать избранные рецепты всех игроков
+			ShowTeammatesFavorited: Показывать избранные рецепты союзников по команде
+			HideOtherPlayersFavorited: Скрыть избранные рецепты других игроков
 			NoRecipeFoundFor: "Не найден рецепт для: "
 		}
 
@@ -419,20 +419,16 @@ Mods: {
 				}
 
 				ShowOtherPlayersFavoritedRecipes: {
-					// Label: Show Other Players' Favorited Recipes
-					/* Tooltip:
-						'''
-						Whether or not to show the favorited recipes of other players for collaboration.
-						This will automatically save, no need to adjust
-						''' */
+					Label: Избранные рецепты др. игроков
+					Tooltip: Это значение сохранится автоматически, чтобы вам не пришлось настраивать видимость каждый раз
 				}
 			}
 
 			ShowOtherPlayersFavoritedRecipesOption: {
-				// Tooltip: ""
-				// ShowAll.Label: Show All
-				// ShowTeamOnly.Label: Show Team Only
-				// Hide.Label: Hide
+				Tooltip: ""
+				ShowAll.Label: показывать
+				ShowTeamOnly.Label: только союзников
+				Hide.Label: не показывать
 			}
 		}
 
