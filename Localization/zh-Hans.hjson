@@ -100,8 +100,8 @@ Mods: {
 			Tiles: {
 				Name: 物块
 				CraftingStations: 合成站
-				// Furniture: "{$CreativePowers.TabFurniture}"
-				// Blocks: "{$CreativePowers.TabBlocks}"
+				Furniture: "{$CreativePowers.TabFurniture}"
+				Blocks: "{$CreativePowers.TabBlocks}"
 				Containers: 箱子
 				Wiring: 电路
 				Statues: 雕像
@@ -111,8 +111,8 @@ Mods: {
 				LightSources: 照明
 				Torches: 火把
 				PlaceTile: 对应放置的物块ID
-				// Solid: Solid
-				// NonSolid: Background
+				Solid: 实心物块
+				NonSolid: 背景墙
 			}
 
 			Walls: 背景墙
@@ -194,9 +194,9 @@ Mods: {
 			ToggleUnboundHint: 设置快捷键以开关
 			AlwaysShow: 永远显示
 			ShowWhenInventory: 仅在打开物品栏时显示
-			// ShowOtherPlayersFavorited: Show all other players' favorited recipes
-			// ShowTeammatesFavorited: Show teammates' favorited recipes only (if on team)
-			// HideOtherPlayersFavorited: Hide other players' favorited recipes
+			ShowOtherPlayersFavorited: 显示所有其他玩家收藏的配方
+			ShowTeammatesFavorited: 仅显示队友收藏的配方(如果在队伍中)
+			HideOtherPlayersFavorited: 隐藏其他玩家收藏的配方
 			NoRecipeFoundFor: 未找到配方
 		}
 
@@ -402,20 +402,20 @@ Mods: {
 				}
 
 				ShowOtherPlayersFavoritedRecipes: {
-					// Label: Show Other Players' Favorited Recipes
-					/* Tooltip:
+					Label: 显示其他玩家收藏的配方
+					Tooltip:
 						'''
-						Whether or not to show the favorited recipes of other players for collaboration.
-						This will automatically save, no need to adjust
-						''' */
+						是否显示其他玩家收藏的配方来便于合作
+						会自动保存更改，无需调整
+						'''
 				}
 			}
 
 			ShowOtherPlayersFavoritedRecipesOption: {
-				// Tooltip: ""
-				// ShowAll.Label: Show All
-				// ShowTeamOnly.Label: Show Team Only
-				// Hide.Label: Hide
+				Tooltip: ""
+				ShowAll.Label: 显示全部
+				ShowTeamOnly.Label: 仅显示同一队伍
+				Hide.Label: 隐藏
 			}
 		}
 
