@@ -213,6 +213,10 @@ namespace RecipeBrowser
 			return x.CompareTo(y);
 		}
 
+		/// <summary>
+		/// Validates the NPC-name filter against all loaded NPC names.
+		/// If no match is found, removes the last character and triggers a blink to indicate invalid input.
+		/// </summary>
 		private void ValidateNPCFilter()
 		{
 			if (npcNameFilter.currentString.Length > 0)
@@ -231,6 +235,7 @@ namespace RecipeBrowser
 				if (!found)
 				{
 					npcNameFilter.SetText(npcNameFilter.currentString.Substring(0, npcNameFilter.currentString.Length - 1));
+					npcNameFilter.TriggerInvalidBlink();
 				}
 			}
 			updateNeeded = true;

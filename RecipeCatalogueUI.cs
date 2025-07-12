@@ -878,7 +878,8 @@ namespace RecipeBrowser
 		}
 
 		/// <summary>
-		/// Checks text to verify input is in
+		/// Validates the item-name filter against recipe outputs.
+		/// If no match is found, removes the last character and triggers a blink to indicate invalid input.
 		/// </summary>
 		private void ValidateItemFilter()
 		{
@@ -897,30 +898,39 @@ namespace RecipeBrowser
 				if (!found)
 				{
 					itemNameFilter.SetText(itemNameFilter.currentString.Substring(0, itemNameFilter.currentString.Length - 1));
+					itemNameFilter.TriggerInvalidBlink();
 				}
 			}
 			updateNeeded = true;
 		}
 
+		/// <summary>
+		/// Validates the item-description filter against recipe tooltips.
+		/// If no match is found, removes the last character and triggers a blink to indicate invalid input.
+		/// </summary>
 		private void ValidateItemDescription()
 		{
-			//if (itemNameFilter.Text.Length > 0)
-			//{
-			//	bool found = false;
-			//	for (int i = 0; i < Recipe.numRecipes; i++)
-			//	{
-			//		Recipe recipe = Main.recipe[i];
-			//		if (recipe.createItem.name.ToLower().IndexOf(itemNameFilter.Text, StringComparison.OrdinalIgnoreCase) == -1)
-			//		{
-			//			found = true;
-			//			break;
-			//		}
-			//	}
-			//	if (!found)
-			//	{
-			//		itemNameFilter.SetText(itemNameFilter.Text.Substring(0, itemNameFilter.Text.Length - 1));
-			//	}
-			//}
+			if (itemDescriptionFilter.currentString.Length > 0)
+			{
+				bool found = false;
+				
+				for (int i = 0; i < Recipe.numRecipes; i++)
+				{
+					Recipe recipe = Main.recipe[i];
+					if (recipe.createItem.ToolTip != null && GetTooltipsAsString(recipe.createItem.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1)
+					{
+						found = true;
+						break;
+					}
+				}
+				
+				if (!found)
+				{
+					itemDescriptionFilter.SetText(itemDescriptionFilter.currentString.Substring(0, itemDescriptionFilter.currentString.Length - 1));
+					itemDescriptionFilter.TriggerInvalidBlink();
+				}
+			}
+			
 			updateNeeded = true;
 		}
 

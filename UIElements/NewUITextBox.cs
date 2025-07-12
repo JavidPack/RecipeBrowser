@@ -25,6 +25,15 @@ namespace RecipeBrowser
 		private int textBlinkerCount;
 		private int textBlinkerState;
 
+		private const int BlinkIntervalFrames = 20; // frames between blink state changes
+		private const int TotalBlinks = 4; // 4 state changes = 2 full blinks
+		private int _remainingBlinkSteps; // remaining blink state changes
+		private int _blinkTimer; // frame countdown until next state change
+		private bool _blinkState; // true when currently in blink state
+
+		private readonly Color _defaultBorderColor;
+		private readonly Color _defaultBackgroundColor;
+
 		public event Action OnFocus;
 
 		public event Action OnUnfocus;
@@ -48,6 +57,8 @@ namespace RecipeBrowser
 			SetPadding(0);
 			BackgroundColor = Color.White;
 			BorderColor = Color.White;
+			_defaultBackgroundColor = BackgroundColor;
+			_defaultBorderColor = BorderColor;
 			//			keyBoardInput.newKeyEvent += KeyboardInput_newKeyEvent;
 
 			var closeButton = new UIHoverImageButton(CloseButtonTexture, "");
@@ -206,9 +217,39 @@ namespace RecipeBrowser
 			return Main.inputText.IsKeyDown(key) && !Main.oldInputText.IsKeyDown(key);
 		}
 
+		/// <summary>
+		/// Triggers the blink animation when the filter yields no matches.
+		/// </summary>
+		public void TriggerInvalidBlink()
+		{
+			_remainingBlinkSteps = TotalBlinks;
+			_blinkTimer = BlinkIntervalFrames;
+			_blinkState = true;
+		}
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
+
+			// handle blink timing and state
+			if (_remainingBlinkSteps > 0)
+			{
+				_blinkTimer--;
+				if (_blinkTimer <= 0)
+				{
+					_blinkTimer = BlinkIntervalFrames;
+					_blinkState = !_blinkState;
+					_remainingBlinkSteps--;
+				}
+			}
+
+			// apply blink colors if active, otherwise use defaults
+			BorderColor = (_remainingBlinkSteps > 0 && _blinkState)
+				? new Color(255, 0, 0)
+				: _defaultBorderColor;
+			BackgroundColor = (_remainingBlinkSteps > 0 && _blinkState)
+				? new Color(255, 107, 107)
+				: _defaultBackgroundColor;
 
 			// Draw panel
 			base.DrawSelf(spriteBatch);
