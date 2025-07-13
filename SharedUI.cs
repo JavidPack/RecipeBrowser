@@ -543,12 +543,47 @@ namespace RecipeBrowser
 					}
 				},
 				new Category("Walls", RBText("Walls"), x=>x.createWall!=-1, smallWalls),
-				new Category("Accessories", RBText("Accessories"), x=>x.accessory, smallAccessories)
+				new("Accessories", RBText("Accessories.Name"), x=>x.accessory, smallAccessories)
 				{
-					subCategories = new List<Category>()
-					{
-						new Category("Wings", RBText("Wings"), x=>x.wingSlot > 0, smallWings)
-					}
+					subCategories =
+					[
+						new Category("Wings", RBText("Accessories.Wings.Name"), x => x.wingSlot > 0, smallWings)
+						{
+							sorts =
+							[
+								new Sort(
+									RBText("Accessories.Wings.FlightTime"),
+									"Images/sortWingsFlightTime",
+									(a, b) =>
+									{
+										int aFlightTime = ArmorIDs.Wing.Sets.Stats[a.wingSlot].FlyTime;
+										int bFlightTime = ArmorIDs.Wing.Sets.Stats[b.wingSlot].FlyTime;
+										return aFlightTime.CompareTo(bFlightTime);
+									}
+								),
+								new Sort(
+									RBText("Accessories.Wings.HorizontalSpeed"),
+									"Images/sortWingsHorizontalSpeed",
+									(a, b) =>
+									{
+										float aHorizontalSpeed = ArmorIDs.Wing.Sets.Stats[a.wingSlot].AccRunSpeedOverride;
+										float bHorizontalSpeed = ArmorIDs.Wing.Sets.Stats[b.wingSlot].AccRunSpeedOverride;
+										return aHorizontalSpeed.CompareTo(bHorizontalSpeed);
+									}
+								),
+								new Sort(
+									RBText("Accessories.Wings.AccelerationMultiplier"),
+									"Images/sortWingsAccelerationMultiplier",
+									(a, b) =>
+									{
+										float aAccelerationMultiplier = ArmorIDs.Wing.Sets.Stats[a.wingSlot].AccRunAccelerationMult;
+										float bAccelerationMultiplier = ArmorIDs.Wing.Sets.Stats[b.wingSlot].AccRunAccelerationMult;
+										return aAccelerationMultiplier.CompareTo(bAccelerationMultiplier);
+									}
+								),
+							],
+						},
+					],
 				},
 				new Category("Ammo", RBText("Ammo.Name"), x=>x.ammo!=0, "Images/sortAmmo")
 				{

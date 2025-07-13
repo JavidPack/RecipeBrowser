@@ -116,8 +116,17 @@ Mods: {
 			}
 
 			Walls: 背景墙
-			Accessories: 饰品
-			Wings: 翅膀
+
+			Accessories: {
+				// Name: Accessories
+
+				Wings: {
+					// Name: Wings
+					// FlightTime: Flight Time (Ascending)
+					// HorizontalSpeed: Horizontal Speed (Ascending)
+					// AccelerationMultiplier: Acceleration Multiplier (Ascending)
+				}
+			}
 
 			Ammo: {
 				Name: 弹药
