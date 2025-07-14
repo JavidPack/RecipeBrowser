@@ -405,6 +405,11 @@ Mods: {
 					Tooltip: Montrer quel mod ajoute quel PNJ dans le bestiaire. Désactiver pour l'immersion.
 				}
 
+				OpenKeybindingsMenuButton: {
+					// Label: Open Keybindings Menu
+					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+				}
+
 				Headers.AutomaticSettings: Paramètres automatiques
 
 				RecipeBrowserSize: {

@@ -388,6 +388,11 @@ Mods: {
 					Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
 				}
 
+				OpenKeybindingsMenuButton: {
+					Label: Open Keybindings Menu
+					Tooltip: Open the keybindings menu to change the hotkeys for this mod
+				}
+
 				Headers.AutomaticSettings: Automatic Settings
 
 				RecipeBrowserSize: {

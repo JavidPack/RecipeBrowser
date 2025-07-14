@@ -1,4 +1,4 @@
-en-US, 238/240, 99%, missing 2
+en-US, 240/240, 100%, missing 0
 de-DE, 28/240, 12%, missing 212
 it-IT, 28/240, 12%, missing 212
 fr-FR, 95/240, 40%, missing 145
@@ -6,4 +6,4 @@ es-ES, 49/240, 20%, missing 191
 ru-RU, 238/240, 99%, missing 2
 zh-Hans, 240/240, 100%, missing 0
 pt-BR, 95/240, 40%, missing 145
-pl-PL, 85/240, 35%, missing 155
+pl-PL, 87/240, 36%, missing 153

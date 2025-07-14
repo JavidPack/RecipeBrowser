@@ -384,6 +384,11 @@ Mods: {
 					Tooltip: Mostrar qual mod adiciona qual NPC no bestiário. Desativar para imersão.
 				}
 
+				OpenKeybindingsMenuButton: {
+					// Label: Open Keybindings Menu
+					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+				}
+
 				Headers.AutomaticSettings: Configurações Automáticas
 
 				RecipeBrowserSize: {

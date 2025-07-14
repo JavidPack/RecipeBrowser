@@ -388,6 +388,11 @@ Mods: {
 					Tooltip: 显示图鉴中的NPC由哪个模组添加. 沉浸式体验请禁用.
 				}
 
+				OpenKeybindingsMenuButton: {
+					// Label: Open Keybindings Menu
+					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+				}
+
 				Headers.AutomaticSettings: 自动设置
 
 				RecipeBrowserSize: {

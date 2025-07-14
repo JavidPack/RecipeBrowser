@@ -384,6 +384,11 @@ Mods: {
 					Tooltip: Pokaż, który mod dodaje jakiego NPC w bestiariuszu. Wyłącz, aby pochłonąć się w grze.
 				}
 
+				OpenKeybindingsMenuButton: {
+					Label: Otwórz menu przypisań klawiszy
+					Tooltip: Otwórz menu przypisań klawiszy, aby zmienić skróty klawiszowe dla tego moda
+				}
+
 				Headers.AutomaticSettings: Automatyczne Ustawienia
 
 				RecipeBrowserSize: {

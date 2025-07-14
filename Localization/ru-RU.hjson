@@ -405,6 +405,11 @@ Mods: {
 					Tooltip: Рядом с названием существа в меню существ будет написано, какой именно мод добавляет его
 				}
 
+				OpenKeybindingsMenuButton: {
+					// Label: Open Keybindings Menu
+					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+				}
+
 				Headers.AutomaticSettings: Автоматические настройки
 
 				RecipeBrowserSize: {
