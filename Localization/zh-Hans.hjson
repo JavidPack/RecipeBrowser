@@ -100,8 +100,8 @@ Mods: {
 			Tiles: {
 				Name: 物块
 				CraftingStations: 合成站
-				Furniture: "{$CreativePowers.TabFurniture}"
-				Blocks: "{$CreativePowers.TabBlocks}"
+				Furniture: 家具
+				Blocks: 工具
 				Containers: 箱子
 				Wiring: 电路
 				Statues: 雕像
@@ -122,9 +122,9 @@ Mods: {
 
 				Wings: {
 					Name: 翅膀
-					// FlightTime: Flight Time (Ascending)
-					// HorizontalSpeed: Horizontal Speed (Ascending)
-					// AccelerationMultiplier: Acceleration Multiplier (Ascending)
+					FlightTime: 飞行时间(飞行时)
+					HorizontalSpeed: 水平速度(飞行时)
+					AccelerationMultiplier: 加速倍率(飞行时)
 				}
 			}
 
