@@ -116,8 +116,17 @@ Mods: {
 			}
 
 			// Walls: Walls
-			// Accessories: Accessories
-			// Wings: Wings
+
+			Accessories: {
+				Name: Akcesoria
+
+				Wings: {
+					Name: Skrzydła
+					FlightTime: Czas lotu (rosnąco)
+					HorizontalSpeed: Prędkość pozioma (rosnąco)
+					AccelerationMultiplier: Mnożnik przyspieszenia (rosnąco)
+				}
+			}
 
 			Ammo: {
 				// Name: Ammo
