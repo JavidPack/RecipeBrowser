@@ -122,9 +122,9 @@ Mods: {
 
 				Wings: {
 					Name: 翅膀
-					FlightTime: 飞行时间(升序)
-					HorizontalSpeed: 水平速度(升序)
-					AccelerationMultiplier: 水平加速倍率(升序)
+					FlightTime: 飞行时间(飞行时)
+					HorizontalSpeed: 水平速度(飞行时)
+					AccelerationMultiplier: 水平加速倍率(飞行时)
 				}
 			}
 
