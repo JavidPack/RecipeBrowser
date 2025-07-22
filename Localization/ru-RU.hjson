@@ -126,9 +126,9 @@ Mods: {
 
 				Wings: {
 					Name: Крылья
-					FlightTime: Время полёта (по возрастанию)
-					HorizontalSpeed: Горизонтальная скорость (по возрастанию)
-					AccelerationMultiplier: Множитель ускорения (по возрастанию)
+					FlightTime: Сортировать по времени полёта
+					HorizontalSpeed: Сортировать по горизонтальной скорости
+					AccelerationMultiplier: Сортировать по множителю ускорения
 				}
 			}
 
