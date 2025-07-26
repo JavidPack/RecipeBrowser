@@ -101,7 +101,7 @@ Mods: {
 				Name: 物块
 				CraftingStations: 合成站
 				Furniture: 家具
-				Blocks: 工具
+				Blocks: 实心块
 				Containers: 箱子
 				Wiring: 电路
 				Statues: 雕像
