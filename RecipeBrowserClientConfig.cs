@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using System.ComponentModel;
 using System.Reflection;
-using System.Text.Json.Serialization;
 using RecipeBrowser.UIElements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using Newtonsoft.Json;
 
 namespace RecipeBrowser
 {
@@ -24,7 +24,7 @@ namespace RecipeBrowser
 		public bool ShowNPCModSource { get; set; }
 
 		[CustomModConfigItem(typeof(OpenKeybindingsMenuButton))]
-		[JsonIgnore]
+		[JsonIgnore, ShowDespiteJsonIgnore]
 		public bool OpenKeybindingsMenuButton { get; set; }
 
 		[Header("AutomaticSettings")]
