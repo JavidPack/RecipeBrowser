@@ -65,6 +65,8 @@ namespace RecipeBrowser
 			ChatManager.Register<TagHandlers.ItemHoverFixTagHandler>("itemhover");
 			//ChatManager.Register<TagHandlers.URLTagHandler>("u", "url");
 
+			Main.Assets.Request<Texture2D>("Images/UI/Settings_Inputs"); // Preload texture for OpenKeybindingsMenuButton
+
 			//FieldInfo translationsField = typeof(LocalizationLoader).GetField("translations", BindingFlags.Static | BindingFlags.NonPublic);
 			//translations = (Dictionary<string, LocalizedText>)translationsField.GetValue(this);
 			

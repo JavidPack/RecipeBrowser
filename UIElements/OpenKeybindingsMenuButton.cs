@@ -1,10 +1,13 @@
 #nullable enable
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.GameContent.UI.States;
+using Terraria.ID;
 using Terraria.ModLoader.Config.UI;
 using Terraria.UI;
 
@@ -17,14 +20,34 @@ namespace RecipeBrowser.UIElements;
 /// </summary>
 public class OpenKeybindingsMenuButton : ConfigElement<bool>
 {
-	private readonly UIElement _buttonElement = new() { Width = { Percent = 1f }, Height = { Percent = 1f } };
-
 	public override void OnBind()
 	{
 		base.OnBind();
 
-		_buttonElement.OnLeftClick += (_, _) => HandleButtonClick();
-		Append(_buttonElement);
+		var keybindTexture = Main.Assets.Request<Texture2D>("Images/UI/Settings_Inputs");
+		var keybindUIImage = new UIImageFramed(keybindTexture, keybindTexture.Frame(1, 2, sizeOffsetY: -2)) {
+			VAlign = 0f,
+			HAlign = 1f,
+			Left =new StyleDimension(-40f, 0f),
+			Top = new StyleDimension(4f, 0f),
+			IgnoresMouseInteraction = true
+		};
+		Append(keybindUIImage);
+
+		var gotoUIImage = new UIImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Button_Forward")) {
+			Left = new StyleDimension(-6, 0f),
+			Top = new StyleDimension(6, 0f),
+			HAlign = 1f,
+			IgnoresMouseInteraction = true
+		};
+		Append(gotoUIImage);
+
+		Height.Set(40f, 0f);
+	}
+
+	public override void LeftClick(UIMouseEvent evt) {
+		base.LeftClick(evt);
+		HandleButtonClick();
 	}
 
 	/// <summary>
@@ -49,6 +72,7 @@ public class OpenKeybindingsMenuButton : ConfigElement<bool>
 		{
 			ScrollToSubcategory(controlsUi, RecipeBrowser.instance.Name);
 		}
+		SoundEngine.PlaySound(SoundID.MenuOpen);
 	}
 
 	/// <summary>
