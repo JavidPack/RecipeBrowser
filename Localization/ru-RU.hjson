@@ -406,8 +406,8 @@ Mods: {
 				}
 
 				OpenKeybindingsMenuButton: {
-					// Label: Open Keybindings Menu
-					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+					Label: Установить назначения клавиш
+					Tooltip: Открыть меню управления для назначения горячих клавиш мода
 				}
 
 				Headers.AutomaticSettings: Автоматические настройки
