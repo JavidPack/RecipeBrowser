@@ -389,8 +389,8 @@ Mods: {
 				}
 
 				OpenKeybindingsMenuButton: {
-					// Label: Open Keybindings Menu
-					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+					Label: 打开按键绑定菜单
+					Tooltip: 打开按键绑定菜单以修改本Mod的热键
 				}
 
 				Headers.AutomaticSettings: 自动设置
