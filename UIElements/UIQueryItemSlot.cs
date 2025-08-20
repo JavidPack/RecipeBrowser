@@ -26,6 +26,24 @@ namespace RecipeBrowser.UIElements
 		{
 		}
 
+		/// <summary>
+		/// Gets the normalized Terraria <see cref="Item.type"/> for the current slot item.
+		/// Returns <c>0</c> if the slot is empty.
+		/// </summary>
+		internal int NormalizedItemType
+		{
+			get
+			{
+				int type = item?.type ?? 0;
+				return type switch
+				{
+					ItemID.Shellphone or ItemID.ShellphoneSpawn or ItemID.ShellphoneOcean or ItemID.ShellphoneHell
+						=> ItemID.ShellphoneDummy,
+					_ => type,
+				};
+			}
+		}
+		
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			base.DrawSelf(spriteBatch);
