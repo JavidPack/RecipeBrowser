@@ -27,18 +27,18 @@ namespace RecipeBrowser.UIElements
 		}
 
 		/// <summary>
-		/// Gets the normalized Terraria <see cref="Item.type"/> for the current slot item.
-		/// Returns <c>0</c> if the slot is empty.
+		/// Gets the canonical Terraria <see cref="Item.type"/> for the current slot item.
+		/// Returns <see cref="ItemID.None"/> if the slot is empty.
 		/// </summary>
-		internal int NormalizedItemType
+		internal int CanonicalItemType
 		{
 			get
 			{
-				int type = item?.type ?? 0;
+				int type = item?.type ?? ItemID.None;
 				return type switch
 				{
-					ItemID.Shellphone or ItemID.ShellphoneSpawn or ItemID.ShellphoneOcean or ItemID.ShellphoneHell
-						=> ItemID.ShellphoneDummy,
+					ItemID.Shellphone or ItemID.ShellphoneSpawn or ItemID.ShellphoneOcean or ItemID.ShellphoneHell =>
+						ItemID.ShellphoneDummy,
 					_ => type,
 				};
 			}
