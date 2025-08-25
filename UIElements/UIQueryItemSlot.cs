@@ -39,7 +39,15 @@ namespace RecipeBrowser.UIElements
 				{
 					ItemID.Shellphone or ItemID.ShellphoneSpawn or ItemID.ShellphoneOcean or ItemID.ShellphoneHell =>
 						ItemID.ShellphoneDummy,
+					ItemID.DontHurtCrittersBookInactive => ItemID.DontHurtCrittersBook,
+					ItemID.DontHurtNatureBookInactive => ItemID.DontHurtNatureBook,
+					ItemID.DontHurtComboBookInactive => ItemID.DontHurtComboBook,
+					ItemID.ClosedVoidBag => ItemID.VoidLens,
+					ItemID.UncumberingStone => ItemID.EncumberingStone,
+					ItemID.RubblemakerLarge or ItemID.RubblemakerMedium => ItemID.RubblemakerSmall,
 					_ => type,
+					// From Player.ItemCheck_ManageRightClickFeatures.
+					// TODO: We might also want to consider using ItemID.Sets.ShimmerCountsAsItem or Item.GetShimmerEquivalentType to handle modded items with a similar design as well. Modded items probably shouldn't be using the separate Item type approach anyway though.
 				};
 			}
 		}
