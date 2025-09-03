@@ -54,6 +54,7 @@ namespace RecipeBrowser
 		internal bool[] foundItems;
 
 		internal string[] mods;
+		internal ModFilterDropdown ModFilterDropdown;
 
 		public bool ForceShowFavoritePanel;
 		public bool ForceHideFavoritePanel; // Could save to config on exit world to preserve, but if users want that they should just not favorite recipes.
@@ -345,10 +346,53 @@ namespace RecipeBrowser
 
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(true);
-			UpdateModHoverImage(button);
-			AllUpdateNeeded();
+			if (mods.Length < 4)
+			{
+				UpdateFilterUI((UIHoverImageButtonMod)evt.Target);
+				return;
+			}
+
+			var host = listeningElement.Parent?.Parent;
+			if (host == null)
+			{
+				return;
+			}
+			
+			if (ModFilterDropdown == null)
+			{
+				var filterButtonAtCreation = (UIHoverImageButtonMod)listeningElement;
+
+				ModFilterDropdown = new ModFilterDropdown(
+					mods,
+					modIndex,
+					i => i == 0 ? RBText("All") : (ModLoader.GetMod(mods[i])?.DisplayName ?? mods[i])
+				);
+
+				ModFilterDropdown.SelectedIndexChanged += (_, selectedIndex) =>
+				{
+					modIndex = selectedIndex;
+					UpdateFilterUI(filterButtonAtCreation);
+				};
+			}
+			
+			if (ModFilterDropdown.IsAttachedTo(host))
+			{
+				ModFilterDropdown.Detach();
+				return;
+			}
+			
+			ModFilterDropdown.Detach();
+			ModFilterDropdown.AttachTo(host);
+			return;
+
+			void UpdateFilterUI(UIHoverImageButtonMod btn)
+			{
+				btn.hoverText = RBText("ModFilter") + ": " +
+				                (modIndex == 0 ? RBText("All") : ModLoader.GetMod(mods[modIndex]).DisplayName);
+
+				UpdateModHoverImage(btn);
+				AllUpdateNeeded();
+			}
 		}
 
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
@@ -665,6 +709,15 @@ namespace RecipeBrowser
 				parent.Append(panels[panelIndex]);
 				parent.Append(buttons[panelIndex]);
 
+				if (
+					RecipeBrowserUI.instance.ModFilterDropdown != null
+					&& RecipeBrowserUI.instance.ModFilterDropdown.IsAttachedTo(parent)
+				)
+				{
+					parent.RemoveChild(RecipeBrowserUI.instance.ModFilterDropdown);
+					parent.Append(RecipeBrowserUI.instance.ModFilterDropdown);
+				}
+				
 				if(panelIndex == RecipeBrowserUI.ItemCatalogue)
 				{
 					SharedUI.instance.sortsAndFiltersPanel.Top.Set(0, 0f);

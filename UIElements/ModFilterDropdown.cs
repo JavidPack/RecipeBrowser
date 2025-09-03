@@ -1,0 +1,154 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria.GameContent;
+using Terraria.GameContent.UI.Elements;
+using Terraria.UI;
+
+namespace RecipeBrowser.UIElements;
+
+internal sealed class ModFilterDropdown : UIPanel
+{
+	private const float PanelWidth = 230f;
+	private const float Pad = 6f;
+	private const float ListPad = 4f;
+	private const float TopCoverBar = 2f;
+
+	private readonly string[] _mods;
+	private readonly Func<int, string> _getDisplayName;
+	private readonly List<ModFilterDropdownRow> _rows = [];
+
+	public ModFilterDropdown(string[] mods, int selectedIndex, Func<int, string> getDisplayName)
+	{
+		_mods = mods ?? [];
+		_getDisplayName = getDisplayName ?? (_ => string.Empty);
+
+		Width.Set(PanelWidth, 0f);
+		Height.Set(-165f, 1f);
+		Top.Set(20f, 0f);
+		Left.Set(-PanelWidth, 1f);
+		SetPadding(Pad);
+		BackgroundColor = Color.DarkRed;
+
+		BuildContent(selectedIndex);
+	}
+
+	public event EventHandler<int> SelectedIndexChanged;
+
+	public void AttachTo(UIElement parent) => parent?.Append(this);
+
+	public void Detach() => Parent?.RemoveChild(this);
+
+	public bool IsAttachedTo(UIElement parent) => Parent == parent;
+
+	private void BuildContent(int selectedIndex)
+	{
+		var inner = new UIPanel
+		{
+			Width = { Pixels = -24f, Percent = 1f },
+			Height = { Pixels = 0f, Percent = 1f },
+			Top = { Pixels = 0f, Percent = 0f },
+			BackgroundColor = new Color(200, 50, 50, 255),
+		};
+		inner.SetPadding(Pad);
+		Append(inner);
+
+		var list = new UIList
+		{
+			Width = { Pixels = 0f, Percent = 1f },
+			Height = { Pixels = 0f, Percent = 1f },
+			ListPadding = ListPad,
+		};
+		inner.Append(list);
+
+		var scrollbar = new UIScrollbar
+		{
+			Height = { Pixels = -12f, Percent = 1f },
+			Top = { Pixels = Pad, Percent = 0f },
+			HAlign = 1f,
+		};
+		list.SetScrollbar(scrollbar);
+		Append(scrollbar);
+
+		for (int i = 0; i < _mods.Length; i++)
+		{
+			string text = _getDisplayName(i);
+			var row = new ModFilterDropdownRow(i, text, selectedIndex == i, OnRowSelected);
+			_rows.Add(row);
+			list.Add(row);
+		}
+
+		if (_rows.Count > 1)
+		{
+			_rows[^1].MarginBottom = -list.ListPadding;
+		}
+
+		var topCover = new UIImage(TextureAssets.MagicPixel)
+		{
+			IgnoresMouseInteraction = true,
+			Color = BackgroundColor,
+			ScaleToFit = true,
+		};
+		topCover.Top.Set(-(TopCoverBar + Pad - 2f), 0f);
+		topCover.Left.Set(-69f, 1f);
+		topCover.Width.Set(63f, 0f);
+		topCover.Height.Set(TopCoverBar, 0f);
+		Append(topCover);
+
+		OnRowSelected(selectedIndex);
+	}
+
+	private void OnRowSelected(int index)
+	{
+		for (int i = 0; i < _rows.Count; i++)
+		{
+			_rows[i].SetSelected(i == index);
+		}
+
+		SelectedIndexChanged?.Invoke(this, index);
+	}
+
+	private sealed class ModFilterDropdownRow : UIPanel
+	{
+		private bool _selected;
+
+		private int Index { get; }
+
+		public ModFilterDropdownRow(int index, string displayText, bool selected, Action<int> onSelect)
+		{
+			Index = index;
+			_selected = selected;
+
+			Width.Set(0f, 1f);
+			Height.Set(30f, 0f);
+
+			var label = new UIText(displayText, 0.85f) { VAlign = 0.5f };
+			Append(label);
+
+			OnLeftClick += (_, _) => onSelect?.Invoke(Index);
+			OnMouseOver += (_, _) =>
+			{
+				if (!_selected)
+				{
+					BackgroundColor = Color.DarkRed * 0.3f;
+					BorderColor = Color.DarkRed * 0.3f;
+				}
+			};
+			OnMouseOut += (_, _) => Refresh();
+
+			Refresh();
+		}
+
+		public void SetSelected(bool selected)
+		{
+			_selected = selected;
+			Refresh();
+		}
+
+		private void Refresh()
+		{
+			BackgroundColor = _selected ? Color.DarkRed : Color.Transparent;
+			BorderColor = _selected ? Color.DarkRed : Color.Transparent;
+		}
+	}
+}
