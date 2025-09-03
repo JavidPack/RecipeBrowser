@@ -348,7 +348,14 @@ namespace RecipeBrowser
 		{
 			if (mods.Length < 4)
 			{
-				UpdateFilterUI((UIHoverImageButtonMod)evt.Target);
+				var btn = (UIHoverImageButtonMod)evt.Target;
+
+				if (mods.Length > 1)
+				{
+					modIndex = (modIndex + 1) % mods.Length;
+				}
+
+				UpdateFilterUI(btn);
 				return;
 			}
 
