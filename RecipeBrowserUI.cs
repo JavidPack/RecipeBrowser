@@ -424,17 +424,20 @@ namespace RecipeBrowser
 			return index == 0 ? RBText("All") : ModLoader.GetMod(mods[index]).DisplayName;
 		}
 
-		private void UpdateModHoverImage(UIHoverImageButtonMod button)
+		private void UpdateModHoverImage(UIHoverImageButtonMod btn)
 		{
-			button.texture = null;
+			btn.texture = null;
 			Mod otherMod = ModLoader.GetMod(mods[modIndex]);
-			if (otherMod != null && otherMod.FileExists("icon.png"))
+			if (otherMod == null || !otherMod.FileExists("icon.png"))
 			{
-				var modIconTexture = Texture2D.FromStream(Main.instance.GraphicsDevice, new MemoryStream(otherMod.GetFileBytes("icon.png")));
-				if (modIconTexture.Width == 80 && modIconTexture.Height == 80)
-				{
-					button.texture = modIconTexture;
-				}
+				return;
+			}
+			
+			using var ms = new MemoryStream(otherMod.GetFileBytes("icon.png"));
+			var modIconTexture = Texture2D.FromStream(Main.instance.GraphicsDevice, ms);
+			if (modIconTexture.Width == 80 && modIconTexture.Height == 80)
+			{
+				btn.texture = modIconTexture;
 			}
 		}
 
