@@ -391,6 +391,7 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod btn = (evt.Target as UIHoverImageButtonMod);
 			ChangeModIndex(false);
+			ModFilterDropdown?.SelectIndex(modIndex);
 			UpdateModFilterUI(btn);
 		}
 
@@ -398,6 +399,7 @@ namespace RecipeBrowser
 		{
 			UIHoverImageButtonMod btn = (evt.Target as UIHoverImageButtonMod);
 			modIndex = 0;
+			ModFilterDropdown?.SelectIndex(modIndex);
 			UpdateModFilterUI(btn);
 		}
 

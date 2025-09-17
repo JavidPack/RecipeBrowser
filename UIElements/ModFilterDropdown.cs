@@ -38,6 +38,17 @@ internal sealed class ModFilterDropdown : UIPanel
 
 	public event EventHandler<int> SelectedIndexChanged;
 
+	public void SelectIndex(int index)
+	{
+		if (_rows.Count == 0)
+		{
+			return;
+		}
+
+		int clamped = Math.Clamp(index, 0, _rows.Count - 1);
+		OnRowSelected(clamped);
+	}
+
 	public void AttachTo(UIElement parent) => parent?.Append(this);
 
 	public void Detach() => Parent?.RemoveChild(this);
