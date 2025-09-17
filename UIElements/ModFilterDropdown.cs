@@ -21,7 +21,7 @@ internal sealed class ModFilterDropdown : UIPanel
 	private readonly Func<int, string> _getDisplayName;
 	private readonly List<ModFilterDropdownRow> _rows = [];
 
-	public ModFilterDropdown(string[] mods, int selectedIndex, Func<int, string> getDisplayName)
+	internal ModFilterDropdown(string[] mods, int selectedIndex, Func<int, string> getDisplayName)
 	{
 		_mods = mods ?? [];
 		_getDisplayName = getDisplayName ?? (_ => string.Empty);
@@ -36,9 +36,9 @@ internal sealed class ModFilterDropdown : UIPanel
 		BuildContent(selectedIndex);
 	}
 
-	public event EventHandler<int> SelectedIndexChanged;
+	internal event EventHandler<int> SelectedIndexChanged;
 
-	public void SelectIndex(int index)
+	internal void SelectIndex(int index)
 	{
 		if (_rows.Count == 0)
 		{
@@ -49,11 +49,11 @@ internal sealed class ModFilterDropdown : UIPanel
 		OnRowSelected(clamped);
 	}
 
-	public void AttachTo(UIElement parent) => parent?.Append(this);
+	internal void AttachTo(UIElement parent) => parent?.Append(this);
 
-	public void Detach() => Parent?.RemoveChild(this);
+	internal void Detach() => Parent?.RemoveChild(this);
 
-	public bool IsAttachedTo(UIElement parent) => Parent == parent;
+	internal bool IsAttachedTo(UIElement parent) => Parent == parent;
 
 	private void BuildContent(int selectedIndex)
 	{
@@ -135,7 +135,7 @@ internal sealed class ModFilterDropdown : UIPanel
 
 		private int Index { get; }
 
-		public ModFilterDropdownRow(int index, string displayText, bool selected, Action<int> onSelect)
+		internal ModFilterDropdownRow(int index, string displayText, bool selected, Action<int> onSelect)
 		{
 			_fullText = displayText;
 			_selected = selected;
@@ -161,7 +161,7 @@ internal sealed class ModFilterDropdown : UIPanel
 			Refresh();
 		}
 
-		public void SetSelected(bool selected)
+		internal void SetSelected(bool selected)
 		{
 			_selected = selected;
 			Refresh();
