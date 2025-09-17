@@ -349,13 +349,8 @@ namespace RecipeBrowser
 			if (mods.Length < 4)
 			{
 				var btn = (UIHoverImageButtonMod)evt.Target;
-
-				if (mods.Length > 1)
-				{
-					modIndex = (modIndex + 1) % mods.Length;
-				}
-
-				UpdateFilterUI(btn);
+				ChangeModIndex(true);
+				UpdateModFilterUI(btn);
 				return;
 			}
 
@@ -372,13 +367,13 @@ namespace RecipeBrowser
 				ModFilterDropdown = new ModFilterDropdown(
 					mods,
 					modIndex,
-					i => i == 0 ? RBText("All") : (ModLoader.GetMod(mods[i])?.DisplayName ?? mods[i])
+					GetDisplayName
 				);
 
 				ModFilterDropdown.SelectedIndexChanged += (_, selectedIndex) =>
 				{
 					modIndex = selectedIndex;
-					UpdateFilterUI(filterButtonAtCreation);
+					UpdateModFilterUI(filterButtonAtCreation);
 				};
 			}
 			
@@ -390,33 +385,43 @@ namespace RecipeBrowser
 			
 			ModFilterDropdown.Detach();
 			ModFilterDropdown.AttachTo(host);
-			return;
-
-			void UpdateFilterUI(UIHoverImageButtonMod btn)
-			{
-				btn.hoverText = RBText("ModFilter") + ": " +
-				                (modIndex == 0 ? RBText("All") : ModLoader.GetMod(mods[modIndex]).DisplayName);
-
-				UpdateModHoverImage(btn);
-				AllUpdateNeeded();
-			}
 		}
 
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(false);
-			UpdateModHoverImage(button);
-			AllUpdateNeeded();
+			UIHoverImageButtonMod btn = (evt.Target as UIHoverImageButtonMod);
+			ChangeModIndex(false);
+			UpdateModFilterUI(btn);
 		}
 
 		private void ModFilterButton_OnMiddleClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
+			UIHoverImageButtonMod btn = (evt.Target as UIHoverImageButtonMod);
 			modIndex = 0;
-			button.hoverText = RBText("ModFilter") + ": " + RBText("All");
-			UpdateModHoverImage(button);
+			UpdateModFilterUI(btn);
+		}
+
+		private void UpdateModFilterUI(UIHoverImageButtonMod btn)
+		{
+			btn.hoverText = RBText("ModFilter") + ": " + GetDisplayName(modIndex);
+			UpdateModHoverImage(btn);
 			AllUpdateNeeded();
+		}
+
+		private void ChangeModIndex(bool increment)
+		{
+			if (mods.Length <= 1)
+			{
+				modIndex = 0;
+				return;
+			}
+			
+			modIndex = (modIndex + (increment ? 1 : mods.Length - 1)) % mods.Length;
+		}
+
+		private string GetDisplayName(int index)
+		{
+			return index == 0 ? RBText("All") : ModLoader.GetMod(mods[index]).DisplayName;
 		}
 
 		private void UpdateModHoverImage(UIHoverImageButtonMod button)
@@ -431,12 +436,6 @@ namespace RecipeBrowser
 					button.texture = modIconTexture;
 				}
 			}
-		}
-
-		private string GetModFilterTooltip(bool increment)
-		{
-			modIndex = increment ? (modIndex + 1) % mods.Length : (mods.Length + modIndex - 1) % mods.Length;
-			return modIndex == 0 ? RBText("All") : ModLoader.GetMod(mods[modIndex]).DisplayName;
 		}
 
 		internal void AllUpdateNeeded()
