@@ -217,6 +217,10 @@ namespace RecipeBrowser
 			updateNeeded = true;
 		}
 
+		/// <summary>
+		/// Validates the item-name filter against all item slots.
+		/// If no match is found, removes the last character and triggers a blink to indicate invalid input.
+		/// </summary>
 		private void ValidateItemFilter()
 		{
 			if (itemNameFilter.currentString.Length > 0)
@@ -233,13 +237,38 @@ namespace RecipeBrowser
 				if (!found)
 				{
 					itemNameFilter.SetText(itemNameFilter.currentString.Substring(0, itemNameFilter.currentString.Length - 1));
+					itemNameFilter.TriggerInvalidBlink();
 				}
 			}
 			updateNeeded = true;
 		}
 
+		/// <summary>
+		/// Validates the item-description filter against all item slot tooltips.
+		/// If no match is found, removes the last character and triggers a blink to indicate invalid input.
+		/// </summary>
 		private void ValidateItemDescription()
 		{
+			if (itemDescriptionFilter.currentString.Length > 0)
+			{
+				bool found = false;
+				
+				foreach (var itemSlot in itemSlots)
+				{
+					if (itemSlot.item.ToolTip != null && GetTooltipsAsString(itemSlot.item.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1)
+					{
+						found = true;
+						break;
+					}
+				}
+				
+				if (!found)
+				{
+					itemDescriptionFilter.SetText(itemDescriptionFilter.currentString.Substring(0, itemDescriptionFilter.currentString.Length - 1));
+					itemDescriptionFilter.TriggerInvalidBlink();
+				}
+			}
+			
 			updateNeeded = true;
 		}
 
