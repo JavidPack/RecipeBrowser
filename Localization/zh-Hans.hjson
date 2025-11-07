@@ -427,9 +427,21 @@ Mods: {
 
 			ShowOtherPlayersFavoritedRecipesOption: {
 				Tooltip: ""
-				ShowAll.Label: 显示全部
-				ShowTeamOnly.Label: 仅显示同一队伍
-				Hide.Label: 隐藏
+
+				ShowAll: {
+					Label: 显示全部
+					// Tooltip: ""
+				}
+
+				ShowTeamOnly: {
+					Label: 仅显示同一队伍
+					// Tooltip: ""
+				}
+
+				Hide: {
+					Label: 隐藏
+					// Tooltip: ""
+				}
 			}
 		}
 

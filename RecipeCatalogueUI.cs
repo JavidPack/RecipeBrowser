@@ -598,7 +598,7 @@ namespace RecipeBrowser
 
 			if (!queryItem.item.IsAir)
 			{
-				int type = queryItem.item.type;
+				int type = queryItem.CanonicalItemType;
 				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any(); // Lesion item bug, they have the Wood group but don't have any wood in them
 				
 				if (!inGroup)

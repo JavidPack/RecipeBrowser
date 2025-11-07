@@ -32,11 +32,13 @@ namespace RecipeBrowser
 			else {
 				base.DrawSelf(spriteBatch);
 			}
-			if (IsMouseHovering && texture != null)
+			if ((IsMouseHovering || RecipeBrowserUI.modHoverIndex != -1) && texture != null)
 			{
 				Rectangle hitbox = GetInnerDimensions().ToRectangle();
 				spriteBatch.Draw(texture, new Vector2(hitbox.X + hitbox.Width / 2 - 40, hitbox.Y - 80), Color.White);
 			}
+
+			RecipeBrowserUI.modHoverIndex = -1;
 		}
 	}
 }

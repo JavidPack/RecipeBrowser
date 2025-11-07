@@ -423,9 +423,21 @@ Mods: {
 
 			ShowOtherPlayersFavoritedRecipesOption: {
 				// Tooltip: ""
-				// ShowAll.Label: Show All
-				// ShowTeamOnly.Label: Show Team Only
-				// Hide.Label: Hide
+
+				ShowAll: {
+					// Label: Show All
+					// Tooltip: ""
+				}
+
+				ShowTeamOnly: {
+					// Label: Show Team Only
+					// Tooltip: ""
+				}
+
+				Hide: {
+					// Label: Hide
+					// Tooltip: ""
+				}
 			}
 		}
 
