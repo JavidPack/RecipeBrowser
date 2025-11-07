@@ -376,15 +376,8 @@ namespace RecipeBrowser
 					UpdateModFilterUI(filterButtonAtCreation);
 				};
 			}
-			
-			if (ModFilterDropdown.IsAttachedTo(host))
-			{
-				ModFilterDropdown.Detach();
-				return;
-			}
-			
-			ModFilterDropdown.Detach();
-			ModFilterDropdown.AttachTo(host);
+
+			Terraria.ModLoader.UI.UICommon.AddOrRemoveChild(host, ModFilterDropdown, ModFilterDropdown.Parent == null);
 		}
 
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
@@ -720,10 +713,7 @@ namespace RecipeBrowser
 				parent.Append(panels[panelIndex]);
 				parent.Append(buttons[panelIndex]);
 
-				if (
-					RecipeBrowserUI.instance.ModFilterDropdown != null
-					&& RecipeBrowserUI.instance.ModFilterDropdown.IsAttachedTo(parent)
-				)
+				if (RecipeBrowserUI.instance.ModFilterDropdown?.Parent == parent)
 				{
 					parent.RemoveChild(RecipeBrowserUI.instance.ModFilterDropdown);
 					parent.Append(RecipeBrowserUI.instance.ModFilterDropdown);

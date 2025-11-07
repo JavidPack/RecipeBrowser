@@ -49,12 +49,6 @@ internal sealed class ModFilterDropdown : UIPanel
 		OnRowSelected(clamped);
 	}
 
-	internal void AttachTo(UIElement parent) => parent?.Append(this);
-
-	internal void Detach() => Parent?.RemoveChild(this);
-
-	internal bool IsAttachedTo(UIElement parent) => Parent == parent;
-
 	private void BuildContent(int selectedIndex)
 	{
 		var inner = new UIPanel
