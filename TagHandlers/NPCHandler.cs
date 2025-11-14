@@ -110,7 +110,8 @@ namespace RecipeBrowser.TagHandlers
 					NPC npc = ContentSamples.NpcsByNetId[netID];
 					Color lighting = Color.White;
 					//Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, /*color*/ Color.White, 0, rectangle.Center(), scale, SpriteEffects.None, 0);
-					Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, npc.GetAlpha(lighting), 0, rectangle.Center(), scale, SpriteEffects.None, 0);
+					Color alphaColor = npc.alpha == 255 ? Color.White : npc.GetAlpha(lighting); // Fix #194
+					Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, alphaColor, 0, rectangle.Center(), scale, SpriteEffects.None, 0);
 					if (npc.color != default(Microsoft.Xna.Framework.Color)) {
 						Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, npc.GetColor(lighting), 0, rectangle.Center(), scale, SpriteEffects.None, 0);
 					}

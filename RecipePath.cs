@@ -894,7 +894,7 @@ namespace RecipeBrowser
 
 			public override string ToString()
 			{
-				return $"{CraftUI.RBText("Farm")}: {Lang.GetItemNameValue(itemid)} ({stack}) from {string.Join(", ", LootCache.instance.lootInfos[itemid].Select(x => Lang.GetNPCNameValue(x)))}";
+				return $"{CraftUI.RBText("Farm")}: {Lang.GetItemNameValue(itemid)} ({stack}) {CraftUI.RBText("From")} {string.Join(", ", LootCache.instance.lootInfos[itemid].Select(x => Lang.GetNPCNameValue(x)))}";
 			}
 
 			public override string ToUITextString()
