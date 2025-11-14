@@ -39,13 +39,13 @@ Mods: {
 			ItemChecklistOnly: 仅Item Checklist
 			OnlyNewItemsMadeFromSeenItems: 仅显示曾遇见过的物品合成的新物品
 			EmptyQuerySlotHint: 在此放置物品
-			ShowInheritedRecipes: 显示继承配方
+			ShowInheritedRecipes: 显示下位配方
 			ShowUniqueRecipes: 显示独有配方
-			// ShowRecipesThatNeedThisCraftingStation: Viewing recipes that need this tile
-			// ShowRecipesThatNeedThisCraftingStationNoInherited: Viewing recipes that need this tile (no inherited recipes)
-			// ShowRecipesThatNeedThisCraftingStationHint: (Left click to view recipes that need this tile)
-			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
-			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
+			ShowRecipesThatNeedThisCraftingStation: 查看需要此合成站的配方
+			ShowRecipesThatNeedThisCraftingStationNoInherited: 查看需要此合成站的配方(不显示下位制作站配方)
+			ShowRecipesThatNeedThisCraftingStationHint: (左键查看需要此合成站的配方)
+			ShowRecipesForCraftingStationItself: 查看合成此合成站的配方
+			ShowRecipesForCraftingStationItselfHint: (右键查看合成此合成站的配方)
 			NoTileEntry: " (无条目)"
 		}
 
@@ -58,7 +58,7 @@ Mods: {
 			Rarity: 稀有度
 			Materials: 材料
 			Craftable: 可合成的
-			ExtendedCraftable: 继承配方(在合成配方中右键访问此面板,自动禁用以防延迟)
+			ExtendedCraftable: 嵌套配方(在合成配方中右键访问此面板,自动禁用以防延迟)
 			DisabledRecipes: 显示被其他Mod禁用的配方
 			Unresearched: 未研究
 			All: 全部
@@ -316,7 +316,7 @@ Mods: {
 			Recipes:
 				'''
 				[c/{0}:配方]
-				    在查询栏中放入物品以查找与该物品有关的配方. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击物块会将配方限制为仅显示使用该制作站的配方. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示继承配方. 例如: 地狱熔炉继承了熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.
+				    在查询栏中放入物品以查找与该物品有关的配方. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击物块会将配方限制为仅显示使用该制作站的配方. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示下位制作站配方. 例如: 地狱熔炉继承了其下位即熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.
 				'''
 			Craft:
 				'''
