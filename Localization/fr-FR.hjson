@@ -41,6 +41,11 @@ Mods: {
 			EmptyQuerySlotHint: Placer un objet ici
 			ShowInheritedRecipes: Afficher les recettes héritées
 			ShowUniqueRecipes: Afficher des recettes uniques
+			// ShowRecipesThatNeedThisCraftingStation: Viewing recipes that need this tile
+			// ShowRecipesThatNeedThisCraftingStationNoInherited: Viewing recipes that need this tile (no inherited recipes)
+			// ShowRecipesThatNeedThisCraftingStationHint: (Left click to view recipes that need this tile)
+			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
+			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
 			// NoTileEntry: " (err no entry)"
 		}
 

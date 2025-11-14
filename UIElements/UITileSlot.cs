@@ -14,7 +14,14 @@ namespace RecipeBrowser.UIElements
 {
 	class UITileSlot : UIElement
 	{
-		public Texture2D backgroundTexture => TextureAssets.InventoryBack9.Value;
+		public Texture2D backgroundTexture {
+			get {
+				if (selected && RecipeCatalogueUI.instance.tileIsItemsThatPlaceThisTileInstead)
+					return TextureAssets.InventoryBack11.Value;
+				return TextureAssets.InventoryBack9.Value;
+			}
+		}
+
 		public Asset<Texture2D> selectedTexture => UIRecipeSlot.selectedBackgroundTexture;
 		internal float scale = .75f;
 		public int order; // usage count
@@ -37,10 +44,28 @@ namespace RecipeBrowser.UIElements
 			//RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(item.type);
 			//RecipeCatalogueUI.instance.TileLookupRadioButton.SetDisabled(false);
 			//RecipeCatalogueUI.instance.TileLookupRadioButton.Selected = true;
-			if (selected)
+			if (selected && !RecipeCatalogueUI.instance.tileIsItemsThatPlaceThisTileInstead) {
 				RecipeCatalogueUI.instance.Tile = -1;
-			else
+			}
+			else {
+				if (RecipeCatalogueUI.instance.tileIsItemsThatPlaceThisTileInstead)
+					RecipeCatalogueUI.instance.updateNeeded = true;
 				RecipeCatalogueUI.instance.Tile = tile;
+			}
+		}
+
+		public override void RightClick(UIMouseEvent evt) {
+			//RecipeCatalogueUI.instance.queryItem.ReplaceWithFake(0);
+			//RecipeCatalogueUI.instance.Tile = tile;
+			//RecipeCatalogueUI.instance.tileIsItemsThatPlaceThisTileInstead = true;
+			//RecipeCatalogueUI.instance.TileLookupRadioButton.Selected = true;
+			if (selected && RecipeCatalogueUI.instance.tileIsItemsThatPlaceThisTileInstead) {
+				RecipeCatalogueUI.instance.Tile = -1;
+			}
+			else {
+				RecipeCatalogueUI.instance.pendingQueryHowToCraftTileShouldGoto = false;
+				RecipeCatalogueUI.instance.pendingQueryHowToCraftTile = tile;
+			}
 		}
 
 		public override void LeftDoubleClick(UIMouseEvent evt)
@@ -103,7 +128,21 @@ namespace RecipeBrowser.UIElements
 
 			if (IsMouseHovering)
 			{
-				Terraria.ModLoader.UI.UICommon.TooltipMouseText(Utilities.GetTileName(tile));
+				string hoverText = Utilities.GetTileName(tile);
+				if (selected) {
+					if (RecipeCatalogueUI.instance.tileIsItemsThatPlaceThisTileInstead) {
+						hoverText += "\n" + RecipeCatalogueUI.RBText("ShowRecipesForCraftingStationItself");
+						hoverText += "\n" + RecipeCatalogueUI.RBText("ShowRecipesThatNeedThisCraftingStationHint");
+					}
+					else {
+						if (RecipeCatalogueUI.instance.uniqueCheckbox.CurrentState == 0)
+							hoverText += "\n" + RecipeCatalogueUI.RBText("ShowRecipesThatNeedThisCraftingStation");
+						else
+							hoverText += "\n" + RecipeCatalogueUI.RBText("ShowRecipesThatNeedThisCraftingStationNoInherited");
+						hoverText += "\n" + RecipeCatalogueUI.RBText("ShowRecipesForCraftingStationItselfHint");
+					}
+				}
+				Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverText);
 			}
 		}
 	}

@@ -1,15 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using RecipeBrowser.TagHandlers;
 using RecipeBrowser.UIElements;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.UI;
-using Terraria.ID;
 
 namespace RecipeBrowser
 {
@@ -25,21 +27,23 @@ namespace RecipeBrowser
 
 		internal Item queryLootItem; // Last clicked item ingredient/recipe result, will populate lootSourceGrid. 
 
+		internal bool tileIsItemsThatPlaceThisTileInstead = false;
+		internal int pendingQueryHowToCraftTile = -1;
+		internal bool pendingQueryHowToCraftTileShouldGoto = false;
+
 		private int tile = -1;
-		internal int Tile
-		{
+		internal int Tile {
 			get { return tile; }
-			set
-			{
+			set {
 				if (tile != value)
 					updateNeeded = true;
 				tile = value;
-				foreach (var tileSlot in tileSlots)
-				{
+				foreach (var tileSlot in tileSlots) {
 					tileSlot.selected = false;
 					if (tileSlot.tile == value)
 						tileSlot.selected = true;
 				}
+				tileIsItemsThatPlaceThisTileInstead = false;
 			}
 		}
 
@@ -75,13 +79,11 @@ namespace RecipeBrowser
 		internal bool updateNeeded;
 		internal int slowUpdateNeeded;
 
-		public RecipeCatalogueUI()
-		{
+		public RecipeCatalogueUI() {
 			instance = this;
 		}
 
-		internal UIElement CreateRecipeCataloguePanel()
-		{
+		internal UIElement CreateRecipeCataloguePanel() {
 			mainPanel = new UIPanel();
 			mainPanel.SetPadding(6);
 			//			mainPanel.Left.Set(400f, 0f);
@@ -108,7 +110,11 @@ namespace RecipeBrowser
 			TileLookupRadioButton.Top.Set(42, 0f);
 			TileLookupRadioButton.Left.Set(0, 0f);
 			TileLookupRadioButton.SetText("  " + RBText("Tile"));
-			TileLookupRadioButton.OnSelectedChanged += (s, e) => { ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); updateNeeded = true; };
+			TileLookupRadioButton.OnSelectedChanged += (s, e) => {
+				//ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); 
+				ToggleTileChooser(TileLookupRadioButton.Selected);
+				updateNeeded = true;
+			};
 			mainPanel.Append(TileLookupRadioButton);
 
 			RadioButtonGroup = new UIRadioButtonGroup();
@@ -125,14 +131,12 @@ namespace RecipeBrowser
 
 			NearbyIngredientsRadioBitton.OnSelectedChanged += NearbyIngredientsRadioBitton_OnSelectedChanged;
 
-			if (RecipeBrowser.itemChecklistInstance != null)
-			{
+			if (RecipeBrowser.itemChecklistInstance != null) {
 				ItemChecklistRadioButton.OnSelectedChanged += ItemChecklistFilter_SelectedChanged;
 				ItemChecklistRadioButton.SetHoverText(RBText("OnlyNewItemsMadeFromSeenItems"));
 				//ItemChecklistRadioButton.OnRightClick += ItemChecklistRadioButton_OnRightClick;
 			}
-			else
-			{
+			else {
 				ItemChecklistRadioButton.SetDisabled();
 				ItemChecklistRadioButton.SetHoverText(RBText("InstallItemChecklistToUse", "Common"));
 			}
@@ -247,16 +251,13 @@ namespace RecipeBrowser
 			return mainPanel;
 		}
 
-		internal void ToggleTileChooser(bool show = true)
-		{
-			if (show)
-			{
+		internal void ToggleTileChooser(bool show = true) {
+			if (show) {
 				recipeGridPanel.Width.Set(-104, 1f);
 				recipeGridPanel.Left.Set(52, 0f);
 				mainPanel.Append(tileChooserPanel);
 			}
-			else
-			{
+			else {
 				recipeGridPanel.Width.Set(-52, 1f);
 				recipeGridPanel.Left.Set(0, 0f);
 				mainPanel.RemoveChild(tileChooserPanel);
@@ -310,13 +311,11 @@ namespace RecipeBrowser
 		//	recipeGridPanel.Recalculate();
 		//}
 
-		internal void CloseButtonClicked()
-		{
+		internal void CloseButtonClicked() {
 			// we should have a way for the button itself to be unclicked and notify parent.
 			RadioButtonGroup.ButtonClicked(0);
 
-			if (queryItem.real && queryItem.item.stack > 0)
-			{
+			if (queryItem.real && queryItem.item.stack > 0) {
 				// This causes items to get a new modifier. Oops
 				//Main.player[Main.myPlayer].QuickSpawnItem(lookupItemSlot.item.type, lookupItemSlot.item.stack);
 				//lookupItemSlot.item.SetDefaults(0);
@@ -341,8 +340,7 @@ namespace RecipeBrowser
 			updateNeeded = true;
 		}
 
-		internal void Update()
-		{
+		internal void Update() {
 			hoveredIndex = -1;
 			UIElements.UIItemSlot.hoveredItem = null;
 			/*if (PlayerInput.Triggers.Current.Hotbar1 && !Main.LocalPlayer.inventory[0].IsAir)
@@ -361,33 +359,60 @@ namespace RecipeBrowser
 			//	}
 			//}
 			UpdateGrid();
+
+			if (pendingQueryHowToCraftTile != -1) {
+				queryItem.ReplaceWithFake(0);
+				Tile = pendingQueryHowToCraftTile;
+				pendingQueryHowToCraftTile = -1;
+				tileIsItemsThatPlaceThisTileInstead = true;
+				TileLookupRadioButton.Selected = true;
+				if (pendingQueryHowToCraftTileShouldGoto) {
+					tileChooserGrid.Goto(x => x is UITileSlot tileSlot && tileSlot.tile == Tile, center: true);
+					pendingQueryHowToCraftTileShouldGoto = false;
+				}
+
+				// Note: Only shows drops and purchases for first tile that places this tile
+				int itemForCraftingStation = Terraria.ModLoader.TileLoader.GetItemDropFromTypeAndStyle(Tile);
+				if (itemForCraftingStation != 0) {
+					StringBuilder craftingStationSB = new StringBuilder();
+
+					if (LootCache.instance.lootInfos.TryGetValue(itemForCraftingStation, out var npcThatDropThisItem)) {
+						craftingStationSB.Append($"Dropped by: " + string.Join(", ", npcThatDropThisItem.Select(NPCTagHandler.GenerateTag)));
+					}
+
+					RecipePath.InitializePurchasable();
+					var purchasable = RecipePath.purchasable;
+					if (purchasable.TryGetValue(itemForCraftingStation, out var shopList)) {
+						foreach (var entry in shopList) {
+							craftingStationSB.Append($"Purchase from: " + string.Join(", ", shopList.Select(x => NPCTagHandler.GenerateTag(x.npcType))));
+						}
+					}
+
+					if (craftingStationSB.Length != 0)
+						Main.NewText(craftingStationSB.ToString());
+				}
+			}
 		}
 
-		private void UpdateGrid()
-		{
-			if (Recipe.numRecipes != recipeSlots.Count)
-			{
+		private void UpdateGrid() {
+			if (Recipe.numRecipes != recipeSlots.Count) {
 				recipeSlots.Clear();
-				for (int i = 0; i < Recipe.numRecipes; i++)
-				{
+				for (int i = 0; i < Recipe.numRecipes; i++) {
 					recipeSlots.Add(new UIRecipeSlot(i));
 				}
 
 				tileChooserGrid.Clear();
 				var tileUsageCounts = new Dictionary<int, int>();
 				int currentCount;
-				for (int i = 0; i < Recipe.numRecipes; i++)
-				{
-					foreach (int type in Main.recipe[i].requiredTile)
-					{
+				for (int i = 0; i < Recipe.numRecipes; i++) {
+					foreach (int type in Main.recipe[i].requiredTile) {
 						tileUsageCounts.TryGetValue(type, out currentCount);
 						tileUsageCounts[type] = currentCount + 1;
 					}
 				}
 				// sort
 				var sorted = tileUsageCounts.OrderBy(kvp => kvp.Value);
-				foreach (var tileUsage in sorted)
-				{
+				foreach (var tileUsage in sorted) {
 					var tileSlot = new UITileSlot(tileUsage.Key, tileUsage.Value);
 					tileChooserGrid.Add(tileSlot);
 					tileSlots.Add(tileSlot);
@@ -412,30 +437,25 @@ namespace RecipeBrowser
 			slowUpdateNeeded = 0;
 
 			List<int> groups = new List<int>();
-			if (queryItem.item.stack > 0)
-			{
+			if (queryItem.item.stack > 0) {
 				int type = queryItem.item.type;
 
-				foreach (var group in RecipeGroup.recipeGroups)
-				{
-					if (group.Value.ValidItems.Contains(type))
-					{
+				foreach (var group in RecipeGroup.recipeGroups) {
+					if (group.Value.ValidItems.Contains(type)) {
 						groups.Add(group.Key);
 					}
 				}
 			}
 
 			lootSourceGrid.Clear();
-			if (queryLootItem != null)
-			{
+			if (queryLootItem != null) {
 				int queryLootItemType = queryLootItem.type;
 				List<int> npcsthatdropme;
-				if (LootCache.instance.lootInfos.TryGetValue(queryLootItemType, out npcsthatdropme))
-				{
-					foreach (var dropper in npcsthatdropme)
-					{
+				if (LootCache.instance.lootInfos.TryGetValue(queryLootItemType, out npcsthatdropme)) {
+					foreach (var dropper in npcsthatdropme) {
 						int id = dropper;
-						if (id == 0) continue;
+						if (id == 0)
+							continue;
 						/*int id = dropper.id;
 						if (id == 0)
 						{
@@ -463,8 +483,7 @@ namespace RecipeBrowser
 
 			recipeGrid.Clear();
 			//int craftPathsCalculatedCount = 0;
-			for (int i = 0; i < Recipe.numRecipes; i++)
-			{
+			for (int i = 0; i < Recipe.numRecipes; i++) {
 				//if (recipeSlots[i].craftPathsCalculated)
 				//	craftPathsCalculatedCount++;
 				if (PassRecipeFilters(recipeSlots[i], Main.recipe[i], groups))
@@ -473,12 +492,10 @@ namespace RecipeBrowser
 				{
 					var box = recipeSlots[i];
 					//
-					if (newestItem > 0)
-					{
+					if (newestItem > 0) {
 						Recipe recipe = Main.recipe[i];
 						box.recentlyDiscovered = false;
-						if (recipe.requiredItem.Any(x => x.type == newestItem))
-						{
+						if (recipe.requiredItem.Any(x => x.type == newestItem)) {
 							box.recentlyDiscovered = true;
 						}
 					}
@@ -493,8 +510,7 @@ namespace RecipeBrowser
 			recipeGrid._innerList.Recalculate();
 		}
 
-		private int ItemGridSort(UIElement x, UIElement y)
-		{
+		private int ItemGridSort(UIElement x, UIElement y) {
 			if (x is UIPanel)
 				return -1;
 			if (y is UIPanel)
@@ -502,147 +518,126 @@ namespace RecipeBrowser
 			UIRecipeSlot a = x as UIRecipeSlot;
 			UIRecipeSlot b = y as UIRecipeSlot;
 			if (a.CompareToIgnoreIndex(b) == 0 && SharedUI.instance.SelectedSort != null) {
-				if(SharedUI.instance.SelectedSort.recipeSort != null)
+				if (SharedUI.instance.SelectedSort.recipeSort != null)
 					return SharedUI.instance.SelectedSort.recipeSort(Main.recipe[a.index], Main.recipe[b.index]);
 				return SharedUI.instance.SelectedSort.sort(a.item, b.item);
 			}
 			return a.CompareTo(b);
 		}
 
-		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups)
-		{
+		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups) {
 			// TODO: Option to filter by source of Recipe rather than by createItem maybe?
-			if (RecipeBrowserUI.modIndex != 0)
-			{
-				if (recipe.createItem.ModItem == null)
-				{
+			if (RecipeBrowserUI.modIndex != 0) {
+				if (recipe.createItem.ModItem == null) {
 					return false;
 				}
-				if (recipe.createItem.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
-				{
+				if (recipe.createItem.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex]) {
 					return false;
 				}
 			}
 
-			if (NearbyIngredientsRadioBitton.Selected)
-			{
-				if (!PassNearbyChestFilter(recipe))
-				{
+			if (NearbyIngredientsRadioBitton.Selected) {
+				if (!PassNearbyChestFilter(recipe)) {
 					return false;
 				}
 			}
 
 			// Item Checklist integration
-			if (ItemChecklistRadioButton.Selected)
-			{
-				if (RecipeBrowserUI.instance.foundItems != null)
-				{
-					foreach (Item item in recipe.requiredItem)
-					{
-						if (!RecipeBrowserUI.instance.foundItems[item.type])
-						{
+			if (ItemChecklistRadioButton.Selected) {
+				if (RecipeBrowserUI.instance.foundItems != null) {
+					foreach (Item item in recipe.requiredItem) {
+						if (!RecipeBrowserUI.instance.foundItems[item.type]) {
 							return false;
 						}
 					}
 					// filter out recipes that make things I've already obtained
-					if (RecipeBrowserUI.instance.foundItems[recipe.createItem.type])
-					{
+					if (RecipeBrowserUI.instance.foundItems[recipe.createItem.type]) {
 						return false;
 					}
 				}
-				else
-				{
+				else {
 					Main.NewText("How is this happening??");
 				}
 			}
 
 			// Filter out recipes that don't use selected Tile
-			if (Tile > -1)
-			{
-				List<int> adjTiles = new List<int>();
-				adjTiles.Add(Tile);
-				if (uniqueCheckbox.CurrentState == 0)
-				{
-					Terraria.ModLoader.ModTile modTile = Terraria.ModLoader.TileLoader.GetTile(Tile);
-					if (modTile != null)
-					{
-						adjTiles.AddRange(modTile.AdjTiles);
+			if (Tile > -1) {
+				if (tileIsItemsThatPlaceThisTileInstead) {
+					if (recipe.createItem.createTile != Tile) {
+						return false;
 					}
-					if (Tile == 302)
-						adjTiles.Add(17);
-					if (Tile == 77)
-						adjTiles.Add(17);
-					if (Tile == 133)
-					{
-						adjTiles.Add(17);
-						adjTiles.Add(77);
-					}
-					if (Tile == 134)
-						adjTiles.Add(16);
-					if (Tile == 354)
-						adjTiles.Add(14);
-					if (Tile == 469)
-						adjTiles.Add(14);
-					if (Tile == 355)
-					{
-						adjTiles.Add(13);
-						adjTiles.Add(14);
-					}
-					// TODO: GlobalTile.AdjTiles support (no player object, reflection needed since private)
 				}
-				if (!recipe.requiredTile.Any(t => adjTiles.Contains(t)))
-				{
-					return false;
+				else {
+					List<int> adjTiles = new List<int>();
+					adjTiles.Add(Tile);
+					if (uniqueCheckbox.CurrentState == 0) {
+						Terraria.ModLoader.ModTile modTile = Terraria.ModLoader.TileLoader.GetTile(Tile);
+						if (modTile != null) {
+							adjTiles.AddRange(modTile.AdjTiles);
+						}
+						if (Tile == 302)
+							adjTiles.Add(17);
+						if (Tile == 77)
+							adjTiles.Add(17);
+						if (Tile == 133) {
+							adjTiles.Add(17);
+							adjTiles.Add(77);
+						}
+						if (Tile == 134)
+							adjTiles.Add(16);
+						if (Tile == 354)
+							adjTiles.Add(14);
+						if (Tile == 469)
+							adjTiles.Add(14);
+						if (Tile == 355) {
+							adjTiles.Add(13);
+							adjTiles.Add(14);
+						}
+						// TODO: GlobalTile.AdjTiles support (no player object, reflection needed since private)
+					}
+					if (!recipe.requiredTile.Any(t => adjTiles.Contains(t))) {
+						return false;
+					}
 				}
 			}
 
-			if (!queryItem.item.IsAir)
-			{
+			if (!queryItem.item.IsAir) {
 				int type = queryItem.CanonicalItemType;
 				bool inGroup = recipe.acceptedGroups.Intersect(groups).Any(); // Lesion item bug, they have the Wood group but don't have any wood in them
-				
-				if (!inGroup)
-				{
-					if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type)))
-					{
+
+				if (!inGroup) {
+					if (!(recipe.createItem.type == type || recipe.requiredItem.Any(ing => ing.type == type))) {
 						return false;
 					}
 				}
 			}
 
 			var SelectedCategory = SharedUI.instance.SelectedCategory;
-			if (SelectedCategory != null)
-			{
+			if (SelectedCategory != null) {
 				if (!SelectedCategory.belongs(recipe.createItem) && !SelectedCategory.subCategories.Any(x => x.belongs(recipe.createItem)))
 					return false;
 			}
 			var availableFilters = SharedUI.instance.availableFilters;
 			if (availableFilters != null)
-				foreach (var filter in SharedUI.instance.availableFilters)
-				{
-					if(!filter.button.selected && filter == SharedUI.instance.DisabledFilter) {
-						if(recipe.Disabled)
+				foreach (var filter in SharedUI.instance.availableFilters) {
+					if (!filter.button.selected && filter == SharedUI.instance.DisabledFilter) {
+						if (recipe.Disabled)
 							return false;
 					}
-					if (filter.button.selected)
-					{
+					if (filter.button.selected) {
 						// Extended craft problem.
 						if (!filter.belongs(recipe.createItem))
 							return false;
-						if (filter == SharedUI.instance.ObtainableFilter)
-						{
+						if (filter == SharedUI.instance.ObtainableFilter) {
 							recipeSlot.CraftPathNeeded();
 							if (!((recipeSlot.craftPathCalculated || recipeSlot.craftPathsCalculated) && recipeSlot.craftPaths.Count > 0))
 								return false;
 						}
-						if (filter == SharedUI.instance.CraftableFilter)
-						{
+						if (filter == SharedUI.instance.CraftableFilter) {
 							int index = recipeSlot.index;
 							bool ableToCraft = false;
-							for (int n = 0; n < Main.numAvailableRecipes; n++)
-							{
-								if (index == Main.availableRecipe[n])
-								{
+							for (int n = 0; n < Main.numAvailableRecipes; n++) {
+								if (index == Main.availableRecipe[n]) {
 									ableToCraft = true;
 									break;
 								}
@@ -656,14 +651,11 @@ namespace RecipeBrowser
 			if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)
 				return false;
 
-			if (itemDescriptionFilter.currentString.Length > 0)
-			{
-				if ((recipe.createItem.ToolTip != null && GetTooltipsAsString(recipe.createItem.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1) /*|| (recipe.createItem.toolTip2 != null && recipe.createItem.toolTip2.ToLower().IndexOf(itemDescriptionFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)*/)
-				{
+			if (itemDescriptionFilter.currentString.Length > 0) {
+				if ((recipe.createItem.ToolTip != null && GetTooltipsAsString(recipe.createItem.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1) /*|| (recipe.createItem.toolTip2 != null && recipe.createItem.toolTip2.ToLower().IndexOf(itemDescriptionFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)*/) {
 					return true;
 				}
-				else
-				{
+				else {
 					return false;
 				}
 			}
@@ -671,11 +663,9 @@ namespace RecipeBrowser
 		}
 
 		// todo, make sure case doesn't matter, conjoined lines don't have results.
-		private string GetTooltipsAsString(ItemTooltip toolTip)
-		{
+		private string GetTooltipsAsString(ItemTooltip toolTip) {
 			StringBuilder sb = new StringBuilder();
-			for (int j = 0; j < toolTip.Lines; j++)
-			{
+			for (int j = 0; j < toolTip.Lines; j++) {
 				sb.Append(toolTip.GetLine(j) + "\n");
 			}
 			return sb.ToString().ToLower();
@@ -683,13 +673,11 @@ namespace RecipeBrowser
 
 		// TODO, checkbox for check stack?
 		// TODO, # missing allowed slider?
-		private bool PassNearbyChestFilter(Recipe recipe)
-		{
+		private bool PassNearbyChestFilter(Recipe recipe) {
 			// Return true only if all ingredients in recipe are found
 			//List<int> needed = new List<int>();
 			HashSet<int> needed = new HashSet<int>();
-			foreach (var item in recipe.requiredItem)
-			{
+			foreach (var item in recipe.requiredItem) {
 				needed.Add(item.type);
 			}
 
@@ -697,16 +685,12 @@ namespace RecipeBrowser
 			// TODO: Inefficient to calculate this repeatedly for each recipe.
 			HashSet<int> foundItems = new HashSet<int>();
 
-			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-			{
+			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
-				if (chest != null && !Chest.IsLocked(chest.x, chest.y))
-				{
+				if (chest != null && !Chest.IsLocked(chest.x, chest.y)) {
 					Vector2 chestPosition = new Vector2((float)(chest.x * 16 + 16), (float)(chest.y * 16 + 16));
-					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange)
-					{
-						if (Main.netMode == NetmodeID.SinglePlayer || RecipeBrowser.chestContentsAvailable[chestIndex])
-						{
+					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange) {
+						if (Main.netMode == NetmodeID.SinglePlayer || RecipeBrowser.chestContentsAvailable[chestIndex]) {
 							foundItems.UnionWith(chest.item.Select(x => x.type));
 							//sources.Add(chest.item);
 							//Item[] items = chest.item;
@@ -747,13 +731,11 @@ namespace RecipeBrowser
 			return needed.Count == 0;
 		}
 
-		internal void SetRecipe(int index)
-		{
+		internal void SetRecipe(int index) {
 			selectedIndex = -1;
 			recipeInfo.craftingIngredientsGrid.Clear();
 
-			foreach (var item in recipeSlots)
-			{
+			foreach (var item in recipeSlots) {
 				item.selected = false;
 			}
 
@@ -766,8 +748,7 @@ namespace RecipeBrowser
 			// TODO: Should these just be TrackIngredientSlots? It might be nice to see what you have, or have in nearby chests
 			List<UIIngredientSlot> ingredients = new List<UIIngredientSlot>();
 			Recipe recipe = Main.recipe[index];
-			for (int i = 0; i < recipe.requiredItem.Count; i++)
-			{
+			for (int i = 0; i < recipe.requiredItem.Count; i++) {
 				UIIngredientSlot ingredient = new UIIngredientSlot(recipe.requiredItem[i].Clone(), i);
 				//ingredient.Left.Pixels = 200 + (i % 5 * 40);
 				//ingredient.Top.Pixels = (i / 5 * 40);
@@ -807,23 +788,18 @@ namespace RecipeBrowser
 			}
 		}
 
-		public static void OverrideForGroups(Recipe recipe, Item item)
-		{
-			if (recipe.ProcessGroupsForText(item.type, out string nameOverride))
-			{
+		public static void OverrideForGroups(Recipe recipe, Item item) {
+			if (recipe.ProcessGroupsForText(item.type, out string nameOverride)) {
 				//Main.toolTip.name = name;
 			}
 
-			if (nameOverride != "")
-			{
+			if (nameOverride != "") {
 				item.SetNameOverride(nameOverride);
 			}
 		}
 
-		public static string OverrideForGroups(Recipe recipe, int item)
-		{
-			if (recipe.ProcessGroupsForText(item, out string nameOverride))
-			{
+		public static string OverrideForGroups(Recipe recipe, int item) {
+			if (recipe.ProcessGroupsForText(item, out string nameOverride)) {
 				//Main.toolTip.name = name;
 			}
 
@@ -833,22 +809,20 @@ namespace RecipeBrowser
 		// problem, how to detect that we need to request again?
 		private const int itemSearchRange = 60 * 16; // this is in pixels : 400 too low
 
-		private void NearbyIngredientsRadioBitton_OnSelectedChanged(object sender, EventArgs e)
-		{
+		private void NearbyIngredientsRadioBitton_OnSelectedChanged(object sender, EventArgs e) {
 			UIRadioButton button = (UIRadioButton)sender;
 			updateNeeded = true;
-			if (!button.Selected) return;
+			if (!button.Selected)
+				return;
 			// Reset
-			if (Main.netMode == NetmodeID.SinglePlayer) return; // we can skip all this in SP
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				return; // we can skip all this in SP
 			RecipeBrowser.chestContentsAvailable = new bool[1000];
-			for (int chestIndex = 0; chestIndex < 1000; chestIndex++)
-			{
+			for (int chestIndex = 0; chestIndex < 1000; chestIndex++) {
 				Chest chest = Main.chest[chestIndex];
-				if (chest != null && !Chest.IsLocked(chest.x, chest.y))
-				{
+				if (chest != null && !Chest.IsLocked(chest.x, chest.y)) {
 					Vector2 chestPosition = new Vector2((float)(chest.x * 16 + 16), (float)(chest.y * 16 + 16));
-					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange)
-					{
+					if ((chestPosition - Main.LocalPlayer.Center).Length() < itemSearchRange) {
 						//if (chest.item[0] == null)
 						{
 							var message = RecipeBrowser.instance.GetPacket();
@@ -864,14 +838,11 @@ namespace RecipeBrowser
 			}
 		}
 
-		private void ItemChecklistFilter_SelectedChanged(object sender, EventArgs e)
-		{
-			if ((sender as UIRadioButton).Selected)
-			{
+		private void ItemChecklistFilter_SelectedChanged(object sender, EventArgs e) {
+			if ((sender as UIRadioButton).Selected) {
 				RecipeBrowserUI.instance.QueryItemChecklist();
 			}
-			else
-			{
+			else {
 				//RecipeBrowserUI.instance.foundItems = null;
 			}
 			updateNeeded = true;
@@ -880,30 +851,24 @@ namespace RecipeBrowser
 		/// <summary>
 		/// Checks text to verify input is in
 		/// </summary>
-		private void ValidateItemFilter()
-		{
-			if (itemNameFilter.currentString.Length > 0)
-			{
+		private void ValidateItemFilter() {
+			if (itemNameFilter.currentString.Length > 0) {
 				bool found = false;
-				for (int i = 0; i < Recipe.numRecipes; i++)
-				{
+				for (int i = 0; i < Recipe.numRecipes; i++) {
 					Recipe recipe = Main.recipe[i];
-					if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1)
-					{
+					if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1) {
 						found = true;
 						break;
 					}
 				}
-				if (!found)
-				{
+				if (!found) {
 					itemNameFilter.SetText(itemNameFilter.currentString.Substring(0, itemNameFilter.currentString.Length - 1));
 				}
 			}
 			updateNeeded = true;
 		}
 
-		private void ValidateItemDescription()
-		{
+		private void ValidateItemDescription() {
 			//if (itemNameFilter.Text.Length > 0)
 			//{
 			//	bool found = false;
@@ -925,12 +890,10 @@ namespace RecipeBrowser
 		}
 
 		// Prefix of FindRecipes calls this. Ignores calls from AdjTiles.
-		internal void InvalidateExtendedCraft()
-		{
+		internal void InvalidateExtendedCraft() {
 			// Invalidate: Change any settings. Pickup any items, Move to new tiles?, 
 			// manually flag as dirty.
-			foreach (var slot in recipeSlots)
-			{
+			foreach (var slot in recipeSlots) {
 				slot.craftPathNeeded = false;
 				slot.craftPathCalculated = false;
 				slot.craftPathsCalculated = false;

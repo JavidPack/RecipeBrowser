@@ -41,6 +41,11 @@ Mods: {
 			EmptyQuerySlotHint: 在此放置物品
 			ShowInheritedRecipes: 显示继承配方
 			ShowUniqueRecipes: 显示独有配方
+			// ShowRecipesThatNeedThisCraftingStation: Viewing recipes that need this tile
+			// ShowRecipesThatNeedThisCraftingStationNoInherited: Viewing recipes that need this tile (no inherited recipes)
+			// ShowRecipesThatNeedThisCraftingStationHint: (Left click to view recipes that need this tile)
+			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
+			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
 			NoTileEntry: " (无条目)"
 		}
 

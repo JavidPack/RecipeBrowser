@@ -61,6 +61,7 @@ namespace RecipeBrowser.UIElements
 				r.Inflate(0, 0);
 				//spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, r, Color.White);
 				spriteBatch.Draw(TextureAssets.InventoryBack14.Value, r, Color.White);
+				// InventoryBack5 or 11 for disabled
 			}
 
 			CalculatedStyle dimensions = base.GetDimensions();

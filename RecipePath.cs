@@ -133,17 +133,8 @@ namespace RecipeBrowser
 			//	}
 			//}
 
-			if (purchasable == null && allowPurchasable)
-			{
-				purchasable = new Dictionary<int, List<ShopEntry>>();
-				foreach (var shop in NPCShopDatabase.AllShops.OfType<NPCShop>()) {
-					foreach (var entry in shop.Entries) {
-						List<ShopEntry> shopList;
-						if (!purchasable.TryGetValue(entry.Item.type, out shopList))
-							purchasable.Add(entry.Item.type, shopList = new List<ShopEntry>());
-						shopList.Add(new ShopEntry(shop.NpcType, entry));
-					}
-				}
+			if (purchasable == null && allowPurchasable) {
+				InitializePurchasable();
 			}
 
 			if (bugNetables == null && allowBugNetables) {
@@ -209,6 +200,21 @@ namespace RecipeBrowser
 			}
 			//loots.Add(ItemID.Gel);
 			//loots.Add(ItemID.CopperBar);
+		}
+
+		internal static void InitializePurchasable() {
+			if (purchasable != null)
+				return;
+
+			purchasable = new Dictionary<int, List<ShopEntry>>();
+			foreach (var shop in NPCShopDatabase.AllShops.OfType<NPCShop>()) {
+				foreach (var entry in shop.Entries) {
+					List<ShopEntry> shopList;
+					if (!purchasable.TryGetValue(entry.Item.type, out shopList))
+						purchasable.Add(entry.Item.type, shopList = new List<ShopEntry>());
+					shopList.Add(new ShopEntry(shop.NpcType, entry));
+				}
+			}
 		}
 
 		// TODO: GetCraftPaths but without a Recipe? Just an item? Buy/Loot
