@@ -47,11 +47,11 @@ Mods: {
 			ShowRecipesForCraftingStationItself: 查看合成此合成站的配方
 			ShowRecipesForCraftingStationItselfHint: (右键查看合成此合成站的配方)
 			NoTileEntry: " (无条目)"
-			// HistoryBackwardTooltip: Go back in query history
-			// HistoryForwardTooltip: Go forward in query history
-			// HistoryEmpty: There is no query history yet
-			// HistoryReachedStart: Query history start reached
-			// HistoryReachedEnd: Query history end reached
+			HistoryBackwardTooltip: 查看上一个查询历史
+			HistoryForwardTooltip: 查看下一次查询历史
+			HistoryEmpty: 尚无查询历史
+			HistoryReachedStart: 抵达查询历史起点
+			HistoryReachedEnd: 抵达查询历史终点
 		}
 
 		RecipeCatalogueFilters: {
@@ -261,8 +261,8 @@ Mods: {
 			ByCapturing: 通过捕捉
 			Need: 需要
 			Farm: 种植
-			// PurchaseFrom: Purchase from
-			// DroppedBy: Dropped by
+			PurchaseFrom: 购买自
+			DroppedBy: 掉落自
 		}
 
 		ItemCatalogueUI: {
