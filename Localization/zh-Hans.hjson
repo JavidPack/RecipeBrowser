@@ -58,7 +58,7 @@ Mods: {
 			Rarity: 稀有度
 			Materials: 材料
 			Craftable: 可合成的
-			ExtendedCraftable: 嵌套配方(在合成配方中右键访问此面板,自动禁用以防延迟)
+			ExtendedCraftable: 嵌套合成(在合成配方中右键访问此面板,自动禁用以防延迟)
 			DisabledRecipes: 显示被其他Mod禁用的配方
 			Unresearched: 未研究
 			All: 全部
