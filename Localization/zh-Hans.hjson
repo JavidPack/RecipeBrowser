@@ -47,6 +47,11 @@ Mods: {
 			ShowRecipesForCraftingStationItself: 查看合成此合成站的配方
 			ShowRecipesForCraftingStationItselfHint: (右键查看合成此合成站的配方)
 			NoTileEntry: " (无条目)"
+			// HistoryBackwardTooltip: Go back in query history
+			// HistoryForwardTooltip: Go forward in query history
+			// HistoryEmpty: There is no query history yet
+			// HistoryReachedStart: Query history start reached
+			// HistoryReachedEnd: Query history end reached
 		}
 
 		RecipeCatalogueFilters: {

@@ -47,6 +47,11 @@ Mods: {
 			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
 			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
 			// NoTileEntry: " (err no entry)"
+			// HistoryBackwardTooltip: Go back in query history
+			// HistoryForwardTooltip: Go forward in query history
+			// HistoryEmpty: There is no query history yet
+			// HistoryReachedStart: Query history start reached
+			// HistoryReachedEnd: Query history end reached
 		}
 
 		RecipeCatalogueFilters: {

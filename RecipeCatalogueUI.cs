@@ -22,6 +22,8 @@ namespace RecipeBrowser
 		internal static RecipeCatalogueUI instance;
 		internal static Color color = new Color(73, 94, 171);
 
+		internal UISilentImageButton historyBackButton;
+		internal UISilentImageButton historyForwardButton;
 		internal UIRecipeCatalogueQueryItemSlot queryItem;
 		internal UICheckbox TileLookupRadioButton;
 
@@ -101,14 +103,27 @@ namespace RecipeBrowser
 			mainPanel.Height.Set(-20, 1f);
 			mainPanel.Width.Set(0, 1f);
 
+			Asset<Texture2D> historyBackButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/historyBack", AssetRequestMode.ImmediateLoad);
+			historyBackButton = new UISilentImageButton(historyBackButtonTexture, RBText("HistoryBackwardTooltip"));
+			historyBackButton.Top.Set(0, 0f);
+			historyBackButton.OnLeftClick += (s, e) => queryItem.GoBackInHistory();
+			mainPanel.Append(historyBackButton);
+
+			Asset<Texture2D> historyForwardButtonTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/historyForward", AssetRequestMode.ImmediateLoad);
+			historyForwardButton = new UISilentImageButton(historyForwardButtonTexture, RBText("HistoryForwardTooltip"));
+			historyForwardButton.Top.Set(20, 0f);
+			historyForwardButton.OnLeftClick += (s, e) => queryItem.GoForwardInHistory();
+			mainPanel.Append(historyForwardButton);
+
 			queryItem = new UIRecipeCatalogueQueryItemSlot(new Item());
+			queryItem.Left.Set(16, 0f);
 			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			//queryItem.OnItemChanged += () => { Main.NewText("Item changed?"); TileLookupRadioButton.SetDisabled(queryItem.item.createTile <= -1); };
 			mainPanel.Append(queryItem);
 
 			TileLookupRadioButton = new UICheckbox(RBText("Tile"), "");
 			TileLookupRadioButton.Top.Set(42, 0f);
-			TileLookupRadioButton.Left.Set(0, 0f);
+			TileLookupRadioButton.Left.Set(16, 0f);
 			TileLookupRadioButton.SetText("  " + RBText("Tile"));
 			TileLookupRadioButton.OnSelectedChanged += (s, e) => {
 				//ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); 
@@ -118,7 +133,7 @@ namespace RecipeBrowser
 			mainPanel.Append(TileLookupRadioButton);
 
 			RadioButtonGroup = new UIRadioButtonGroup();
-			RadioButtonGroup.Left.Pixels = 45;
+			RadioButtonGroup.Left.Pixels = 61;
 			RadioButtonGroup.Width.Set(180, 0f);
 			UIRadioButton AllRecipesRadioButton = new UIRadioButton(RBText("AllRecipes"), "");
 			NearbyIngredientsRadioBitton = new UIRadioButton(RBText("NearbyChests"), RBText("ClickToRefresh"));
