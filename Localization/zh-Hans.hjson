@@ -48,7 +48,7 @@ Mods: {
 			ShowRecipesForCraftingStationItselfHint: (右键查看合成此合成站的配方)
 			NoTileEntry: " (无条目)"
 			HistoryBackwardTooltip: 查看上一个查询历史
-			HistoryForwardTooltip: 查看下一次查询历史
+			HistoryForwardTooltip: 查看下一个查询历史
 			HistoryEmpty: 尚无查询历史
 			HistoryReachedStart: 抵达查询历史起点
 			HistoryReachedEnd: 抵达查询历史终点
