@@ -283,6 +283,8 @@ namespace RecipeBrowser
 		internal Filter UnresearchedFilter;
 		internal List<Sort> sorts;
 
+		internal Category HairDyesCategory;
+
 		// Items whose textures are resized used during setup
 		// If they aren't loaded, some buttons doesn't have an icon
 		// TODO: A better way to do this?
@@ -629,7 +631,7 @@ namespace RecipeBrowser
 					subCategories = new List<Category>()
 					{
 						new Category("Dyes", RBText("Dyes.CommonDyes"), x=>x.dye != 0, smallDyes),
-						new Category("Hair Dyes", RBText("Dyes.HairDyes"), x=>x.hairDye != -1, smallHairDye),
+						(HairDyesCategory = new Category("Hair Dyes", RBText("Dyes.HairDyes"), x=>x.hairDye != -1, smallHairDye)),
 					}
 				},
 				new Category("Boss Summons", RBText("BossSummons.Name"), x=>ItemID.Sets.SortingPriorityBossSpawns[x.type] != -1 && x.type != ItemID.LifeCrystal && x.type != ItemID.ManaCrystal && x.type != ItemID.ShellphoneDummy && x.type != ItemID.Shellphone && x.type != ItemID.ShellphoneSpawn && x.type != ItemID.ShellphoneOcean && x.type != ItemID.ShellphoneHell && x.type != ItemID.MagicConch && x.type != ItemID.DemonConch && x.type != ItemID.CellPhone && x.type != ItemID.CellPhone && x.type != ItemID.IceMirror && x.type != ItemID.MagicMirror && x.type != ItemID.LifeFruit && x.netID != ItemID.TreasureMap || x.netID == ItemID.PirateMap, smallBossSummon) { // vanilla bug.

@@ -301,6 +301,14 @@ namespace RecipeBrowser
 				slotsToUse = ArmorSetFeatureHelper.armorSetSlots.Cast<UIItemCatalogueItemSlot>().ToList();
 				ArmorSetFeatureHelper.AppendSpecialUI(itemGrid);
 			}
+			// Hair dyes?
+			if (SharedUI.instance.SelectedCategory == SharedUI.instance.HairDyesCategory) {
+				HairDyesFeatureHelper.HairDyeSlots = null;
+				if (HairDyesFeatureHelper.HairDyeSlots == null)
+					HairDyesFeatureHelper.GenerateHairDyeSlots();
+				slotsToUse = HairDyesFeatureHelper.HairDyeSlots.Cast<UIItemCatalogueItemSlot>().ToList();
+				//ArmorSetFeatureHelper.AppendSpecialUI(itemGrid);
+			}
 
 			foreach (var slot in slotsToUse)
 			{
