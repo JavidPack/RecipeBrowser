@@ -41,17 +41,17 @@ Mods: {
 			EmptyQuerySlotHint: Поместите предмет сюда
 			ShowInheritedRecipes: Показывать унаследованные рецепты станции
 			ShowUniqueRecipes: Показывать уникальные рецепты станции
-			// ShowRecipesThatNeedThisCraftingStation: Viewing recipes that need this tile
-			// ShowRecipesThatNeedThisCraftingStationNoInherited: Viewing recipes that need this tile (no inherited recipes)
-			// ShowRecipesThatNeedThisCraftingStationHint: (Left click to view recipes that need this tile)
-			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
-			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
+			ShowRecipesThatNeedThisCraftingStation: Посмотреть рецепты, требующие эту станцию
+			ShowRecipesThatNeedThisCraftingStationNoInherited: Посмотреть рецепты, требующие эту станцию (без унаследованных рецептов)
+			ShowRecipesThatNeedThisCraftingStationHint: (Нажмите ЛКМ, чтобы посмотреть рецепты, требующие эту станцию)
+			ShowRecipesForCraftingStationItself: Посмотреть рецепты создания этой станции
+			ShowRecipesForCraftingStationItselfHint: (Нажмите ПКМ, чтобы посмотреть рецепты создания этой станции)
 			NoTileEntry: " (ошибка, запись не найдена)"
-			// HistoryBackwardTooltip: Go back in query history
-			// HistoryForwardTooltip: Go forward in query history
-			// HistoryEmpty: There is no query history yet
-			// HistoryReachedStart: Query history start reached
-			// HistoryReachedEnd: Query history end reached
+			HistoryBackwardTooltip: Предыдущий поиск
+			HistoryForwardTooltip: Следующий поиск
+			HistoryEmpty: У вас пока нет истории поиска
+			HistoryReachedStart: Достигнуто начало истории поиска
+			HistoryReachedEnd: Достигнут конец истории поиска
 		}
 
 		RecipeCatalogueFilters: {
@@ -69,10 +69,10 @@ Mods: {
 				(нажмите ПКМ по предмету, чтобы посмотреть рецепт в меню создания)
 				'''
 			DisabledRecipes: Показывать рецепты, удалённые модами
-			Unresearched: Показать только неиследованные предметы
+			Unresearched: Показать только неисследованные предметы
 			All: Все предметы
 			RMB: (ПКМ)
-			RecipesRemainToBeCalculated: рецепты ещё требуется расчитать
+			RecipesRemainToBeCalculated: рецепты ещё требуется рассчитать
 
 			Weapons: {
 				Name: Оружие
@@ -113,14 +113,14 @@ Mods: {
 
 			Tiles: {
 				Name: Размещаемое
-				CraftingStations: Странции для создания
+				CraftingStations: Станции для создания
 				Furniture: "{$CreativePowers.TabFurniture}"
 				Blocks: "{$CreativePowers.TabBlocks}"
 				Containers: Хранилища
 				Wiring: Проводка
 				Statues: Статуи
 				Doors: Считаются за двери
-				Chairs: Считаются за сулья
+				Chairs: Считаются за стулья
 				Tables: Считаются за столы
 				LightSources: Источники света
 				Torches: Факелы
@@ -180,7 +180,7 @@ Mods: {
 
 			BossSummons: {
 				Name: Предметы, призывающие боссов
-				ProgressionOrder: Сортировать по порядку прогресии
+				ProgressionOrder: Сортировать по порядку прогрессии
 			}
 
 			Consumables: {
@@ -269,8 +269,8 @@ Mods: {
 			ByCapturing: ", поймав сачком"
 			Need: Требуется
 			Farm: Добыча
-			// PurchaseFrom: Purchase from
-			// DroppedBy: Dropped by
+			PurchaseFrom: Продаёт
+			DroppedBy: Выпадает с
 		}
 
 		ItemCatalogueUI: {
@@ -454,18 +454,18 @@ Mods: {
 				Tooltip: ""
 
 				ShowAll: {
-					Label: показывать
-					// Tooltip: ""
+					Label: Показывать
+					Tooltip: ""
 				}
 
 				ShowTeamOnly: {
-					Label: только союзников
-					// Tooltip: ""
+					Label: Только союзников
+					Tooltip: ""
 				}
 
 				Hide: {
-					Label: не показывать
-					// Tooltip: ""
+					Label: Не показывать
+					Tooltip: ""
 				}
 			}
 		}
