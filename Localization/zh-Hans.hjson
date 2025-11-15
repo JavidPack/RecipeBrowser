@@ -323,7 +323,8 @@ Mods: {
 			Recipes:
 				'''
 				[c/{0}:配方]
-				    在查询栏中放入物品以查找与该物品有关的配方. 使用[image:RecipeBrowser/UIElements/historyBack] 和[image:RecipeBrowser/UIElements/historyForward]按钮来浏览查询栏的查询历史. 你同时可以通过窗口中提供的各种各样的选项查询并筛选配方.  附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击制作站会将配方限定为制作该制作站的配方. 右键点击物块会显示合成该合成站的配方,包括了售卖于商人或掉落于生物的途径. as well as merchants and NPC drops for it. The [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示下位制作站配方. 例如: 地狱熔炉继承了其下位即熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.				'''
+					在查询栏中放入物品以查找与该物品有关的配方. 使用[image:RecipeBrowser/UIElements/historyBack] 和[image:RecipeBrowser/UIElements/historyForward]按钮来浏览查询栏的查询历史. 你同时可以通过窗口中提供的各种各样的选项查询并筛选配方.  附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击制作站会将配方限定为制作该制作站的配方. 右键点击物块会显示合成该合成站的配方,包括了售卖于商人或掉落于生物的途径. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示下位制作站配方. 例如: 地狱熔炉继承了其下位即熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.
+				'''
 			Craft:
 				'''
 				[c/{0}:制作]
