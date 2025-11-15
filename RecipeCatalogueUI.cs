@@ -720,6 +720,7 @@ namespace RecipeBrowser
 			foundItems.UnionWith(Main.LocalPlayer.bank.item.Select(x => x.type));
 			foundItems.UnionWith(Main.LocalPlayer.bank2.item.Select(x => x.type));
 			foundItems.UnionWith(Main.LocalPlayer.bank3.item.Select(x => x.type));
+			foundItems.UnionWith(Main.LocalPlayer.bank4.item.Select(x => x.type));
 			foundItems.UnionWith(Main.LocalPlayer.inventory.Select(x => x.type));
 			foundItems.UnionWith(Main.LocalPlayer.armor.Select(x => x.type));
 			foundItems.UnionWith(Main.LocalPlayer.dye.Select(x => x.type));
