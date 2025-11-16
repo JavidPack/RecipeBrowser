@@ -119,7 +119,7 @@ namespace RecipeBrowser
 		public void PostSetupContent()
 		{
 			mods = ModLoader.Mods.Where(mod => mod.GetContent<ModItem>().Any()).Select(mod => mod.Name).ToArray();
-			modIndex = 0;
+			ModIndex = 0;
 		}
 
 		public override void OnInitialize()
@@ -345,7 +345,15 @@ namespace RecipeBrowser
 		//}
 
 		// Vanilla ModLoader mod will act as "all"
-		internal static int modIndex; // Selected mod
+		private static int modIndex; // Selected mod
+		internal static int ModIndex {
+			get => modIndex;
+			set {
+				modIndex = value;
+				SharedUI.instance.ModFilterByFilter?.FormatText(instance.mods[modIndex]);
+				SharedUI.instance.updateNeeded = true; // Need to refresh for ModFilterByFilter
+			}
+		}
 		internal static int modIndexPrevious; // Last icon calculated
 		internal static int modHoverIndex = -1; // Currently hovering option
 
@@ -368,13 +376,13 @@ namespace RecipeBrowser
 			{
 				ModFilterDropdown = new ModFilterDropdown(
 					mods,
-					modIndex,
+					ModIndex,
 					GetDisplayName
 				);
 
 				ModFilterDropdown.SelectedIndexChanged += (_, selectedIndex) =>
 				{
-					modIndex = selectedIndex;
+					ModIndex = selectedIndex;
 					UpdateModFilterUI();
 					UnblockInput(evt, listeningElement);
 				};
@@ -389,20 +397,20 @@ namespace RecipeBrowser
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
 			ChangeModIndex(false);
-			ModFilterDropdown?.SelectIndex(modIndex);
+			ModFilterDropdown?.SelectIndex(ModIndex);
 			UpdateModFilterUI();
 		}
 
 		private void ModFilterButton_OnMiddleClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			modIndex = 0;
-			ModFilterDropdown?.SelectIndex(modIndex);
+			ModIndex = 0;
+			ModFilterDropdown?.SelectIndex(ModIndex);
 			UpdateModFilterUI();
 		}
 
 		private void UpdateModFilterUI()
 		{
-			modFilterButton.hoverText = RBText("ModFilter") + ": " + GetDisplayName(modIndex);
+			modFilterButton.hoverText = RBText("ModFilter") + ": " + GetDisplayName(ModIndex);
 			UpdateModHoverImage();
 			AllUpdateNeeded();
 		}
@@ -411,11 +419,11 @@ namespace RecipeBrowser
 		{
 			if (mods.Length <= 1)
 			{
-				modIndex = 0;
+				ModIndex = 0;
 				return;
 			}
 			
-			modIndex = (modIndex + (increment ? 1 : mods.Length - 1)) % mods.Length;
+			ModIndex = (ModIndex + (increment ? 1 : mods.Length - 1)) % mods.Length;
 		}
 
 		private string GetDisplayName(int index)
@@ -425,7 +433,7 @@ namespace RecipeBrowser
 
 		internal void UpdateModHoverImage()
 		{
-			int indexToDisplay = modHoverIndex > -1 ? modHoverIndex : modIndex;
+			int indexToDisplay = modHoverIndex > -1 ? modHoverIndex : ModIndex;
 			if (indexToDisplay == modIndexPrevious)
 				return;
 

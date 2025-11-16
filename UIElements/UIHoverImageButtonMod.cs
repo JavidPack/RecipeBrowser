@@ -19,7 +19,7 @@ namespace RecipeBrowser
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{ 
-			if (RecipeBrowserUI.modIndex != 0) {
+			if (RecipeBrowserUI.ModIndex != 0) {
 				CalculatedStyle dimensions = GetDimensions();
 				spriteBatch.Draw(textureColorable.Value, dimensions.Position(), Main.DiscoColor);
 
