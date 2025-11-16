@@ -52,11 +52,11 @@ Mods: {
 			HistoryEmpty: 尚无查询历史
 			HistoryReachedStart: 抵达查询历史起点
 			HistoryReachedEnd: 抵达查询历史终点
-			// RecipesFilteredByMod: "{0} {^0:recipe;recipes} filtered by mod filter."
-			// RecipesFilteredBySearch: "{0} {^0:recipe;recipes} filtered by search filter."
-			// RecipesFilteredByTooltip: "{0} {^0:recipe;recipes} filtered by tooltip filter."
-			// RecipesFilteredByCategory: "{0} {^0:recipe;recipes} filtered by category filter."
-			// RecipesFilteredByOtherFilters: "{0} {^0:recipe;recipes} filtered by other filters."
+			RecipesFilteredByMod: "{0}{^0:个配方;个配方}被Mod过滤器过滤"
+			RecipesFilteredBySearch: "{0}{^0:个配方;个配方}被搜索过滤器过滤"
+			RecipesFilteredByTooltip: "{0}{^0:个配方;个配方}被物品描述过滤器过滤"
+			RecipesFilteredByCategory: "{0}{^0:个配方;个配方}被种类过滤器过滤"
+			RecipesFilteredByOtherFilters: "{0}{^0:个配方;个配方}被其他过滤器过滤"
 		}
 
 		RecipeCatalogueFilters: {
