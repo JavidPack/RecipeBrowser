@@ -528,8 +528,8 @@ namespace RecipeBrowser
 				if (filterResults.filteredByMod > 0) {
 					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredByMod", filterResults.filteredByMod));
 
-					if (RecipeBrowserUI.modIndex != 0)
-						filterMessages.Add($"Showing only recipes resulting in items from \"{Terraria.ModLoader.ModLoader.GetMod(RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex]).DisplayName}\"");
+					if (RecipeBrowserUI.ModIndex != 0)
+						filterMessages.Add($"Showing only recipes resulting in items from \"{Terraria.ModLoader.ModLoader.GetMod(RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex]).DisplayName}\"");
 				}
 				if (filterResults.filteredByCategory > 0)
 					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredByCategory", filterResults.filteredByCategory));
