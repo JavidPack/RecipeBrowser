@@ -71,9 +71,9 @@ Mods: {
 			ExtendedCraftable: 嵌套合成(在合成配方中右键访问此面板,自动禁用以防延迟)
 			DisabledRecipes: 显示被其他Mod禁用的配方
 			Unresearched: 未研究
-			// ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
-			// ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
-			// ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
+			ModFilterByResultItemTooltip: 显示合成{0}的物品的配方
+			ModFilterByRecipeSourceTooltip: 显示{0}所添加的配方
+			ModFilterByIngredientTooltip: 显示使用{0}的材料的配方
 			All: 全部
 			RMB: (右键)
 			RecipesRemainToBeCalculated: 正在计算配方
@@ -450,17 +450,17 @@ Mods: {
 
 				ShowAll: {
 					Label: 显示全部
-					// Tooltip: ""
+					Tooltip: ""
 				}
 
 				ShowTeamOnly: {
 					Label: 仅显示同一队伍
-					// Tooltip: ""
+					Tooltip: ""
 				}
 
 				Hide: {
 					Label: 隐藏
-					// Tooltip: ""
+					Tooltip: ""
 				}
 			}
 		}
