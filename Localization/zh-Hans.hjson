@@ -71,9 +71,9 @@ Mods: {
 			ExtendedCraftable: 嵌套合成(在合成配方中右键访问此面板,自动禁用以防延迟)
 			DisabledRecipes: 显示被其他Mod禁用的配方
 			Unresearched: 未研究
-			ModFilterByResultItemTooltip: 显示合成{0}的物品的配方
+			ModFilterByResultItemTooltip: 显示{0}物品的配方
 			ModFilterByRecipeSourceTooltip: 显示{0}所添加的配方
-			ModFilterByIngredientTooltip: 显示使用{0}的材料的配方
+			ModFilterByIngredientTooltip: 显示材料包含{0}物品的配方
 			All: 全部
 			RMB: (右键)
 			RecipesRemainToBeCalculated: 正在计算配方
