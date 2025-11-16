@@ -98,7 +98,7 @@ namespace RecipeBrowser.UIElements
 						}
 					}
 					if (!found) {
-						Main.NewText("No recipe found for " + ItemTagHandler.GenerateTag(item));
+						Main.NewText(SharedUI.RBText("FavoritedUI.NoRecipeFoundFor") + ItemTagHandler.GenerateTag(item));
 					}
 				}
 			}

@@ -12,6 +12,8 @@ using System;
 using ReLogic.Content;
 using Terraria.ModLoader;
 using System.Globalization;
+using Terraria.ModLoader.UI;
+using Terraria.Localization;
 
 namespace RecipeBrowser.TagHandlers
 {
@@ -48,7 +50,8 @@ namespace RecipeBrowser.TagHandlers
 			{
 				if (!string.IsNullOrEmpty(tooltip))
 				{
-					Main.hoverItemName = tooltip;
+					// Main.hoverItemName = tooltip;
+					UICommon.TooltipMouseText(tooltip);
 				}
 			}
 
@@ -94,8 +97,12 @@ namespace RecipeBrowser.TagHandlers
 			{
 				if (option.Length != 0)
 				{
-					if (option[0] == 't')
+					if (option[0] == 't') {
 						tooltip = option.Substring(1).Replace(';', ':');
+						//if (tooltip.StartsWith("$")) {
+						//	tooltip = Language.GetTextValue(tooltip.Substring(1));
+						//}
+					}
 					if (option[0] == 's')
 						float.TryParse(option.Substring(1), NumberStyles.Float, CultureInfo.InvariantCulture, out scale); // 0.5 is interpreted as 5 instead of 0.5 for users of some cultures, so need InvariantCulture
 					if (option[0] == 'v')

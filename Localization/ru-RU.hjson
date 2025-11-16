@@ -2,212 +2,477 @@ Mods: {
 	RecipeBrowser: {
 		RecipeBrowserUI: {
 			Recipes: Рецепты
-			Craft: Ремесло
-			Items: Предмет
-			Bestiary: Враги
-			// Help: Help
+			Craft: Создание
+			Items: Предметы
+			Bestiary: Существа
+			Help: Руковод.
 			Close: Закрыть
-			All: Все
+			All: все
 			ModFilter: Фильтр модов
+			NoFavoritedRecipes: Нет избранных рецептов
+			RecipeAddedBy: Рецепт из {0}
+		}
+
+		# These are image paths, do not localize unless you make your own version of these png files in your language.
+		ImagePaths: {
+			FilterMod: Images/filterMod_ru-RU
+			FilterModColorable: Images/filterModColorable_ru-RU
 		}
 
 		Common: {
 			FilterByName: Название
 			FilterByTooltip: Описание
-			InstallItemChecklistToUse: Установите мод "Item Checklist" для использования
+			InstallItemChecklistToUse: Установите Item Checklist для использования
 		}
 
 		Keybind: {
 			ToggleRecipeBrowser: Открыть браузер рецептов
-			QueryHoveredItem: Отобразить рецепт предмета
-			ToggleFavoritedRecipesWindow: Включить окно избранных рецептов
+			QueryHoveredItem: Поместить предмет под курсором в ячейку
+			ToggleFavoritedRecipesWindow: Вкл./Выкл. окно с избранными рецептами
 		}
 
 		RecipeCatalogueUI: {
-			Tile: Вид
+			Tile: Ст.
 			AllRecipes: Все рецепты
-			NearbyChests: Инвентарь / Ближайшие хранилища
+			NearbyChests: Инвентарь и ближайшие хранилища
 			ClickToRefresh: Нажмите, чтобы обновить
-			ItemChecklistOnly: Мод "Item Checklist"
-			OnlyNewItemsMadeFromSeenItems: Только новые предметы, созданные из разблокированных предметов.
-			EmptyQuerySlotHint: Положите предмет сюда
-			// ShowInheritedRecipes: Show inherited recipes
-			// ShowUniqueRecipes: Show unique recipes
+			ItemChecklistOnly: Только из Item Checklist
+			OnlyNewItemsMadeFromSeenItems: Только новые предметы, которые можно создать из уже полученных
+			EmptyQuerySlotHint: Поместите предмет сюда
+			ShowInheritedRecipes: Показывать унаследованные рецепты станции
+			ShowUniqueRecipes: Показывать уникальные рецепты станции
+			ShowRecipesThatNeedThisCraftingStation: Посмотреть рецепты, требующие эту станцию
+			ShowRecipesThatNeedThisCraftingStationNoInherited: Посмотреть рецепты, требующие эту станцию (без унаследованных рецептов)
+			ShowRecipesThatNeedThisCraftingStationHint: (Нажмите ЛКМ, чтобы посмотреть рецепты, требующие эту станцию)
+			ShowRecipesForCraftingStationItself: Посмотреть рецепты создания этой станции
+			ShowRecipesForCraftingStationItselfHint: (Нажмите ПКМ, чтобы посмотреть рецепты создания этой станции)
+			NoTileEntry: " (ошибка, запись не найдена)"
+			HistoryBackwardTooltip: Предыдущий поиск
+			HistoryForwardTooltip: Следующий поиск
+			HistoryEmpty: У вас пока нет истории поиска
+			HistoryReachedStart: Достигнуто начало истории поиска
+			HistoryReachedEnd: Достигнут конец истории поиска
+		}
+
+		RecipeCatalogueFilters: {
+			RecipeOrder: Как в меню рецептов
+			CreativeSort: Как в меню дублирования
+			ItemID: Сортировать по ID
+			Value: Сортировать по цене
+			Alphabetical: Сортировать по алфавиту
+			Rarity: Сортировать по редкости
+			Materials: Показать только являющиеся материалами
+			Craftable: Показать предметы, можно создать сейчас
+			ExtendedCraftable:
+				'''
+				Показать доступные для создания
+				(нажмите ПКМ по предмету, чтобы посмотреть рецепт в меню создания)
+				'''
+			DisabledRecipes: Показывать рецепты, удалённые модами
+			Unresearched: Показать только неисследованные предметы
+			// ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
+			// ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
+			// ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
+			All: Все предметы
+			RMB: (ПКМ)
+			RecipesRemainToBeCalculated: рецепты ещё требуется рассчитать
+
+			Weapons: {
+				Name: Оружие
+				Melee: Оружие ближнего боя
+				Yoyo: Йо-йо
+				Magic: Магическое оружие
+				Ranged: Стрелковое оружие
+				UseAmmoType: По типу боеприпасов
+				Throwing: Метательное оружие
+				Summon: Оружие призывателя
+				Whip: Хлысты
+				Sentry: Оружие, призывающее стражей
+				CycleUsedAmmoTypes: Переключение используемого типа боеприпасов
+			}
+
+			Damage: Сортировать по урону
+
+			Tools: {
+				Name: Инструменты
+				Pickaxes: Кирки
+				PickPower: Сортировать по мощности кирки
+				Axes: Топоры
+				AxePower: Сортировать по мощности топора
+				Hammers: Молоты
+				HammerPower: Сортировать по мощности молота
+			}
+
+			Armor: {
+				Name: Броня и одежда
+				Head: Голова
+				Body: Туловище
+				Legs: Ноги
+				Defense: Сортировать по защите
+				Vanity: Одежда
+				ArmorOnly: Броня
+				TotalDefense: Сортировать по общей защите
+			}
+
+			Tiles: {
+				Name: Размещаемое
+				CraftingStations: Станции для создания
+				Furniture: "{$CreativePowers.TabFurniture}"
+				Blocks: "{$CreativePowers.TabBlocks}"
+				Containers: Хранилища
+				Wiring: Проводка
+				Statues: Статуи
+				Doors: Считаются за двери
+				Chairs: Считаются за стулья
+				Tables: Считаются за столы
+				LightSources: Источники света
+				Torches: Факелы
+				PlaceTile: Сортировать по способу размещения
+				Solid: Полноценные
+				NonSolid: Фоновые
+			}
+
+			Walls: Стены
+
+			Accessories: {
+				Name: Аксессуары
+
+				Wings: {
+					Name: Крылья
+					FlightTime: Сортировать по времени полёта
+					HorizontalSpeed: Сортировать по горизонтальной скорости
+					AccelerationMultiplier: Сортировать по множителю ускорения
+				}
+			}
+
+			Ammo: {
+				Name: Боеприпасы
+				AmmoType: Сортировать по типу боеприпаса
+				CycleAmmoTypes: Переключение типов боеприпасов
+			}
+
+			Potions: {
+				Name: Еда и зелья
+				HealthPotions: Лечебные зелья
+				HealLife: Сортировать по восстанавливаемому здоровью
+				ManaPotions: Зелья маны
+				HealMana: Сортировать по восстанавливаемой мане
+				BuffPotions: Зелья усилений
+				Food: Еда и напитки
+			}
+
+			Expert: Предметы режима эксперта
+			Master: Предметы режима мастера
+
+			Pets: {
+				Name: Питомцы
+				CommonPets: Обычные питомцы
+				LightPets: Освещающие питомцы
+			}
+
+			Mounts: Ездовые питомцы и вагонетки
+			Carts: Вагонетки
+			Hooks: Крюки
+			GrappleRange: Сортировать по дальности захвата
+
+			Dyes: {
+				Name: Красители и краски для волос
+				CommonDyes: Красители
+				HairDyes: Краски для волос
+			}
+
+			BossSummons: {
+				Name: Предметы, призывающие боссов
+				ProgressionOrder: Сортировать по порядку прогрессии
+			}
+
+			Consumables: {
+				Name: Расходуемое
+				CapturedNPC: Предметы, призывающие существ
+			}
+
+			GrabBags: {
+				Name: Предметы с содержимым
+				FishingCrate: Пре-хардмодные ящики
+				FishingCrateHardmode: Хардмодные ящики
+				BossBag: Пре-хардмодные мешки с сокровищами
+				BossBagHardmode: Хардмодные мешки с сокровищами
+				ExpectedValue: Сортировать по приблиз. стоимости содержимого
+			}
+
+			Fishing: {
+				Name: Рыбалка
+				Poles: Удочки
+				PolePower: Сортировать по мощности удочки
+				Bait: Наживка
+				BaitPower: Сортировать по мощности наживки
+				Bobbers: Поплавки
+				QuestFish: Рыба заданий
+			}
+
+			Extractinator: Используемые промывателем
+			Other: Другие
 		}
 
 		FavoritedUI: {
-			Close: Закрыть ({0})
-			ToggleHint: Нажмите {0} ,чтобы открыть
-			ToggleUnboundHint: Установите горячую клавишу для переключения
-			// AlwaysShow: Always show
-			// ShowWhenInventory: Show when inventory
+			Close: Скрыть ({0})
+			ToggleHint: нажмите {0} для быстрого переключения
+			ToggleUnboundHint: установите горячую клавишу
+			AlwaysShow: Показывать всегда
+			ShowWhenInventory: Показывать при открытом инвентаре
+			ShowOtherPlayersFavorited: Показывать избранные рецепты всех игроков
+			ShowTeammatesFavorited: Показывать избранные рецепты союзников по команде
+			HideOtherPlayersFavorited: Скрыть избранные рецепты других игроков
+			NoRecipeFoundFor: "Не найден рецепт для: "
 		}
 
 		CraftUI: {
-			EmptyQuerySlotHint: Положите предмет сюда
-			Calc: Расчёт
+			EmptyQuerySlotHint: Поместите предмет сюда
+			Calc: Рассчитать
 			CalcTooltip:
 				'''
-				Переключает расширенный расчёт крафта в рецептах
-				Может вызвать зависание
+				Вкл./Выкл. подсвечивание рецептов, требующих несколько этапов для создания
+				Может снижать производительность
 				'''
-			Loot: Лут
-			LootTooltip: Отображать предметы, выпадающие с мобов (Только разблокированные мобы)
+			Loot: Добыча
+			LootTooltip: Показывать рецепты из предметов, выпадающих с открытых в бестиарии существ
 			Bugnet: Сачок
-			BugnetTooltip: Отображать насекомых, которых можно поймать с помощью сачка (Только разблокированные)
-			Mineable: Добыча
-			MineableTooltip: Отображать предметы, которые можно добыть из руды в мире (С использованием лучшей кирки)
-			Shop: Обмен
-			ShopTooltip: Отображать предметы, которые вы можете купить у торговцов (Только имеющиеся торговцы)
-			MissingStations: Неимеющиеся станции
-			MissingStationsTooltip: Отображать станции, которых нет (Сбрасывается при входе в мир)
+			BugnetTooltip: Показывать рецепты из предметов, которых можно поймать сачком
+			Mineable: Вскопать
+			MineableTooltip: Показывать рецепты из предметов, добываемых киркой
+			Shop: Магазин
+			ShopTooltip: Показывать рецепты из предметов, продаваемых открытыми в бестиарии НИПами
+			MissingStations: Отсут. станции
+			MissingStationsTooltip:
+				'''
+				Показывать рецепты предметов, создаваемых на ранее не встречавшихся станциях
+				(сбрасывается при перезаходе в мир)
+				'''
 			Inventory: Инвентарь
-			Banks: Банк
-			BanksTooltip: Отображать предметы из свиньи-копилки, сейфа и кузницы защитника (Скоро...)
-			Chests: Сундук
-			ChestsTooltip: Отображать предметы из ближайших сундуков (Скоро...)
-			MagicStorage: Magic Storage
-			MagicStorageTooltip: Отображать предметы и станции из ближайшего магического хранилища (Скоро...)
-			BottomInstructions: ПКМ по предмету в "Рецепты", чтобы быстро перейти в эту вкладку
-			NoPathsFound: Для этого предмета/рецепта не найдены пути создания.
+			Banks: Порт. хранилища
+			BanksTooltip: Учитывать предметы из свиньи-копилки, сейфа, кузни защитника и т.д. (в разработке)
+			Chests: Сундуки
+			ChestsTooltip: Учитывать предметы из ближайших сундуков (в разработке)
+			MagicStorage: Маг. хранилище
+			MagicStorageTooltip: Учитывать предметы и станции из ближайшего магического хранилища (в разработке)
+			BottomInstructions: Нажмите ПКМ по рецепту, чтобы перейти в это меню
+			NoPathsFound: Ветка создания для этого предмета отсутствует или недоступна
+			Craft: Создать
+			Duplicate: Дубликат
+			Missing: "Отсутствует поблизости: "
+			Unseen: "Не встречалась ранее: "
+			Cost: "Стоимость: "
+			Have: Имеется
+			Purchase: Покупка
+			From: от
+			For: за
+			Mine: Добыча
+			FromTheWorld: ", добыв в мире"
+			BugNet: Сачок
+			ByCapturing: ", поймав сачком"
+			Need: Требуется
+			Farm: Добыча
+			PurchaseFrom: Продаёт
+			DroppedBy: Выпадает с
 		}
 
 		ItemCatalogueUI: {
-			Crafted: Создать
-			OnlyShowCraftedItems: Отображать предметы, которые можно создать
-			Loot: Лут
-			ShowOnlyLootItems: Отображать предметы, которые можно получить с существ/сундуков
-			Unobtained: Нету
-			OnlyUnobtainedItems: Отображать неполученные предметы
-			BottomInstructions: 2x ЛКМ: Рецепт; 2x ПКМ: С кого выпадает
+			Crafted: Создание
+			OnlyShowCraftedItems: Показывать только создаваемые предметы
+			Loot: Добыча
+			ShowOnlyLootItems: Показывать только предметы, выпадающие с существ
+			Unobtained: Неполуч.
+			OnlyUnobtainedItems: Показывать только ранее не полученные предметы
+			BottomInstructions: Двойное ЛКМ: показать рецепты / Двойное ПКМ: показать, с кого выпадает
+			ExpectedValue: Стоимость ≈ {0}
+		}
+
+		UIArmorSetCatalogue: {
+			TotalSetDefense: Общая защита комплекта: {0} ед.
+			ArmorSets:
+				'''
+				Комплекты брони
+				(Предупреждение: на загрузку может потребоваться несколько секунд)
+				'''
+			ShowItems: Предметы
+			ShowItemsTooltip: Отображает элементы брони, входящие в комплект, отдельно под ним
+			UseDye: Красители
+			UseDyeTooltip: Показывает комплекты брони с использующимися на вас сейчас красителями
+			Animate: Анимация
+			AnimateTooltip: Имитация анимации движений игрока
+			Accessories: Аксессуары
+			AccessoriesTooltip: Показывает комплекты брони с видимыми на вас сейчас аксессуарами
 		}
 
 		BestiaryUI: {
-			Encountered: Убиты
-			Unencountered: Не убиты
-			ShowOnlyNPCKilledAlready: Отображать только существ, которых вы убили
+			Encountered: Открытые в бестиарии
+			Unencountered: Неоткрытые в бестиарии
+			ShowOnlyNPCKilledAlready:
+				'''
+				Показывать только ранее убитых существ
+				(Нажмите ПКМ, чтобы показывать неубитых)
+				'''
 			ShowOnlyNPCNotKilled:
 				'''
-				Отобразить еще не убитых существ
-				(Нажмите ПКМ, чтобы переключиться на уже убитых)
+				Показывать только ни разу не убитых существ
+				(Нажмите ПКМ, чтобы показывать убитых)
 				'''
-			HasLoot: Лут
-			ShowOnlyNPCWithLoot: Отображать только мобов с лутом
-			NewLoot: Новый лут
-			ShowOnlyNPCWithNeverBeforeSeenLoot: Отображать только мобов, с которых ни разу не получен лут
-			EmptyQuerySlotHint: Положите предмет сюда
+			HasLoot: Добыча
+			ShowOnlyNPCWithLoot: Показывать только тех существ, с которых выпадают предметы
+			NewLoot: Новая добыча
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Показывать только тех существ, с которых выпадают не полученные ранее предметы
+			EmptyQuerySlotHint: Поместите предмет сюда
+			NPCDrops: Предметы, выпадающие с существа «{0}»:
 		}
 
 		HelpUI: {
-			/* JumbledText:
+			JumbledText:
 				'''
-				[c/{0}:Jumbled Text?]
-				    If the text below looks wrong, you'll need to disable Terraria Overhaul to fix it.
-				''' */
-			/* Recipes:
+				[c/{0}:Текст вылазит за границы?]
+				    Если текст ниже отображается некорректно, то отключение мода Terraria Overhaul может исправить это.
 				'''
-				[c/{0}:Recipes]
-				    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
-				''' */
-			/* Craft:
+			Recipes:
 				'''
-				[c/{0}:Craft]
-				    This tool can be used to craft recipes. In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] background can be crafted via multiple steps. You can also left click on items in the Items tool and then visit this tool. This tool shows extended crafting options. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. [c/{1}:✓], [c/{2}:X], and [c/{3}:?] icons over the tiles indicate if you are near the crafting station, not near it, or have never seen the station. Use the [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] button to craft individual steps. By default the Recipes tool won't automatically calculate multiple step crafting unless the Calc checkbox is checked. You can also use the Extended Craftable filter to quickly view all extended crafting options. Note that you may experience some lag with this feature.
-				''' */
-			/* Items:
+				[c/{0}:Рецепты]
+				    В этом меню вы сможете просматривать рецепты создания всех предметов. Поместите предмет в ячейку сверху слева, чтобы посмотреть его рецепт и/или создаваемые из него предметы. При помощи фильтров чуть правее вы можете сортировать то, что вы хотите видеть в этом меню. Фильтр «Инвентарь и ближайшие хранилища» показывает рецепты только из предметов в вашей досягаемости. Фильтр [c/{1}:«{$RecipeCatalogueUI.ItemChecklistOnly}»] (доступен только если установлен соответствующий мод) показывает только ранее не полученные предметы, которые можно создать из уже полученных. 
+				    Опция «Ст.» слева открывает небольшое меню станций для создания предметов, расположенных в порядке востребованности, нажатие по станции покажет только рецепты, для которых она необходима. Опция [image:RecipeBrowser/Images/Help/uniqueTile] позволяет переключатся между уникальными и унаследованными рецептами: адская кузня, например, наследует большинство рецептов от обычной печи (переплавка пре-хардмодных руд), но также имеет и свои уникальные (переплавка адского камня).
+				    Необходимые материалы и станция для создания выбранного вами рецепта будут отображаться в поле в самом низу меню. Если название станции отображается оранжевым цветом — этой станции нет поблизости, если зелёным — наоборот, есть. В поле справа будут перечислены существа, с которых выпадает выбранный предмет, если такие имеются. Двойное нажатие ЛКМ по существу в этом поле переместит вас на его же страничку в меню существ. 
+				    Двойное нажатие ЛКМ по рецепту или предмету в меню, он переместится в основную ячейку сверху, а в поле будут отображаться уже рецепты с его участием — это можно использовать, чтобы удобно и быстро перемещаться по деревьям рецептов. Нажатие по рецепту с зажатым Alt добавит его в избранное — подробнее см. в разделе «Избранные рецепты».
 				'''
-				[c/{0}:Items]
-				    Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary. The Unobtained option shows only items not collected yet with [c/{1}:Item Checklist].
-				''' */
-			/* Bestiary:
+			Craft:
 				'''
-				[c/{0}:Bestiary]
-				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
-				''' */
-			/* Borders:
+				[c/{0}:Создание]
+				    В этом меню вы сможете просматривать все доступные ветки создания предметов из предметов в вашем инвентаре. Нажатие ПКМ по предмету в меню рецептов перенесёт вас на его страничку в этом меню. Если включена опция «Рассчитать», рецепты, требующие несколько этапов для создания, будут иметь такой фон: [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground]. Например, если у вас есть золотая и железная руда, меню покажет вам все этапы рецептов, следуя которым вы сможете создать золотые часы.
+				    В верхней части меню есть фильтры, которые вы можете переключать при условии, если вы, например, хотите видеть рецепты с участием станций, которые у вас пока отсутствуют. Иконка [c/{1}:✓] напротив станции означает, что вы сейчас находитесь рядом с ней, [c/{3}:?] — вы находились рядом с ней раньше, а [c/{2}:X] означает, что вы не были рядом с ней ни разу за текущую игровую сессию. Вы можете нажать кнопку [image/s0.7:RecipeBrowser/Images/Help/CraftIcon], чтобы быстро создать предмет, если для этого выполнены все условия.
 				'''
-				[c/{0}:Borders]
-				    Sometimes items will display with different borders, here is what they mean:
-				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] This Recipe is Favorited, read Favorite section below.
-				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] This Recipe/Item/NPC is Selected. Information shown relates to this thing.
-				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] This Recipe can currently be crafted. Click on it to open the crafting menu directly.
-				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] This Recipe can currently be crafted via multiple steps. Right Click on it to open the Craft tool to view crafting options.
-				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Item Checklist integration:] These items use the most recent new item you have collected.
-				''' */
-			/* Favorite:
+			Items:
 				'''
-				[c/{0}:Favorite]
-				    In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently. Item counts shown correspond to the player who favorited the recipe.
+				[c/{0}:Предметы]
+				    В этом меню вы сможете просматривать все предметы в игре. При помощи фильтров сверху вы можете сортировать то, что вы хотите видеть в этом меню. Двойное нажатие ЛКМ по предмету в этом меню перенесёт вас на его страничку в меню рецептов, а двойное нажатие ПКМ — в меню существ. Опция «Недоступ.» показывает ранее не полученные вами предметы, т.е. неотмеченные в моде [c/{1}:Item Checklist].
+				'''
+			Bestiary:
+				'''
+				[c/{0}:Существа]
+				    В этом меню вы сможете просматривать всех существ в игре. При помощи фильтров снизу вы можете сортировать то, что вы хотите видеть в этом меню. Нажатие ЛКМ по существу в этом меню покажет вам в поле снизу все выпадающие с него предметы. 
+				    Поместите предмет в ячейку сверху слева, чтобы просмотреть всех существ, с которых выпадает этот предмет. Двойное нажатие ЛКМ по предмету в этом меню перенесёт вас на его страничку в меню рецептов. Нажатие ПКМ по предмету в этом меню перенесёт этот предмет в ячейку сверху слева, что покажет вам, с каких ещё существ он выпадает. Опция «Новая добыча» показывает существ, с которых выпадают ранее не полученные вами предметы, т.е неотмеченные в моде [c/{1}:Item Checklist].
+				'''
+			Borders:
+				'''
+				[c/{0}:Рамки]
+				    Иногда вокруг предметов в этом браузере будут отображаться особые рамки. Вот что все они означают:
+				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] — рецепт этого предмета помечен как избранный, а значит будет отображаться в соответствующем окне. Подробнее об этом смотрите в пункте ниже.
+				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] — этот предмет/существо был(о) выбрано вами, а значит, что в поле снизу отображается информация, относящаяся к нему.
+				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] — этот предмет можно создать прямо сейчас, нажмите ЛКМ по нему, чтобы узнать, что для этого нужно.
+				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] — этот предмет можно создать прямо сейчас, однако для этого сперва понадобится создать ряд других предметов. Нажмите ПКМ по нему, чтобы перейти на его страничку в меню создания.
+				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Интеграция с Item Checklist] — этот предмет можно создать из полученных вами совсем недавно предметов, отмеченных в моде [c/{1}:Item Checklist].
+				'''
+			Favorite:
+				'''
+				[c/{0}:Избранные рецепты]
+				    Нажатие ЛКМ по предмету в меню рецептов, удерживая при этом клавишу Alt, добавит его рецепт в избранное. Избранные рецепты отображаются на вашем экране в отдельном от браузера меню. Это меню поможет вам со сбором всех необходимых материалов, необходимых для создания избранного предмета. 
+				    Рецепты предметов, добавленные в избранное другими игроками в мультиплеере, также отобразятся и в вашем меню, благодаря чему вы сможете отследить процесс сбора необходимых материалов другими игроками или помочь им в этом деле. Отображаемое количество полученных предметов соответствует игроку, который добавил его в избранное.
 				[image:RecipeBrowser/Images/Help/mpFavorited]
-				''' */
-			/* QueryHoveredItem:
 				'''
-				[c/{0}:Query Hovered Item]
-				    By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game. Depending on the last panel you were on, the behavior changes. The Recipe tool will populate the query slot, the Craft tool will display options to craft the item, the Item tool will scroll and select the item, and the Bestiary tool will populate the loot query slot. Using the hotkey a 2nd time on the same item will conveniently close the tool.
-				''' */
+			QueryHoveredItem:
+				'''
+				[c/{0}:Посмотреть рецепты выбранного курсором предмета]
+				    При помощи горячей клавиши, которую вы можете назначить в настройках управления, вы сможете мгновенно переносить предмет, на который вы навелись курсором, в ячейку сверху слева в последнем открытом вами меню. Использовать горячую клавишу можно когда угодно и где угодно, для этого даже не нужно сначала открывать сам браузер. Нажатие горячей клавиши по предмету второй раз закроет меню.
+				'''
 			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
-			/* CategoriesSubCategoriesSortsAndFilters:
+			CategoriesSubCategoriesSortsAndFilters:
 				'''
-				[c/{0}:Categories, Sub Categories, Sorts, and Filters]
-				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/Images/filterMod] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
+				[c/{0}:Категории, подкатегории, сортировка, фильтры и поиск]
+				    В меню рецептов и предметов вам будет предложено на выбор превеликое множество различных способов отсортировать нужные вам предметы. В строке поиска справа сверху вы сможете найти нужные вам предметы по их названию или описанию, а благодаря кнопке [image:RecipeBrowser/{$ImagePaths.FilterMod}] рядом с крестиком выше вы сможете отсортировать отображаемые предметы/существ по выбранному моду из тех, что у вас включены. 
+				    Например, в разделе категорий находятся такие кнопки, как [image:RecipeBrowser/Images/Help/Item_2430] и [image:RecipeBrowser/Images/Help/Item_54], показывающие ездовых питомцев и аксессуары соответственно.
+				    У некоторых категорий к тому же есть ещё и подкатегории, помогающие отсортировать нужные вам предметы с ещё большей точностью. На втором ряду также находятся и кнопки сортировки, например, [image:RecipeBrowser/Images/sortValue], сортирующая все отображаемые предметы по их денежной стоимости, или [image:RecipeBrowser/Images/sortAZ], сортирующая предметы по их названию в алфавитном порядке. Наконец, самые последние в этом ряду — кнопки фильтров, отображающие предметы только с определённой общей характеристикой. Так, кнопка [image:RecipeBrowser/Images/Help/Item_531] показывает только те предметы, что являются материалами для создания других. 
+				    Большинство кнопок подкатегорий, сортировки и фильтров отображаются лишь в определённых категориях — вы не увидите подкатегорию молотов в категории аксессуаров или возможность сортировать предметы по дальности крюка где-либо вне категории крюков. Некоторые кнопки фильтров можно переключать, например, при нажатии ЛКМ по фильтру «Переключить тип боеприпасов» вы сможете найти нужный вам тип боеприпасов, будь то стрелы, пули, ракеты, растворы или что-либо ещё. Нажатие ПКМ по таким фильтрам будет переключать их в обратном порядке.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
-				''' */
-			/* ItemChecklistIntegration:
 				'''
-				[c/{0}:Item Checklist Integration]
-				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist video].
-				''' */
+			ItemChecklistIntegration:
+				'''
+				[c/{0}:Интеграция мода Item Checklist]
+				    Если у вас включён мод Item Checklist, вы сможете искать предметы в браузере с ещё большей точностью, отфильтровав неотмеченные в меню этого мода предметы, благодаря чему вы сможете сосредоточиться лишь на предметах, актуальных для текущего этапа вашего прохождения. Фильтры, поддерживающие мод Item Checklist, также присутствуют и в меню предметов и существ. [l/github.com/user-attachments/assets/714db9bf-75dd-41b1-b603-10d266c53908:Видео с контрольным списком предметов].
+				'''
 		}
 
 		Keybinds: {
 			ToggleRecipeBrowser.DisplayName: Открыть браузер рецептов
-			QueryHoveredItem.DisplayName: Отобразить рецепт наведенного предмета
-			ToggleFavoritedRecipesWindow.DisplayName: Включить окно избранных рецептов
+			QueryHoveredItem.DisplayName: Посмотреть информацию о предмете
+			ToggleFavoritedRecipesWindow.DisplayName: Вкл./Выкл. окно с избранными рецептами
 		}
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				DisplayName: Конфигурация
+				DisplayName: Клиентские настройки
 
 				ShowRecipeModSource: {
-					Label: Отобразить модификацию, которая добавляет рецепт
-					Tooltip: Отображать в описании, какой мод добавляет рецепт в каталог рецептов.
+					Label: Показывать источник рецепта
+					Tooltip: Под названием предмета в меню рецептов будет написано, какой именно мод добавляет/изменяет его рецепт
 				}
 
 				ShowItemModSource: {
-					Label: Отобразить модификацию, которая добавляет предмет
-					Tooltip: Отображать в описании, какой мод добавляет этот предмет в каталог рецептов.
+					Label: Показывать источник предмета
+					Tooltip: Рядом с названием предмета в браузере будет написано, какой именно мод добавляет его
 				}
 
 				ShowNPCModSource: {
-					Label: Отобразить модификацию, которая добавляет существо
-					Tooltip: Отобразить в описании, какой мод добавляет существо в каталог рецептов.
+					Label: Показывать источник существа
+					Tooltip: Рядом с названием существа в меню существ будет написано, какой именно мод добавляет его
+				}
+
+				OpenKeybindingsMenuButton: {
+					Label: Установить назначения клавиш
+					Tooltip: Открыть меню управления для назначения горячих клавиш мода
 				}
 
 				Headers.AutomaticSettings: Автоматические настройки
 
 				RecipeBrowserSize: {
-					Label: Размер браузера рецептов
-					Tooltip: Размер интерфейса браузера рецептов. Это автоматически настраивается, нет необходимости менять.
+					Label: Размер браузера
+					Tooltip: Это значение сохранится автоматически, чтобы вам не пришлось настраивать размер каждый раз
 				}
 
 				RecipeBrowserPosition: {
-					Label: Расположение браузера рецептов
-					Tooltip: Положение интерфейса браузера рецептов. Это автоматически настраивается, нет необходимости менять.
+					Label: Положение браузера
+					Tooltip: Это значение сохранится автоматически, чтобы вам не пришлось настраивать положение каждый раз
 				}
 
 				FavoritedRecipePanelPosition: {
-					Label: Расположение избранных рецептов
-					Tooltip: Положение интерфейса избранных рецептов. Это автоматически настраивается, нет необходимости менять.
+					Label: Положение окна с избранными рецептами
+					Tooltip: Это значение сохранится автоматически, чтобы вам не пришлось настраивать положение каждый раз
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
-					Label: Отображать избранные рецепты только при открытом инвентаре
-					Tooltip: Автоматически отображается/скрывается панель избранных рецептов. Это автоматически настраивается, нет необходимости менять.
+					Label: Показывать избранные рецепты только при открытом инвентаре
+					Tooltip: Это значение сохранится автоматически, чтобы вам не пришлось настраивать видимость каждый раз
+				}
+
+				ShowOtherPlayersFavoritedRecipes: {
+					Label: Избранные рецепты др. игроков
+					Tooltip: Это значение сохранится автоматически, чтобы вам не пришлось настраивать видимость каждый раз
+				}
+			}
+
+			ShowOtherPlayersFavoritedRecipesOption: {
+				Tooltip: ""
+
+				ShowAll: {
+					Label: Показывать
+					Tooltip: ""
+				}
+
+				ShowTeamOnly: {
+					Label: Только союзников
+					Tooltip: ""
+				}
+
+				Hide: {
+					Label: Не показывать
+					Tooltip: ""
 				}
 			}
 		}
 
-		// Conditions.ShimmerTransmutation: Shimmer Transmutation
+		ItemLostInQuerySlotWarning: "Вы оставили предмет в браузере рецептов, имея заполненный инвентарь, и потеряли его: "
 	}
 }

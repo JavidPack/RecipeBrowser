@@ -89,7 +89,9 @@ namespace RecipeBrowser
 
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = hoverText;
+				// Main.hoverItemName = hoverText;
+				if(!string.IsNullOrWhiteSpace(hoverText))
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverText);
 			}
 		}
 	}

@@ -19,7 +19,9 @@ namespace RecipeBrowser
 			base.DrawSelf(spriteBatch);
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = hoverText;
+				// Main.hoverItemName = hoverText;
+				if (!string.IsNullOrWhiteSpace(hoverText))
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverText);
 				//	Main.toolTip = new Item();
 				//	Main.toolTip.name = hoverText;
 			}

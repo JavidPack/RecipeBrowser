@@ -1,9 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -22,6 +27,7 @@ namespace RecipeBrowser
 
 		internal static Color color = new Color(28, 187, 180);
 
+		internal UIPanel npcGridPanel;
 		internal UIGrid npcGrid;
 		internal UIHorizontalGrid lootGrid;
 		internal bool updateNeeded;
@@ -32,6 +38,10 @@ namespace RecipeBrowser
 		internal UICheckbox EncounteredRadioButton;
 		internal UICheckbox HasLootRadioButton;
 		internal UICheckbox NewLootOnlyRadioButton;
+
+		internal UIRadioButtonGroup RadioButtonGroup;
+		internal UIRadioButton BestiarySortRadioButton;
+		internal UIRadioButton IDSortRadioButton;
 
 		internal List<UINPCSlot> npcSlots;
 		internal UINPCSlot queryLootNPC;
@@ -52,7 +62,7 @@ namespace RecipeBrowser
 			mainPanel.Height.Set(-20, 1f);
 			mainPanel.Width.Set(0, 1f);
 
-			UIPanel npcGridPanel = new UIPanel();
+			npcGridPanel = new UIPanel();
 			npcGridPanel.SetPadding(6);
 			npcGridPanel.Top.Pixels = 46;
 			npcGridPanel.Width.Set(0, 1f);
@@ -65,6 +75,7 @@ namespace RecipeBrowser
 			npcGrid.Width.Set(-20, 1f);
 			npcGrid.Height.Set(0, 1f);
 			npcGrid.ListPadding = 2f;
+			npcGrid.alternateSort = CustomSort;
 			npcGridPanel.Append(npcGrid);
 
 			var npcGridScrollbar = new FixedUIScrollbar(RecipeBrowserUI.instance.userInterface);
@@ -99,6 +110,19 @@ namespace RecipeBrowser
 			queryItem = new UIBestiaryQueryItemSlot(new Item());
 			queryItem.emptyHintText = RBText("EmptyQuerySlotHint");
 			mainPanel.Append(queryItem);
+
+			RadioButtonGroup = new UIRadioButtonGroup();
+			RadioButtonGroup.Left.Pixels = 45;
+			RadioButtonGroup.Width.Set(180, 0f);
+			BestiarySortRadioButton = new UIRadioButton(Language.GetTextValue("BestiaryInfo.Sort_BestiaryID"), "");
+			IDSortRadioButton = new UIRadioButton(Language.GetTextValue("BestiaryInfo.Sort_ID"), "");
+			RadioButtonGroup.Add(BestiarySortRadioButton);
+			RadioButtonGroup.Add(IDSortRadioButton);
+			mainPanel.Append(RadioButtonGroup);
+			BestiarySortRadioButton.Selected = true;
+			
+			BestiarySortRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
+			IDSortRadioButton.OnSelectedChanged += (a, b) => updateNeeded = true;
 
 			npcNameFilter = new NewUITextBox(RBText("FilterByName", "Common"));
 			npcNameFilter.OnTextChanged += () => { ValidateNPCFilter(); updateNeeded = true; };
@@ -155,13 +179,48 @@ namespace RecipeBrowser
 			return mainPanel;
 		}
 
+		private int CustomSort(UIElement x, UIElement y) {
+			if (x is UINPCSlot a && y is UINPCSlot b) {
+				if (BestiarySortRadioButton.Selected) {
+					bool aHasSort = ContentSamples.NpcBestiarySortingId.TryGetValue(a.npcType, out int aSortValue);
+					bool bHasSort = ContentSamples.NpcBestiarySortingId.TryGetValue(b.npcType, out int bSortValue);
+
+					if (aHasSort && bHasSort)
+						return aSortValue.CompareTo(bSortValue);
+
+					if (aHasSort)
+						return -1;
+
+					if (bHasSort)
+						return 1;
+				}
+
+				// This should work with negatives, but they aren't displayed yet anyway. Vanilla, Negative (reversed), Modded
+				int aFallbackOrder = a.npc.netID switch {
+					< 0 => -a.npc.netID,
+					< 688 => a.npc.netID - 1000, // NPCID.Count
+					_ => a.npc.netID,
+				};
+				int bFallbackOrder = b.npc.netID switch {
+					< 0 => -b.npc.netID,
+					< 688 => b.npc.netID - 1000,
+					_ => b.npc.netID,
+				};
+
+				return aFallbackOrder.CompareTo(bFallbackOrder);
+			}
+
+			return x.CompareTo(y);
+		}
+
 		private void ValidateNPCFilter()
 		{
 			if (npcNameFilter.currentString.Length > 0)
 			{
 				bool found = false;
-				for (int type = 1; type < NPCLoader.NPCCount; type++)
-				{
+				for (int type = NPCID.NegativeIDCount + 1; type < NPCLoader.NPCCount; type++) {
+					if (type == 0)
+						continue;
 					string name = Lang.GetNPCNameValue(type);
 					if (name.IndexOf(npcNameFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1)
 					{
@@ -179,12 +238,15 @@ namespace RecipeBrowser
 
 		internal void Update()
 		{
-			if (NPCLoader.NPCCount - 1 != npcSlots.Count)
+			if (NPCLoader.NPCCount - 2 + -NPCID.NegativeIDCount != npcSlots.Count)
 			{
 				// should only happen once
 				npcSlots.Clear();
-				for (int type = 1; type < NPCLoader.NPCCount; type++)
+				for (int type = NPCID.NegativeIDCount + 1; type < NPCLoader.NPCCount; type++)
 				{
+					if (type == 0)
+						continue;
+
 					NPC npc = new NPC();
 					npc.SetDefaults(type);
 					var slot = new UINPCSlot(npc);
@@ -196,9 +258,7 @@ namespace RecipeBrowser
 			updateNeeded = false;
 
 			npcGrid.Clear();
-			for (int type = 1; type < NPCLoader.NPCCount; type++)
-			{
-				var slot = npcSlots[type - 1];
+			foreach (var slot in npcSlots) {
 				if (PassNPCFilters(slot))
 				{
 					npcGrid._items.Add(slot);
@@ -286,13 +346,13 @@ namespace RecipeBrowser
 				}
 			}
 
-			if (RecipeBrowserUI.modIndex != 0)
+			if (RecipeBrowserUI.ModIndex != 0)
 			{
 				if (slot.npc.ModNPC == null)
 				{
 					return false;
 				}
-				if (slot.npc.ModNPC.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.npc.ModNPC.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex])
 				{
 					return false;
 				}
@@ -304,7 +364,7 @@ namespace RecipeBrowser
 					return false;
 			}
 
-			if (Lang.GetNPCNameValue(slot.npcType).IndexOf(npcNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)
+			if (Lang.GetNPCNameValue(slot.npc.netID).IndexOf(npcNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)
 				return false;
 
 			return true;

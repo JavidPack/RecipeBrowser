@@ -79,7 +79,7 @@ namespace RecipeBrowser
 			UICheckbox mineables = new UICheckbox(RBText("Mineable"), RBText("MineableTooltip"));
 			mineables.Top.Set(top, 0f);
 			mineables.Left.Set(left, 0f);
-			mineables.Selected = RecipePath.allowLoots;
+			mineables.Selected = RecipePath.allowMineables;
 			mineables.OnSelectedChanged += (s, e) => {
 				RecipeCatalogueUI.instance.InvalidateExtendedCraft();
 				RecipePath.allowMineables = mineables.Selected;

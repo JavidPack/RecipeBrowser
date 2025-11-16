@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI;
 using Terraria.UI;
@@ -12,6 +13,8 @@ namespace RecipeBrowser.UIElements
 {
 	internal class UIArmorSetCatalogueItemSlot : UIItemCatalogueItemSlot
 	{
+		internal static string RBText(string key, string category = "UIArmorSetCatalogue") => RecipeBrowser.RBText(category, key);
+
 		internal Tuple<Item, Item, Item, string, int> set;
 		internal Item compareItem;
 		private bool drawError = false;
@@ -185,7 +188,7 @@ namespace RecipeBrowser.UIElements
 
 			if (IsMouseHovering) {
 				//Main.HoverItem = item.Clone();
-				Main.hoverItemName = set.Item4 + "\nTotal Set Defense: " + set.Item5;
+				UICommon.TooltipMouseText(set.Item4 + "\n" + Language.GetTextValue("Mods.RecipeBrowser.UIArmorSetCatalogue.TotalSetDefense", set.Item5));
 
 				//Main.HoverItem.SetNameOverride(Main.HoverItem.Name + (Main.HoverItem.modItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + Main.HoverItem.modItem.mod.Name + "]" : ""));
 			}
@@ -195,9 +198,12 @@ namespace RecipeBrowser.UIElements
 
 	internal static class ArmorSetFeatureHelper
 	{
+		internal static string RBText(string key, string category = "UIArmorSetCatalogue") => RecipeBrowser.RBText(category, key);
+
 		internal static List<Tuple<Item, Item, Item, string, int>> sets;
 		internal static List<UIArmorSetCatalogueItemSlot> armorSetSlots;
-		internal const string ArmorSetsHoverTest = "Armor Sets\n(Warning: May take many seconds to calculate)";
+		internal static string ArmorSetsHoverTest = Language.GetTextValue("Mods.RecipeBrowser.UIArmorSetCatalogue.ArmorSets");
+		internal static string ArmorSetsInternalName = "Armor Sets";
 
 		internal static void Unload() {
 			sets = null;
@@ -212,7 +218,7 @@ namespace RecipeBrowser.UIElements
 			panel.Width.Set(162, 0f);
 			panel.SetPadding(12);
 
-			var showItemsCheckbox = new UICheckbox("Show Items", "Display the items that make up the set");
+			var showItemsCheckbox = new UICheckbox(RBText("ShowItems"), RBText("ShowItemsTooltip"));
 			showItemsCheckbox.Selected = UIArmorSetCatalogueItemSlot.showItems;
 			showItemsCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.showItems = showItemsCheckbox.Selected;
@@ -223,7 +229,7 @@ namespace RecipeBrowser.UIElements
 			showItemsCheckbox.Left.Set(0, 0);
 			panel.Append(showItemsCheckbox);
 
-			var useDyeCheckbox = new UICheckbox("Use Dye", "Draw armor sets with currently equipped dye");
+			var useDyeCheckbox = new UICheckbox(RBText("UseDye"), RBText("UseDyeTooltip"));
 			useDyeCheckbox.Selected = UIArmorSetCatalogueItemSlot.useDye;
 			useDyeCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.useDye = useDyeCheckbox.Selected;
@@ -232,7 +238,7 @@ namespace RecipeBrowser.UIElements
 			useDyeCheckbox.Left.Set(0, 0);
 			panel.Append(useDyeCheckbox);
 
-			var animateCheckbox = new UICheckbox("Animate", "Mimic player animation");
+			var animateCheckbox = new UICheckbox(RBText("Animate"), RBText("AnimateTooltip"));
 			animateCheckbox.Selected = UIArmorSetCatalogueItemSlot.animate;
 			animateCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.animate = animateCheckbox.Selected;
@@ -241,7 +247,7 @@ namespace RecipeBrowser.UIElements
 			animateCheckbox.Left.Set(0, 0);
 			panel.Append(animateCheckbox);
 
-			var accessoriesCheckbox = new UICheckbox("Accessories", "Visualize with current accessories");
+			var accessoriesCheckbox = new UICheckbox(RBText("Accessories"), RBText("AccessoriesTooltip"));
 			accessoriesCheckbox.Selected = UIArmorSetCatalogueItemSlot.accessories;
 			accessoriesCheckbox.OnSelectedChanged += (s, e) => {
 				UIArmorSetCatalogueItemSlot.accessories = accessoriesCheckbox.Selected;

@@ -65,6 +65,8 @@ namespace RecipeBrowser
 			ChatManager.Register<TagHandlers.ItemHoverFixTagHandler>("itemhover");
 			//ChatManager.Register<TagHandlers.URLTagHandler>("u", "url");
 
+			Main.Assets.Request<Texture2D>("Images/UI/Settings_Inputs"); // Preload texture for OpenKeybindingsMenuButton
+
 			//FieldInfo translationsField = typeof(LocalizationLoader).GetField("translations", BindingFlags.Static | BindingFlags.NonPublic);
 			//translations = (Dictionary<string, LocalizedText>)translationsField.GetValue(this);
 			
@@ -78,7 +80,7 @@ namespace RecipeBrowser
 			*/
 			ToggleRecipeBrowserHotKey = KeybindLoader.RegisterKeybind(this, "ToggleRecipeBrowser", "OemCloseBrackets");
 			QueryHoveredItemHotKey = KeybindLoader.RegisterKeybind(this, "QueryHoveredItem", "Mouse3");
-			ToggleFavoritedPanelHotKey = KeybindLoader.RegisterKeybind(this, "ToggleFavoritedRecipesWindow", "F3");
+			ToggleFavoritedPanelHotKey = KeybindLoader.RegisterKeybind(this, "ToggleFavoritedRecipesWindow", "F5");
 			/*
 				CheatSheetLoaded = false;
 			}
@@ -92,11 +94,13 @@ namespace RecipeBrowser
 			Patches.Apply();
 		}
 
-		internal static string RBText(string category, string key)
+		internal static string RBText(string category, string key, params object[] args)
 		{
 			// return translations[$"Mods.RecipeBrowser.{category}.{key}"].GetTranslation(Language.ActiveCulture);
 			// This isn't good until after load....
-			return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+			if(args == null || args.Length == 0)
+				return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}");
+			return Language.GetTextValue($"Mods.RecipeBrowser.{category}.{key}", args);
 		}
 
 		internal static LocalizedText RBLocalizedText(string category, string key) {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using Terraria;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.GameContent.UI.Elements;
-using Terraria.GameContent.UI.States;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -18,7 +16,7 @@ namespace RecipeBrowser
 {
 	internal class ItemCatalogueUI
 	{
-		internal static string RBText(string key, string category = "ItemCatalogueUI") => RecipeBrowser.RBText(category, key);
+		internal static string RBText(string key, string category = "ItemCatalogueUI", params object[] args) => RecipeBrowser.RBText(category, key, args);
 
 		internal static ItemCatalogueUI instance;
 		internal static Color color = Color.DarkGreen;
@@ -42,6 +40,7 @@ namespace RecipeBrowser
 		internal UICheckbox CraftedRadioButton;
 		internal UICheckbox LootRadioButton;
 		internal UICheckbox UnobtainedRadioButton;
+		internal UIJourneyDuplicateButton duplicationButton;
 		// TODO: Purchaseable checkbox.
 
 		public ItemCatalogueUI()
@@ -193,7 +192,7 @@ namespace RecipeBrowser
 			if (a == null || b == null) {
 				return x.UniqueId.CompareTo(y.UniqueId);
 			}
-			if (SharedUI.instance.SelectedSort.button.hoverText == "Total Defense" && x is UIArmorSetCatalogueItemSlot armorA && y is UIArmorSetCatalogueItemSlot armorB)
+			if (SharedUI.instance.SelectedSort.button.hoverText == SharedUI.RBText("Armor.TotalDefense") && x is UIArmorSetCatalogueItemSlot armorA && y is UIArmorSetCatalogueItemSlot armorB)
 				return armorA.set.Item5.CompareTo(armorB.set.Item5); // Total Hack
 			if (SharedUI.instance.SelectedSort != null)
 				return SharedUI.instance.SelectedSort.sort(a.item, b.item);
@@ -296,7 +295,7 @@ namespace RecipeBrowser
 			itemGrid.Clear();
 			List<UIItemCatalogueItemSlot> slotsToUse = itemSlots;
 
-			if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
+			if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsInternalName) {
 				if (ArmorSetFeatureHelper.armorSetSlots == null)
 					ArmorSetFeatureHelper.CalculateArmorSets();
 				slotsToUse = ArmorSetFeatureHelper.armorSetSlots.Cast<UIItemCatalogueItemSlot>().ToList();
@@ -322,17 +321,28 @@ namespace RecipeBrowser
 				item.selected = false;
 			}
 			slot.selected = true;
+
+			if(duplicationButton != null)
+				mainPanel.RemoveChild(duplicationButton);
+			duplicationButton = null;
+
+			if (Main.GameModeInfo.IsJourneyMode && RecipePath.ItemFullyResearched(slot.itemType)) {
+				duplicationButton = new UIJourneyDuplicateButton(new CraftPath.JourneyDuplicateItemNode(slot.itemType, slot.item.maxStack, 0, null, null));
+				duplicationButton.Top.Set(-18, 1f);
+				duplicationButton.Left.Set(2, 0f);
+				mainPanel.Append(duplicationButton);
+			}
 		}
 
 		private bool PassItemFilters(UIItemCatalogueItemSlot slot)
 		{
-			if (RecipeBrowserUI.modIndex != 0)
+			if (RecipeBrowserUI.ModIndex != 0)
 			{
 				if (slot.item.ModItem == null)
 				{
 					return false;
 				}
-				if (slot.item.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.item.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex])
 				{
 					return false;
 				}
@@ -411,7 +421,7 @@ namespace RecipeBrowser
 
 			if (itemDescriptionFilter.currentString.Length > 0)
 			{
-				if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
+				if (SharedUI.instance.SelectedCategory.name == ArmorSetFeatureHelper.ArmorSetsInternalName) {
 					if (slot is UIArmorSetCatalogueItemSlot setCatalogueItemSlot)
 						return setCatalogueItemSlot.set.Item4.IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1;
 				}
@@ -463,7 +473,7 @@ namespace RecipeBrowser
 			ToggleItemDropViewer(list.Any());
 
 			int expectedValue = 0;
-			var expectedValueText = new UIText("Expected Value: ?"); // Move above the grid maybe?
+			var expectedValueText = new UIText(RBText("ExpectedValue", args: "?")); // Move above the grid maybe?
 			expectedValueText.SetPadding(6);
 			itemDropViewerGrid.Add(expectedValueText);
 
@@ -487,7 +497,7 @@ namespace RecipeBrowser
 			}
 			if (expectedValue > 1000000)
 				expectedValue = expectedValue - expectedValue % 100; // only room for 3, so get rid of copper coins if platinum.
-			expectedValueText.SetText("Expected Value: " + CraftPath.BuyItemNode.GetTotalCostAsTags(expectedValue));
+			expectedValueText.SetText(RBText("ExpectedValue", args: CraftPath.BuyItemNode.GetTotalCostAsTags(expectedValue)));
 		}
 	}
 

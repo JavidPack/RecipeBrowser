@@ -70,8 +70,8 @@ namespace RecipeBrowser.UIElements
 					}
 					drawScale *= scale;
 					Vector2 vector = backgroundTexture.Size() * scale;
-					Vector2 position2 = dimensions.Position() + vector / 2f - rectangle2.Size() * drawScale / 2f;
-					Vector2 origin = rectangle2.Size() * (pulseScale / 2f - 0.5f);
+					Vector2 position2 = dimensions.Position() + vector / 2f;
+					Vector2 origin = rectangle2.Size() / 2;
 					//Vector2 drawPosition = dimensions.Position();
 					//drawPosition.X += defaultBackgroundTexture.Width * scale / 2f - (float)width * drawScale / 2f;
 					//drawPosition.Y += defaultBackgroundTexture.Height * scale / 2f - (float)height * drawScale / 2f;
@@ -181,6 +181,8 @@ namespace RecipeBrowser.UIElements
 				spriteBatch.Draw(TextureAssets.Wire3.Value, vector2 + new Vector2(10f, 10f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 			if (RecipeBrowserUI.instance.foundItems != null && !RecipeBrowserUI.instance.foundItems[item.type])
 				spriteBatch.Draw(TextureAssets.Wire4.Value, vector2 + new Vector2(10f, 40f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
+			if (Main.GameModeInfo.IsJourneyMode && RecipePath.ItemFullyResearched(item.type))
+				spriteBatch.Draw(TextureAssets.Wire.Value, vector2 + new Vector2(40f, 40f) * scale, new Rectangle(4, 58, 8, 8), Color.White, 0f, new Vector2(4f), 1f, SpriteEffects.None, 0f);
 		}
 	}
 

@@ -10,6 +10,7 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.ID;
+using Terraria.Localization;
 
 namespace RecipeBrowser.UIElements
 {
@@ -25,12 +26,40 @@ namespace RecipeBrowser.UIElements
 		{
 		}
 
+		/// <summary>
+		/// Gets the canonical Terraria <see cref="Item.type"/> for the current slot item.
+		/// Returns <see cref="ItemID.None"/> if the slot is empty.
+		/// </summary>
+		internal int CanonicalItemType
+		{
+			get
+			{
+				int type = item?.type ?? ItemID.None;
+				return type switch
+				{
+					ItemID.Shellphone or ItemID.ShellphoneSpawn or ItemID.ShellphoneOcean or ItemID.ShellphoneHell =>
+						ItemID.ShellphoneDummy,
+					ItemID.DontHurtCrittersBookInactive => ItemID.DontHurtCrittersBook,
+					ItemID.DontHurtNatureBookInactive => ItemID.DontHurtNatureBook,
+					ItemID.DontHurtComboBookInactive => ItemID.DontHurtComboBook,
+					ItemID.ClosedVoidBag => ItemID.VoidLens,
+					ItemID.UncumberingStone => ItemID.EncumberingStone,
+					ItemID.RubblemakerLarge or ItemID.RubblemakerMedium => ItemID.RubblemakerSmall,
+					_ => type,
+					// From Player.ItemCheck_ManageRightClickFeatures.
+					// TODO: We might also want to consider using ItemID.Sets.ShimmerCountsAsItem or Item.GetShimmerEquivalentType to handle modded items with a similar design as well. Modded items probably shouldn't be using the separate Item type approach anyway though.
+				};
+			}
+		}
+		
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			base.DrawSelf(spriteBatch);
 			if (item.IsAir && IsMouseHovering)
 			{
-				Main.hoverItemName = emptyHintText;
+				// Main.hoverItemName = emptyHintText;
+				if (!string.IsNullOrWhiteSpace(emptyHintText))
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(emptyHintText);
 			}
 		}
 
@@ -81,7 +110,7 @@ namespace RecipeBrowser.UIElements
 					else
 					{
 						// TODO: Detect PreSaveAndQuit only.
-						RecipeBrowser.instance.Logger.Warn("You left an item in the recipe browser with a full inventory and have lost the item: " + item2.Name);
+						RecipeBrowser.instance.Logger.Warn(Language.GetTextValue("Mods.RecipeBrowser.ItemLostInQuerySlotWarning") + item2.Name);
 					}
 				}
 				item = new Item();

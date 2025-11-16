@@ -9,6 +9,14 @@ Mods: {
 			Close: Cerrar
 			All: Todo
 			ModFilter: Filtrar por mod
+			// NoFavoritedRecipes: No favorited recipes
+			// RecipeAddedBy: Recipe added by {0}
+		}
+
+		# These are image paths, do not localize unless you make your own version of these png files in your language.
+		ImagePaths: {
+			// FilterMod: Images/filterMod
+			// FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
@@ -33,6 +41,173 @@ Mods: {
 			EmptyQuerySlotHint: Coloca aquí un objeto
 			// ShowInheritedRecipes: Show inherited recipes
 			// ShowUniqueRecipes: Show unique recipes
+			// ShowRecipesThatNeedThisCraftingStation: Viewing recipes that need this tile
+			// ShowRecipesThatNeedThisCraftingStationNoInherited: Viewing recipes that need this tile (no inherited recipes)
+			// ShowRecipesThatNeedThisCraftingStationHint: (Left click to view recipes that need this tile)
+			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
+			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
+			// NoTileEntry: " (err no entry)"
+			// HistoryBackwardTooltip: Go back in query history
+			// HistoryForwardTooltip: Go forward in query history
+			// HistoryEmpty: There is no query history yet
+			// HistoryReachedStart: Query history start reached
+			// HistoryReachedEnd: Query history end reached
+		}
+
+		RecipeCatalogueFilters: {
+			// RecipeOrder: Recipe Order
+			// CreativeSort: Creative Sort
+			// ItemID: Item ID
+			// Value: Value
+			// Alphabetical: Alphabetical
+			// Rarity: Rarity
+			// Materials: Materials
+			// Craftable: Craftable
+			// ExtendedCraftable: Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)
+			// DisabledRecipes: Show recipes disabled by Mods
+			// Unresearched: Unresearched
+			// ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
+			// ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
+			// ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
+			// All: All
+			// RMB: (RMB)
+			// RecipesRemainToBeCalculated: recipes remain to be calculated
+
+			Weapons: {
+				// Name: Weapons
+				// Melee: Melee
+				// Yoyo: Yoyo
+				// Magic: Magic
+				// Ranged: Ranged
+				// UseAmmoType: Use Ammo Type
+				// Throwing: Throwing
+				// Summon: Summon
+				// Whip: Whip
+				// Sentry: Sentry
+				// CycleUsedAmmoTypes: Cycle Used Ammo Types
+			}
+
+			// Damage: Damage
+
+			Tools: {
+				// Name: Tools
+				// Pickaxes: Pickaxes
+				// PickPower: Pick Power
+				// Axes: Axes
+				// AxePower: Axe Power
+				// Hammers: Hammers
+				// HammerPower: Hammer Power
+			}
+
+			Armor: {
+				// Name: Armor and Vanity
+				// Head: Head
+				// Body: Body
+				// Legs: Legs
+				// Defense: Defense
+				// Vanity: Vanity
+				// ArmorOnly: Armor
+				// TotalDefense: Total Defense
+			}
+
+			Tiles: {
+				// Name: Tiles
+				// CraftingStations: Crafting Stations
+				// Furniture: "{$CreativePowers.TabFurniture}"
+				// Blocks: "{$CreativePowers.TabBlocks}"
+				// Containers: Containers
+				// Wiring: Wiring
+				// Statues: Statues
+				// Doors: Doors
+				// Chairs: Chairs
+				// Tables: Tables
+				// LightSources: Light Sources
+				// Torches: Torches
+				// PlaceTile: Place Tile
+				// Solid: Solid
+				// NonSolid: Background
+			}
+
+			// Walls: Walls
+
+			Accessories: {
+				// Name: Accessories
+
+				Wings: {
+					// Name: Wings
+					// FlightTime: Flight Time
+					// HorizontalSpeed: Horizontal Speed
+					// AccelerationMultiplier: Acceleration Multiplier
+				}
+			}
+
+			Ammo: {
+				// Name: Ammo
+				// AmmoType: Ammo Type
+				// CycleAmmoTypes: Cycle Ammo Types
+			}
+
+			Potions: {
+				// Name: Potions and food
+				// HealthPotions: Health Potions
+				// HealLife: Heal Life
+				// ManaPotions: Mana Potions
+				// HealMana: Heal Mana
+				// BuffPotions: Buff Potions
+				// Food: Food
+			}
+
+			// Expert: Expert
+			// Master: Master
+
+			Pets: {
+				// Name: Pets
+				// CommonPets: Pets
+				// LightPets: Light Pets
+			}
+
+			// Mounts: Mounts
+			// Carts: Carts
+			// Hooks: Hooks
+			// GrappleRange: Grapple Range
+
+			Dyes: {
+				// Name: Dyes
+				// CommonDyes: Dyes
+				// HairDyes: Hair Dyes
+			}
+
+			BossSummons: {
+				// Name: Boss Summons
+				// ProgressionOrder: Progression Order
+			}
+
+			Consumables: {
+				// Name: Consumables
+				// CapturedNPC: Captured NPC
+			}
+
+			GrabBags: {
+				// Name: Grab Bags
+				// FishingCrate: Fishing Crate (Pre-Hardmode)
+				// FishingCrateHardmode: Fishing Crate (Hardmode)
+				// BossBag: Boss Bag (Pre-Hardmode)
+				// BossBagHardmode: Boss Bag (Hardmode)
+				// ExpectedValue: Expected Value
+			}
+
+			Fishing: {
+				// Name: Fishing
+				// Poles: Poles
+				// PolePower: Pole Power
+				// Bait: Bait
+				// BaitPower: Bait Power
+				// Bobbers: Bobbers
+				// QuestFish: Quest Fish
+			}
+
+			// Extractinator: Extractinator
+			// Other: Other
 		}
 
 		FavoritedUI: {
@@ -41,6 +216,10 @@ Mods: {
 			// ToggleUnboundHint: Set hotkey to toggle
 			// AlwaysShow: Always show
 			// ShowWhenInventory: Show when inventory
+			// ShowOtherPlayersFavorited: Show all other players' favorited recipes
+			// ShowTeammatesFavorited: Show teammates' favorited recipes only (if on team)
+			// HideOtherPlayersFavorited: Hide other players' favorited recipes
+			// NoRecipeFoundFor: "No recipe found for "
 		}
 
 		CraftUI: {
@@ -70,6 +249,23 @@ Mods: {
 			MagicStorageTooltip: Incluir objetos y estaciones de trabajo de los almacenes mágicos cercanos (Próximamente)
 			BottomInstructions: Clic derecho en Recetas para acceder rápidamente a esta pestaña
 			NoPathsFound: No se han encontrado rutas para esta Receta/Objeto
+			// Craft: Craft
+			// Duplicate: Duplicate
+			// Missing: "Missing "
+			// Unseen: "Unseen "
+			// Cost: "Cost: "
+			// Have: Have
+			// Purchase: Purchase
+			// From: from
+			// For: for
+			// Mine: Mine
+			// FromTheWorld: from the world
+			// BugNet: Bug Net
+			// ByCapturing: by capturing
+			// Need: Need
+			// Farm: Farm
+			// PurchaseFrom: Purchase from
+			// DroppedBy: Dropped by
 		}
 
 		ItemCatalogueUI: {
@@ -80,6 +276,24 @@ Mods: {
 			Unobtained: Sin conseguir
 			OnlyUnobtainedItems: Solo objetos sin conseguir
 			BottomInstructions: 2x Clic Izq.: Ver Recetas -- 2x Clic Der.: Ver botín de NPCs
+			// ExpectedValue: Expected Value: {0}
+		}
+
+		UIArmorSetCatalogue: {
+			// TotalSetDefense: Total Set Defense: {0}
+			/* ArmorSets:
+				'''
+				Armor Sets
+				(Warning: May take many seconds to calculate)
+				''' */
+			// ShowItems: Show Items
+			// ShowItemsTooltip: Display the items that make up the set
+			// UseDye: Use Dye
+			// UseDyeTooltip: Draw armor sets with currently equipped dye
+			// Animate: Animate
+			// AnimateTooltip: Mimic player animation
+			// Accessories: Accessories
+			// AccessoriesTooltip: Visualize with current accessories
 		}
 
 		BestiaryUI: {
@@ -96,6 +310,7 @@ Mods: {
 			NewLoot: Nuevo botín
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar solo NPCs nunca vistos
 			EmptyQuerySlotHint: Coloca un objeto
+			// NPCDrops: "{0} drops:"
 		}
 
 		HelpUI: {
@@ -107,7 +322,7 @@ Mods: {
 			/* Recipes:
 				'''
 				[c/{0}:Recipes]
-				    Place items in the query slot to find recipes using or resulting in that item. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
+				    Place items in the query slot to find recipes using or resulting in that item. Use the [image:RecipeBrowser/UIElements/historyBack] and [image:RecipeBrowser/UIElements/historyForward] buttons to explore the query slot history. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. Right clicking on a tile will show recipes to create that crafting station, as well as merchants and NPC drops for it. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
 				''' */
 			/* Craft:
 				'''
@@ -149,13 +364,13 @@ Mods: {
 			/* CategoriesSubCategoriesSortsAndFilters:
 				'''
 				[c/{0}:Categories, Sub Categories, Sorts, and Filters]
-				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/Images/filterMod] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
+				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/{$ImagePaths.FilterMod}] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
 				''' */
 			/* ItemChecklistIntegration:
 				'''
 				[c/{0}:Item Checklist Integration]
-				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist video].
+				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/github.com/user-attachments/assets/714db9bf-75dd-41b1-b603-10d266c53908:Item Checklist video].
 				''' */
 		}
 
@@ -184,6 +399,11 @@ Mods: {
 					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
 				}
 
+				OpenKeybindingsMenuButton: {
+					// Label: Open Keybindings Menu
+					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+				}
+
 				// Headers.AutomaticSettings: Automatic Settings
 
 				RecipeBrowserSize: {
@@ -192,22 +412,54 @@ Mods: {
 				}
 
 				RecipeBrowserPosition: {
-					// Label: Recipe Browser Poisition
+					// Label: Recipe Browser Position
 					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
 				}
 
 				FavoritedRecipePanelPosition: {
-					// Label: Favorited Recipes Poisition
+					// Label: Favorited Recipes Position
 					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
 					// Label: Only Show Favorited While Inventory Open
-					// Tooltip: Automatically show and hide favorited recipes panel. This will automatically save, no need to adjust
+					/* Tooltip:
+						'''
+						Automatically show and hide favorited recipes panel.
+						This will automatically save, no need to adjust
+						''' */
+				}
+
+				ShowOtherPlayersFavoritedRecipes: {
+					// Label: Show Other Players' Favorited Recipes
+					/* Tooltip:
+						'''
+						Whether or not to show the favorited recipes of other players for collaboration.
+						This will automatically save, no need to adjust
+						''' */
+				}
+			}
+
+			ShowOtherPlayersFavoritedRecipesOption: {
+				// Tooltip: ""
+
+				ShowAll: {
+					// Label: Show All
+					// Tooltip: ""
+				}
+
+				ShowTeamOnly: {
+					// Label: Show Team Only
+					// Tooltip: ""
+				}
+
+				Hide: {
+					// Label: Hide
+					// Tooltip: ""
 				}
 			}
 		}
 
-		// Conditions.ShimmerTransmutation: Shimmer Transmutation
+		// ItemLostInQuerySlotWarning: "You left an item in the recipe browser with a full inventory and have lost the item: "
 	}
 }

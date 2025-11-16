@@ -115,7 +115,7 @@ namespace RecipeBrowser
 						if (rectangle.Contains(Main.MouseScreen.ToPoint()))
 						{
 							string tileName = Utilities.GetTileName(tile);
-							Main.hoverItemName = $"[c/{(Main.LocalPlayer.adjTile[tile] ? Utilities.yesColor : RecipeBrowserPlayer.seenTiles[tile] ? Utilities.maybeColor : Utilities.noColor).Hex3()}:{(Main.LocalPlayer.adjTile[tile] ? "" : RecipeBrowserPlayer.seenTiles[tile] ? "Missing " : "Unseen ")}{tileName}]";
+							Terraria.ModLoader.UI.UICommon.TooltipMouseText($"[c/{(Main.LocalPlayer.adjTile[tile] ? Utilities.yesColor : RecipeBrowserPlayer.seenTiles[tile] ? Utilities.maybeColor : Utilities.noColor).Hex3()}:{(Main.LocalPlayer.adjTile[tile] ? "" : RecipeBrowserPlayer.seenTiles[tile] ? CraftUI.RBText("Missing") : CraftUI.RBText("Unseen"))}{tileName}]");
 						}
 					}
 				}

@@ -56,7 +56,7 @@ namespace RecipeBrowser.UIElements
 			spriteBatch.Draw(texture.Value, new Rectangle((int)dimensions.X, (int)dimensions.Y, this._drawWidth, this._drawHeight), new Rectangle?(new Rectangle(point.X, point.Y, this._drawWidth, this._drawHeight)), color);
 			if (IsMouseHovering)
 			{
-				Main.hoverItemName = hoverTexts[CurrentState];
+				Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverTexts[CurrentState]);
 			}
 		}
 

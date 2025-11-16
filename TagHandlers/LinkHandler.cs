@@ -28,7 +28,9 @@ namespace RecipeBrowser.TagHandlers
 
 			public override void OnHover()
 			{
-				Main.hoverItemName = url;
+				// Main.hoverItemName = url;
+				if (!string.IsNullOrWhiteSpace(url))
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(url);
 			}
 
 			public override void OnClick()

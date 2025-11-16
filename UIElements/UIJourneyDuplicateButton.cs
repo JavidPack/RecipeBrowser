@@ -2,10 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
-using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.UI.Chat;
 using Terraria.ID;
 using ReLogic.Content;
 using Terraria.DataStructures;
@@ -31,7 +28,9 @@ namespace RecipeBrowser.UIElements
 			spriteBatch.Draw((IsMouseHovering && ableToDuplicate ? duplicateOn : duplicateOff).Value, dimensions.Position(), null, Color.White, 0, Vector2.Zero, 0.8f, SpriteEffects.None, 0);
 			//ChatManager.DrawColorCodedStringWithShadow(spriteBatch, FontAssets.ItemStack.Value, ableToDuplicate ? "✓" : "X", dimensions.Position() + new Vector2(14f, 10f), ableToDuplicate ? Utilities.yesColor : Color.LightSalmon, 0f, Vector2.Zero, new Vector2(0.7f));
 			if (IsMouseHovering) {
-				Main.hoverItemName = ableToDuplicate ? "Duplicate" : "";
+				//Main.hoverItemName = ableToDuplicate ? "Duplicate" : "";
+				if (ableToDuplicate)
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(CraftUI.RBText("Duplicate"));
 			}
 		}
 

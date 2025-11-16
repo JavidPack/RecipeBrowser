@@ -3,12 +3,15 @@ using RecipeBrowser.UIElements;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace RecipeBrowser
 {
 	internal class RecipeBrowserGlobalItem : GlobalItem
 	{
+		internal static string RBText(string key, string category = "RecipeBrowserUI") => RecipeBrowser.RBText(category, key);
+        
 		// OnPickup only called on LocalPlayer: I think
 		public override void OnCreated(Item item, ItemCreationContext context)
 		{
@@ -108,7 +111,7 @@ namespace RecipeBrowser
 			var selectedModRecipe = Main.recipe[RecipeCatalogueUI.instance.hoveredIndex];
 			if (selectedModRecipe.Mod != null && selectedModRecipe.Mod != Mod && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowRecipeModSource && item.type == selectedModRecipe.createItem.type)
 			{
-				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", "Recipe added by " + selectedModRecipe.Mod.DisplayName)
+				var line = new TooltipLine(Mod, "RecipeBrowser:RecipeOriginHint", Language.GetTextValue("Mods.RecipeBrowser.RecipeBrowserUI.RecipeAddedBy", selectedModRecipe.Mod.DisplayName))
 				{
 					OverrideColor = Color.Goldenrod
 				};

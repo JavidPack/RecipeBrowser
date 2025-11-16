@@ -174,7 +174,7 @@ namespace RecipeBrowser
 				if (tile < TileID.Count)
 					tileName = TileID.Search.GetName(tile);// $"Tile {tile}";
 				else
-					tileName = Terraria.ModLoader.TileLoader.GetTile(tile).Name + " (err no entry)";
+					tileName = Terraria.ModLoader.TileLoader.GetTile(tile).Name + RecipeBrowserUI.RBText("NoTileEntry");
 			}
 			return tileName;
 		}

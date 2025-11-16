@@ -34,16 +34,19 @@ namespace RecipeBrowser.TagHandlers
 				if (npcType >= Terraria.ID.NPCID.Count)
 				{
 					ModNPC modNPC = NPCLoader.GetNPC(npcType);
-					Main.hoverItemName = Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.Mod.DisplayName + "]" : "");
+					// Main.hoverItemName = Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.Mod.DisplayName + "]" : "");
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(Lang.GetNPCNameValue(npcType) + (modNPC != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowNPCModSource ? " [" + modNPC.Mod.DisplayName + "]" : ""));
 				}
 				else
 				{
-					Main.hoverItemName = Lang.GetNPCNameValue(netID);
+					// Main.hoverItemName = Lang.GetNPCNameValue(netID);
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(Lang.GetNPCNameValue(netID));
 				}
 				//Main.HoverItem = this._item.Clone();
 				//Main.instance.MouseText(this._item.Name, this._item.rare, 0, -1, -1, -1, -1);
 
-				RecipeBrowserUI.instance.npcArrow = NPC.FindFirstNPC(npcType);
+				if(head)
+					RecipeBrowserUI.instance.npcArrow = NPC.FindFirstNPC(npcType);
 			}
 
 			public override void OnClick() {
@@ -107,7 +110,8 @@ namespace RecipeBrowser.TagHandlers
 					NPC npc = ContentSamples.NpcsByNetId[netID];
 					Color lighting = Color.White;
 					//Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, /*color*/ Color.White, 0, rectangle.Center(), scale, SpriteEffects.None, 0);
-					Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, npc.GetAlpha(lighting), 0, rectangle.Center(), scale, SpriteEffects.None, 0);
+					Color alphaColor = npc.alpha == 255 ? Color.White : npc.GetAlpha(lighting); // Fix #194
+					Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, alphaColor, 0, rectangle.Center(), scale, SpriteEffects.None, 0);
 					if (npc.color != default(Microsoft.Xna.Framework.Color)) {
 						Main.spriteBatch.Draw(texture2D, position + new Vector2(maxHeight / 2)/*- new Vector2(10f) * scale * num*/, rectangle, npc.GetColor(lighting), 0, rectangle.Center(), scale, SpriteEffects.None, 0);
 					}

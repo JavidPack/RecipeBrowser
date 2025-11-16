@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 using Terraria.ModLoader.IO;
 using Terraria.UI;
 
@@ -72,28 +73,42 @@ namespace RecipeBrowser
 	{
 		internal List<int> favoritedRecipes;
 		// For now, reset on enter world. Could remember later if needed.
-		static internal bool[] seenTiles;
+		internal static bool[] seenTiles;
+		private bool[] _seenTiles;
+		private List<TileDefinition> unloadedSeenTiles;
 		// TODO: Remember hitNPCs? Implement just like seenTiles and reset each session?
 
 		public override void Initialize()
 		{
 			favoritedRecipes = new List<int>();
+			_seenTiles = new bool[TileLoader.TileCount];
+			unloadedSeenTiles = new List<TileDefinition>();
 		}
 
 		public override void SaveData(TagCompound tag)
 		{
 			tag["StarredRecipes"] = favoritedRecipes.Select(x => RecipeIO.Save(Main.recipe[x])).ToList();
+			tag["SeenTiles"] = _seenTiles.GetTrueIndexes().Select(i => new TileDefinition(i)).Concat(unloadedSeenTiles).ToList();
 		}
 
 		public override void LoadData(TagCompound tag)
 		{
 			favoritedRecipes = tag.GetList<TagCompound>("StarredRecipes").Select(RecipeIO.Load).Where(x => x > -1).ToList();
+			var seenTileDefinitions = tag.GetList<TileDefinition>("SeenTiles");
+			foreach (var tileDefinition in seenTileDefinitions) {
+				if (tileDefinition.Type >= 0)
+					_seenTiles[tileDefinition.Type] = true;
+				else if (tileDefinition.IsUnloaded)
+					unloadedSeenTiles.Add(tileDefinition);
+				else
+					Mod.Logger.Warn("SeenTiles found negative tile that is not unloaded, investigate");
+			}
 		}
 
 		// Only happens on local client/SP
 		public override void OnEnterWorld()
 		{
-			seenTiles = new bool[TileLoader.TileCount];
+			seenTiles = _seenTiles;
 			Point center = Player.Center.ToTileCoordinates();
 			for (int i = center.X - 100; i < center.X + 100; i++)
 			{
@@ -177,14 +192,16 @@ namespace RecipeBrowser
 				if (RecipeBrowser.instance.ToggleRecipeBrowserHotKey.JustPressed)
 				{
 					RecipeBrowserUI.instance.ShowRecipeBrowser = !RecipeBrowserUI.instance.ShowRecipeBrowser;
+#if DEBUG
 					// Debug assistance, allows for reinitializing RecipeBrowserUI
-					//if (!RecipeBrowserUI.instance.ShowRecipeBrowser)
-					//{
-					//	RecipeBrowserUI.instance.RemoveAllChildren();
-					//	var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
-					//	isInitializedFieldInfo.SetValue(RecipeBrowserUI.instance, false);
-					//	RecipeBrowserUI.instance.Activate();
-					//}
+					if (!RecipeBrowserUI.instance.ShowRecipeBrowser && Main.keyState.PressingShift()) {
+						RecipeBrowserUI.instance.RemoveAllChildren();
+						var isInitializedFieldInfo = typeof(Terraria.UI.UIElement).GetField("_isInitialized", BindingFlags.Instance | BindingFlags.NonPublic);
+						isInitializedFieldInfo.SetValue(RecipeBrowserUI.instance, false);
+						RecipeBrowserUI.instance.Activate();
+						Main.NewText("Debug RecipeBrowserUI Re-initialize");
+					}
+#endif
 				}
 				if (RecipeBrowser.instance.QueryHoveredItemHotKey.JustPressed)
 				{

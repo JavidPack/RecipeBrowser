@@ -79,7 +79,7 @@ namespace RecipeBrowser.UIElements
 			{
 				Main.hoverItemName = Main.player[owner].name; //+ "'s Recipe";
 				var a = GetInnerDimensions().ToRectangle();
-				Main.MapPlayerRenderer.DrawPlayerHead(Main.Camera, Main.player[owner], new Vector2(a.Right - 16, a.Y + 8), 1f, 1f, Color.White);
+				Main.MapPlayerRenderer.DrawPlayerHead(Main.Camera, Main.player[owner], new Vector2(a.Right - 16, a.Y + 8), 1f, 1f, Main.GetPlayerHeadBordersColor(Main.player[owner]));
 			}
 		}
 	}

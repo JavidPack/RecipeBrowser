@@ -133,17 +133,8 @@ namespace RecipeBrowser
 			//	}
 			//}
 
-			if (purchasable == null && allowPurchasable)
-			{
-				purchasable = new Dictionary<int, List<ShopEntry>>();
-				foreach (var shop in NPCShopDatabase.AllShops.OfType<NPCShop>()) {
-					foreach (var entry in shop.Entries) {
-						List<ShopEntry> shopList;
-						if (!purchasable.TryGetValue(entry.Item.type, out shopList))
-							purchasable.Add(entry.Item.type, shopList = new List<ShopEntry>());
-						shopList.Add(new ShopEntry(shop.NpcType, entry));
-					}
-				}
+			if (purchasable == null && allowPurchasable) {
+				InitializePurchasable();
 			}
 
 			if (bugNetables == null && allowBugNetables) {
@@ -178,7 +169,7 @@ namespace RecipeBrowser
 							Tile tile = Main.tile[0, 0];
 							tile.HasTile = true;
 							tile.TileType = (ushort)testItem.createTile;
-							for (int pickPower = 5; i < 300; pickPower += 5) {
+							for (int pickPower = 5; pickPower < 300; pickPower += 5) {
 								int hitBufferIndex = Main.LocalPlayer.hitTile.HitObject(0, 0, 1);
 								// private int GetPickaxeDamage(int x, int y, int pickPower, int hitBufferIndex, Tile tileTarget)
 								int pickDamage = (int)GetPickaxeDamageMethodInfo.Invoke(Main.LocalPlayer, new object[] { 0, 0, pickPower, hitBufferIndex, tile });
@@ -209,6 +200,21 @@ namespace RecipeBrowser
 			}
 			//loots.Add(ItemID.Gel);
 			//loots.Add(ItemID.CopperBar);
+		}
+
+		internal static void InitializePurchasable() {
+			if (purchasable != null)
+				return;
+
+			purchasable = new Dictionary<int, List<ShopEntry>>();
+			foreach (var shop in NPCShopDatabase.AllShops.OfType<NPCShop>()) {
+				foreach (var entry in shop.Entries) {
+					List<ShopEntry> shopList;
+					if (!purchasable.TryGetValue(entry.Item.type, out shopList))
+						purchasable.Add(entry.Item.type, shopList = new List<ShopEntry>());
+					shopList.Add(new ShopEntry(shop.NpcType, entry));
+				}
+			}
 		}
 
 		// TODO: GetCraftPaths but without a Recipe? Just an item? Buy/Loot
@@ -747,12 +753,12 @@ namespace RecipeBrowser
 
 			public override string ToString()
 			{
-				return $"Have: {Lang.GetItemNameValue(itemid)} ({stack})";
+				return $"{CraftUI.RBText("Have")}: {Lang.GetItemNameValue(itemid)} ({stack})";
 			}
 
 			public override string ToUITextString()
 			{
-				return $"Have: {ItemHoverFixTagHandler.GenerateTag(itemid, stack, null, true)}";
+				return $"{CraftUI.RBText("Have")}: {ItemHoverFixTagHandler.GenerateTag(itemid, stack, null, true)}";
 			}
 		}
 
@@ -845,13 +851,13 @@ namespace RecipeBrowser
 
 			public override string ToString()
 			{
-				return $"Buy: {Lang.GetItemNameValue(itemid)} ({stack}) from ??";
+				return $"{CraftUI.RBText("Purchase")}: {Lang.GetItemNameValue(itemid)} ({stack}) {CraftUI.RBText("From")} ??";
 			}
 
 			public override string ToUITextString()
 			{
 				// TODO: Show a UIRecipeInfoRightAligned for the ShopEntry Conditions. Also show small red x over currently dead Merchant.
-				return $"[image/tPurchase:RecipeBrowser/Images/sortValue]: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from [npc/head:{npcID}] for {GetTotalCostAsTags(price * stack)}";
+				return $"[image/t{CraftUI.RBText("Purchase")}:RecipeBrowser/Images/sortValue]: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} {CraftUI.RBText("From")} [npc/head:{npcID}] {CraftUI.RBText("For")} {GetTotalCostAsTags(price * stack)}";
 				// TODO: TownNPC Head instead of 
 				// Each NPC: return $"[image/tPurchase:RecipeBrowser/Images/sortValue]: {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(RecipePath.purchasable2[itemid].Select(x => $"[npc/head:{x.npcType}]"))};";
 			}
@@ -888,7 +894,7 @@ namespace RecipeBrowser
 
 			public override string ToString()
 			{
-				return $"Farm: {Lang.GetItemNameValue(itemid)} ({stack}) from {string.Join(", ", LootCache.instance.lootInfos[itemid].Select(x => Lang.GetNPCNameValue(x)))}";
+				return $"{CraftUI.RBText("Farm")}: {Lang.GetItemNameValue(itemid)} ({stack}) {CraftUI.RBText("From")} {string.Join(", ", LootCache.instance.lootInfos[itemid].Select(x => Lang.GetNPCNameValue(x)))}";
 			}
 
 			public override string ToUITextString()
@@ -903,7 +909,7 @@ namespace RecipeBrowser
 					}
 					// TODO: icon for "and other unknown NPC"?
 				}
-				return $"[image/s0.8,v2,tFarm:RecipeBrowser/Images/sortDamage] {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(encountered.Select(x => $"[npc:{x}]"))}";
+				return $"[image/s0.8,v2,t{CraftUI.RBText("Farm")}:RecipeBrowser/Images/sortDamage] {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(encountered.Select(x => $"[npc:{x}]"))}";
 
 				//[image/tMissing Tiles[i;{ItemID.MythrilAnvil}]:
 				//return $"[image/tFarm:RecipeBrowser/Images/sortDamage] {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from {string.Concat(RecipePath.loots[itemid].Select(x => $"[npc:{x}]"))}";
@@ -922,12 +928,12 @@ namespace RecipeBrowser
 			}
 
 			public override string ToString() {
-				return $"Mine: {Lang.GetItemNameValue(itemid)} ({stack})";
+				return $"{CraftUI.RBText("Mine")}: {Lang.GetItemNameValue(itemid)} ({stack})";
 			}
 
 			public override string ToUITextString() {
 				// Pass in tile? make Tile chat tag? Probably not needed, tile and item sprites are similar enough.
-				return $"[image/s0.8,v2,tMine:RecipeBrowser/Images/sortPick] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} from the world";
+				return $"[image/s0.8,v2,t{CraftUI.RBText("Mine")}:RecipeBrowser/Images/sortPick] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} {CraftUI.RBText("FromTheWorld")}";
 			}
 		}
 
@@ -944,11 +950,11 @@ namespace RecipeBrowser
 			}
 
 			public override string ToString() {
-				return $"Bug Net: {Lang.GetItemNameValue(itemid)} ({stack}) from {Lang.GetNPCNameValue(npcid)}";
+				return $"{CraftUI.RBText("BugNet")}: {Lang.GetItemNameValue(itemid)} ({stack}) {CraftUI.RBText("From")} {Lang.GetNPCNameValue(npcid)}";
 			}
 
 			public override string ToUITextString() {
-				return $"[image/s0.8,v2,tBug Net:RecipeBrowser/Images/bugNet] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} by capturing [npc:{npcid}]";
+				return $"[image/s0.8,v2,t{CraftUI.RBText("BugNet")}:RecipeBrowser/Images/bugNet] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack)} {CraftUI.RBText("ByCapturing")} [npc:{npcid}]";
 			}
 		}
 
@@ -962,11 +968,11 @@ namespace RecipeBrowser
 			}
 
 			public override string ToString() {
-				return $"Duplicate: {Lang.GetItemNameValue(itemid)} ({stack})";
+				return $"{CraftUI.RBText("Duplicate")}: {Lang.GetItemNameValue(itemid)} ({stack})";
 			}
 
 			public override string ToUITextString() {
-				return $"[image/s0.8,v2,tDuplicate:RecipeBrowser/Images/duplicateOff] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack, null, true)}";
+				return $"[image/s0.8,v2,t{CraftUI.RBText("Duplicate")}:RecipeBrowser/Images/duplicateOff] > {ItemHoverFixTagHandler.GenerateTag(itemid, stack, null, true)}";
 			}
 		}
 
@@ -993,7 +999,7 @@ namespace RecipeBrowser
 
 			public override string ToString()
 			{
-				return $"Need: { string.Join(", ", item.Select(x => $"{Lang.GetItemNameValue(x)} ({stack})"))}";
+				return $"{CraftUI.RBText("Need")}: { string.Join(", ", item.Select(x => $"{Lang.GetItemNameValue(x)} ({stack})"))}";
 			}
 
 			internal void CheckParentsForRecipeLoopViaIngredients(HashSet<int> vialbleIngredients)

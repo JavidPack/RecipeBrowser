@@ -9,6 +9,14 @@ Mods: {
 			Close: 关闭
 			All: 全部
 			ModFilter: 模组
+			NoFavoritedRecipes: 无收藏配方
+			RecipeAddedBy: 该配方由{0}添加
+		}
+
+		# These are image paths, do not localize unless you make your own version of these png files in your language.
+		ImagePaths: {
+			FilterMod: Images/filterMod
+			FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
@@ -31,8 +39,175 @@ Mods: {
 			ItemChecklistOnly: 仅Item Checklist
 			OnlyNewItemsMadeFromSeenItems: 仅显示曾遇见过的物品合成的新物品
 			EmptyQuerySlotHint: 在此放置物品
-			ShowInheritedRecipes: 显示继承配方
+			ShowInheritedRecipes: 显示下位配方
 			ShowUniqueRecipes: 显示独有配方
+			ShowRecipesThatNeedThisCraftingStation: 查看需要此合成站的配方
+			ShowRecipesThatNeedThisCraftingStationNoInherited: 查看需要此合成站的配方(不显示下位制作站配方)
+			ShowRecipesThatNeedThisCraftingStationHint: (左键查看需要此合成站的配方)
+			ShowRecipesForCraftingStationItself: 查看合成此合成站的配方
+			ShowRecipesForCraftingStationItselfHint: (右键查看合成此合成站的配方)
+			NoTileEntry: " (无条目)"
+			HistoryBackwardTooltip: 查看上一个查询历史
+			HistoryForwardTooltip: 查看下一个查询历史
+			HistoryEmpty: 尚无查询历史
+			HistoryReachedStart: 抵达查询历史起点
+			HistoryReachedEnd: 抵达查询历史终点
+		}
+
+		RecipeCatalogueFilters: {
+			RecipeOrder: 合成顺序
+			CreativeSort: 默认排序
+			ItemID: 物品内部ID
+			Value: 价值
+			Alphabetical: 按字母顺序
+			Rarity: 稀有度
+			Materials: 材料
+			Craftable: 可合成的
+			ExtendedCraftable: 嵌套合成(在合成配方中右键访问此面板,自动禁用以防延迟)
+			DisabledRecipes: 显示被其他Mod禁用的配方
+			Unresearched: 未研究
+			// ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
+			// ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
+			// ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
+			All: 全部
+			RMB: (右键)
+			RecipesRemainToBeCalculated: 正在计算配方
+
+			Weapons: {
+				Name: 武器
+				Melee: 近战
+				Yoyo: 悠悠球
+				Magic: 魔法
+				Ranged: 远程
+				UseAmmoType: 使用弹药类型
+				Throwing: 投掷
+				Summon: 仆从
+				Whip: 鞭子
+				Sentry: 哨兵
+				CycleUsedAmmoTypes: 切换使用弹药类型
+			}
+
+			Damage: 伤害
+
+			Tools: {
+				Name: 工具
+				Pickaxes: 镐
+				PickPower: 镐力
+				Axes: 斧
+				AxePower: 斧力
+				Hammers: 锤
+				HammerPower: 锤力
+			}
+
+			Armor: {
+				Name: 盔甲和时装
+				Head: 头部
+				Body: 躯干
+				Legs: 护腿
+				Defense: 防御
+				Vanity: 时装
+				ArmorOnly: 护甲
+				TotalDefense: 套装总防御
+			}
+
+			Tiles: {
+				Name: 物块
+				CraftingStations: 合成站
+				Furniture: 家具
+				Blocks: 实心块
+				Containers: 箱子
+				Wiring: 电路
+				Statues: 雕像
+				Doors: 门
+				Chairs: 椅子
+				Tables: 桌子
+				LightSources: 照明
+				Torches: 火把
+				PlaceTile: 对应放置的物块ID
+				Solid: 实心物块
+				NonSolid: 背景墙
+			}
+
+			Walls: 背景墙
+
+			Accessories: {
+				Name: 饰品
+
+				Wings: {
+					Name: 翅膀
+					FlightTime: 飞行时间
+					HorizontalSpeed: 水平速度
+					AccelerationMultiplier: 水平加速倍率
+				}
+			}
+
+			Ammo: {
+				Name: 弹药
+				AmmoType: 弹药类型
+				CycleAmmoTypes: 切换弹药类型
+			}
+
+			Potions: {
+				Name: 药水和食物
+				HealthPotions: 治疗药水
+				HealLife: 治疗量
+				ManaPotions: 魔力药水
+				HealMana: 回魔量
+				BuffPotions: 实用药水
+				Food: 食物
+			}
+
+			Expert: 专家独有
+			Master: 大师独有
+
+			Pets: {
+				Name: 宠物
+				CommonPets: 宠物
+				LightPets: 照明宠物
+			}
+
+			Mounts: 坐骑
+			Carts: 矿车
+			Hooks: 抓钩
+			GrappleRange: 抓钩长度
+
+			Dyes: {
+				Name: 染料
+				CommonDyes: 染料
+				HairDyes: 染发剂
+			}
+
+			BossSummons: {
+				Name: Boss召唤物
+				ProgressionOrder: 进程顺序
+			}
+
+			Consumables: {
+				Name: 消耗品
+				CapturedNPC: 捕获的生物
+			}
+
+			GrabBags: {
+				Name: 摸彩袋
+				FishingCrate: 宝匣 (困难模式前)
+				FishingCrateHardmode: 宝匣 (困难模式)
+				BossBag: 宝藏袋 (困难模式前)
+				BossBagHardmode: 宝藏袋 (困难模式)
+				ExpectedValue: 期望价值
+			}
+
+			Fishing: {
+				Name: 钓鱼
+				Poles: 钓竿
+				PolePower: 渔力
+				Bait: 诱饵
+				BaitPower: 鱼饵力
+				Bobbers: 浮标
+				QuestFish: 任务鱼
+			}
+
+			Extractinator: 提炼机
+			Other: 其他
 		}
 
 		FavoritedUI: {
@@ -41,6 +216,10 @@ Mods: {
 			ToggleUnboundHint: 设置快捷键以开关
 			AlwaysShow: 永远显示
 			ShowWhenInventory: 仅在打开物品栏时显示
+			ShowOtherPlayersFavorited: 显示所有其他玩家收藏的配方
+			ShowTeammatesFavorited: 仅显示队友收藏的配方(如果在队伍中)
+			HideOtherPlayersFavorited: 隐藏其他玩家收藏的配方
+			NoRecipeFoundFor: 未找到配方
 		}
 
 		CraftUI: {
@@ -70,6 +249,23 @@ Mods: {
 			MagicStorageTooltip: 包括附近的魔法储存中的物品和制作站 (即将推出)
 			BottomInstructions: 在配方中右键以快速跳转至该面板
 			NoPathsFound: 没有找到该配方/物品的制作路线
+			Craft: 合成
+			Duplicate: 复制
+			Missing: 缺少
+			Unseen: 未找到
+			Cost: 统计:
+			Have: 拥有
+			Purchase: 买
+			From: 来自
+			For: 给
+			Mine: 挖掘
+			FromTheWorld: 在世界中
+			BugNet: 虫网
+			ByCapturing: 通过捕捉
+			Need: 需要
+			Farm: 种植
+			PurchaseFrom: 购买自
+			DroppedBy: 掉落自
 		}
 
 		ItemCatalogueUI: {
@@ -80,6 +276,24 @@ Mods: {
 			Unobtained: 未获得
 			OnlyUnobtainedItems: 仅显示从未曾获得过的物品
 			BottomInstructions: 双击左键: 查看配方  ---  双击右键: 查看掉落
+			ExpectedValue: 预期价值: {0}
+		}
+
+		UIArmorSetCatalogue: {
+			TotalSetDefense: 套装总防御: {0}
+			ArmorSets:
+				'''
+				套装效果
+				(警告: 可能会导致延迟)
+				'''
+			ShowItems: 显示物品
+			ShowItemsTooltip: 隐藏套装物品
+			UseDye: 启用染料
+			UseDyeTooltip: 根据当前装备的染料显示盔甲
+			Animate: 追踪动作
+			AnimateTooltip: 根据玩家当前的动作显示盔甲
+			Accessories: 混搭饰品
+			AccessoriesTooltip: 根据当前装备的饰品显示盔甲
 		}
 
 		BestiaryUI: {
@@ -100,6 +314,7 @@ Mods: {
 			NewLoot: 新掉落物
 			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示有着未曾获得过其掉落物的NPC
 			EmptyQuerySlotHint: 在此放置物品
+			NPCDrops: "{0}掉落:"
 		}
 
 		HelpUI: {
@@ -111,7 +326,7 @@ Mods: {
 			Recipes:
 				'''
 				[c/{0}:配方]
-				    在查询栏中放入物品以查找与该物品有关的配方. 你还可以使用窗口中的各种选项进行搜索和筛选. 附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击物块会将配方限制为仅显示使用该制作站的配方. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示继承配方. 例如: 地狱熔炉继承了熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.
+					在查询栏中放入物品以查找与该物品有关的配方. 使用[image:RecipeBrowser/UIElements/historyBack] 和[image:RecipeBrowser/UIElements/historyForward]按钮来浏览查询栏的查询历史. 你同时可以通过窗口中提供的各种各样的选项查询并筛选配方.  附近宝箱选项会使配方只显示你当前拥有的材料能够制作的配方. [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]选项会将配方限制为仅显示你曾遇见过的物品制作出的你未曾遇见过的物品的配方. 物块复选框会排列出经常需要的制作站列表. 点击制作站会将配方限定为制作该制作站的配方. 右键点击物块会显示合成该合成站的配方,包括了售卖于商人或掉落于生物的途径. [image:RecipeBrowser/Images/Help/uniqueTile]显示独有配方选项可决定是否显示下位制作站配方. 例如: 地狱熔炉继承了其下位即熔炉的所有配方, 但有着独有的狱石锭配方. 底部会列出所选物品的制作站和制作状态. 如果玩家能够制作, 则会显示绿色, 否则为红色. 右侧会列出掉落物品的NPC. 双击NPC会访问怪物图鉴. 双击配方或材料则会在查询栏中填充该物品, 适合查看多级合成树. Alt+左键会收藏物品, 详见下方的收藏部分.
 				'''
 			Craft:
 				'''
@@ -153,13 +368,13 @@ Mods: {
 			CategoriesSubCategoriesSortsAndFilters:
 				'''
 				[c/{0}:种类, 子类, 排序和筛选]
-				    配方和物品面板都有多种方法来筛选和排序物品和配方. 你可以输入工具提示和物品名称并使用[image:RecipeBrowser/Images/filterMod]按钮来筛选源Mod. 你也可以通过点击种类, 例如[image:RecipeBrowser/Images/Help/Item_2430] 和[image:RecipeBrowser/Images/Help/Item_54]来筛选. 某些种类具有子类. 你同样会注意到第二行有着各种排序, 比如[image:RecipeBrowser/Images/sortValue]和[image:RecipeBrowser/Images/sortAZ]. 同样也有筛选, 例如[image:RecipeBrowser/Images/Help/Item_531]. 许多排序和筛选功能仅在特定的分类中可见. 一些筛选功能, 如弹药筛选, 会循环显示多个选项. 对于这些筛选功能, 可使用左键和右键来向前和向后, 中键以清除筛选.
+				    配方和物品面板都有多种方法来筛选和排序物品和配方. 你可以输入工具提示和物品名称并使用[image:RecipeBrowser/{$ImagePaths.FilterMod}]按钮来筛选源Mod. 你也可以通过点击种类, 例如[image:RecipeBrowser/Images/Help/Item_2430] 和[image:RecipeBrowser/Images/Help/Item_54]来筛选. 某些种类具有子类. 你同样会注意到第二行有着各种排序, 比如[image:RecipeBrowser/Images/sortValue]和[image:RecipeBrowser/Images/sortAZ]. 同样也有筛选, 例如[image:RecipeBrowser/Images/Help/Item_531]. 许多排序和筛选功能仅在特定的分类中可见. 一些筛选功能, 如弹药筛选, 会循环显示多个选项. 对于这些筛选功能, 可使用左键和右键来向前和向后, 中键以清除筛选.
 				[image:RecipeBrowser/Images/Help/sortsExplanation_zh-Hans]
 				'''
 			ItemChecklistIntegration:
 				'''
 				[c/{0}:Item Checklist整合]
-				    通过Item Checklist, 你可以浏览范围限制在从已收集过的物品中制作的从未获得过的新物品. 这有助于你专注于当前游戏阶段的物品. Item Checklist同样会影响物品和怪物图鉴工具. [l/www.gfycat.com/insidiousblandgoitered:Item Checklist视频].
+				    通过Item Checklist, 你可以浏览范围限制在从已收集过的物品中制作的从未获得过的新物品. 这有助于你专注于当前游戏阶段的物品. Item Checklist同样会影响物品和怪物图鉴工具. [l/github.com/user-attachments/assets/714db9bf-75dd-41b1-b603-10d266c53908:Item Checklist视频].
 				'''
 		}
 
@@ -188,6 +403,11 @@ Mods: {
 					Tooltip: 显示图鉴中的NPC由哪个模组添加. 沉浸式体验请禁用.
 				}
 
+				OpenKeybindingsMenuButton: {
+					Label: 打开按键绑定菜单
+					Tooltip: 打开按键绑定菜单以修改本Mod的热键
+				}
+
 				Headers.AutomaticSettings: 自动设置
 
 				RecipeBrowserSize: {
@@ -209,9 +429,37 @@ Mods: {
 					Label: 仅在打开物品栏时显示收藏的配方窗口
 					Tooltip: 自动显示和隐藏收藏的配方面板. 会自动保存, 无需调整
 				}
+
+				ShowOtherPlayersFavoritedRecipes: {
+					Label: 显示其他玩家收藏的配方
+					Tooltip:
+						'''
+						是否显示其他玩家收藏的配方来便于合作
+						会自动保存更改，无需调整
+						'''
+				}
+			}
+
+			ShowOtherPlayersFavoritedRecipesOption: {
+				Tooltip: ""
+
+				ShowAll: {
+					Label: 显示全部
+					// Tooltip: ""
+				}
+
+				ShowTeamOnly: {
+					Label: 仅显示同一队伍
+					// Tooltip: ""
+				}
+
+				Hide: {
+					Label: 隐藏
+					// Tooltip: ""
+				}
 			}
 		}
 
-		// Conditions.ShimmerTransmutation: Shimmer Transmutation
+		ItemLostInQuerySlotWarning: "因为背包中物品已经满了，所以您留在合成表中的该物品已经丢失: "
 	}
 }

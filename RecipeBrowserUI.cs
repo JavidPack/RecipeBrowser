@@ -1,18 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using RecipeBrowser.UIElements;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.ModLoader.UI;
-using Terraria.GameContent;
 
 namespace RecipeBrowser
 {
@@ -40,8 +39,12 @@ namespace RecipeBrowser
 		internal UIDragableElement mainPanel;
 		internal UIDragablePanel favoritePanel;
 		internal UIElements.UICycleImage HideUnlessInventoryToggle;
+		internal UIElements.UICycleImage ShowOtherPlayersFavoritesToggle;
 		internal UIHoverImageButton closeFavoritePanelButton;
 		internal UIHoverImageButton closeButton;
+		internal UIHoverImageButtonMod modFilterButton;
+		private BlockInputElement blockInput;
+		private UIElement activeDialog;
 
 		//internal SharedUI sharedUI;
 		internal RecipeCatalogueUI recipeCatalogueUI;
@@ -54,6 +57,7 @@ namespace RecipeBrowser
 		internal bool[] foundItems;
 
 		internal string[] mods;
+		internal ModFilterDropdown ModFilterDropdown;
 
 		public bool ForceShowFavoritePanel;
 		public bool ForceHideFavoritePanel; // Could save to config on exit world to preserve, but if users want that they should just not favorite recipes.
@@ -115,7 +119,7 @@ namespace RecipeBrowser
 		public void PostSetupContent()
 		{
 			mods = ModLoader.Mods.Where(mod => mod.GetContent<ModItem>().Any()).Select(mod => mod.Name).ToArray();
-			modIndex = 0;
+			ModIndex = 0;
 		}
 
 		public override void OnInitialize()
@@ -265,9 +269,9 @@ namespace RecipeBrowser
 			button.Height.Set(22, 0);
 			button.BackgroundColor = Color.DarkRed;
 
-			Asset<Texture2D> filterModTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("Images/filterMod", AssetRequestMode.ImmediateLoad);
-			Asset<Texture2D> filterModColorableTexture = RecipeBrowser.instance.Assets.Request<Texture2D>("Images/filterModColorable", AssetRequestMode.ImmediateLoad);
-			var modFilterButton = new UIHoverImageButtonMod(filterModTexture, filterModColorableTexture, RBText("ModFilter") + ": " + RBText("All"));
+			Asset<Texture2D> filterModTexture = RecipeBrowser.instance.Assets.Request<Texture2D>(RBText("FilterMod", "ImagePaths"), AssetRequestMode.ImmediateLoad);
+			Asset<Texture2D> filterModColorableTexture = RecipeBrowser.instance.Assets.Request<Texture2D>(RBText("FilterModColorable", "ImagePaths"), AssetRequestMode.ImmediateLoad);
+			modFilterButton = new UIHoverImageButtonMod(filterModTexture, filterModColorableTexture, RBText("ModFilter") + ": " + RBText("All"));
 			modFilterButton.Left.Set(-60, 1f);
 			modFilterButton.Top.Set(-0, 0f);
 			modFilterButton.OnLeftClick += ModFilterButton_OnClick;
@@ -321,6 +325,17 @@ namespace RecipeBrowser
 				RecipeBrowserClientConfig.SaveConfig();
 			};
 			favoritePanel.Append(HideUnlessInventoryToggle);
+
+			ShowOtherPlayersFavoritesToggle = new UICycleImage(RecipeBrowser.instance.Assets.Request<Texture2D>("UIElements/ShowOtherPlayersRecipesToggle", AssetRequestMode.ImmediateLoad), 3, [RBText("ShowOtherPlayersFavorited", "FavoritedUI"), RBText("ShowTeammatesFavorited", "FavoritedUI"), RBText("HideOtherPlayersFavorited", "FavoritedUI")], 16, 12);
+			ShowOtherPlayersFavoritesToggle.Top.Set(40, 0f);
+			ShowOtherPlayersFavoritesToggle.Left.Set(-15, 1f);
+			ShowOtherPlayersFavoritesToggle.CurrentState = (int)config.ShowOtherPlayersFavoritedRecipes;
+			ShowOtherPlayersFavoritesToggle.OnStateChanged += (s, e) => {
+				favoritePanelUpdateNeeded = true;
+				config.ShowOtherPlayersFavoritedRecipes = (ShowOtherPlayersFavoritedRecipesOption)ShowOtherPlayersFavoritesToggle.CurrentState;
+				RecipeBrowserClientConfig.SaveConfig();
+			};
+			favoritePanel.Append(ShowOtherPlayersFavoritesToggle);
 		}
 
 		//private void ItemChecklistRadioButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
@@ -330,51 +345,112 @@ namespace RecipeBrowser
 		//}
 
 		// Vanilla ModLoader mod will act as "all"
-		internal static int modIndex;
+		private static int modIndex; // Selected mod
+		internal static int ModIndex {
+			get => modIndex;
+			set {
+				modIndex = value;
+				SharedUI.instance.ModFilterByFilter?.FormatText(instance.mods[modIndex]);
+				SharedUI.instance.updateNeeded = true; // Need to refresh for ModFilterByFilter
+			}
+		}
+		internal static int modIndexPrevious; // Last icon calculated
+		internal static int modHoverIndex = -1; // Currently hovering option
 
 		private void ModFilterButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(true);
-			UpdateModHoverImage(button);
-			AllUpdateNeeded();
+			if (mods.Length < 4)
+			{
+				ChangeModIndex(true);
+				UpdateModFilterUI();
+				return;
+			}
+
+			var host = listeningElement.Parent?.Parent;
+			if (host == null)
+			{
+				return;
+			}
+			
+			if (ModFilterDropdown == null)
+			{
+				ModFilterDropdown = new ModFilterDropdown(
+					mods,
+					ModIndex,
+					GetDisplayName
+				);
+
+				ModFilterDropdown.SelectedIndexChanged += (_, selectedIndex) =>
+				{
+					ModIndex = selectedIndex;
+					UpdateModFilterUI();
+					UnblockInput(evt, listeningElement);
+				};
+			}
+
+			if(ModFilterDropdown.Parent == null)
+				BlockInput(ModFilterDropdown);
+			else
+				UnblockInput(evt, listeningElement);
 		}
 
 		private void ModFilterButton_OnRightClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			button.hoverText = RBText("ModFilter") + ": " + GetModFilterTooltip(false);
-			UpdateModHoverImage(button);
-			AllUpdateNeeded();
+			ChangeModIndex(false);
+			ModFilterDropdown?.SelectIndex(ModIndex);
+			UpdateModFilterUI();
 		}
 
 		private void ModFilterButton_OnMiddleClick(UIMouseEvent evt, UIElement listeningElement)
 		{
-			UIHoverImageButtonMod button = (evt.Target as UIHoverImageButtonMod);
-			modIndex = 0;
-			button.hoverText = RBText("ModFilter") + ": " + RBText("All");
-			UpdateModHoverImage(button);
+			ModIndex = 0;
+			ModFilterDropdown?.SelectIndex(ModIndex);
+			UpdateModFilterUI();
+		}
+
+		private void UpdateModFilterUI()
+		{
+			modFilterButton.hoverText = RBText("ModFilter") + ": " + GetDisplayName(ModIndex);
+			UpdateModHoverImage();
 			AllUpdateNeeded();
 		}
 
-		private void UpdateModHoverImage(UIHoverImageButtonMod button)
+		private void ChangeModIndex(bool increment)
 		{
-			button.texture = null;
-			Mod otherMod = ModLoader.GetMod(mods[modIndex]);
-			if (otherMod != null && otherMod.FileExists("icon.png"))
+			if (mods.Length <= 1)
 			{
-				var modIconTexture = Texture2D.FromStream(Main.instance.GraphicsDevice, new MemoryStream(otherMod.GetFileBytes("icon.png")));
-				if (modIconTexture.Width == 80 && modIconTexture.Height == 80)
-				{
-					button.texture = modIconTexture;
-				}
+				ModIndex = 0;
+				return;
 			}
+			
+			ModIndex = (ModIndex + (increment ? 1 : mods.Length - 1)) % mods.Length;
 		}
 
-		private string GetModFilterTooltip(bool increment)
+		private string GetDisplayName(int index)
 		{
-			modIndex = increment ? (modIndex + 1) % mods.Length : (mods.Length + modIndex - 1) % mods.Length;
-			return modIndex == 0 ? RBText("All") : ModLoader.GetMod(mods[modIndex]).DisplayName;
+			return index == 0 ? RBText("All") : ModLoader.GetMod(mods[index]).DisplayName;
+		}
+
+		internal void UpdateModHoverImage()
+		{
+			int indexToDisplay = modHoverIndex > -1 ? modHoverIndex : ModIndex;
+			if (indexToDisplay == modIndexPrevious)
+				return;
+
+			modIndexPrevious = indexToDisplay;
+			modFilterButton.texture = null;
+			Mod otherMod = ModLoader.GetMod(mods[indexToDisplay]);
+			if (otherMod == null || !otherMod.FileExists("icon.png"))
+			{
+				return;
+			}
+			
+			using var ms = new MemoryStream(otherMod.GetFileBytes("icon.png"));
+			var modIconTexture = Texture2D.FromStream(Main.instance.GraphicsDevice, ms);
+			if (modIconTexture.Width == 80 && modIconTexture.Height == 80)
+			{
+				modFilterButton.texture = modIconTexture;
+			}
 		}
 
 		internal void AllUpdateNeeded()
@@ -421,7 +497,10 @@ namespace RecipeBrowser
 		internal bool favoritePanelUpdateNeeded;
 		internal void UpdateFavoritedPanel()
 		{
-			if(HideUnlessInventoryToggle.CurrentState == 1 && lastMainPlayerInventory != Main.playerInventory && !ForceHideFavoritePanel/* && !ShouldShowFavoritePanel.HasValue*/) {
+			HideUnlessInventoryToggle.CurrentState = RecipeBrowserClientConfig.Instance.OnlyShowFavoritedWhileInInventory ? 1 : 0;
+			ShowOtherPlayersFavoritesToggle.CurrentState = (int)RecipeBrowserClientConfig.Instance.ShowOtherPlayersFavoritedRecipes;
+
+			if (HideUnlessInventoryToggle.CurrentState == 1 && lastMainPlayerInventory != Main.playerInventory && !ForceHideFavoritePanel/* && !ShouldShowFavoritePanel.HasValue*/) {
 				ShowFavoritePanel = Main.playerInventory;
 			}
 			lastMainPlayerInventory = Main.playerInventory;
@@ -445,6 +524,8 @@ namespace RecipeBrowser
 			}
 			favoritePanel.RemoveAllChildren();
 
+			if (Main.netMode != NetmodeID.SinglePlayer)
+				favoritePanel.Append(ShowOtherPlayersFavoritesToggle);
 			favoritePanel.Append(HideUnlessInventoryToggle);
 			favoritePanel.Append(closeFavoritePanelButton);
 			if (Main.GameUpdateCount > 0) {
@@ -472,22 +553,23 @@ namespace RecipeBrowser
 
 			// TODO: support non-recipe paths, favorite from Craft Path entries: Farm Item from Enemy X,Y,Z
 			// Support setting recipe to a desired count. (Alt click on ingredient that is required X times, the favorited recipe will be multiplied by X) Or scroll to increase? Buttons?
-			for (int i = 0; i < Main.maxPlayers; i++)
-			{
-				if (i != Main.myPlayer && Main.player[i].active)
-				{
-					foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes) // Collection was modified potential with receiving other player favorited recipes?
-					{
-						Recipe r = Main.recipe[recipeIndex];
-						UIRecipeProgress s = new UIRecipeProgress(recipeIndex, r, order, i);
-						order++;
-						s.Recalculate();
-						var a = s.GetInnerDimensions();
-						s.Width.Precent = 1;
-						list.Add(s);
-						height += (int)(a.Height + list.ListPadding);
-						width = Math.Max(width, (int)a.Width);
-						favoritePanel.AddDragTarget(s);
+			if (RecipeBrowserClientConfig.Instance.ShowOtherPlayersFavoritedRecipes != ShowOtherPlayersFavoritedRecipesOption.Hide) {
+				for (int i = 0; i < Main.maxPlayers; i++) {
+					if (i != Main.myPlayer && Main.player[i].active) {
+						if (RecipeBrowserClientConfig.Instance.ShowOtherPlayersFavoritedRecipes == ShowOtherPlayersFavoritedRecipesOption.ShowTeamOnly && Main.player[Main.myPlayer].team > 0 && Main.player[i].team != Main.player[Main.myPlayer].team)
+							continue;
+						foreach (var recipeIndex in Main.player[i].GetModPlayer<RecipeBrowserPlayer>().favoritedRecipes) { // Collection was modified potential with receiving other player favorited recipes?
+							Recipe r = Main.recipe[recipeIndex];
+							UIRecipeProgress s = new UIRecipeProgress(recipeIndex, r, order, i);
+							order++;
+							s.Recalculate();
+							var a = s.GetInnerDimensions();
+							s.Width.Precent = 1;
+							list.Add(s);
+							height += (int)(a.Height + list.ListPadding);
+							width = Math.Max(width, (int)a.Width);
+							favoritePanel.AddDragTarget(s);
+						}
 					}
 				}
 			}
@@ -506,7 +588,7 @@ namespace RecipeBrowser
 				favoritePanel.AddDragTarget(s);
 			}
 			if(height == 0) {
-				UIText text = new UIText("No favorited recipes");
+				UIText text = new UIText(RBText("NoFavoritedRecipes"));
 				list.Add(text);
 				var a = text.GetInnerDimensions();
 				text.Recalculate();
@@ -516,6 +598,8 @@ namespace RecipeBrowser
 				favoritePanel.AddDragTarget(text);
 			}
 			favoritePanel.Height.Pixels = height + favoritePanel.PaddingBottom + favoritePanel.PaddingTop - list.ListPadding;
+			if (favoritePanel.Height.Pixels < 64 && Main.netMode != NetmodeID.SinglePlayer)
+				favoritePanel.Height.Pixels = 64; // Room for extra toggle in MP.
 			favoritePanel.Width.Pixels = width + 18;
 			favoritePanel.Recalculate();
 
@@ -600,6 +684,20 @@ namespace RecipeBrowser
 			}
 			npcArrow = -1;
 		}
+
+		internal void BlockInput(UIElement dialog) {
+			blockInput = new BlockInputElement(mainPanel, 20);
+			blockInput.OnLeftMouseDown += UnblockInput;
+			mainPanel.Append(blockInput);
+			mainPanel.Append(activeDialog = dialog);
+		}
+
+		internal void UnblockInput(UIMouseEvent evt, UIElement listeningElement) {
+			blockInput?.Remove();
+			activeDialog?.Remove();
+
+			UpdateModHoverImage();
+		}
 	}
 
 	internal class TabController
@@ -646,6 +744,12 @@ namespace RecipeBrowser
 				parent.Append(panels[panelIndex]);
 				parent.Append(buttons[panelIndex]);
 
+				if (RecipeBrowserUI.instance.ModFilterDropdown?.Parent == parent)
+				{
+					parent.RemoveChild(RecipeBrowserUI.instance.ModFilterDropdown);
+					parent.Append(RecipeBrowserUI.instance.ModFilterDropdown);
+				}
+				
 				if(panelIndex == RecipeBrowserUI.ItemCatalogue)
 				{
 					SharedUI.instance.sortsAndFiltersPanel.Top.Set(0, 0f);
@@ -664,7 +768,7 @@ namespace RecipeBrowser
 					RecipeCatalogueUI.instance.mainPanel.Append(SharedUI.instance.sortsAndFiltersPanel);
 
 					SharedUI.instance.updateNeeded = true;
-					if (SharedUI.instance.SelectedCategory?.name == ArmorSetFeatureHelper.ArmorSetsHoverTest) {
+					if (SharedUI.instance.SelectedCategory?.name == ArmorSetFeatureHelper.ArmorSetsInternalName) {
 						SharedUI.instance.SelectedCategory = SharedUI.instance.categories[0];
 					}
 				}

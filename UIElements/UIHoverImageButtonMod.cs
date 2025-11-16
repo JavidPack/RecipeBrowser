@@ -19,18 +19,26 @@ namespace RecipeBrowser
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{ 
-			if (RecipeBrowserUI.modIndex != 0) {
+			if (RecipeBrowserUI.ModIndex != 0) {
 				CalculatedStyle dimensions = GetDimensions();
 				spriteBatch.Draw(textureColorable.Value, dimensions.Position(), Main.DiscoColor);
+
+				// Duplicate code here since we don't want to re-draw base texture.
+				if (IsMouseHovering) {
+					if (!string.IsNullOrWhiteSpace(hoverText))
+						Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverText);
+				}
 			}
 			else {
 				base.DrawSelf(spriteBatch);
 			}
-			if (IsMouseHovering && texture != null)
+			if ((IsMouseHovering || RecipeBrowserUI.modHoverIndex != -1) && texture != null)
 			{
 				Rectangle hitbox = GetInnerDimensions().ToRectangle();
 				spriteBatch.Draw(texture, new Vector2(hitbox.X + hitbox.Width / 2 - 40, hitbox.Y - 80), Color.White);
 			}
+
+			RecipeBrowserUI.modHoverIndex = -1;
 		}
 	}
 }

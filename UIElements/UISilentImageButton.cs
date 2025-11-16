@@ -28,9 +28,10 @@ namespace RecipeBrowser.UIElements
 		}
 	}
 
-	class UISilentImageButton : UIElement
+	internal class UISilentImageButton : UIElement
 	{
 		private Asset<Texture2D> _texture;
+		internal Color Color = Color.White;
 		private float _visibilityActive = 1f;
 		private float _visibilityHovered = .9f;
 		private float _visibilityInactive = 0.8f; // or color? same thing?
@@ -61,16 +62,20 @@ namespace RecipeBrowser.UIElements
 				r.Inflate(0, 0);
 				//spriteBatch.Draw(UIElements.UIRecipeSlot.selectedBackgroundTexture, r, Color.White);
 				spriteBatch.Draw(TextureAssets.InventoryBack14.Value, r, Color.White);
+				// InventoryBack5 or 11 for disabled
 			}
 
 			CalculatedStyle dimensions = base.GetDimensions();
-			spriteBatch.Draw(this._texture.Value, dimensions.Position(), Color.White * (selected ? _visibilityActive : (IsMouseHovering ? _visibilityHovered : this._visibilityInactive)));
+			spriteBatch.Draw(this._texture.Value, dimensions.Position(), Color * (selected ? _visibilityActive : (IsMouseHovering ? _visibilityHovered : this._visibilityInactive)));
 			if (IsMouseHovering) {
-				Main.hoverItemName = hoverText;
+				// Main.hoverItemName = hoverText;
+				if (!string.IsNullOrWhiteSpace(hoverText))
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText(hoverText);
 			}
 
 			if (this == SharedUI.instance.ObtainableFilter.button && IsMouseHovering) {
-				Main.hoverItemName = $"{RecipeBrowser.instance.concurrentTasks.Count} recipes remain to be calculated";
+				if(RecipeBrowser.instance.concurrentTasks.Count > 0)
+					Terraria.ModLoader.UI.UICommon.TooltipMouseText($"{hoverText}\n{RecipeBrowser.instance.concurrentTasks.Count} {SharedUI.RBText("RecipesRemainToBeCalculated")}");
 				//spriteBatch.DrawString(FontAssets.MouseText.Value, UISystem.Instance.concurrentTasks.Count + "", dimensions.Position(), Color.White);
 			}
 		}

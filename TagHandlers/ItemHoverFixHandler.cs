@@ -11,6 +11,8 @@ using Terraria.ModLoader.IO;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using Terraria.ID;
+using Terraria.ModLoader.UI;
+using System.Collections;
 
 namespace RecipeBrowser.TagHandlers
 {
@@ -21,34 +23,30 @@ namespace RecipeBrowser.TagHandlers
 		{
 			private Item _item;
 			private bool check;
+			private bool itemTooltip;
 
-			public ItemHoverFixSnippet(Item item, bool check = false)
+			public ItemHoverFixSnippet(Item item, bool check = false, bool itemTooltip = false)
 				: base("")
 			{
 				this._item = item;
 				this.Color = ItemRarity.GetColor(item.rare);
 				this.check = check;
+				this.itemTooltip = itemTooltip;
 			}
 
 			public override void OnHover()
 			{
-				//Main.HoverItem = this._item.Clone();
-				//Main.instance.MouseText(this._item.Name, this._item.rare, 0, -1, -1, -1, -1);
-
-				//if (true)
-				//{
-				//	Main.instance.MouseText(this._item.Name, this._item.rare, 0, -1, -1, -1, -1);
-				//}
-				//else 
-				if (true)
-				{
-					string stack = _item.stack > 1 ? $" ({_item.stack}) ": "";
-					Main.hoverItemName = _item.Name + stack + (_item.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + _item.ModItem.Mod.DisplayName + "]" : "");
+				if(itemTooltip) {
+					string text = _item.Name + (_item.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + _item.ModItem.Mod.DisplayName + "]" : "");
+					Main.HoverItem = _item.Clone();
+					Main.HoverItem.SetNameOverride(text);
+					//Main.hoverItemName = text;
+					Main.instance.MouseText(_item.Name, _item.rare, 0);
 				}
-				else
-				{
-					//Main.HoverItem = _item.Clone();
-					//Main.hoverItemName = Main.HoverItem.Name + (Main.HoverItem.modItem != null ? " [" + Main.HoverItem.modItem.mod.Name + "]" : "");
+				else {
+					string stack = _item.stack > 1 ? $" ({_item.stack}) " : "";
+					string text = _item.Name + stack + (_item.ModItem != null && ModContent.GetInstance<RecipeBrowserClientConfig>().ShowItemModSource ? " [" + _item.ModItem.Mod.DisplayName + "]" : "");
+					UICommon.TooltipMouseText(text);
 				}
 			}
 
@@ -74,16 +72,19 @@ namespace RecipeBrowser.TagHandlers
 						num2 = 32f / (float)rectangle.Height;
 					}
 				}
+				/*
 				num2 *= scale;
 				num *= num2;
 				if (num > 0.75f)
 				{
 					num = 0.75f;
 				}
+				*/
+				num = scale * 0.75f;
 				if (!justCheckingString && color != Color.Black)
 				{
 					float inventoryScale = Main.inventoryScale;
-					Main.inventoryScale = scale * num;
+					Main.inventoryScale = num;
 
 					ItemSlot.Draw(spriteBatch, ref this._item, 14, position - new Vector2(10f) * scale * num, Color.White);
 					if (check)
@@ -107,6 +108,7 @@ namespace RecipeBrowser.TagHandlers
 			Item item = new Item();
 			int type;
 			bool check = false;
+			bool itemTooltip = false;
 			if (int.TryParse(text, out type))
 			{
 				item.netDefaults(type);
@@ -144,12 +146,16 @@ namespace RecipeBrowser.TagHandlers
 						{
 							check = true;
 						}
+						else if (c == 't') {
+							itemTooltip = true;
+						}
 						else if (c != 'p')
 						{
 							int value;
 							if ((c == 's' || c == 'x') && int.TryParse(array[i].Substring(1), out value))
 							{
-								item.stack = Utils.Clamp<int>(value, 1, item.maxStack);
+								// item.stack = Utils.Clamp<int>(value, 1, item.maxStack);
+								item.stack = value; // Workaround for #124 since ItemTagHandler.Parse clamps to maxStack
 							}
 						}
 						else if (int.TryParse(array[i].Substring(1), out value2))
@@ -164,7 +170,7 @@ namespace RecipeBrowser.TagHandlers
 			{
 				str = " (" + item.stack + ")";
 			}
-			return new ItemHoverFixTagHandler.ItemHoverFixSnippet(item, check)
+			return new ItemHoverFixTagHandler.ItemHoverFixSnippet(item, check, itemTooltip)
 			{
 				Text = "[" + item.AffixName() + str + "]",
 				CheckForHover = true,
@@ -174,7 +180,7 @@ namespace RecipeBrowser.TagHandlers
 
 		// we do not alter vanilla ways of doing things
 		// this can lead to trouble in future patches
-		public static string GenerateTag(Item I)
+		public static string GenerateTag(Item I, bool itemTooltip = false)
 		{
 			string text = "[itemhover";
 			// assuming we have modded data, simply write the item as base64
@@ -193,6 +199,8 @@ namespace RecipeBrowser.TagHandlers
 				{
 					text = text + "/s" + I.stack;
 				}
+				if(itemTooltip)
+					text = text + (I.prefix != 0 || I.stack != 1 ? "," : "/") + "t";
 			}
 
 			object obj = text;

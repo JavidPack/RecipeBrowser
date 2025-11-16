@@ -12,6 +12,7 @@ using Terraria.GameContent.UI.Chat;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using Terraria.ID;
+using RecipeBrowser.TagHandlers;
 
 namespace RecipeBrowser.UIElements
 {
@@ -51,10 +52,10 @@ namespace RecipeBrowser.UIElements
 					StringBuilder sb = new StringBuilder();
 					foreach (var reqItem in Main.recipe[index].requiredItem)
 					{
-						sb.Append(ItemTagHandler.GenerateTag(reqItem));
+						sb.Append(ItemHoverFixTagHandler.GenerateTag(reqItem, itemTooltip: true));
 					}
 					sb.Append("-->");
-					sb.Append(ItemTagHandler.GenerateTag(Main.recipe[index].createItem));
+					sb.Append(ItemHoverFixTagHandler.GenerateTag(Main.recipe[index].createItem, itemTooltip: true));
 					if (ChatManager.AddChatText(FontAssets.MouseText.Value, sb.ToString(), Vector2.One))
 					{
 						SoundEngine.PlaySound(SoundID.MenuTick);
