@@ -478,5 +478,6 @@ Mods: {
 		}
 
 		// ItemLostInQuerySlotWarning: "You left an item in the recipe browser with a full inventory and have lost the item: "
+		// Conditions.ShimmerTransmutation: Shimmer Transmutation
 	}
 }

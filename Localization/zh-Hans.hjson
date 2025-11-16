@@ -461,5 +461,6 @@ Mods: {
 		}
 
 		ItemLostInQuerySlotWarning: "因为背包中物品已经满了，所以您留在合成表中的该物品已经丢失: "
+		// Conditions.ShimmerTransmutation: Shimmer Transmutation
 	}
 }
