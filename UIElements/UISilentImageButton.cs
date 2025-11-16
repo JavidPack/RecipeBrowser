@@ -28,9 +28,10 @@ namespace RecipeBrowser.UIElements
 		}
 	}
 
-	class UISilentImageButton : UIElement
+	internal class UISilentImageButton : UIElement
 	{
 		private Asset<Texture2D> _texture;
+		internal Color Color = Color.White;
 		private float _visibilityActive = 1f;
 		private float _visibilityHovered = .9f;
 		private float _visibilityInactive = 0.8f; // or color? same thing?
@@ -65,7 +66,7 @@ namespace RecipeBrowser.UIElements
 			}
 
 			CalculatedStyle dimensions = base.GetDimensions();
-			spriteBatch.Draw(this._texture.Value, dimensions.Position(), Color.White * (selected ? _visibilityActive : (IsMouseHovering ? _visibilityHovered : this._visibilityInactive)));
+			spriteBatch.Draw(this._texture.Value, dimensions.Position(), Color * (selected ? _visibilityActive : (IsMouseHovering ? _visibilityHovered : this._visibilityInactive)));
 			if (IsMouseHovering) {
 				// Main.hoverItemName = hoverText;
 				if (!string.IsNullOrWhiteSpace(hoverText))

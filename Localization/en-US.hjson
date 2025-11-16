@@ -66,6 +66,9 @@ Mods: {
 			ExtendedCraftable: Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)
 			DisabledRecipes: Show recipes disabled by Mods
 			Unresearched: Unresearched
+			ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
+			ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
+			ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
 			All: All
 			RMB: (RMB)
 			RecipesRemainToBeCalculated: recipes remain to be calculated

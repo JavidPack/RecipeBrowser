@@ -111,6 +111,9 @@ namespace RecipeBrowser
 			if (!Main.GameModeInfo.IsJourneyMode)
 				availableFilters.Remove(SharedUI.instance.UnresearchedFilter);
 
+			if (RecipeBrowserUI.instance.CurrentPanel != RecipeBrowserUI.RecipeCatalogue || RecipeBrowserUI.ModIndex == 0)
+				availableFilters.Remove(SharedUI.instance.ModFilterByFilter);
+
 			//sortsAndFiltersPanel.RemoveAllChildren();
 			if (subCategorySortsFiltersGrid != null) {
 				sortsAndFiltersPanel.RemoveChild(subCategorySortsFiltersGrid);
@@ -281,6 +284,7 @@ namespace RecipeBrowser
 		internal Filter ObtainableFilter;
 		internal Filter DisabledFilter;
 		internal Filter UnresearchedFilter;
+		internal CycleFilter ModFilterByFilter;
 		internal List<Sort> sorts;
 
 		// Items whose textures are resized used during setup
@@ -329,6 +333,19 @@ namespace RecipeBrowser
 			Asset<Texture2D> extendedCraftIcon = ResizeImage(TextureAssets.Item[ItemID.MythrilAnvil], 24, 24);
 			Asset<Texture2D> unresearchedIcon = Utilities.StackResizeImage(new[] { Main.Assets.Request<Texture2D>("Images/UI/WorldCreation/IconDifficultyCreative") }, 24, 24);
 			Asset<Texture2D> disabledIcon = ResizeImage(TextureAssets.Item[ItemID.Blindfold], 24, 24);
+			Asset<Texture2D> ModFilterByIcon = ResizeImage(RecipeBrowser.instance.Assets.Request<Texture2D>("Images/filterModColorable"), 24, 24);
+
+			var ModFilterByFilterRecipeSource = new Filter(RBText("ModFilterByRecipeSourceTooltip"), x => true, ModFilterByIcon) {
+				recipeBelongs = recipe => recipe.Mod?.Name == RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex]
+			};
+			ModFilterByFilterRecipeSource.button.Color = Color.LightSeaGreen;
+			var ModFilterByIngredient = new Filter(RBText("ModFilterByIngredientTooltip"), x => true, ModFilterByIcon) {
+				recipeBelongs = recipe => recipe.requiredItem.Any(x => x.ModItem?.Mod.Name == RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex])
+			};
+			ModFilterByIngredient.button.Color = Color.Salmon;
+			ModFilterByFilter = new CycleFilter(RBText("ModFilterByResultItemTooltip"), ModFilterByIcon, [ModFilterByFilterRecipeSource, ModFilterByIngredient]);
+			ModFilterByFilter.button.Color = Color.White;
+
 			filters = new List<Filter>()
 			{
 				new Filter(RBText("Materials"), x=>x.material, materialsIcon),
@@ -338,6 +355,7 @@ namespace RecipeBrowser
 				(UnresearchedFilter = new Filter(RBText("Unresearched"), x=>{
 					return Terraria.GameContent.Creative.CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId.ContainsKey(x.type) && !RecipePath.ItemFullyResearched(x.type);
 				}, unresearchedIcon)),
+				ModFilterByFilter,
 			};
 
 			// TODOS: Vanity armor, grapple, cart, potions buffs
@@ -678,7 +696,7 @@ namespace RecipeBrowser
 							item.subCategories.Add(new Category(modCategory.name, modCategory.name, modCategory.belongs, modCategory.icon));
 							placed = true;
 						}
-					}			
+					}
 					if (!placed)
 						RecipeBrowser.instance.Logger.Warn($"Parent '{modCategory.parent}' for '{modCategory.name}' category not found. The category will not show up in-game");
 				}
@@ -812,7 +830,7 @@ namespace RecipeBrowser
 		private bool BelongsInOther(Item item) {
 			var cats = categories.Skip(1).Take(categories.Count - 2);
 			foreach (var category in cats) {
-				if(category.name == ArmorSetFeatureHelper.ArmorSetsInternalName)
+				if (category.name == ArmorSetFeatureHelper.ArmorSetsInternalName)
 					continue;
 				if (category.BelongsRecursive(item))
 					return false;
@@ -825,6 +843,7 @@ namespace RecipeBrowser
 	{
 		internal string name;
 		internal Predicate<Item> belongs;
+		internal Predicate<Recipe> recipeBelongs;
 		internal List<Category> subCategories;
 		internal List<Sort> sorts;
 		internal UISilentImageButton button;
@@ -911,6 +930,9 @@ namespace RecipeBrowser
 			this.belongs = (item) => {
 				return index == 0 ? true : filters[index - 1].belongs(item);
 			};
+			this.recipeBelongs = (recipe) => {
+				return index == 0 ? true : filters[index - 1].recipeBelongs?.Invoke(recipe) ?? true;
+			};
 			//CycleFilter needs SharedUI.instance.updateNeeded to update image, since each filter acts independently.
 
 			var firstButton = new UISilentImageButton(texture, name);
@@ -924,6 +946,7 @@ namespace RecipeBrowser
 				buttonOption.OnLeftClick += (a, b) => ButtonBehavior(true);
 				buttonOption.OnRightClick += (a, b) => ButtonBehavior(false);
 				buttonOption.OnMiddleClick += (a, b) => ButtonBehavior(false, true);
+				buttonOption.Color = filters[i].button.Color;
 				buttons.Add(buttonOption);
 			}
 
@@ -939,6 +962,12 @@ namespace RecipeBrowser
 				ItemCatalogueUI.instance.updateNeeded = true;
 				RecipeCatalogueUI.instance.updateNeeded = true;
 				SharedUI.instance.updateNeeded = true;
+			}
+		}
+
+		public void FormatText(string substitution) {
+			for (int i = 0; i < buttons.Count; i++) {
+				buttons[i].hoverText = string.Format(i == 0 ? name : filters[i - 1].name, substitution);
 			}
 		}
 	}

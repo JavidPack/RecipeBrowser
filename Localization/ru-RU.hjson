@@ -70,6 +70,9 @@ Mods: {
 				'''
 			DisabledRecipes: Показывать рецепты, удалённые модами
 			Unresearched: Показать только неисследованные предметы
+			// ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
+			// ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
+			// ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
 			All: Все предметы
 			RMB: (ПКМ)
 			RecipesRemainToBeCalculated: рецепты ещё требуется рассчитать
