@@ -336,13 +336,13 @@ namespace RecipeBrowser
 
 		private bool PassItemFilters(UIItemCatalogueItemSlot slot)
 		{
-			if (RecipeBrowserUI.modIndex != 0)
+			if (RecipeBrowserUI.ModIndex != 0)
 			{
 				if (slot.item.ModItem == null)
 				{
 					return false;
 				}
-				if (slot.item.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.item.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex])
 				{
 					return false;
 				}

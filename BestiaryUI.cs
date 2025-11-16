@@ -346,13 +346,13 @@ namespace RecipeBrowser
 				}
 			}
 
-			if (RecipeBrowserUI.modIndex != 0)
+			if (RecipeBrowserUI.ModIndex != 0)
 			{
 				if (slot.npc.ModNPC == null)
 				{
 					return false;
 				}
-				if (slot.npc.ModNPC.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex])
+				if (slot.npc.ModNPC.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex])
 				{
 					return false;
 				}

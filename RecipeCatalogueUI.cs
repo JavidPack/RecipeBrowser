@@ -580,14 +580,22 @@ namespace RecipeBrowser
 
 		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups, RecipeFilterResults filterResults) {
 			// TODO: Option to filter by source of Recipe rather than by createItem maybe?
-			if (RecipeBrowserUI.modIndex != 0) {
-				if (recipe.createItem.ModItem == null) {
-					filterResults.filteredByMod++;
-					return false;
+			if (RecipeBrowserUI.ModIndex != 0) {
+				if (!SharedUI.instance.ModFilterByFilter.button.selected) {
+					if (recipe.createItem.ModItem == null) {
+						filterResults.filteredByMod++;
+						return false;
+					}
+					if (recipe.createItem.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex]) {
+						filterResults.filteredByMod++;
+						return false;
+					}
 				}
-				if (recipe.createItem.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.modIndex]) {
-					filterResults.filteredByMod++;
-					return false;
+				else {
+					if (!SharedUI.instance.ModFilterByFilter.recipeBelongs(recipe)) {
+                        filterResults.filteredByMod++;
+						return false;
+                    }
 				}
 			}
 
@@ -686,6 +694,10 @@ namespace RecipeBrowser
 						// Extended craft problem.
 						if (!filter.belongs(recipe.createItem))
 							return false;
+						if (filter.recipeBelongs != null && filter != SharedUI.instance.ModFilterByFilter) {
+							if (!filter.recipeBelongs(recipe))
+								return false;
+						}
 						if (filter == SharedUI.instance.ObtainableFilter) {
 							recipeSlot.CraftPathNeeded();
 							if (!((recipeSlot.craftPathCalculated || recipeSlot.craftPathsCalculated) && recipeSlot.craftPaths.Count > 0))
