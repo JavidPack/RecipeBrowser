@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
@@ -205,10 +208,34 @@ namespace RecipeBrowser.UIElements
 		internal static string ArmorSetsHoverTest = Language.GetTextValue("Mods.RecipeBrowser.UIArmorSetCatalogue.ArmorSets");
 		internal static string ArmorSetsInternalName = "Armor Sets";
 
+		private static Task calculationTask;
+		private static CancellationTokenSource cancellationTokenSource;
+		private static volatile bool isCalculating;
+		private static volatile bool calculationComplete;
+		private static ConcurrentBag<Tuple<Item, Item, Item, string, int>> pendingSets;
+
+		private static List<Item> cachedHeads;
+		private static List<Item> cachedBodies;
+		private static List<Item> cachedLegs;
+
+		internal static bool IsCalculating => isCalculating;
+		internal static bool IsCalculationComplete => calculationComplete;
+
 		internal static void Unload() {
+			cancellationTokenSource?.Cancel();
+			calculationTask = null;
+			cancellationTokenSource = null;
+			
 			sets = null;
 			armorSetSlots = null;
 			UIArmorSetCatalogueItemSlot.drawPlayer = null;
+			
+			cachedHeads = null;
+			cachedBodies = null;
+			cachedLegs = null;
+			pendingSets = null;
+			isCalculating = false;
+			calculationComplete = false;
 		}
 
 		internal static void AppendSpecialUI(UIGrid itemGrid) {
@@ -260,101 +287,171 @@ namespace RecipeBrowser.UIElements
 			itemGrid._innerList.Append(panel);
 		}
 
-		internal static void CalculateArmorSets() {
-			//new Category("Head", x => x.headSlot != -1, smallHead),
-			//new Category("Body", x => x.bodySlot != -1, smallBody),
-			//new Category("Legs", x => x.legSlot != -1, smallLegs),
-			var testPlayer = new Player();
-			testPlayer.whoAmI = 255;
-			List<Item> Heads = new List<Item>();
-			List<Item> Bodys = new List<Item>();
-			List<Item> Legs = new List<Item>();
-			for (int type = 1; type < ItemLoader.ItemCount; type++) {
-				Item item = new Item();
-				item.SetDefaults(type, false);
-				if (item.type == 0)
-					continue;
+		internal static void StartBackgroundCalculation() {
+			if (isCalculating || calculationComplete)
+				return;
 
-				if (item.headSlot != -1)
-					Heads.Add(item);
-				if (item.bodySlot != -1)
-					Bodys.Add(item);
-				if (item.legSlot != -1)
-					Legs.Add(item);
-			}
-			sets = new List<Tuple<Item, Item, Item, string, int>>();
-			foreach (var head in Heads) {
-				foreach (var body in Bodys) {
-					foreach (var leg in Legs) {
-						testPlayer.statDefense = Player.DefenseStat.Default;
-						testPlayer.head = head.headSlot;
-						testPlayer.body = body.bodySlot;
-						testPlayer.legs = leg.legSlot;
-						testPlayer.armor[0] = head;
-						testPlayer.armor[1] = body;
-						testPlayer.armor[2] = leg;
+			isCalculating = true;
+			pendingSets = new ConcurrentBag<Tuple<Item, Item, Item, string, int>>();
+			cancellationTokenSource = new CancellationTokenSource();
+			
+			calculationTask = Task.Run(() => CalculateArmorSetsAsync(cancellationTokenSource.Token), cancellationTokenSource.Token);
+		}
 
-						// TODO: Vanity Set calculation somehow?
-						testPlayer.UpdateArmorSets(255);
-						if (testPlayer.setBonus != "") {
-							string fullSetBonus = testPlayer.setBonus;
-							int fullDefenseBonus = testPlayer.statDefense;
+		private static void CalculateArmorSetsAsync(CancellationToken token) {
+			try {
+				if (cachedHeads == null || cachedBodies == null || cachedLegs == null) {
+					cachedHeads = new List<Item>();
+					cachedBodies = new List<Item>();
+					cachedLegs = new List<Item>();
+					
+					for (int type = 1; type < ItemLoader.ItemCount; type++) {
+						if (token.IsCancellationRequested)
+							return;
+							
+						Item item = new Item();
+						item.SetDefaults(type, false);
+						if (item.type == 0)
+							continue;
 
-							// This section for testing leg-less sets
-							testPlayer.legs = -1;
-							testPlayer.armor[2] = new Item();
+						if (item.headSlot != -1)
+							cachedHeads.Add(item);
+						if (item.bodySlot != -1)
+							cachedBodies.Add(item);
+						if (item.legSlot != -1)
+							cachedLegs.Add(item);
+					}
+				}
+
+				var seenSets = new HashSet<(int?, int?, int?, string)>();
+				var localSets = new List<Tuple<Item, Item, Item, string, int>>();
+				
+				var testPlayer = new Player();
+				testPlayer.whoAmI = 255;
+
+				foreach (var head in cachedHeads) {
+					if (token.IsCancellationRequested)
+						return;
+						
+					foreach (var body in cachedBodies) {
+						if (token.IsCancellationRequested)
+							return;
+							
+						foreach (var leg in cachedLegs) {
+							if (token.IsCancellationRequested)
+								return;
+
 							testPlayer.statDefense = Player.DefenseStat.Default;
-							testPlayer.UpdateArmorSets(255);
-							int noLegsDefenseBonus = testPlayer.statDefense;
-							string noLegSetBonus = testPlayer.setBonus;
+							testPlayer.head = head.headSlot;
+							testPlayer.body = body.bodySlot;
 							testPlayer.legs = leg.legSlot;
+							testPlayer.armor[0] = head;
+							testPlayer.armor[1] = body;
 							testPlayer.armor[2] = leg;
 
-							// This section for testing head-less sets
-							testPlayer.head = -1;
-							testPlayer.armor[0] = new Item();
-							testPlayer.statDefense = Player.DefenseStat.Default;
+							// TODO: Vanity Set calculation somehow?
 							testPlayer.UpdateArmorSets(255);
-							int noHeadDefenseBonus = testPlayer.statDefense;
-							string noHeadSetBonus = testPlayer.setBonus;
-							testPlayer.head = head.headSlot;
-							testPlayer.armor[0] = head;
+							if (testPlayer.setBonus != "") {
+								string fullSetBonus = testPlayer.setBonus;
+								int fullDefenseBonus = testPlayer.statDefense;
 
-							// This section for testing body-less sets
-							testPlayer.body = -1;
-							testPlayer.armor[1] = new Item();
-							testPlayer.statDefense = Player.DefenseStat.Default;
-							testPlayer.UpdateArmorSets(255);
-							int noBodyDefenseBonus = testPlayer.statDefense;
-							string noBodySetBonus = testPlayer.setBonus;
+								// This section for testing leg-less sets
+								testPlayer.legs = -1;
+								testPlayer.armor[2] = new Item();
+								testPlayer.statDefense = Player.DefenseStat.Default;
+								testPlayer.UpdateArmorSets(255);
+								int noLegsDefenseBonus = testPlayer.statDefense;
+								string noLegSetBonus = testPlayer.setBonus;
+								testPlayer.legs = leg.legSlot;
+								testPlayer.armor[2] = leg;
 
-							if (noLegSetBonus != "") {
-								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, body, null, noLegSetBonus, head.defense + body.defense + noLegsDefenseBonus);
-								if (!sets.Contains(tupleToAdd))
-									sets.Add(tupleToAdd);
-							}
-							else if (noHeadSetBonus != "") {
-								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(null, body, leg, noHeadSetBonus, body.defense + leg.defense + noHeadDefenseBonus);
-								if (!sets.Contains(tupleToAdd))
-									sets.Add(tupleToAdd);
-							}
-							else if (noBodySetBonus != "") {
-								var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, null, leg, noBodySetBonus, head.defense + leg.defense + noBodyDefenseBonus);
-								if (!sets.Contains(tupleToAdd))
-									sets.Add(tupleToAdd);
-							}
-							else {
-								sets.Add(new Tuple<Item, Item, Item, string, int>(head, body, leg, fullSetBonus, head.defense + body.defense + leg.defense + fullDefenseBonus));
+								// This section for testing head-less sets
+								testPlayer.head = -1;
+								testPlayer.armor[0] = new Item();
+								testPlayer.statDefense = Player.DefenseStat.Default;
+								testPlayer.UpdateArmorSets(255);
+								int noHeadDefenseBonus = testPlayer.statDefense;
+								string noHeadSetBonus = testPlayer.setBonus;
+								testPlayer.head = head.headSlot;
+								testPlayer.armor[0] = head;
+
+								// This section for testing body-less sets
+								testPlayer.body = -1;
+								testPlayer.armor[1] = new Item();
+								testPlayer.statDefense = Player.DefenseStat.Default;
+								testPlayer.UpdateArmorSets(255);
+								int noBodyDefenseBonus = testPlayer.statDefense;
+								string noBodySetBonus = testPlayer.setBonus;
+
+								if (noLegSetBonus != "") {
+									var key = (head?.type, body?.type, (int?)null, noLegSetBonus);
+									if (seenSets.Add(key)) {
+										var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, body, null, noLegSetBonus, head.defense + body.defense + noLegsDefenseBonus);
+										localSets.Add(tupleToAdd);
+									}
+								}
+								else if (noHeadSetBonus != "") {
+									var key = ((int?)null, body?.type, leg?.type, noHeadSetBonus);
+									if (seenSets.Add(key)) {
+										var tupleToAdd = new Tuple<Item, Item, Item, string, int>(null, body, leg, noHeadSetBonus, body.defense + leg.defense + noHeadDefenseBonus);
+										localSets.Add(tupleToAdd);
+									}
+								}
+								else if (noBodySetBonus != "") {
+									var key = (head?.type, (int?)null, leg?.type, noBodySetBonus);
+									if (seenSets.Add(key)) {
+										var tupleToAdd = new Tuple<Item, Item, Item, string, int>(head, null, leg, noBodySetBonus, head.defense + leg.defense + noBodyDefenseBonus);
+										localSets.Add(tupleToAdd);
+									}
+								}
+								else {
+									var key = (head?.type, body?.type, leg?.type, fullSetBonus);
+									if (seenSets.Add(key)) {
+										localSets.Add(new Tuple<Item, Item, Item, string, int>(head, body, leg, fullSetBonus, head.defense + body.defense + leg.defense + fullDefenseBonus));
+									}
+								}
 							}
 						}
 					}
 				}
-			}
-			// How to detect "anything goes" sets?
-			// Check Head/Body, Head/Legs, etc?
 
+				if (token.IsCancellationRequested)
+					return;
+
+				sets = localSets;
+				calculationComplete = true;
+			}
+			finally {
+				isCalculating = false;
+			}
+		}
+
+		internal static void CalculateArmorSets() {
+			//if already calculated, just build the UI slots
+			if (calculationComplete && sets != null) {
+				BuildArmorSetSlots();
+				return;
+			}
+
+			//start calc if not started yet
+			if (!isCalculating && calculationTask == null) {
+				StartBackgroundCalculation();
+			}
+
+			//wait for background calculation to complete
+			if (calculationTask != null && !calculationTask.IsCompleted) {
+				calculationTask.Wait();
+			}
+
+			BuildArmorSetSlots();
+		}
+
+		private static void BuildArmorSetSlots() {
+			if (armorSetSlots != null)
+				return;
+				
 			armorSetSlots = new List<UIArmorSetCatalogueItemSlot>();
-			if (armorSetSlots.Count == 0) {
+			if (sets != null) {
 				foreach (var set in sets) {
 					var slot = new UIArmorSetCatalogueItemSlot(set);
 					armorSetSlots.Add(slot);
