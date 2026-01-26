@@ -293,11 +293,7 @@ Mods: {
 
 		UIArmorSetCatalogue: {
 			// TotalSetDefense: Total Set Defense: {0}
-			/* ArmorSets:
-				'''
-				Armor Sets
-				(Warning: May take many seconds to calculate)
-				''' */
+			// ArmorSets: Armor Sets
 			// ShowItems: Show Items
 			// ShowItemsTooltip: Display the items that make up the set
 			// UseDye: Use Dye
