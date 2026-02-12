@@ -28,6 +28,7 @@ namespace RecipeBrowser
 			if (!Main.dedServ) {
 				LootCacheManager.Setup(RecipeBrowser.instance);
 				RecipeBrowserUI.instance.PostSetupContent();
+				ArmorSetFeatureHelper.StartBackgroundCalculation();
 			}
 		}
 
