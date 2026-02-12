@@ -52,6 +52,11 @@ Mods: {
 			HistoryEmpty: 尚无查询历史
 			HistoryReachedStart: 抵达查询历史起点
 			HistoryReachedEnd: 抵达查询历史终点
+			// RecipesFilteredByMod: "{0} {^0:recipe;recipes} filtered by mod filter."
+			// RecipesFilteredBySearch: "{0} {^0:recipe;recipes} filtered by search filter."
+			// RecipesFilteredByTooltip: "{0} {^0:recipe;recipes} filtered by tooltip filter."
+			// RecipesFilteredByCategory: "{0} {^0:recipe;recipes} filtered by category filter."
+			// RecipesFilteredByOtherFilters: "{0} {^0:recipe;recipes} filtered by other filters."
 		}
 
 		RecipeCatalogueFilters: {

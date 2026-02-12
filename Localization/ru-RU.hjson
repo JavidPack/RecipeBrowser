@@ -52,6 +52,11 @@ Mods: {
 			HistoryEmpty: У вас пока нет истории поиска
 			HistoryReachedStart: Достигнуто начало истории поиска
 			HistoryReachedEnd: Достигнут конец истории поиска
+			// RecipesFilteredByMod: "{0} {^0:recipe;recipes} filtered by mod filter."
+			// RecipesFilteredBySearch: "{0} {^0:recipe;recipes} filtered by search filter."
+			// RecipesFilteredByTooltip: "{0} {^0:recipe;recipes} filtered by tooltip filter."
+			// RecipesFilteredByCategory: "{0} {^0:recipe;recipes} filtered by category filter."
+			// RecipesFilteredByOtherFilters: "{0} {^0:recipe;recipes} filtered by other filters."
 		}
 
 		RecipeCatalogueFilters: {

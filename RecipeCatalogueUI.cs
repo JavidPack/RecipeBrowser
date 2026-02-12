@@ -498,10 +498,11 @@ namespace RecipeBrowser
 
 			recipeGrid.Clear();
 			//int craftPathsCalculatedCount = 0;
+			var filterResults = new RecipeFilterResults();
 			for (int i = 0; i < Recipe.numRecipes; i++) {
 				//if (recipeSlots[i].craftPathsCalculated)
 				//	craftPathsCalculatedCount++;
-				if (PassRecipeFilters(recipeSlots[i], Main.recipe[i], groups))
+				if (PassRecipeFilters(recipeSlots[i], Main.recipe[i], groups, filterResults))
 				// all the filters
 				//if (Main.projName[i].ToLower().IndexOf(searchFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)
 				{
@@ -519,6 +520,38 @@ namespace RecipeBrowser
 					recipeGrid._innerList.Append(box);
 				}
 			}
+			if (true && filterResults.AnyFiltered) {
+				var panel = new UIPanel();
+				panel.Width.Set(0, 1f);
+				recipeGrid.Add(panel);
+				var filterMessages = new List<string>();
+				if (filterResults.filteredByMod > 0) {
+					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredByMod", filterResults.filteredByMod));
+
+					if (RecipeBrowserUI.ModIndex != 0)
+						filterMessages.Add($"Showing only recipes resulting in items from \"{Terraria.ModLoader.ModLoader.GetMod(RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex]).DisplayName}\"");
+				}
+				if (filterResults.filteredByCategory > 0)
+					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredByCategory", filterResults.filteredByCategory));
+				if (filterResults.filteredByOtherFilters > 0)
+					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredByOtherFilters", filterResults.filteredByOtherFilters));
+				if (filterResults.filteredBySearch > 0)
+					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredBySearch", filterResults.filteredBySearch));
+				if (filterResults.filteredByTooltip > 0)
+					filterMessages.Add(Language.GetTextValue("Mods.RecipeBrowser.RecipeCatalogueUI.RecipesFilteredByTooltip", filterResults.filteredByTooltip));
+
+				// TODO: Same for Item listing as well
+
+				string filterMessage = string.Join("\n", filterMessages);
+				var text = new UIText(filterMessage);
+				text.Width.Set(0, 1f);
+				text.IsWrapped = true;
+				text.WrappedTextBottomPadding = 0;
+				text.TextOriginX = 0f;
+				text.Recalculate();
+				panel.Append(text);
+				panel.Height.Set(text.MinHeight.Pixels + panel.PaddingTop, 0f);
+			}
 			//Main.NewText($"craftPathsCalculated: {craftPathsCalculatedCount}/{Recipe.numRecipes}");
 
 			recipeGrid.UpdateOrder();
@@ -526,10 +559,15 @@ namespace RecipeBrowser
 		}
 
 		private int ItemGridSort(UIElement x, UIElement y) {
-			if (x is UIPanel)
-				return -1;
+			// Place filter counts notification panel at end.
+			// TODO: Make similar panel for ItemCatalogueUI and make sure ArmorSetFeatureHelper panel is at top.
+			if (x is UIPanel) 
+				if (y is UIPanel)
+					return x.UniqueId.CompareTo(y.UniqueId);
+				else
+					return 1;
 			if (y is UIPanel)
-				return 1;
+				return -1;
 			UIRecipeSlot a = x as UIRecipeSlot;
 			UIRecipeSlot b = y as UIRecipeSlot;
 			if (a.CompareToIgnoreIndex(b) == 0 && SharedUI.instance.SelectedSort != null) {
@@ -540,20 +578,24 @@ namespace RecipeBrowser
 			return a.CompareTo(b);
 		}
 
-		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups) {
+		private bool PassRecipeFilters(UIRecipeSlot recipeSlot, Recipe recipe, List<int> groups, RecipeFilterResults filterResults) {
 			// TODO: Option to filter by source of Recipe rather than by createItem maybe?
 			if (RecipeBrowserUI.ModIndex != 0) {
 				if (!SharedUI.instance.ModFilterByFilter.button.selected) {
 					if (recipe.createItem.ModItem == null) {
+						filterResults.filteredByMod++;
 						return false;
 					}
 					if (recipe.createItem.ModItem.Mod.Name != RecipeBrowserUI.instance.mods[RecipeBrowserUI.ModIndex]) {
+						filterResults.filteredByMod++;
 						return false;
 					}
 				}
 				else {
-					if (!SharedUI.instance.ModFilterByFilter.recipeBelongs(recipe))
+					if (!SharedUI.instance.ModFilterByFilter.recipeBelongs(recipe)) {
+                        filterResults.filteredByMod++;
 						return false;
+                    }
 				}
 			}
 
@@ -635,10 +677,13 @@ namespace RecipeBrowser
 
 			var SelectedCategory = SharedUI.instance.SelectedCategory;
 			if (SelectedCategory != null) {
-				if (!SelectedCategory.belongs(recipe.createItem) && !SelectedCategory.subCategories.Any(x => x.belongs(recipe.createItem)))
+				if (!SelectedCategory.belongs(recipe.createItem) && !SelectedCategory.subCategories.Any(x => x.belongs(recipe.createItem))) {
+					filterResults.filteredByCategory++;
 					return false;
+				}
 			}
 			var availableFilters = SharedUI.instance.availableFilters;
+			filterResults.filteredByOtherFilters++; // Rather than add code to each return...
 			if (availableFilters != null)
 				foreach (var filter in SharedUI.instance.availableFilters) {
 					if (!filter.button.selected && filter == SharedUI.instance.DisabledFilter) {
@@ -672,15 +717,19 @@ namespace RecipeBrowser
 						}
 					}
 				}
+			filterResults.filteredByOtherFilters--;
 
-			if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1)
+			if (recipe.createItem.Name.ToLower().IndexOf(itemNameFilter.currentString, StringComparison.OrdinalIgnoreCase) == -1) {
+				filterResults.filteredBySearch++;
 				return false;
+			}
 
 			if (itemDescriptionFilter.currentString.Length > 0) {
 				if ((recipe.createItem.ToolTip != null && GetTooltipsAsString(recipe.createItem.ToolTip).IndexOf(itemDescriptionFilter.currentString, StringComparison.OrdinalIgnoreCase) != -1) /*|| (recipe.createItem.toolTip2 != null && recipe.createItem.toolTip2.ToLower().IndexOf(itemDescriptionFilter.Text, StringComparison.OrdinalIgnoreCase) != -1)*/) {
 					return true;
 				}
 				else {
+					filterResults.filteredByTooltip++;
 					return false;
 				}
 			}
@@ -936,5 +985,16 @@ namespace RecipeBrowser
 			if (SharedUI.instance.ObtainableFilter?.button.selected == true)
 				SharedUI.instance.ObtainableFilter.button.LeftClick(new UIMouseEvent(null, Vector2.Zero));
 		}
+	}
+
+	public class RecipeFilterResults
+	{
+		public int filteredBySearch;
+		public int filteredByTooltip;
+		public int filteredByCategory;
+		public int filteredByOtherFilters;
+		public int filteredByMod;
+
+		public bool AnyFiltered => filteredBySearch > 0 || filteredByTooltip > 0 || filteredByCategory > 0 || filteredByOtherFilters > 0 || filteredByMod > 0;
 	}
 }

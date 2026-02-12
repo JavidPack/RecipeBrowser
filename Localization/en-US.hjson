@@ -52,6 +52,11 @@ Mods: {
 			HistoryEmpty: There is no query history yet
 			HistoryReachedStart: Query history start reached
 			HistoryReachedEnd: Query history end reached
+			RecipesFilteredByMod: "{0} {^0:recipe;recipes} filtered by mod filter."
+			RecipesFilteredBySearch: "{0} {^0:recipe;recipes} filtered by search filter."
+			RecipesFilteredByTooltip: "{0} {^0:recipe;recipes} filtered by tooltip filter."
+			RecipesFilteredByCategory: "{0} {^0:recipe;recipes} filtered by category filter."
+			RecipesFilteredByOtherFilters: "{0} {^0:recipe;recipes} filtered by other filters."
 		}
 
 		RecipeCatalogueFilters: {
