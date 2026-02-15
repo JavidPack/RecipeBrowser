@@ -474,5 +474,6 @@ Mods: {
 		}
 
 		ItemLostInQuerySlotWarning: "Вы оставили предмет в браузере рецептов, имея заполненный инвентарь, и потеряли его: "
+		// Conditions.ShimmerTransmutation: Shimmer Transmutation
 	}
 }

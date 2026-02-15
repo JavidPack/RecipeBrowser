@@ -23,7 +23,75 @@ namespace RecipeBrowser
 
 		public override void PreSaveAndQuit() => RecipeBrowser.instance.PreSaveAndQuit();
 
-		public override void PostAddRecipes()
+        public override void AddRecipes() {
+			Condition shimmerTransmutationCondition = new("Mods.RecipeBrowser.Conditions.ShimmerTransmutation", () => false);
+            for (int i = 0; i < ItemID.Sets.ShimmerTransformToItem.Length; i++) {
+                // For some reason this is set initially but gets overriden later on
+                // So I'll skip it 
+                if (i == ItemID.LihzahrdBrickWall) 
+                    continue;
+                int shimmerTransmutation = ItemID.Sets.ShimmerTransformToItem[i];
+                if (shimmerTransmutation > 0) {
+					Recipe.Create(shimmerTransmutation)
+						.AddIngredient(i)
+						.AddCondition(shimmerTransmutationCondition)
+						.Register();
+                }
+            }
+
+			// Fix for vanilla hardcoded transmutations
+			Recipe.Create(ItemID.RodOfHarmony)
+				.AddIngredient(ItemID.RodofDiscord)
+				.AddCondition(shimmerTransmutationCondition)
+				.AddCondition(Condition.DownedMoonLord)
+				.Register();
+
+            Recipe.Create(ItemID.Clentaminator2)
+                .AddIngredient(ItemID.Clentaminator)
+                .AddCondition(shimmerTransmutationCondition)
+                .AddCondition(Condition.DownedMoonLord)
+                .Register();
+
+            Recipe.Create(ItemID.BottomlessBucket)
+                .AddIngredient(ItemID.BottomlessShimmerBucket)
+                .AddCondition(shimmerTransmutationCondition)
+                .AddCondition(Condition.DownedMoonLord)
+                .Register();
+
+            Recipe.Create(ItemID.BottomlessShimmerBucket)
+                .AddIngredient(ItemID.BottomlessBucket)
+                .AddCondition(shimmerTransmutationCondition)
+                .AddCondition(Condition.DownedMoonLord)
+                .Register();
+
+            Recipe.Create(ItemID.LihzahrdWallUnsafe)
+                .AddIngredient(ItemID.LihzahrdBrickWall)
+                .AddCondition(shimmerTransmutationCondition)
+                .AddCondition(Condition.DownedGolem)
+                .Register();
+
+            List<KeyValuePair<int, Condition>> luminiteBrickTransmutations = new() {
+                new KeyValuePair<int, Condition>(ItemID.HeavenforgeBrick, Condition.MoonPhaseFull),
+                new KeyValuePair<int, Condition>(ItemID.LunarRustBrick, Condition.MoonPhaseWaningGibbous),
+                new KeyValuePair<int, Condition>(ItemID.AstraBrick, Condition.MoonPhaseThirdQuarter),
+                new KeyValuePair<int, Condition>(ItemID.DarkCelestialBrick, Condition.MoonPhaseWaningCrescent),
+                new KeyValuePair<int, Condition>(ItemID.MercuryBrick, Condition.MoonPhaseNew),
+                new KeyValuePair<int, Condition>(ItemID.StarRoyaleBrick, Condition.MoonPhaseWaxingCrescent),
+                new KeyValuePair<int, Condition>(ItemID.CryocoreBrick, Condition.MoonPhaseFirstQuarter),
+                new KeyValuePair<int, Condition>(ItemID.CosmicEmberBrick, Condition.MoonPhaseWaxingGibbous)
+            };
+
+            foreach (var item in luminiteBrickTransmutations)
+            {
+                Recipe.Create(item.Key)
+                    .AddIngredient(ItemID.LunarBrick)
+                    .AddCondition(shimmerTransmutationCondition)
+                    .AddCondition(item.Value)
+                    .Register();
+            }
+        }
+
+        public override void PostAddRecipes()
 		{
 			if (!Main.dedServ) {
 				LootCacheManager.Setup(RecipeBrowser.instance);
