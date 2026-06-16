@@ -66,6 +66,7 @@ namespace RecipeBrowser
 
 		internal UIRecipeInfo recipeInfo;
 		internal UIRadioButton NearbyIngredientsRadioBitton;
+		internal UIRadioButton ResearchedIngredientsRadioButton;
 		internal UIRadioButton ItemChecklistRadioButton;
 		internal UIRadioButtonGroup RadioButtonGroup;
 		internal UIJourneyDuplicateButton duplicationButton;
@@ -137,14 +138,21 @@ namespace RecipeBrowser
 			RadioButtonGroup.Width.Set(180, 0f);
 			UIRadioButton AllRecipesRadioButton = new UIRadioButton(RBText("AllRecipes"), "");
 			NearbyIngredientsRadioBitton = new UIRadioButton(RBText("NearbyChests"), RBText("ClickToRefresh"));
+			ResearchedIngredientsRadioButton = new UIRadioButton(RBText("ResearchedMaterials"), RBText("OnlyShowRecipesWithResearchedMaterials"));
 			ItemChecklistRadioButton = new UIRadioButton(RBText("ItemChecklistOnly"), "???");
 			RadioButtonGroup.Add(AllRecipesRadioButton);
 			RadioButtonGroup.Add(NearbyIngredientsRadioBitton);
+			RadioButtonGroup.Add(ResearchedIngredientsRadioButton);
 			RadioButtonGroup.Add(ItemChecklistRadioButton);
 			mainPanel.Append(RadioButtonGroup);
 			AllRecipesRadioButton.Selected = true;
 
 			NearbyIngredientsRadioBitton.OnSelectedChanged += NearbyIngredientsRadioBitton_OnSelectedChanged;
+			ResearchedIngredientsRadioButton.OnSelectedChanged += (s, e) => updateNeeded = true;
+			if (!Main.GameModeInfo.IsJourneyMode) {
+				ResearchedIngredientsRadioButton.SetDisabled();
+				ResearchedIngredientsRadioButton.SetHoverText(RBText("JourneyModeOnly", "Common"));
+			}
 
 			if (RecipeBrowser.itemChecklistInstance != null) {
 				ItemChecklistRadioButton.OnSelectedChanged += ItemChecklistFilter_SelectedChanged;
@@ -563,6 +571,12 @@ namespace RecipeBrowser
 				}
 			}
 
+			if (ResearchedIngredientsRadioButton.Selected) {
+				if (!PassResearchedIngredientsFilter(recipe)) {
+					return false;
+				}
+			}
+
 			// Item Checklist integration
 			if (ItemChecklistRadioButton.Selected) {
 				if (RecipeBrowserUI.instance.foundItems != null) {
@@ -694,6 +708,16 @@ namespace RecipeBrowser
 				sb.Append(toolTip.GetLine(j) + "\n");
 			}
 			return sb.ToString().ToLower();
+		}
+
+		private bool PassResearchedIngredientsFilter(Recipe recipe) {
+			var sacrificeCatalog = Terraria.GameContent.Creative.CreativeItemSacrificesCatalog.Instance.SacrificeCountNeededByItemId;
+			foreach (Item item in recipe.requiredItem) {
+				if (sacrificeCatalog.ContainsKey(item.type) && !RecipePath.ItemFullyResearched(item.type)) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		// TODO, checkbox for check stack?
