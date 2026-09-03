@@ -64,7 +64,7 @@ Mods: {
 			Materials: Materiales
 			Craftable: Fabricable
 			ExtendedCraftable:
-			    '''
+			    	'''
 				[c/f4d58d:Fabricación extendida]
 				Haz clic derecho en una receta para ver su fabricación extendida.
 				Esta opción se desactiva automáticamente para evitar la relentización del juego.
@@ -322,7 +322,9 @@ Mods: {
 		BestiaryUI: {
 			Encountered: Visto
 			Unencountered: No encontrado
-			ShowOnlyNPCKilledAlready: Mostrar solo NPCs asesinados
+			ShowOnlyNPCKilledAlready:
+				Mostrar solo NPCs asesinados
+				(Haz [c/daa520:clic derecho] para cambiar a enemigos no asesinados)
 			ShowOnlyNPCNotKilled:
 				'''
 				Mostrar solo los NPC que aún no han sido asesinados
@@ -414,7 +416,7 @@ Mods: {
 				ShowRecipeModSource: {
 					Label: Mostrar a que mod pertenece la receta
 					Tooltip:
-					    '''
+						'''
 						Al estar activado, se mostrará a cuál mod pertenece la receta que aparece en el catálogo de recetas.
 						Desactivar para más inmersión.
 						'''
@@ -423,7 +425,7 @@ Mods: {
 				ShowItemModSource: {
 					Label: Mostrar a que mod pertenece el objeto
 					Tooltip:
-					    '''
+					 	'''
 						Al estar activado, se mostrará a cuál mod pertenece el objeto que aparece en el catálogo de recetas.
 						Desactivar para más inmersión.
 						'''
@@ -432,7 +434,7 @@ Mods: {
 				ShowNPCModSource: {
 					Label: Mostrar a que mod pertenece el NPC
 					Tooltip:
-					    '''
+					    	'''
 						Al estar activado, se mostrará a cuál mod pertenece el NPC que aparece en el [c/00FFFF:bestiario].
 						Desactivar para más inmersión.
 						'''
@@ -457,7 +459,7 @@ Mods: {
 				RecipeBrowserPosition: {
 					Label: Posición de recipe Browser
 					Tooltip:
-					    '''
+					   	'''
 						Posición de la IU del navegador de recetas.
 						Se guardará automáticamente; no es necesario ajustarlo.
 						'''
@@ -466,7 +468,7 @@ Mods: {
 				FavoritedRecipePanelPosition: {
 					Label: Posición de la ventana de recetas favoritas
 					Tooltip:
-					    '''
+					    	'''
 						Posición de la IU de recetas favoritas.
 						Se guardará automáticamente; no es necesario ajustarlo.
 						'''
@@ -475,7 +477,7 @@ Mods: {
 				OnlyShowFavoritedWhileInInventory: {
 					Label: Ventana de recetas fav., solamente visible al tener el inventario abierto
 					Tooltip:
-					    '''
+						'''
 						Al estar habilitado, la ventana será visible solamente al tener el inventario abierto.
 						Se guardará automáticamente, sin necesidad de ajustes.
 						'''
