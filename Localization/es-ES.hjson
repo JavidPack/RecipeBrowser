@@ -5,30 +5,30 @@ Mods: {
 			Craft: Elaborar
 			Items: Objetos
 			Bestiary: Bestiario
-			// Help: Help
+			Help: Ayuda
 			Close: Cerrar
 			All: Todo
 			ModFilter: Filtrar por mod
-			// NoFavoritedRecipes: No favorited recipes
-			// RecipeAddedBy: Recipe added by {0}
+			NoFavoritedRecipes: No hay recetas favoritas
+			RecipeAddedBy: Receta añadida por {0}
 		}
 
 		# These are image paths, do not localize unless you make your own version of these png files in your language.
 		ImagePaths: {
-			// FilterMod: Images/filterMod
-			// FilterModColorable: Images/filterModColorable
+			FilterMod: Images/filterMod
+			FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
 			FilterByName: Buscar nombre
 			FilterByTooltip: Buscar descripción
-			InstallItemChecklistToUse: Instala Item Checklist para usarlo
+			InstallItemChecklistToUse: Instala el mod [c/ddab1c:Item Checklist] para usarlo
 		}
 
 		Keybind: {
-			// ToggleRecipeBrowser: Toggle Recipe Browser
-			// QueryHoveredItem: Query Hovered Item
-			// ToggleFavoritedRecipesWindow: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser: Abrir/cerrar Recipe Browser
+			QueryHoveredItem: Buscar receta/info del objeto señalado
+			ToggleFavoritedRecipesWindow: Abrir/cerrar vent. de recetas fav.
 		}
 
 		RecipeCatalogueUI: {
@@ -37,189 +37,194 @@ Mods: {
 			NearbyChests: Cofres cercanos
 			ClickToRefresh: Clic para recargar
 			ItemChecklistOnly: Solo Item Checklist
-			OnlyNewItemsMadeFromSeenItems: Solo objetos nuevos fabricados con objetos conocidos
+			OnlyNewItemsMadeFromSeenItems: Recetas elaboradas con objetos/materiales conocidos
 			EmptyQuerySlotHint: Coloca aquí un objeto
-			// ShowInheritedRecipes: Show inherited recipes
-			// ShowUniqueRecipes: Show unique recipes
-			// ShowRecipesThatNeedThisCraftingStation: Viewing recipes that need this tile
-			// ShowRecipesThatNeedThisCraftingStationNoInherited: Viewing recipes that need this tile (no inherited recipes)
-			// ShowRecipesThatNeedThisCraftingStationHint: (Left click to view recipes that need this tile)
-			// ShowRecipesForCraftingStationItself: Viewing recipes that create this tile
-			// ShowRecipesForCraftingStationItselfHint: (Right click to view recipes that create this tile)
-			// NoTileEntry: " (err no entry)"
-			// HistoryBackwardTooltip: Go back in query history
-			// HistoryForwardTooltip: Go forward in query history
-			// HistoryEmpty: There is no query history yet
-			// HistoryReachedStart: Query history start reached
-			// HistoryReachedEnd: Query history end reached
+			ShowInheritedRecipes: Mostrar recetas heredadas
+			ShowUniqueRecipes: Mostrar recetas únicas
+			ShowRecipesThatNeedThisCraftingStation: Ver recetas que necesita este objeto
+			ShowRecipesThatNeedThisCraftingStationNoInherited: Ver recetas que necesita este objeto (sin recetas heredadas)
+			ShowRecipesThatNeedThisCraftingStationHint: (Haz clic izquierdo para ver las recetas que necesita este objeto)
+			ShowRecipesForCraftingStationItself: Ver recetas que crean este objeto
+			ShowRecipesForCraftingStationItselfHint: (Haz clic derecho para ver las recetas que elaboran este objeto)
+			NoTileEntry: " (Error, no hay entrada)"
+			HistoryBackwardTooltip: Retroceder en el historial de consultas
+			HistoryForwardTooltip: Avanzar en el historial de consultas
+			HistoryEmpty: Aún no hay historial de consultas
+			HistoryReachedStart: Se alcanzó el inicio del historial de consultas
+			HistoryReachedEnd: Se ha alcanzado el final del historial de consultas
 		}
 
 		RecipeCatalogueFilters: {
-			// RecipeOrder: Recipe Order
-			// CreativeSort: Creative Sort
-			// ItemID: Item ID
-			// Value: Value
-			// Alphabetical: Alphabetical
-			// Rarity: Rarity
-			// Materials: Materials
-			// Craftable: Craftable
-			// ExtendedCraftable: Extended Craftable (RMB on Recipe to view, Auto-disables to prevent lag)
-			// DisabledRecipes: Show recipes disabled by Mods
-			// Unresearched: Unresearched
-			// ModFilterByResultItemTooltip: Showing recipes that craft an item from '{0}'
-			// ModFilterByRecipeSourceTooltip: Showing recipes added by '{0}'
-			// ModFilterByIngredientTooltip: Showing recipes using ingredients from '{0}'
-			// All: All
-			// RMB: (RMB)
-			// RecipesRemainToBeCalculated: recipes remain to be calculated
+			RecipeOrder: Orden de recetas
+			CreativeSort: Orden en creativo
+			ItemID: ID del objeto
+			Value: Valor
+			Alphabetical: Alfabético
+			Rarity: Rareza
+			Materials: Materiales
+			Craftable: Fabricable
+			ExtendedCraftable:
+			    '''
+				[c/f4d58d:Fabricación extendida]
+				Haz clic derecho en una receta para ver su fabricación extendida.
+				Esta opción se desactiva automáticamente para evitar la relentización del juego.
+				'''
+			DisabledRecipes: Mostrar recetas deshabilitadas por los mods
+			Unresearched: Sin investigar
+			ModFilterByResultItemTooltip: Mostrando recetas que elaboran un objeto a partir de '{0}'
+			ModFilterByRecipeSourceTooltip: Mostrando recetas añadidas por '{0}'
+			ModFilterByIngredientTooltip: Mostrando recetas que utilizan como ingrediente '{0}'
+			All: Todos
+			RMB: (Clic derecho)
+			RecipesRemainToBeCalculated: quedan por calcular las recetas
 
 			Weapons: {
-				// Name: Weapons
-				// Melee: Melee
-				// Yoyo: Yoyo
-				// Magic: Magic
-				// Ranged: Ranged
-				// UseAmmoType: Use Ammo Type
-				// Throwing: Throwing
-				// Summon: Summon
-				// Whip: Whip
-				// Sentry: Sentry
-				// CycleUsedAmmoTypes: Cycle Used Ammo Types
+				Name: Armas
+				Melee: Cuerpo a cuerpo
+				Yoyo: Yoyos
+				Magic: Magia
+				Ranged: Distancia
+				UseAmmoType: Tipo de munición usada
+				Throwing: Arrojadizas
+				Summon: Invocador
+				Whip: Látigos
+				Sentry: Centinelas
+				CycleUsedAmmoTypes: Cambiar el tipos de munición usada
 			}
 
-			// Damage: Damage
+			Damage: Daño
 
 			Tools: {
-				// Name: Tools
-				// Pickaxes: Pickaxes
-				// PickPower: Pick Power
-				// Axes: Axes
-				// AxePower: Axe Power
-				// Hammers: Hammers
-				// HammerPower: Hammer Power
+				Name: Herramientas
+				Pickaxes: Picos
+				PickPower: Potencia de pico
+				Axes: Hachas
+				AxePower: Potencia de hacha
+				Hammers: Martillos
+				HammerPower: Potencia de martillo
 			}
 
 			Armor: {
-				// Name: Armor and Vanity
-				// Head: Head
-				// Body: Body
-				// Legs: Legs
-				// Defense: Defense
-				// Vanity: Vanity
-				// ArmorOnly: Armor
-				// TotalDefense: Total Defense
+				Name: Armaduras y vanidad
+				Head: Cabeza
+				Body: Cuerpo
+				Legs: Piernas
+				Defense: Defensa
+				Vanity: Vanidad
+				ArmorOnly: Armaduras
+				TotalDefense: Defensa total
 			}
 
 			Tiles: {
-				// Name: Tiles
-				// CraftingStations: Crafting Stations
-				// Furniture: "{$CreativePowers.TabFurniture}"
-				// Blocks: "{$CreativePowers.TabBlocks}"
-				// Containers: Containers
-				// Wiring: Wiring
-				// Statues: Statues
-				// Doors: Doors
-				// Chairs: Chairs
-				// Tables: Tables
-				// LightSources: Light Sources
-				// Torches: Torches
-				// PlaceTile: Place Tile
-				// Solid: Solid
-				// NonSolid: Background
+				Name: Objetos
+				CraftingStations: Estaciones de elaboración
+				Furniture: "{$CreativePowers.TabFurniture}"
+				Blocks: "{$CreativePowers.TabBlocks}"
+				Containers: Contenedores
+				Wiring: Alambrado/cable
+				Statues: Estatuas
+				Doors: Puertas
+				Chairs: Sillas
+				Tables: Mesas
+				LightSources: Fuentes de luz
+				Torches: Antorchas
+				PlaceTile: Objetos que se pueden colocar
+				Solid: Sólido
+				NonSolid: Fondos
 			}
 
-			// Walls: Walls
+			Walls: Paredes
 
 			Accessories: {
-				// Name: Accessories
+				Name: Accesorios
 
 				Wings: {
-					// Name: Wings
-					// FlightTime: Flight Time
-					// HorizontalSpeed: Horizontal Speed
-					// AccelerationMultiplier: Acceleration Multiplier
+					Name: Alas
+					FlightTime: Tiempo de vuelo
+					HorizontalSpeed: Velocidad horizontal
+					AccelerationMultiplier: Multiplicador de aceleración
 				}
 			}
 
 			Ammo: {
-				// Name: Ammo
-				// AmmoType: Ammo Type
-				// CycleAmmoTypes: Cycle Ammo Types
+				Name: Munición
+				AmmoType: Tipo de munición
+				CycleAmmoTypes: Cambiar los tipos de munición
 			}
 
 			Potions: {
-				// Name: Potions and food
-				// HealthPotions: Health Potions
-				// HealLife: Heal Life
-				// ManaPotions: Mana Potions
-				// HealMana: Heal Mana
-				// BuffPotions: Buff Potions
-				// Food: Food
+				Name: Pociones y comidas/alimentos
+				HealthPotions: Pociones de vida
+				HealLife: Vida recuperada
+				ManaPotions: Pociones de maná
+				HealMana: Maná recuperado
+				BuffPotions: Pociones que te dan un buff/potencian
+				Food: Comidas/alimentos
 			}
 
-			// Expert: Expert
-			// Master: Master
+			Expert: Experto
+			Master: Maestro
 
 			Pets: {
-				// Name: Pets
-				// CommonPets: Pets
-				// LightPets: Light Pets
+				Name: Mascotas
+				CommonPets: Mascotas
+				LightPets: Mascotas de luz
 			}
 
-			// Mounts: Mounts
-			// Carts: Carts
-			// Hooks: Hooks
-			// GrappleRange: Grapple Range
+			Mounts: Monturas
+			Carts: Vagonetas
+			Hooks: Ganchos
+			GrappleRange: Alcance de gancho
 
 			Dyes: {
-				// Name: Dyes
-				// CommonDyes: Dyes
-				// HairDyes: Hair Dyes
+				Name: Tintes
+				CommonDyes: Tintes
+				HairDyes: Tintes para el cabello
 			}
 
 			BossSummons: {
-				// Name: Boss Summons
-				// ProgressionOrder: Progression Order
+				Name: Invocadores de jefes
+				ProgressionOrder: Orden de progresión
 			}
 
 			Consumables: {
-				// Name: Consumables
-				// CapturedNPC: Captured NPC
+				Name: Consumibles
+				CapturedNPC: NPC capturados
 			}
 
 			GrabBags: {
-				// Name: Grab Bags
-				// FishingCrate: Fishing Crate (Pre-Hardmode)
-				// FishingCrateHardmode: Fishing Crate (Hardmode)
-				// BossBag: Boss Bag (Pre-Hardmode)
-				// BossBagHardmode: Boss Bag (Hardmode)
-				// ExpectedValue: Expected Value
+				Name: Bolsas del tesoro/contenedores que se abren
+				FishingCrate: Caja de pesca (Pre-Hardmode)
+				FishingCrateHardmode: Caja de pesca (Hardmode)
+				BossBag: Bolsas del tesoro (Pre-Hardmode)
+				BossBagHardmode: Bolsas del tesoro (Hardmode)
+				ExpectedValue: Valor esperado
 			}
 
 			Fishing: {
-				// Name: Fishing
-				// Poles: Poles
-				// PolePower: Pole Power
-				// Bait: Bait
-				// BaitPower: Bait Power
-				// Bobbers: Bobbers
-				// QuestFish: Quest Fish
+				Name: Pesca
+				Poles: Cañas de pescar
+				PolePower: Poder de pesca
+				Bait: Cebos
+				BaitPower: Potencia de cebo
+				Bobbers: Corchos
+				QuestFish: Pescados de misión
 			}
 
-			// Extractinator: Extractinator
-			// Other: Other
+			Extractinator: Expriminator
+			Other: Otros
 		}
 
 		FavoritedUI: {
-			// Close: Close ({0})
-			// ToggleHint: Press {0} to toggle
-			// ToggleUnboundHint: Set hotkey to toggle
-			// AlwaysShow: Always show
-			// ShowWhenInventory: Show when inventory
-			// ShowOtherPlayersFavorited: Show all other players' favorited recipes
-			// ShowTeammatesFavorited: Show teammates' favorited recipes only (if on team)
-			// HideOtherPlayersFavorited: Hide other players' favorited recipes
-			// NoRecipeFoundFor: "No recipe found for "
+			Close: Cerrar ({0})
+			ToggleHint: Presione {0} para abrir o cerrar esta ventana
+			ToggleUnboundHint: "No configuraste una tecla para volver mostrar esta ventana ve a [c/daa520:controles] [c/00dc00:->] [c/daa520:Recipe Browser]"
+			AlwaysShow: Mostrar siempre la ventana
+			ShowWhenInventory: Mostrar ventana, solo cuando se abre el inventario
+			ShowOtherPlayersFavorited: Mostrar las recetas favoritas de todos los demás jugadores
+			ShowTeammatesFavorited:Mostrar solo las recetas favoritas de los compañeros de equipo (si están en el equipo)
+			HideOtherPlayersFavorited: Ocultar las recetas favoritas de otros jugadores
+			NoRecipeFoundFor: "No se encontró ninguna receta para "
 		}
 
 		CraftUI: {
@@ -227,19 +232,36 @@ Mods: {
 			Calc: Calcular
 			CalcTooltip:
 				'''
-				Cambia el cálculo preventivo de la elaboración de objetos en Recetas
-				Puede ocasionar lag
+				Cambia el cálculo preventivo de la elaboración de objetos en [c/7294f8:recetas].
+				Puede ocasionar lag/relentización del juego.
 				'''
 			Loot: Botín
-			LootTooltip: Permitir farmeo en la ruta de elaboración (Solo funciona para enemigos con estandartes)
-			// Bugnet: Bug
-			// BugnetTooltip: Allow Bug Net capturing (Seen only)
-			// Mineable: Mineable
-			// MineableTooltip: Allow items harvested from tiles in the world (using best pickaxe)
+			LootTooltip:
+				'''
+				Permitir farmeo en la ruta de elaboración. (solo funciona para enemigos con estandartes)
+				Te aparecerá que enemigos debes matar para obtener el recurso necesario para la receta.
+				Esto ocurre solo si has matado a dichos enemigos anteriormente.
+				'''
+			Bugnet: Criaturas
+			BugnetTooltip:
+				'''
+				Permitir la captura de criaturas con red para insectos.
+				Te aparecera que criatura debes capturar para la receta.
+				'''
+			Mineable: Mineable
+			MineableTooltip:
+				'''
+				Permitir que se recolecten bloques del mundo. (usando el mejor pico)
+				Te mostrará qué bloque debes extraer y recolectar para elaborar la receta.
+				'''
 			Shop: Tienda
-			ShopTooltip: Permitir compra de objetos en la ruta de elaboración (Próximamente)
+			ShopTooltip: Permitir compra de objetos en la ruta de elaboración. (Próximamente)
 			MissingStations: Estaciones faltantes
-			MissingStationsTooltip: Permitir estaciones de trabajo no realizadas (Se reinicia al entrar al mundo)
+			MissingStationsTooltip:
+				'''
+				Permitir estaciones de trabajo no realizadas. (Se reinicia al entrar al mundo)
+				Te aparecerá qué mesas de trabajo necesitas para completar la receta.
+				'''
 			Inventory: Inventario
 			Banks: Bancos
 			BanksTooltip: Incluir objetos de la hucha, de la caja fuerte y de la forja del defensor (Próximamente)
@@ -247,25 +269,25 @@ Mods: {
 			ChestsTooltip: Incluir objetos de los cofres cercanos (Próximamente)
 			MagicStorage: Almacenes mágicos
 			MagicStorageTooltip: Incluir objetos y estaciones de trabajo de los almacenes mágicos cercanos (Próximamente)
-			BottomInstructions: Clic derecho en Recetas para acceder rápidamente a esta pestaña
-			NoPathsFound: No se han encontrado rutas para esta Receta/Objeto
-			// Craft: Craft
-			// Duplicate: Duplicate
-			// Missing: "Missing "
-			// Unseen: "Unseen "
-			// Cost: "Cost: "
-			// Have: Have
-			// Purchase: Purchase
-			// From: from
-			// For: for
-			// Mine: Mine
-			// FromTheWorld: from the world
-			// BugNet: Bug Net
-			// ByCapturing: by capturing
-			// Need: Need
-			// Farm: Farm
-			// PurchaseFrom: Purchase from
-			// DroppedBy: Dropped by
+			BottomInstructions: "[c/daa520:Clic derecho] en [c/7294f8:recetas] para acceder rápidamente a esta pestaña."
+			NoPathsFound: No se han encontrado rutas para esta receta/objeto
+			Craft: Fabricar
+			Duplicate: Duplicado
+			Missing: "No se encuentra "
+			Unseen: "Invisible "
+			Cost: "Costo: "
+			Have: Tener
+			Purchase: Comprar
+			From: de
+			For: para
+			Mine: Mina/extrae
+			FromTheWorld: en el mundo
+			BugNet: Red para insectos
+			ByCapturing: mediante la captura
+			Need: Necesita
+			Farm: Se obtiene
+			PurchaseFrom: Compra en
+			DroppedBy: Dejado por
 		}
 
 		ItemCatalogueUI: {
@@ -276,190 +298,219 @@ Mods: {
 			Unobtained: Sin conseguir
 			OnlyUnobtainedItems: Solo objetos sin conseguir
 			BottomInstructions: 2x Clic Izq.: Ver Recetas -- 2x Clic Der.: Ver botín de NPCs
-			// ExpectedValue: Expected Value: {0}
+			ExpectedValue: Valor esperado: {0}
 		}
 
 		UIArmorSetCatalogue: {
-			// TotalSetDefense: Total Set Defense: {0}
-			/* ArmorSets:
+			TotalSetDefense: Defensa total del conjunto: {0}
+			ArmorSets:
 				'''
-				Armor Sets
-				(Warning: May take many seconds to calculate)
-				''' */
-			// ShowItems: Show Items
-			// ShowItemsTooltip: Display the items that make up the set
-			// UseDye: Use Dye
-			// UseDyeTooltip: Draw armor sets with currently equipped dye
-			// Animate: Animate
-			// AnimateTooltip: Mimic player animation
-			// Accessories: Accessories
-			// AccessoriesTooltip: Visualize with current accessories
+				Conjuntos de armaduras
+				[c/e66710:Advertencia:]
+				[c/e66710:Puede tomar unos segundos o hasta un par de minutos para terminar de calcular]
+				'''
+			ShowItems: Mostrar objetos
+			ShowItemsTooltip: Mostrar los objetos que componen el conjunto
+			UseDye: Usar tinte
+			UseDyeTooltip: Visualizar el conjunto de armadura con el tinte equipado actualmente
+			Animate: Animar
+			AnimateTooltip: Imitar los movimientos del jugador
+			Accessories: Accesorios
+			AccessoriesTooltip: Visualizar el conjunto de armadura con accesorios equipado actuales
 		}
 
 		BestiaryUI: {
 			Encountered: Visto
-			// Unencountered: Unencountered
+			Unencountered: No encontrado
 			ShowOnlyNPCKilledAlready: Mostrar solo NPCs asesinados
-			/* ShowOnlyNPCNotKilled:
+			ShowOnlyNPCNotKilled:
 				'''
-				Show only NPC not killed yet
-				(Right click to switch to killed)
-				''' */
+				Mostrar solo los NPC que aún no han sido asesinados
+				(Haz [c/daa520:clic derecho] para cambiar a enemigos asesinados)
+				'''
 			HasLoot: Con botín
 			ShowOnlyNPCWithLoot: Mostrar solo NPCs con botín
 			NewLoot: Nuevo botín
-			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar solo NPCs nunca vistos
+			ShowOnlyNPCWithNeverBeforeSeenLoot: Muestra solo a los NPCs que no has conseguido todos los objetos que sueltan al matarlos
 			EmptyQuerySlotHint: Coloca un objeto
-			// NPCDrops: "{0} drops:"
+			NPCDrops: "{0} lo ha dejado:"
 		}
 
 		HelpUI: {
-			/* JumbledText:
+			JumbledText:
 				'''
-				[c/{0}:Jumbled Text?]
-				    If the text below looks wrong, you'll need to disable Terraria Overhaul to fix it.
-				''' */
-			/* Recipes:
+				[c/{0}:¿Texto desordenado??]
+				    Si el texto a continuación parece incorrecto, deberá desactivar el mod [c/daa520:Terraria Overhaul] para solucionarlo.
 				'''
-				[c/{0}:Recipes]
-				    Place items in the query slot to find recipes using or resulting in that item. Use the [image:RecipeBrowser/UIElements/historyBack] and [image:RecipeBrowser/UIElements/historyForward] buttons to explore the query slot history. You can also search and filter with the various options in the window. The Nearby Chests option filters the recipes to show only recipes that you have at least 1 of each ingredient. The [c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}] option limits the recipes to only show recipes that result in an item you have never seen using items you have seen. The Tile checkbox brings up a list of crafting stations sorted by most often required. Clicking on a tile limits recipes to recipes using that crafting station. Right clicking on a tile will show recipes to create that crafting station, as well as merchants and NPC drops for it. The [image:RecipeBrowser/Images/Help/uniqueTile] Show Unique Recipes option toggles showing inherited recipes. For example, Hellforge inherits all of the Forge recipes, but has the unique Hellstone Bar recipes. Crafting stations and recipe conditions for a selected recipe are listed at the bottom. The color will be red or green showing if the player is near one or not. The right side will show any NPC that drops the selected item. Double Click on an NPC to visit the Bestiary. Double Clicking on a Recipe or Ingredient will populate the query slot with the item, great for traversing crafting trees for items with multiple levels of crafting. Alt-click on a recipe to favorite a recipe, see Favorite section below.
-				''' */
-			/* Craft:
+			Recipes:
 				'''
-				[c/{0}:Craft]
-				    This tool can be used to craft recipes. In the Recipes tool, right click on any recipe to bring up this tool. Recipes with the [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] background can be crafted via multiple steps. You can also left click on items in the Items tool and then visit this tool. This tool shows extended crafting options. For example, if you have gold and iron ore and click on the Gold Watch recipe, this tool will show you the multiple steps needed to craft gold and iron ore, followed by crafting chains, and finally the gold watch itself. You can also enable the Loot option to allow farming as part of the multi-step process. Simply find and kill the specified enemies to farm the needed ingredient. By default, all crafting stations that you have seen will be available for the extended crafting paths. If you enable the Missing Stations option, unseen crafting stations will also be shown. [c/{1}:✓], [c/{2}:X], and [c/{3}:?] icons over the tiles indicate if you are near the crafting station, not near it, or have never seen the station. Use the [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] button to craft individual steps. By default the Recipes tool won't automatically calculate multiple step crafting unless the Calc checkbox is checked. You can also use the Extended Craftable filter to quickly view all extended crafting options. Note that you may experience some lag with this feature.
-				''' */
-			/* Items:
+				[c/{0}:Recetas:]
+				    Para consultar si un objeto tiene recetas que lo utilicen como material, o mostrar la receta de cómo elaborarlo, haz [c/daa520:clic izquierdo] en el objeto para agarrarlo, luego lo tienes que mover hacia la ranura que está en la esquina superior izquierda, y soltarlo ahí mismo. Utilice los botones [image:RecipeBrowser/UIElements/historyBack] y [image:RecipeBrowser/UIElements/historyForward] para explorar el historial de objetos consultados. También puedes buscar y filtrar con las distintas opciones de la ventana, haciendo clic en los diferentes iconos. La opción [c/{1}:cofres cercanos] filtra las recetas para mostrar solo las recetas que tienen al menos 1 de cada ingrediente. La opción [c/{1}:solo Item Checklist] se limita a proporcionar solo las recetas de objetos que nunca has visto, y que utilicen materiales/objetos que has visto previamente. La opción llamada [c/{1}:bloque], que está a lado de la opción [c/{1}:solo Item Checklist], muestra una lista de estaciones de elaboración ordenadas según las más requeridas. Al hacer clic en una de ellas, se limitará a mostrar solo las recetas que utilizan esa estación de elaboración. La opción [image:RecipeBrowser/Images/Help/uniqueTile] sirve para alternar entre mostrar [c/daa520:recetas únicas] o [c/daa520:recetas heredadas]. Por ejemplo, La [c/ec5252:forja Infernal] hereda todas las recetas de la [c/90918d:forja] básica, pero conserva las recetas únicas del [c/ec5252:lingote de piedra infernal]. Las estaciones de elaboración y los objetos necesarios de la receta seleccionada, se muestran en la parte inferior. Como se puede ver en la siguiente imagen:
+				[image:RecipeBrowser/Images/Help/Craftingstations_es-ES]
+				El color será verde o rojo para indicar si el jugador está cerca o no de la estación de elaboración necesaria para realizar la receta, en este caso aparece verde porque el jugador está a lado de ella. El lado derecho de la ventana mostrará cualquier NPC que suelte el objeto seleccionado, también puedes hacerle una vez clic en el NPC para ver los objetos que puede llegar a soltar al matarlo o doble clic para visitarlo en el [c/00FFFF:bestiario] del mod. Al hacer doble clic en un objeto o ingrediente, se completará el espacio de consulta con el objeto. Al hacer esto, podrás ver las diferentes recetas que usan ese ingrediente o ver la siguiente actualización del objeto, como en el caso de los accesorios. Para agregar una receta a favoritos, debes presionar la tecla [c/daa520:alt] y luego hacer [c/daa520:clic izquierdo] en la receta que quieres añadir a favoritos, este método sirve también para quitarlo. (Para más información, bajé hasta la sección llamada [c/{0}:favoritos].)
 				'''
-				[c/{0}:Items]
-				    Here you can explore all items in the game. Use the filters and sorts to find what you want. Double click an item to query it in the Recipe panel. Double right click an item to query the item in the Bestiary. The Unobtained option shows only items not collected yet with [c/{1}:Item Checklist].
-				''' */
-			/* Bestiary:
+			Craft:
 				'''
-				[c/{0}:Bestiary]
-				    Here you can explore all NPC in the game. Use the filters and sorts to find what you want. Clicking on an NPC shows the loot from that NPC. Placing an item in the query slot filters the grid to show only NPC that drop that item. Double click an item to query it in the Recipe panel. Right click an item to populate the query slot, great for seeing who else drops the same item. The New Loot ([c/{1}:{$RecipeCatalogueUI.ItemChecklistOnly}]) option shows only NPC with items not collected yet, great for knowing which NPC are still hiding valuable loot.
-				''' */
-			/* Borders:
+				[c/{0}:Elaborar:]
+				    Esta sección está pensada para elaborar objetos que requieran múltiples pasos y de manera más rápida. Para ello, debes ir a la sección de [c/{0}:recetas] luego haz [c/daa520:clic derecho] en la receta deseada, esto hará que regreses a la sección de [c/00dc00:elaborar], también podrás hacer lo mismo en la sección de [c/00a000:objetos], para eso debes ir a dicha sección y hacerle [c/daa520:clic izquierdo] al objeto deseado y volver a la sección de [c/00dc00:elaborar], aquí podrás ver los pasos a seguir de la receta y fabricar el objeto, si la receta que has seleccionado tenía el color del cuadrado en verde, significa que lo puedes fabricar en esta sección sin problemas, ya que cumples con todos los requisitos. En cambio, las recetas con el fondo [image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground], indican que tienes los recursos necesarios para fabricarlo y que deberás hacer una serie de pasos para terminar la receta. Por ejemplo, si tienes mineral de oro y hierro, al tener la receta del reloj de oro seleccionado, te mostrará los múltiples pasos necesarios para fabricar los lingotes de oro y hierro, seguido de la fabricación de cadenas y, finalmente, el reloj de oro en sí. Si tienes la receta de un objeto, el cual tienes la mayoría de los materiales, pero te falta un ingrediente que proviene de algún enemigo o criatura, puedes activar la opción [c/ddab1c:botín] para que te muestre cuál es el enemigo que debes matar para conseguir más de ese material, esto sirve especialmente si ya has matado a ese enemigo con anterioridad y el mod ya sabe cuál es el botín que puede soltar. Por defecto, todas las estaciones de elaboración que has visto estarán disponibles para las rutas de fabricación extendidas. Si activas la opción [c/ddab1c:estaciones faltantes], también se mostrarán las estaciones de elaboración ocultas. Los siguientes íconos que aparecen encima de las estaciones de elaboración, los cuales son: [c/{1}:✓], [c/{2}:X], y [c/{3}:?]. Indican si estás [c/{1}:cerca] o [c/{2}:no estás cerca] de la estación de elaboración necesaria para fabricar el objeto, también indica si [c/{3}:nunca la has visto]. Usa el botón [image/s0.7:RecipeBrowser/Images/Help/CraftIcon] para crear solo uno de los pasos que te muestra, como lo sería solo crear los lingotes de hierro en la receta del reloj de oro y omitir lo demás. Por defecto, la sección de [c/{0}:recetas] no calculará automáticamente todos los pasos a seguir para completar la receta mostrada, a no ser que actives la opción [c/ddab1c:calcular]. También puedes usar el filtro [c/ddab1c:fabricación extendida] que se encuentra en la sección de [c/{0}:recetas] u [c/00a000:objetos], para ver rápidamente todas las recetas que puedes elaborar con los recursos que dispones en tu inventario. [c/e66710:Ten en cuenta que esta función(][c/ddab1c:calcular y fabricación extendida][c/e66710:) puede ocasionar que te ande un poco más lento el juego.]
 				'''
-				[c/{0}:Borders]
-				    Sometimes items will display with different borders, here is what they mean:
-				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] This Recipe is Favorited, read Favorite section below.
-				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] This Recipe/Item/NPC is Selected. Information shown relates to this thing.
-				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] This Recipe can currently be crafted. Click on it to open the crafting menu directly.
-				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] This Recipe can currently be crafted via multiple steps. Right Click on it to open the Craft tool to view crafting options.
-				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Item Checklist integration:] These items use the most recent new item you have collected.
-				''' */
-			/* Favorite:
+			Items:
 				'''
-				[c/{0}:Favorite]
-				    In the Recipe panel, you can favorite recipes by alt-clicking on the recipe. If you have favorited recipes, the favorites panel will appear on screen. This panel will help you track progress towards collecting all ingredients. In multiplayer, recipes favorited by other players will also appear in the favorites panel. You can track the progress of other players and cooperate efficiently. Item counts shown correspond to the player who favorited the recipe.
+				[c/{0}:Objetos:]
+				    Aquí puedes explorar todos los objetos del juego. Usa los filtros y ordena por, para encontrar lo que buscas. Haz [c/daa520:doble clic izquierdo] en un objeto para consultarlo en la sección de [c/{0}:recetas] o [c/daa520:doble clic derecho] para consultarlo en el [c/00FFFF:bestiario]. La opción [c/{1}:sin conseguir] muestra solo los objetos que no han sido registrados en la lista o catálogo del mod [c/{1}:Item Checklist].
+				'''
+			Bestiary:
+				'''
+				[c/{0}:Bestiario:]
+				    Aquí puedes explorar todos los NPC del juego. Al hacer clic en un NPC, se muestra su botín. Al colocar un objeto en la ranura de consulta, se filtra la lista para mostrar solo los NPC que sueltan ese objeto. Haz [c/daa520:doble clic izquierdo] en un objeto de los que sueltan los NPC, para consultarlo en la sección de [c/{0}:recetas] o haz [c/daa520:clic derecho] para rellenar la ranura de consulta con ese mismo objeto dejado, para ver quién más suelta el mismo objeto. La opción [c/{1}:nuevo botín] ([c/{1}:solo Item Checklist]) muestra solo los NPC con objetos pendientes de recoger, ideal para saber qué NPC aún esconden botín valioso, como en el caso de las pirañas, donde te pueden llegar a soltar el gancho y el sombrero de robot, pero aún te falta que te suelten la brújula.
+				'''
+			Borders:
+				'''
+				[c/{0}:Bordes y fondos:]
+				    A veces los objetos se mostrarán con bordes diferentes. Esto es lo que significan:
+				[image/s0.5:RecipeBrowser/Images/FavoritedOverlay] Esta receta está marcada como favorita. Lea la sección de [c/{0}:favoritos] para más información, la cual se encuentra más abajo.
+				[image/s0.5:RecipeBrowser/Images/SelectedOverlay] Esta receta/objeto/NPC está seleccionada y mostrará su información.
+				[image/s0.5:RecipeBrowser/Images/CanCraftBackground] Esta receta ya se puede elaborar. Haz clic en ella para abrir el menú de elaboración directamente.
+				[image/s0.5:RecipeBrowser/Images/CanCraftExtendedBackground] Esta receta se puede elaborar en varios pasos. Si estás en la sección de [c/{0}:recetas], haz [c/daa520:doble clic derecho] para fabricarlo; de lo contrario, si estás en la sección de [c/00a000:objetos], haz [c/daa520:clic izquierdo] en el objeto deseado y luego ve a la sección de [c/00dc00:elaborar], para fabricarlo.
+				[image/s0.5:RecipeBrowser/Images/Help/Inventory_Back8] [c/{1}:Integración con Item Checklist:] Estas recetas utilizan los ingredientes u objetos más nuevos que hayan sido recogidos y que se han añadido al catálogo del mod.
+				'''
+			Favorite:
+				'''
+				[c/{0}:Favoritos:]
+				    En la sección de [c/{0}:recetas], puedes marcar recetas como favoritas al presionar la tecla [c/daa520:Alt] y luego hacer [c/daa520:clic izquierdo] en la receta que quieres añadir a favoritos. Si has marcado recetas como favoritas, esta aparecerá en la ventana de favoritos en la pantalla. Esta pantalla te ayudará a seguir tu progreso en la recolección de todos los ingredientes. En el modo multijugador, las recetas marcadas como favoritas por otros jugadores también aparecerán en la ventana de favoritos. Puedes seguir el progreso de otros jugadores y cooperar eficientemente. La cantidad de recetas que se muestra, corresponde al jugador que marcó la receta como favorita, como se muestra en la siguiente imagen:
 				[image:RecipeBrowser/Images/Help/mpFavorited]
-				''' */
-			/* QueryHoveredItem:
+				Si deseas no ver las recetas favoritas de los demás jugadores o cambiar el comportamiento de dicha ventana, ve a [c/daa520:configurar mods] [c/00dc00:->] [c/daa520:Recipe Browser] [c/00dc00:->] [c/daa520:config. del cliente en Recipe Browser], y cambia lo que deseas en las 2 últimas opciones.
 				'''
-				[c/{0}:Query Hovered Item]
-				    By assigning a hotkey in the keybindings menu, you can use this feature to quickly bring the item into one of the tools. You can use it anytime you are hovering over any item anywhere in the game. Depending on the last panel you were on, the behavior changes. The Recipe tool will populate the query slot, the Craft tool will display options to craft the item, the Item tool will scroll and select the item, and the Bestiary tool will populate the loot query slot. Using the hotkey a 2nd time on the same item will conveniently close the tool.
-				''' */
+			QueryHoveredItem:
+				'''
+				[c/{0}:Consultar por el objeto que se encuentra sobre el cursor:]
+				    Antes de comenzar, primero debes asignar una tecla para poder usar esta función. Para hacerlo debes ir a [c/daa520:controles], luego a [c/daa520:Recipe Browser] y asignar una tecla a la opción llamada [c/daa520:buscar receta/info del objeto señalado]. Puedes usar esta función en cualquier momento, solo debes pasar el cursor sobre cualquier objeto en cualquier parte del juego. El comportamiento cambia según la última sección en la que hayas estado, en el caso de la sección de [c/{0}:recetas] completará la ranura de consulta, en la de [c/00dc00:elaborar] mostrará opciones para fabricar el objeto (siempre y cuando cumplas con los requisitos), en [c/00a000:objetos] lo seleccionará y en el caso del [c/00FFFF:bestiario], completará la ranura de consulta de botín. Si usa la tecla para consultar el mismo objeto 2 veces seguidas, esto hará que se cierre la ventana.
+				'''
 			# The sortsExplanation_en-US.png image used in this section can be localized if desired by editing sortsExplanation.psd and saving out a new png. Swap out sortsExplanation_en-US in the final line with the localized image path if this is done.
-			/* CategoriesSubCategoriesSortsAndFilters:
+			CategoriesSubCategoriesSortsAndFilters:
 				'''
-				[c/{0}:Categories, Sub Categories, Sorts, and Filters]
-				    The Recipe and Item panels both have many ways to filter and sort items and recipes. You can type to search tooltips and item names and use the [image:RecipeBrowser/{$ImagePaths.FilterMod}] button to filter by source mod. You can also click on Categories such as [image:RecipeBrowser/Images/Help/Item_2430] and [image:RecipeBrowser/Images/Help/Item_54] to filter by category. Some Categories have Sub-Categories. You'll also notice on the 2nd row various Sorts such as [image:RecipeBrowser/Images/sortValue] and [image:RecipeBrowser/Images/sortAZ]. There are also Filters like [image:RecipeBrowser/Images/Help/Item_531]. Many Sorts and Filters are visible only within specific Categories. Some Filters, like the Ammo Filter, will cycle through many options. For these Filters, use left and right click to go forward and back, and middle click to clear the Filter.
-				[image:RecipeBrowser/Images/Help/sortsExplanation_en-US]
-				''' */
-			/* ItemChecklistIntegration:
+				[c/{0}:Categorías, subcategorías, ordenaciones y filtros:]
+				    La sección de [c/{0}:recetas] y [c/00a000:objetos] ofrece diversas maneras de filtrar, ordenar objetos y recetas. Puedes escribir el nombre o la descripción de un objeto para buscarlo y usar el botón [image:RecipeBrowser/{$ImagePaths.FilterMod}] para filtrar por mod. Esto sirve en caso de que el objeto que busques pertenece a un mod en concreto. También puedes hacer clic en categorías como [image:RecipeBrowser/Images/Help/Item_2430] y [image:RecipeBrowser/Images/Help/Item_54] para filtrar por categoría. Algunas categorías tienen subcategorías. También verás que en la segunda fila, hay varias clasificaciones como [image:RecipeBrowser/Images/sortValue] y [image:RecipeBrowser/Images/sortAZ]. También hay filtros como [image:RecipeBrowser/Images/Help/Item_531]. Muchas clasificaciones y filtros solo están visibles dentro de categorías específicas. Algunos filtros, como el de [c/ddab1c:munición], muestran varias opciones. Para estos filtros, utilice el [c/daa520:clic izquierdo y derecho], para avanzar y retroceder, y el [c/daa520:clic central] para borrar el filtro. Sirve si quieres elegir un arma de rango/distancia y que solo use flechas como munición. Al aplicar un filtro, este mismo se aplicará también en la sección de [c/{0}:recetas], como en la de [c/00a000:objetos].
+				[image:RecipeBrowser/Images/Help/sortsExplanation_es-ES]
 				'''
-				[c/{0}:Item Checklist Integration]
-				    By using the Item Checklist mod at the same time, you can narrow down your browsing to new items you've never obtained before from items you've collected so far. This helps you focus on items at the current stage of your game. Item Checklist also affects the Items and Bestiary tools. [l/github.com/user-attachments/assets/714db9bf-75dd-41b1-b603-10d266c53908:Item Checklist video].
-				''' */
+			ItemChecklistIntegration:
+				'''
+				[c/{0}:Integración con Item Checklist]
+				    Al usar este mod y junto con el mod [c/ddab1c:Item Checklist], puedes limitar tu búsqueda en la sección de [c/00a000:objetos], para que solo muestre los objetos que no tienes registrado en el catálogo del mod. Esto te ayuda a concentrarte en qué objetos te faltan, en la etapa actual de tu partida. El mod [c/ddab1c:Item Checklist] también afecta a las secciones [c/{0}:recetas] y [c/00FFFF:bestiario]. En el caso de la sección de [c/{0}:recetas], te mostrará qué recetas puedes fabricar usando solo ingredientes u objetos que has recolectado y que ya están catalogados, mientras que en el caso del [c/00FFFF:bestiario], mostrará que NPC no te han dado todo el botín que pueden llegar a soltar al matarlos.
+				[l/github.com/user-attachments/assets/714db9bf-75dd-41b1-b603-10d266c53908:Video corto usando el mod, junto con el mod Item Checklist].
+				'''
 		}
 
 		Keybinds: {
-			// ToggleRecipeBrowser.DisplayName: Toggle Recipe Browser
-			// QueryHoveredItem.DisplayName: Query Hovered Item
-			// ToggleFavoritedRecipesWindow.DisplayName: Toggle Favorited Recipes Window
+			ToggleRecipeBrowser.DisplayName: Abrir/cerrar Recipe Browser
+			QueryHoveredItem.DisplayName: Buscar receta/info del objeto señalado
+			ToggleFavoritedRecipesWindow.DisplayName: Abrir/cerrar vent. de recetas fav.
 		}
 
 		Configs: {
 			RecipeBrowserClientConfig: {
-				// DisplayName: Recipe Browser Client Config
+				DisplayName: Config. del cliente en Recipe Browser
 
 				ShowRecipeModSource: {
-					// Label: Show Recipe Mod Source
-					// Tooltip: Show which mod adds which recipe in the recipe catalog. Disable for immersion.
+					Label: Mostrar a que mod pertenece la receta
+					Tooltip:
+					    '''
+						Al estar activado, se mostrará a cuál mod pertenece la receta que aparece en el catálogo de recetas.
+						Desactivar para más inmersión.
+						'''
 				}
 
 				ShowItemModSource: {
-					// Label: Show Item Mod Source
-					// Tooltip: Show which mod adds which item in the recipe catalog. Disable for immersion.
+					Label: Mostrar a que mod pertenece el objeto
+					Tooltip:
+					    '''
+						Al estar activado, se mostrará a cuál mod pertenece el objeto que aparece en el catálogo de recetas.
+						Desactivar para más inmersión.
+						'''
 				}
 
 				ShowNPCModSource: {
-					// Label: Show NPC Mod Source
-					// Tooltip: Show which mod adds which NPC in the bestiary. Disable for immersion.
+					Label: Mostrar a que mod pertenece el NPC
+					Tooltip:
+					    '''
+						Al estar activado, se mostrará a cuál mod pertenece el NPC que aparece en el [c/00FFFF:bestiario].
+						Desactivar para más inmersión.
+						'''
 				}
 
 				OpenKeybindingsMenuButton: {
-					// Label: Open Keybindings Menu
-					// Tooltip: Open the keybindings menu to change the hotkeys for this mod
+					Label: Open Keybindings Menu
+					Tooltip: Open the keybindings menu to change the hotkeys for this mod
 				}
 
-				// Headers.AutomaticSettings: Automatic Settings
+				Headers.AutomaticSettings: Ajustes automáticos
 
 				RecipeBrowserSize: {
-					// Label: Recipe Browser Size
-					// Tooltip: Size of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: Tamaño de recipe Browser
+					Tooltip:
+					    '''
+						Tamaño de la IU del navegador de recetas.
+						Se guardará automáticamente; no es necesario ajustarlo.
+						'''
 				}
 
 				RecipeBrowserPosition: {
-					// Label: Recipe Browser Position
-					// Tooltip: Position of the Recipe Browser UI. This will automatically save, no need to adjust
+					Label: Posición de recipe Browser
+					Tooltip:
+					    '''
+						Posición de la IU del navegador de recetas.
+						Se guardará automáticamente; no es necesario ajustarlo.
+						'''
 				}
 
 				FavoritedRecipePanelPosition: {
-					// Label: Favorited Recipes Position
-					// Tooltip: Position of the Favorited Recipes UI. This will automatically save, no need to adjust
+					Label: Posición de la ventana de recetas favoritas
+					Tooltip:
+					    '''
+						Posición de la IU de recetas favoritas.
+						Se guardará automáticamente; no es necesario ajustarlo.
+						'''
 				}
 
 				OnlyShowFavoritedWhileInInventory: {
-					// Label: Only Show Favorited While Inventory Open
-					/* Tooltip:
+					Label: Ventana de recetas fav., solamente visible al tener el inventario abierto
+					Tooltip:
+					    '''
+						Al estar habilitado, la ventana será visible solamente al tener el inventario abierto.
+						Se guardará automáticamente, sin necesidad de ajustes.
 						'''
-						Automatically show and hide favorited recipes panel.
-						This will automatically save, no need to adjust
-						''' */
 				}
 
 				ShowOtherPlayersFavoritedRecipes: {
-					// Label: Show Other Players' Favorited Recipes
-					/* Tooltip:
+					Label: Mostrar las recetas fav. de otros jugadores
+					Tooltip:
 						'''
-						Whether or not to show the favorited recipes of other players for collaboration.
-						This will automatically save, no need to adjust
-						''' */
+						Mostrar o no, las recetas favoritas de otros jugadores para colaborar.
+						Se guardará automáticamente, sin necesidad de ajustes.
+						'''
 				}
 			}
-
+			
 			ShowOtherPlayersFavoritedRecipesOption: {
-				// Tooltip: ""
+				Tooltip: ""
 
 				ShowAll: {
-					// Label: Show All
-					// Tooltip: ""
+					Label: Mostrar todo
+					Tooltip: ""
 				}
 
 				ShowTeamOnly: {
-					// Label: Show Team Only
-					// Tooltip: ""
+					Label: Mostrar solo equipo
+					Tooltip: ""
 				}
 
 				Hide: {
-					// Label: Hide
-					// Tooltip: ""
+					Label: Ocultar
+					Tooltip: ""
 				}
 			}
 		}
 
-		// ItemLostInQuerySlotWarning: "You left an item in the recipe browser with a full inventory and have lost the item: "
+		ItemLostInQuerySlotWarning: "Dejaste un artículo en el navegador de recetas con el inventario lleno y lo perdiste: "
 	}
 }
