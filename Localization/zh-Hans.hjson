@@ -15,8 +15,8 @@ Mods: {
 
 		# These are image paths, do not localize unless you make your own version of these png files in your language.
 		ImagePaths: {
-			// FilterMod: Images/filterMod
-			// FilterModColorable: Images/filterModColorable
+			FilterMod: Images/filterMod
+			FilterModColorable: Images/filterModColorable
 		}
 
 		Common: {
@@ -315,10 +315,10 @@ Mods: {
 			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示有着未曾获得过其掉落物的NPC
 			EmptyQuerySlotHint: 在此放置物品
 			NPCDrops: "{0}掉落:"
-			// SortBestiary: "{$BestiaryInfo.Sort_BestiaryID}"
-			// SortBestiaryTooltip: Sort by {$SortBestiary}
-			// SortNPCID: NPC ID
-			// SortNPCIDTooltip: Sort by {$SortNPCID}
+			SortBestiary: "{$BestiaryInfo.Sort_BestiaryID}"
+			SortBestiaryTooltip: 按{$SortBestiary}排序
+			SortNPCID: NPC ID
+			SortNPCIDTooltip: 按{$SortNPCID}排序
 		}
 
 		HelpUI: {
@@ -449,17 +449,17 @@ Mods: {
 
 				ShowAll: {
 					Label: 显示全部
-					// Tooltip: ""
+					Tooltip: ""
 				}
 
 				ShowTeamOnly: {
 					Label: 仅显示同一队伍
-					// Tooltip: ""
+					Tooltip: ""
 				}
 
 				Hide: {
 					Label: 隐藏
-					// Tooltip: ""
+					Tooltip: ""
 				}
 			}
 		}
