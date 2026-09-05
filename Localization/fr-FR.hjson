@@ -327,6 +327,10 @@ Mods: {
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Afficher uniquement les PNJ qui lâchent des objets qui n'ont jamais été obtenus
 			EmptyQuerySlotHint: Placer un objet ici
 			// NPCDrops: "{0} drops:"
+			// SortBestiary: "{$BestiaryInfo.Sort_BestiaryID}"
+			// SortBestiaryTooltip: Sort by {$SortBestiary}
+			// SortNPCID: NPC ID
+			// SortNPCIDTooltip: Sort by {$SortNPCID}
 		}
 
 		HelpUI: {

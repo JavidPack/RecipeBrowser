@@ -311,6 +311,10 @@ Mods: {
 			ShowOnlyNPCWithNeverBeforeSeenLoot: Mostrar apenas NPCs com Espólios nunca vistos antes
 			EmptyQuerySlotHint: Coloque o item aqui
 			// NPCDrops: "{0} drops:"
+			// SortBestiary: "{$BestiaryInfo.Sort_BestiaryID}"
+			// SortBestiaryTooltip: Sort by {$SortBestiary}
+			// SortNPCID: NPC ID
+			// SortNPCIDTooltip: Sort by {$SortNPCID}
 		}
 
 		HelpUI: {

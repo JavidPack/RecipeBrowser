@@ -123,7 +123,7 @@ namespace RecipeBrowser
 
 			TileLookupRadioButton = new UICheckbox(RBText("Tile"), "");
 			TileLookupRadioButton.Top.Set(42, 0f);
-			TileLookupRadioButton.Left.Set(16, 0f);
+			TileLookupRadioButton.Left.Set(2, 0f);
 			TileLookupRadioButton.SetText("  " + RBText("Tile"));
 			TileLookupRadioButton.OnSelectedChanged += (s, e) => {
 				//ToggleTileChooser(!mainPanel.HasChild(tileChooserPanel)); 

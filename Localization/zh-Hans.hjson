@@ -315,6 +315,10 @@ Mods: {
 			ShowOnlyNPCWithNeverBeforeSeenLoot: 仅显示有着未曾获得过其掉落物的NPC
 			EmptyQuerySlotHint: 在此放置物品
 			NPCDrops: "{0}掉落:"
+			// SortBestiary: "{$BestiaryInfo.Sort_BestiaryID}"
+			// SortBestiaryTooltip: Sort by {$SortBestiary}
+			// SortNPCID: NPC ID
+			// SortNPCIDTooltip: Sort by {$SortNPCID}
 		}
 
 		HelpUI: {

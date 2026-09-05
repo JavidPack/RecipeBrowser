@@ -10,6 +10,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -125,15 +126,23 @@ namespace RecipeBrowser
 
 		public override void OnInitialize()
 		{
+			float uiWidth = 475;
+			float uiHeight = 350;
+
+			if (Language.ActiveCulture.Name == "ru-RU") {
+				uiWidth = 555;
+				uiHeight = 400;
+			}
+
 			mainPanel = new UIDragableElement(true, true, true);
 			//mainPanel.SetPadding(0);
 			//mainPanel.PaddingTop = 4;
 			mainPanel.Left.Set(400f, 0f);
 			mainPanel.Top.Set(400f, 0f);
-			mainPanel.Width.Set(475f, 0f); // + 30
+			mainPanel.Width.Set(uiWidth, 0f); // + 30
 			mainPanel.MinWidth.Set(415f, 0f);
 			mainPanel.MaxWidth.Set(884f, 0f);
-			mainPanel.Height.Set(350, 0f);
+			mainPanel.Height.Set(uiHeight, 0f);
 			mainPanel.MinHeight.Set(263, 0f);
 			mainPanel.MaxHeight.Set(1000, 0f);
 			//mainPanel.BackgroundColor = Color.LightBlue;
@@ -246,10 +255,18 @@ namespace RecipeBrowser
 			mainPanel.Append(button);
 			tabController.AddButton(button);
 
+			float helpLeft = -155;
+			float helpWidth = 80;
+
+			if (Language.ActiveCulture.Name == "ru-RU") {
+				helpLeft = -180;
+				helpWidth = 108;
+			}
+
 			button = new UIBottomlessPanel();
 			button.SetPadding(0);
-			button.Left.Set(-155, 1);
-			button.Width.Set(80, 0);
+			button.Left.Set(helpLeft, 1);
+			button.Width.Set(helpWidth, 0);
 			button.Height.Set(22, 0);
 			button.OnLeftClick += (a, b) => tabController.SetPanel(Help);
 			button.BackgroundColor = HelpUI.color;
