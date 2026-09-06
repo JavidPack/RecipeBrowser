@@ -978,6 +978,9 @@ namespace RecipeBrowser
 		internal Func<Recipe, Recipe, int> recipeSort;
 		internal Func<bool> sortAvailable;
 		internal UISilentImageButton button;
+		// Needs name
+		// Needs Delimiter generator
+		// Needs compare function.
 
 		public Sort(string hoverText, Asset<Texture2D> texture, Func<Item, Item, int> sort) {
 			this.sort = sort;
